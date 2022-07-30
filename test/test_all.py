@@ -1,6 +1,6 @@
 from pathlib import Path
-from refurb.main import main
 
+from refurb.main import main
 
 for test in Path("test/data").glob("*.py"):
     errors = main([str(test)])

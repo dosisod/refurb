@@ -1,0 +1,34 @@
+name: Test
+
+on: [push, pull_request]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Pip install
+        run: |
+          pip install -r requirements.txt
+          pip install -r dev-requirements.txt
+
+      - name: Run flake8
+        run: make flake8
+
+      - name: Run mypy
+        run: make mypy
+
+      - name: Run black
+        run: make black
+
+      - name: Run isort
+        run: make isort
+
+      - name: Run tests
+        run: make test-unit

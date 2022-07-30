@@ -8,6 +8,7 @@ from mypy.traverser import TraverserVisitor
 from .checks.pathlib.with_suffix import slice_then_concat
 from .error import Error
 
+
 class RefurbVisitor(TraverserVisitor):
     errors: list[Error]
 

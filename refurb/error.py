@@ -1,6 +1,5 @@
-from typing import Optional
-
 from dataclasses import dataclass
+from typing import Optional
 
 
 @dataclass
@@ -12,4 +11,4 @@ class Error:
     filename: Optional[str] = None
 
     def __str__(self) -> str:
-        return f"{self.filename}:{self.line}:{self.column} [FURB{self.code}]: {self.msg}"
+        return f"{self.filename}:{self.line}:{self.column} [FURB{self.code}]: {self.msg}"  # noqa

@@ -1,4 +1,13 @@
-from mypy.nodes import CallExpr, IndexExpr, IntExpr, OpExpr, SliceExpr, StrExpr, NameExpr, Var, TypeInfo
+from mypy.nodes import (
+    CallExpr,
+    IndexExpr,
+    NameExpr,
+    OpExpr,
+    SliceExpr,
+    StrExpr,
+    TypeInfo,
+    Var,
+)
 
 from refurb.error import Error
 
@@ -12,12 +21,9 @@ def slice_then_concat(node: OpExpr, errors: list[Error]) -> None:
                     callee=NameExpr(name="str"),
                     args=[possibly_path],
                 ),
-                index=SliceExpr(
-                    begin_index=None,
-                    end_index=IntExpr()
-                )
+                index=SliceExpr(begin_index=None),
             ),
-            right=StrExpr()
+            right=StrExpr(),
         ):
             match possibly_path:
                 case CallExpr(
