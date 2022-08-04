@@ -1,0 +1,2 @@
+test/data/err_101.py:1:0 [FURB101]: Use `y = Path(x).read_text()` instead of `with open(x) as f: y = f.read()`
+test/data/err_101.py:4:0 [FURB101]: Use `y = Path(x).read_bytes()` instead of `with open(x, "rb") as f: y = f.read()`
