@@ -1,3 +1,6 @@
+from dataclasses import dataclass
+from typing import ClassVar
+
 from mypy.nodes import (
     AssignmentStmt,
     Block,
@@ -11,7 +14,12 @@ from mypy.nodes import (
 from refurb.error import Error
 
 
-def single_line_with_then_read(node: WithStmt, errors: list[Error]) -> None:
+@dataclass
+class ErrorUsePathlibRead(Error):
+    code: ClassVar[int] = 101
+
+
+def check(node: WithStmt, errors: list[Error]) -> None:
     match node:
         case WithStmt(
             expr=[CallExpr(callee=NameExpr(name="open"), args=args)],
@@ -34,8 +42,7 @@ def single_line_with_then_read(node: WithStmt, errors: list[Error]) -> None:
             func = "read_bytes" if is_binary else "read_text"
 
             errors.append(
-                Error(
-                    101,
+                ErrorUsePathlibRead(
                     node.line,
                     node.column,
                     f"Use `y = Path(x).{func}()` instead of `with open(x{options}) as f: y = f.read()`",  # noqa: E501

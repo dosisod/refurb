@@ -1,10 +1,10 @@
 from dataclasses import dataclass
-from typing import Optional
+from typing import ClassVar, Optional
 
 
 @dataclass
 class Error:
-    code: int
+    code: ClassVar[int]
     line: int
     column: int
     msg: str

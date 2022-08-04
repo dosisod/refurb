@@ -11,7 +11,7 @@ black:
 	black refurb test -l 79 --check --diff --color
 
 isort:
-	isort . --diff
+	isort . --diff --check
 
 test-unit:
 	python3 -m test.test_all
