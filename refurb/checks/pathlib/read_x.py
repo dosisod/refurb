@@ -16,6 +16,25 @@ from refurb.error import Error
 
 @dataclass
 class ErrorUsePathlibRead(Error):
+    """
+    When you just want to save the contents of a file to a variable, using a
+    `with` block is a bit overkill. A simpler alternative is to use pathlib's
+    `read_text()` function:
+
+    Bad:
+
+    ```
+    with open(filename) as f:
+        contents = f.read()
+    ```
+
+    Good:
+
+    ```
+    contents = Path(filename).read_text()
+    ```
+    """
+
     code: ClassVar[int] = 101
 
 
