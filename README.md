@@ -4,10 +4,9 @@ A tool to refurbish and modernize your Python codebase.
 
 ## Installing
 
-TBD
+Before installing, it is recommended that you setup a [virtual environment](https://docs.python.org/3/tutorial/venv.html).
 
-## Todo
-
-* Fix Mypy cache being ignored (running very slow)
-* Fill out docs
-* Publish to PyPi
+```
+$ pip3 install refurb
+$ refurb file.py
+```

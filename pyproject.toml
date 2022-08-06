@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "refurb"
+version = "0.1.0"
+description = "A tool to refurbish and modernize your Python codebase"
+authors = ["dosisod"]
+license = "GPL-3.0-only"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+mypy = "^0.971"
+
+[tool.poetry.dev-dependencies]
+black = "^22.6.0"
+flake8 = "^5.0.4"
+isort = "^5.10.1"
+pytest = "^7.1.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
