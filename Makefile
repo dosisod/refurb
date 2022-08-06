@@ -14,4 +14,4 @@ isort:
 	isort . --diff --check
 
 test-unit:
-	python3 -m test.test_all
+	pytest
