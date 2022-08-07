@@ -1,5 +1,9 @@
 test: flake8 mypy black isort test-unit
 
+install:
+	pip install -r requirements.txt
+	pip install -r dev-requirements.txt
+
 flake8:
 	flake8
 
@@ -15,3 +19,7 @@ isort:
 
 test-unit:
 	pytest
+
+test-e2e:
+	pip install -e .
+	refurb test/e2e/dummy.py

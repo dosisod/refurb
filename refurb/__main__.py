@@ -1,5 +1,11 @@
 import sys
 
-from refurb.main import main
+from refurb.main import main as _main
 
-main(sys.argv[1:])
+
+def main() -> None:
+    _main(sys.argv[1:])
+
+
+if __name__ == "__main__":
+    main()

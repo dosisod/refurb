@@ -14,9 +14,7 @@ jobs:
           python-version: '3.10'
 
       - name: Pip install
-        run: |
-          pip install -r requirements.txt
-          pip install -r dev-requirements.txt
+        run: make install
 
       - name: Run flake8
         run: make flake8
@@ -30,5 +28,8 @@ jobs:
       - name: Run isort
         run: make isort
 
-      - name: Run tests
+      - name: Run unit tests
         run: make test-unit
+
+      - name: Run e2e tests
+        run: make test-e2e
