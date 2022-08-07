@@ -1,0 +1,3 @@
+test/data/err_104.py:4:5 [FURB104]: Use `Path.cwd()` instead of `os.getcwd()`
+test/data/err_104.py:5:5 [FURB104]: Use `Path.cwd()` instead of `os.getcwd()`
+test/data/err_104.py:6:5 [FURB104]: Use `Path.cwd()` instead of `os.getcwd()`

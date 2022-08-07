@@ -4,7 +4,7 @@ from collections import defaultdict
 from inspect import signature
 from typing import Callable, Type
 
-from mypy.nodes import Node, OpExpr, WithStmt
+from mypy.nodes import CallExpr, Node, OpExpr, WithStmt
 from mypy.traverser import TraverserVisitor
 
 from . import checks
@@ -43,4 +43,10 @@ class RefurbVisitor(TraverserVisitor):
         super().visit_with_stmt(o)
 
         for f in self.checks[WithStmt]:
+            f(o, self.errors)
+
+    def visit_call_expr(self, o: CallExpr) -> None:
+        super().visit_call_expr(o)
+
+        for f in self.checks[CallExpr]:
             f(o, self.errors)
