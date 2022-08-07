@@ -15,7 +15,7 @@ from refurb.error import Error
 
 
 @dataclass
-class ErrorUsePathlibRead(Error):
+class ErrorUsePathlibReadText(Error):
     """
     When you just want to save the contents of a file to a variable, using a
     `with` block is a bit overkill. A simpler alternative is to use pathlib's
@@ -42,28 +42,31 @@ def check(node: WithStmt, errors: list[Error]) -> None:
     match node:
         case WithStmt(
             expr=[CallExpr(callee=NameExpr(name="open"), args=args)],
+            target=[NameExpr(name=with_name)],
             body=Block(
                 body=[
                     AssignmentStmt(
-                        rvalue=CallExpr(callee=MemberExpr(name="read"))
+                        rvalue=CallExpr(
+                            callee=MemberExpr(
+                                expr=NameExpr(name=read_name), name="read"
+                            )
+                        )
                     )
                 ]
             ),
-        ):
+        ) if with_name == read_name:
             is_binary = False
-            options = ""
 
             match args:
                 case [_, StrExpr(value=mode)] if "b" in mode:
-                    options = f', "{mode}"'
                     is_binary = True
 
             func = "read_bytes" if is_binary else "read_text"
 
             errors.append(
-                ErrorUsePathlibRead(
+                ErrorUsePathlibReadText(
                     node.line,
                     node.column,
-                    f"Use `y = Path(x).{func}()` instead of `with open(x{options}) as f: y = f.read()`",  # noqa: E501
+                    f"Use `y = Path(x).{func}()` instead of `with open(x, ...) as f: y = f.read()`",  # noqa: E501
                 )
             )
