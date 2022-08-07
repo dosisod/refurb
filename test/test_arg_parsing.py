@@ -22,10 +22,20 @@ def test_parse_explain_furb_prefix() -> None:
 
 def test_require_numbers_as_explain_id() -> None:
     with pytest.raises(
-        ValueError, match='Error: "abc" must be in form FURB123 or 123'
+        ValueError, match='refurb: "abc" must be in form FURB123 or 123'
     ):
         parse_args(["--explain", "abc"])
 
 
 def test_parse_files() -> None:
     assert parse_args(["a", "b", "c"]) == Cli(files=["a", "b", "c"])
+
+
+def test_check_for_unsupported_flags() -> None:
+    with pytest.raises(ValueError, match='refurb: unsupported option "-x"'):
+        parse_args(["-x"])
+
+
+def test_no_args_is_check() -> None:
+    with pytest.raises(ValueError, match="refurb: no arguments passed"):
+        parse_args([])

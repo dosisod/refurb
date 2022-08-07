@@ -1,6 +1,9 @@
 from dataclasses import dataclass
+from io import StringIO
+from typing import Sequence
 
 from mypy.build import build
+from mypy.errors import CompileError
 from mypy.main import process_options
 
 from .error import Error
@@ -15,6 +18,9 @@ class Cli:
 
 
 def parse_args(args: list[str]) -> Cli:
+    if len(args) == 0:
+        raise ValueError("refurb: no arguments passed")
+
     if args[0] == "--explain":
         if len(args) != 2:
             raise ValueError("usage: refurb --explain ID")
@@ -22,21 +28,38 @@ def parse_args(args: list[str]) -> Cli:
         id = args[1].replace("FURB", "")
 
         if not id.isdigit():
-            raise ValueError(f'Error: "{id}" must be in form FURB123 or 123')
+            raise ValueError(f'refurb: "{id}" must be in form FURB123 or 123')
 
         return Cli(explain=int(id))
+
+    for arg in args:
+        if arg.startswith("-"):
+            raise ValueError(f'refurb: unsupported option "{arg}"')
 
     return Cli(files=args)
 
 
-def run_refurb(filenames: list[str]) -> list[Error]:
-    files, opt = process_options(filenames)
+def run_refurb(filenames: list[str]) -> Sequence[Error | str]:
+    stderr = StringIO()
+
+    try:
+        files, opt = process_options(filenames, stderr=stderr)
+
+    except SystemExit:
+        return ["refurb: " + err for err in stderr.getvalue().splitlines()]
+
+    finally:
+        stderr.close()
 
     opt.incremental = True
     opt.fine_grained_incremental = True
     opt.cache_fine_grained = True
 
-    result = build(files, options=opt)
+    try:
+        result = build(files, options=opt)
+
+    except CompileError as e:
+        return [msg.replace("mypy", "refurb") for msg in e.messages]
 
     errors: list[Error] = []
 
