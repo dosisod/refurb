@@ -52,4 +52,4 @@ def check(node: OpExpr, errors: list[Error]) -> None:
             ),
             right=StrExpr(),
         ) if is_pathlike(arg):
-            errors.append(ErrorUseWithSuffix(node.line, node.column))
+            errors.append(ErrorUseWithSuffix(arg.line, arg.column))

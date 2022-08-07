@@ -1,2 +1,2 @@
-test/data/err_100.py:3:4 [FURB100]: Use `Path(x).with_suffix(y)` instead of slice and concat
-test/data/err_100.py:6:4 [FURB100]: Use `Path(x).with_suffix(y)` instead of slice and concat
+test/data/err_100.py:3:9 [FURB100]: Use `Path(x).with_suffix(y)` instead of slice and concat
+test/data/err_100.py:6:9 [FURB100]: Use `Path(x).with_suffix(y)` instead of slice and concat

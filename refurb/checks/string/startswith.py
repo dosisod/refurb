@@ -40,7 +40,8 @@ def check(node: OpExpr, errors: list[Error]) -> None:
             left=CallExpr(
                 callee=MemberExpr(
                     expr=NameExpr(node=Var(type=ty)) as lhs, name=lhs_func
-                )
+                ),
+                args=args,
             ),
             right=CallExpr(
                 callee=MemberExpr(expr=NameExpr() as rhs, name=rhs_func)
@@ -53,8 +54,8 @@ def check(node: OpExpr, errors: list[Error]) -> None:
         ):
             errors.append(
                 ErrorUseStartswithTuple(
-                    node.line,
-                    node.column,
+                    args[0].line,
+                    args[0].column,
                     msg=f"Replace `x.{lhs_func}(y) or x.{lhs_func}(z)` with `x.{lhs_func}((y, z))`",  # noqa: E501
                 )
             )
