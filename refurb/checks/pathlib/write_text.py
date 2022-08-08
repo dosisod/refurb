@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from typing import ClassVar
 
 from mypy.nodes import (
     Block,
@@ -34,7 +33,7 @@ class ErrorUsePathlibWriteText(Error):
     ```
     """
 
-    code: ClassVar[int] = 103
+    code = 103
 
 
 def check(node: WithStmt, errors: list[Error]) -> None:

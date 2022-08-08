@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from typing import ClassVar
 
 from mypy.nodes import (
     CallExpr,
@@ -35,7 +34,7 @@ class ErrorUseWithSuffix(Error):
     ```
     """
 
-    code: ClassVar[int] = 100
+    code = 100
     msg: str = "Use `Path(x).with_suffix(y)` instead of slice and concat"  # noqa: E501
 
 

@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from typing import ClassVar
 
 from mypy.nodes import CallExpr, MemberExpr, NameExpr, OpExpr, Var
 
@@ -30,7 +29,7 @@ class ErrorUseStartswithTuple(Error):
     ```
     """
 
-    code: ClassVar[int] = 102
+    code = 102
 
 
 def check(node: OpExpr, errors: list[Error]) -> None:

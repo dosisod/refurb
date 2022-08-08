@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from typing import ClassVar
 
 from mypy.nodes import CallExpr, MemberExpr, NameExpr
 
@@ -24,7 +23,7 @@ class ErrorUsePathCwd(Error):
     ```
     """
 
-    code: ClassVar[int] = 104
+    code = 104
     msg: str = "Use `Path.cwd()` instead of `os.getcwd()`"
 
 
