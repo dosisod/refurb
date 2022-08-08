@@ -16,8 +16,6 @@ class ErrorSimplifyPrint(Error):
 
 
 def check(node: CallExpr, errors: list[Error]) -> None:
-    print(node)
-
     match node:
         case CallExpr(
             callee=NameExpr(fullname="builtins.print"),
