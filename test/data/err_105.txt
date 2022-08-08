@@ -1,0 +1,1 @@
+test/data/err_105.py:3:1 [FURB105]: Use `print() instead of `print("")`
