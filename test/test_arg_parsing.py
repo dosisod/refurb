@@ -39,3 +39,17 @@ def test_check_for_unsupported_flags() -> None:
 def test_no_args_is_check() -> None:
     with pytest.raises(ValueError, match="refurb: no arguments passed"):
         parse_args([])
+
+
+def test_parse_ignore() -> None:
+    got = parse_args(["--ignore", "FURB123", "--ignore", "321"])
+    expected = Cli(files=[], ignore=set((123, 321)))
+
+    assert got == expected
+
+
+def test_parse_ignore_check_missing_arg() -> None:
+    with pytest.raises(
+        ValueError, match='refurb: missing argument after "--ignore"'
+    ):
+        parse_args(["--ignore"])

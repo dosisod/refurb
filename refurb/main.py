@@ -15,6 +15,16 @@ from .visitor import RefurbVisitor
 class Cli:
     files: list[str] | None = None
     explain: int | None = None
+    ignore: set[int] | None = None
+
+
+def parse_error_id(err: str) -> int:
+    id = err.replace("FURB", "")
+
+    if id.isdigit():
+        return int(id)
+
+    raise ValueError(f'refurb: "{id}" must be in form FURB123 or 123')
 
 
 def parse_args(args: list[str]) -> Cli:
@@ -25,25 +35,35 @@ def parse_args(args: list[str]) -> Cli:
         if len(args) != 2:
             raise ValueError("usage: refurb --explain ID")
 
-        id = args[1].replace("FURB", "")
+        return Cli(explain=parse_error_id(args[1]))
 
-        if not id.isdigit():
-            raise ValueError(f'refurb: "{id}" must be in form FURB123 or 123')
+    iargs = iter(args)
+    files: list[str] = []
+    ignore: set[int] = set()
 
-        return Cli(explain=int(id))
+    for arg in iargs:
+        if arg == "--ignore":
+            value = next(iargs, None)
 
-    for arg in args:
-        if arg.startswith("-"):
+            if value is None:
+                raise ValueError(f'refurb: missing argument after "{arg}"')
+
+            ignore.add(parse_error_id(value))
+
+        elif arg.startswith("-"):
             raise ValueError(f'refurb: unsupported option "{arg}"')
 
-    return Cli(files=args)
+        else:
+            files.append(arg)
+
+    return Cli(files=files, ignore=ignore or None)
 
 
-def run_refurb(filenames: list[str]) -> Sequence[Error | str]:
+def run_refurb(cli: Cli) -> Sequence[Error | str]:
     stderr = StringIO()
 
     try:
-        files, opt = process_options(filenames, stderr=stderr)
+        files, opt = process_options(cli.files or [], stderr=stderr)
 
     except SystemExit:
         return ["refurb: " + err for err in stderr.getvalue().splitlines()]
@@ -65,7 +85,7 @@ def run_refurb(filenames: list[str]) -> Sequence[Error | str]:
 
     for file in files:
         if tree := result.graph[file.module].tree:
-            rv = RefurbVisitor()
+            rv = RefurbVisitor(cli.ignore)
 
             tree.accept(rv)
 
@@ -89,7 +109,7 @@ def main(args: list[str]) -> None:
         print(explain(cli.explain))
         return
 
-    errors = run_refurb(cli.files or [])
+    errors = run_refurb(cli)
 
     for error in errors:
         print(error)

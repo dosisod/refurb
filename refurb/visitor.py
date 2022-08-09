@@ -14,10 +14,12 @@ from .error import Error
 class RefurbVisitor(TraverserVisitor):
     errors: list[Error]
     checks: defaultdict[Type[Node], list[Callable[[Node, list[Error]], None]]]
+    ignore: set[int]
 
-    def __init__(self) -> None:
+    def __init__(self, ignore: set[int] | None = None) -> None:
         self.errors = []
         self.checks = defaultdict(list)
+        self.ignore = ignore or set()
 
         self.load_checks()
 
@@ -27,6 +29,14 @@ class RefurbVisitor(TraverserVisitor):
                 continue
 
             module = importlib.import_module(info.name)
+
+            if any(
+                name.startswith("Error")
+                and name != "Error"
+                and getattr(module, name).code in self.ignore
+                for name in dir(module)
+            ):
+                continue
 
             if func := getattr(module, "check", None):
                 params = list(signature(func).parameters.values())
