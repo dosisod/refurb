@@ -1,0 +1,5 @@
+test/data/err_107.py:3:1 [FURB107]: Use `with suppress(): ...` instead of `try: ... except: pass`
+test/data/err_107.py:8:1 [FURB107]: Use `with suppress(Exception): ...` instead of `try: ... except: pass`
+test/data/err_107.py:14:1 [FURB107]: Use `with suppress(Exception): ...` instead of `try: ... except: pass`
+test/data/err_107.py:19:1 [FURB107]: Use `with suppress((ValueError, FileNotFoundError)): ...` instead of `try: ... except: pass`
+test/data/err_107.py:24:1 [FURB107]: Use `with suppress((ValueError, FileNotFoundError)): ...` instead of `try: ... except: pass`
