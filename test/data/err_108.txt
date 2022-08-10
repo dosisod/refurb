@@ -1,0 +1,4 @@
+test/data/err_108.py:11:4 [FURB108]: Use `x in (y, z)` instead of `x == y or x == z`
+test/data/err_108.py:14:4 [FURB108]: Use `x in (y, z)` instead of `x == y or x == z`
+test/data/err_108.py:17:4 [FURB108]: Use `x in (y, z)` instead of `x == y or x == z`
+test/data/err_108.py:21:5 [FURB108]: Use `x in (y, z)` instead of `x == y or x == z`

@@ -12,7 +12,7 @@ mypy:
 	mypy -p test
 
 black:
-	black refurb test -l 79 --check --diff --color
+	black refurb test -l 79 --check --diff --color --exclude "test/data/*"
 
 isort:
 	isort . --diff --check
