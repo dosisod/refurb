@@ -4,7 +4,15 @@ from collections import defaultdict
 from inspect import signature
 from typing import Callable, Type
 
-from mypy.nodes import CallExpr, Node, OpExpr, TryStmt, WithStmt
+from mypy.nodes import (
+    CallExpr,
+    ForStmt,
+    GeneratorExpr,
+    Node,
+    OpExpr,
+    TryStmt,
+    WithStmt,
+)
 from mypy.traverser import TraverserVisitor
 
 from . import checks
@@ -65,4 +73,16 @@ class RefurbVisitor(TraverserVisitor):
         super().visit_try_stmt(o)
 
         for f in self.checks[TryStmt]:
+            f(o, self.errors)
+
+    def visit_generator_expr(self, o: GeneratorExpr) -> None:
+        super().visit_generator_expr(o)
+
+        for f in self.checks[GeneratorExpr]:
+            f(o, self.errors)
+
+    def visit_for_stmt(self, o: ForStmt) -> None:
+        super().visit_for_stmt(o)
+
+        for f in self.checks[ForStmt]:
             f(o, self.errors)
