@@ -97,19 +97,21 @@ def run_refurb(cli: Cli) -> Sequence[Error | str]:
     return errors
 
 
-def main(args: list[str]) -> None:
+def main(args: list[str]) -> int:
     try:
         cli = parse_args(args)
 
     except ValueError as e:
         print(e)
-        return
+        return 1
 
     if cli.explain:
         print(explain(cli.explain))
-        return
+        return 0
 
     errors = run_refurb(cli)
 
     for error in errors:
         print(error)
+
+    return 1 if errors else 0

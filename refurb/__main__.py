@@ -4,7 +4,7 @@ from refurb.main import main as _main
 
 
 def main() -> None:
-    _main(sys.argv[1:])
+    sys.exit(_main(sys.argv[1:]))
 
 
 if __name__ == "__main__":
