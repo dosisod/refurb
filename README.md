@@ -1,6 +1,6 @@
 # Refurb
 
-A tool for refurbish and modernize Python codebases.
+A tool for refurbishing and modernizing Python codebases.
 
 ## Example
 
@@ -27,7 +27,21 @@ $ pip3 install refurb
 $ refurb file.py
 ```
 
-## Why?
+## Installing (for development)
+
+```
+$ make install
+```
+
+Tests can be ran all at once with `make test`, or you can run each tool on its own using
+`make black`, `make flake8`, and so on.
+
+Unit tests can be ran with `pytest` or `make test-unit`.
+
+> Since the end-to-end (e2e) tests are slow, they are not ran when running `make test`.
+> You will need to run `make test-e2e` to run them.
+
+## Why does this exist?
 
 I love doing code reviews: I like taking something and making it better, faster, more
 elegant, and so on. Lots of static analysis tools already exist, but none of them seem
