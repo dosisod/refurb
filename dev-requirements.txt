@@ -11,7 +11,7 @@ pathspec==0.9.0
 platformdirs==2.5.2
 pluggy==1.0.0
 py==1.11.0
-pycodestyle==2.8.0
+pycodestyle==2.9.1
 pyflakes==2.4.0
 pyparsing==3.0.9
 pytest==7.1.2
