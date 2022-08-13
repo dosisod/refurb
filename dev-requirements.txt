@@ -12,6 +12,6 @@ platformdirs==2.5.2
 pluggy==1.0.0
 py==1.11.0
 pycodestyle==2.8.0
-pyflakes==2.4.0
+pyflakes==2.5.0
 pyparsing==3.0.9
 pytest==7.1.2
