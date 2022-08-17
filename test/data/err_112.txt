@@ -1,0 +1,2 @@
+test/data/err_112.py:3:5 [FURB112]: Use `[]` instead of `list()`
+test/data/err_112.py:4:5 [FURB112]: Use `{}` instead of `dict()`

@@ -9,7 +9,7 @@ flake8:
 
 mypy:
 	mypy -p refurb
-	mypy -p test
+	mypy -p test --exclude "test/data/*"
 
 black:
 	black refurb test -l 79 --check --diff --color --exclude "test/data/*"
