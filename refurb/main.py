@@ -97,6 +97,13 @@ def run_refurb(cli: Cli) -> Sequence[Error | str]:
     return errors
 
 
+def sort_errors(error: Error | str) -> tuple[int, int, int] | str:
+    if isinstance(error, str):
+        return error
+
+    return (error.line, error.column, error.code)
+
+
 def main(args: list[str]) -> int:
     try:
         cli = parse_args(args)
@@ -111,7 +118,7 @@ def main(args: list[str]) -> int:
 
     errors = run_refurb(cli)
 
-    for error in errors:
+    for error in sorted(errors, key=sort_errors):
         print(error)
 
     return 1 if errors else 0
