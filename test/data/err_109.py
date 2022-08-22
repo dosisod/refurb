@@ -12,6 +12,9 @@ for x in [1, 2, 3]:
     for y in [4, 5, 6]
 ]
 
+if 1 in [1, 2, 3]:
+    pass
+
 
 # these will not
 
@@ -23,3 +26,6 @@ for x in list((1, 2, 3)):
     pass
 
 [x for x in list((1, 2, 3))]
+
+if 1 in list((1, 2, 3)):
+    pass
