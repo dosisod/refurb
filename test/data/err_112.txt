@@ -1,2 +1,5 @@
 test/data/err_112.py:3:5 [FURB112]: Use `[]` instead of `list()`
 test/data/err_112.py:4:5 [FURB112]: Use `{}` instead of `dict()`
+test/data/err_112.py:5:5 [FURB112]: Use `()` instead of `tuple()`
+test/data/err_112.py:6:5 [FURB112]: Use `0` instead of `int()`
+test/data/err_112.py:7:5 [FURB112]: Use `""` instead of `str()`

@@ -29,19 +29,27 @@ class ErrorUseLiteral(Error):
     code = 112
 
 
+FUNC_NAMES = {
+    "builtins.list": "[]",
+    "builtins.dict": "{}",
+    "builtins.tuple": "()",
+    "builtins.int": "0",
+    "builtins.str": '""',
+}
+
+
 def check(node: CallExpr, errors: list[Error]) -> None:
     match node:
         case CallExpr(
-            callee=NameExpr(fullname=name),
+            callee=NameExpr(fullname=fullname, name=name),
             args=[],
-        ) if name in ("builtins.list", "builtins.dict"):
-            older = "list()" if "list" in name else "dict()"
-            newer = "[]" if "list" in name else "{}"
+        ) if fullname in FUNC_NAMES.keys():
+            newer = FUNC_NAMES[fullname or ""]
 
             errors.append(
                 ErrorUseLiteral(
                     node.line,
                     node.column,
-                    f"Use `{newer}` instead of `{older}`",
+                    f"Use `{newer}` instead of `{name}()`",
                 )
             )
