@@ -16,6 +16,7 @@ class Cli:
     files: list[str] | None = None
     explain: int | None = None
     ignore: set[int] | None = None
+    debug: bool = False
 
 
 def parse_error_id(err: str) -> int:
@@ -40,9 +41,13 @@ def parse_args(args: list[str]) -> Cli:
     iargs = iter(args)
     files: list[str] = []
     ignore: set[int] = set()
+    debug = False
 
     for arg in iargs:
-        if arg == "--ignore":
+        if arg == "--debug":
+            debug = True
+
+        elif arg == "--ignore":
             value = next(iargs, None)
 
             if value is None:
@@ -56,7 +61,7 @@ def parse_args(args: list[str]) -> Cli:
         else:
             files.append(arg)
 
-    return Cli(files=files, ignore=ignore or None)
+    return Cli(files=files, ignore=ignore or None, debug=debug)
 
 
 def run_refurb(cli: Cli) -> Sequence[Error | str]:
@@ -85,6 +90,9 @@ def run_refurb(cli: Cli) -> Sequence[Error | str]:
 
     for file in files:
         if tree := result.graph[file.module].tree:
+            if cli.debug:
+                print(tree)
+
             rv = RefurbVisitor(cli.ignore)
 
             tree.accept(rv)

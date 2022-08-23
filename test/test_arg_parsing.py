@@ -53,3 +53,7 @@ def test_parse_ignore_check_missing_arg() -> None:
         ValueError, match='refurb: missing argument after "--ignore"'
     ):
         parse_args(["--ignore"])
+
+
+def test_debug_parsing() -> None:
+    assert parse_args(["--debug", "file"]) == Cli(files=["file"], debug=True)
