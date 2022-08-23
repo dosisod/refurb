@@ -1,0 +1,26 @@
+# these will match
+
+f"{str('hello world')}"
+
+f"{repr(123)}"
+
+f"{ascii('hello world')}"
+
+f"{int(123)}"
+
+f"{bin(0b1100)}"
+
+f"{oct(0o777)}"
+
+f"{hex(0xFF)}"
+
+f"{chr(0x41)}"
+
+
+# these will not
+
+f"{123}"
+
+f"{0b1010:b}"
+
+f"{str('hello world')!s}"
