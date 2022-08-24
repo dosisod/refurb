@@ -1,0 +1,17 @@
+test/data/err_120.py:18:3 [FURB120]: Don't pass an argument if it is the same as the default value
+test/data/err_120.py:19:3 [FURB120]: Don't pass an argument if it is the same as the default value
+test/data/err_120.py:19:6 [FURB120]: Don't pass an argument if it is the same as the default value
+test/data/err_120.py:21:7 [FURB120]: Don't pass an argument if it is the same as the default value
+test/data/err_120.py:22:7 [FURB120]: Don't pass an argument if it is the same as the default value
+test/data/err_120.py:22:10 [FURB120]: Don't pass an argument if it is the same as the default value
+test/data/err_120.py:23:5 [FURB120]: Don't pass an argument if it is the same as the default value
+test/data/err_120.py:24:5 [FURB120]: Don't pass an argument if it is the same as the default value
+test/data/err_120.py:27:5 [FURB120]: Don't pass an argument if it is the same as the default value
+test/data/err_120.py:28:6 [FURB120]: Don't pass an argument if it is the same as the default value
+test/data/err_120.py:29:6 [FURB120]: Don't pass an argument if it is the same as the default value
+test/data/err_120.py:30:7 [FURB120]: Don't pass an argument if it is the same as the default value
+test/data/err_120.py:31:8 [FURB120]: Don't pass an argument if it is the same as the default value
+test/data/err_120.py:32:8 [FURB120]: Don't pass an argument if it is the same as the default value
+test/data/err_120.py:37:18 [FURB120]: Don't pass an argument if it is the same as the default value
+test/data/err_120.py:39:12 [FURB120]: Don't pass an argument if it is the same as the default value
+test/data/err_120.py:40:7 [FURB120]: Don't pass an argument if it is the same as the default value
