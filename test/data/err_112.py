@@ -5,6 +5,10 @@ y = dict()
 z = tuple()
 i = int()
 s = str()
+f = float()
+c = complex()
+b = bool()
+by = bytes()
 
 
 # these will not

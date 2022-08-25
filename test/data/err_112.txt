@@ -3,3 +3,7 @@ test/data/err_112.py:4:5 [FURB112]: Use `{}` instead of `dict()`
 test/data/err_112.py:5:5 [FURB112]: Use `()` instead of `tuple()`
 test/data/err_112.py:6:5 [FURB112]: Use `0` instead of `int()`
 test/data/err_112.py:7:5 [FURB112]: Use `""` instead of `str()`
+test/data/err_112.py:8:5 [FURB112]: Use `0.0` instead of `float()`
+test/data/err_112.py:9:5 [FURB112]: Use `0j` instead of `complex()`
+test/data/err_112.py:10:5 [FURB112]: Use `False` instead of `bool()`
+test/data/err_112.py:11:6 [FURB112]: Use `b""` instead of `bytes()`

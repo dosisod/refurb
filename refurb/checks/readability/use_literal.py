@@ -30,11 +30,15 @@ class ErrorUseLiteral(Error):
 
 
 FUNC_NAMES = {
-    "builtins.list": "[]",
+    "builtins.bool": "False",
+    "builtins.bytes": 'b""',
+    "builtins.complex": "0j",
     "builtins.dict": "{}",
-    "builtins.tuple": "()",
+    "builtins.float": "0.0",
     "builtins.int": "0",
+    "builtins.list": "[]",
     "builtins.str": '""',
+    "builtins.tuple": "()",
 }
 
 
