@@ -5,6 +5,11 @@ def f2(a: int, b: int = 2, c: int = 3) -> int:
     return a + b + c
 
 class C:
+    x: int
+
+    def __init__(self, x: int = 1) -> None:
+        self.x = x
+
     def f(self, a: int = 1):
         return a
 
@@ -30,16 +35,16 @@ C.f2(1)
 c.f(a=1)
 c.f2(a=1)
 C.f2(a=1)
-# TODO: make this pass
-# C().f1(1)
+C().f(1)
+C().f2(1)
+C(x=1)
 
 d = {}
 d.get("unknown", None)
 
 round(123, 0)
 input("")
-# TODO: make this pass
-# int("123", 10)
+int("123", 10)
 
 
 # these should not
@@ -49,3 +54,4 @@ f(2, 3)
 f(b=1, a=2)
 
 f2(1)
+int("123")

@@ -62,6 +62,7 @@ BUILTIN_MAPPINGS = {
     "builtins.dict.setdefault": (..., NoneNode),
     "builtins.round": (..., IntExpr(0)),
     "builtins.input": (StrExpr(""),),
+    "builtins.int": (..., IntExpr(10)),
 }
 
 
@@ -144,8 +145,11 @@ def check_symbol(
                 else:
                     check_func(node, item, errors)
 
-        case _:
-            return
+        case TypeInfo():
+            for func_name in ("__new__", "__init__"):
+                if new_symbol := symbol.names.get(func_name):
+                    if new_symbol.node:
+                        check_symbol(node, new_symbol.node, errors)
 
 
 def check(node: CallExpr, errors: list[Error]) -> None:
@@ -153,12 +157,23 @@ def check(node: CallExpr, errors: list[Error]) -> None:
         case CallExpr(callee=NameExpr(node=symbol)):
             check_symbol(node, symbol, errors)
 
+        # TODO: find a way to make this look nicer
         case CallExpr(
             callee=MemberExpr(
-                expr=NameExpr(
-                    node=(
-                        Var(type=Instance(type=TypeInfo() as ty))
-                        | (TypeInfo() as ty)
+                expr=(
+                    NameExpr(
+                        node=(
+                            Var(type=Instance(type=TypeInfo() as ty))
+                            | (TypeInfo() as ty)
+                        )
+                    )
+                    | CallExpr(
+                        callee=NameExpr(
+                            node=(
+                                Var(type=Instance(type=TypeInfo() as ty))
+                                | (TypeInfo() as ty)
+                            )
+                        )
                     )
                 ),
                 name=name,
