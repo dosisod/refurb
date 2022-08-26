@@ -1,10 +1,12 @@
 from dataclasses import dataclass
+from typing import Iterator
 
 from mypy.nodes import (
     ArgKind,
     Argument,
     CallExpr,
     Decorator,
+    Expression,
     FuncDef,
     IntExpr,
     MemberExpr,
@@ -96,24 +98,49 @@ def inject_stdlib_defaults(node: CallExpr, args: list[Argument]) -> None:
             arg.initializer = default  # type: ignore
 
 
+ZippedArg = tuple[str | None, Expression, ArgKind]
+
+
+def strip_caller_var_args(
+    start: int, args: Iterator[ZippedArg]
+) -> Iterator[ZippedArg]:
+    for i, arg in enumerate(args):
+        if i < start:
+            continue
+
+        if arg[2] == ArgKind.ARG_NAMED:
+            yield arg
+
+
 def check_func(caller: CallExpr, func: FuncDef, errors: list[Error]) -> None:
     args = list(zip(func.arg_names, func.arguments))
 
-    if isinstance(caller.callee, MemberExpr):
+    if (
+        isinstance(caller.callee, MemberExpr)
+        and args
+        and func.arg_names[0] in ("self", "cls")
+    ):
         args.pop(0)
 
     lookup = dict(args)
 
     inject_stdlib_defaults(caller, [x[1] for x in args])
 
-    for i, (name, value, kind) in enumerate(
-        zip(caller.arg_names, caller.args, caller.arg_kinds)
-    ):
+    caller_args = zip(caller.arg_names, caller.args, caller.arg_kinds)
+
+    for i, arg in enumerate(args):
+        if arg[1].kind == ArgKind.ARG_STAR:
+            caller_args = strip_caller_var_args(i, caller_args)  # type: ignore
+
+    for i, (name, value, kind) in enumerate(caller_args):
         if i >= len(args):
             break
 
         if kind == ArgKind.ARG_NAMED:
-            default = lookup[name].initializer
+            try:
+                default = lookup[name].initializer
+            except KeyError:
+                continue
 
         elif kind == ArgKind.ARG_POS:
             default = args[i][1].initializer
