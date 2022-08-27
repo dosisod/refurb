@@ -16,6 +16,8 @@ _ = len(name) == 0
 _ = len(fruits) == 0
 
 
+_ = len(nums) <= 0
+_ = len(nums) > 0
 _ = len(nums) != 0
 _ = len(nums) >= 1
 

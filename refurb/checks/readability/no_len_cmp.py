@@ -81,14 +81,13 @@ def is_builtin_container_like(node: Expression) -> bool:
     return False
 
 
-def convert_oper(oper: str, num: int) -> str | None:
-    if oper in ("==", "!=") and num == 0:
-        return "not x" if oper == "==" else "x"
-
-    if oper == ">=" and num == 1:
-        return "x"
-
-    return None
+IS_COMPARISON_TRUTHY: dict[tuple[str, int], bool] = {
+    ("==", 0): False,
+    ("<=", 0): False,
+    (">", 0): True,
+    ("!=", 0): True,
+    (">=", 1): True,
+}
 
 
 def check(node: ComparisonExpr, errors: list[Error]) -> None:
@@ -103,10 +102,12 @@ def check(node: ComparisonExpr, errors: list[Error]) -> None:
                 IntExpr(value=num),
             ],
         ) if is_builtin_container_like(arg):
-            expr = convert_oper(oper, num)
+            is_truthy = IS_COMPARISON_TRUTHY.get((oper, num))
 
-            if not expr:
+            if is_truthy is None:
                 return
+
+            expr = "x" if is_truthy else "not x"
 
             errors.append(
                 ErrorNoLenCompare(
