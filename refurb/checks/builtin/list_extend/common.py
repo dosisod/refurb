@@ -41,8 +41,16 @@ class ErrorUseListExtend(Error):
     msg: str = "Use `x.extend(...)` instead of repeatedly calling `x.append()`"
 
 
+@dataclass
+class Last:
+    name: str = ""
+    line: int = 0
+    column: int = 0
+    did_error: bool = False
+
+
 def check_stmts(stmts: list[Statement], errors: list[Error]) -> None:
-    last_append_name = ""
+    last = Last()
 
     for stmt in stmts:
         match stmt:
@@ -51,10 +59,13 @@ def check_stmts(stmts: list[Statement], errors: list[Error]) -> None:
                     callee=MemberExpr(expr=NameExpr(name=name), name="append")
                 )
             ):
-                if name == last_append_name:
-                    errors.append(ErrorUseListExtend(stmt.line, stmt.column))
+                if not last.did_error and name == last.name:
+                    errors.append(ErrorUseListExtend(last.line, last.column))
+                    last.did_error = True
 
-                last_append_name = name
+                last.name = name
+                last.line = stmt.line
+                last.column = stmt.column
 
             case _:
-                last_append_name = ""
+                last = Last()

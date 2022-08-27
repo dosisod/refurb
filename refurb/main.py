@@ -102,7 +102,7 @@ def run_refurb(cli: Cli) -> Sequence[Error | str]:
 
             errors += rv.errors
 
-    return errors
+    return sorted(errors, key=sort_errors)
 
 
 def sort_errors(error: Error | str) -> tuple[int, int, int] | str:
@@ -126,7 +126,7 @@ def main(args: list[str]) -> int:
 
     errors = run_refurb(cli)
 
-    for error in sorted(errors, key=sort_errors):
+    for error in errors:
         print(error)
 
     return 1 if errors else 0

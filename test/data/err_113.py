@@ -5,10 +5,17 @@ nums2 = []
 
 nums.append(1)
 nums.append(2)
+pass
 
 
 nums.append(1)
 nums2.append(1)
+nums.append(2)
+nums.append(3)
+pass
+
+
+nums.append(1)
 nums.append(2)
 nums.append(3)
 
