@@ -1,6 +1,4 @@
-# these should match
-
-x = "abc"
+x = y = "abc"
 
 class C:
     y: str = "xyz"
@@ -8,25 +6,18 @@ class C:
 c = C()
 
 
-if x == "abc" or x == "def":
-    pass
+# these should match
 
-if c.y == "abc" or c.y == "def":
-    pass
+_ = x == "abc" or x == "def"
+_ = c.y == "abc" or c.y == "def"
+_ = x == "abc" or x == "def" or x == "ghi"
+_ = x == "abc" or x == "def" or y == "ghi"
 
-if x == "abc" or x == "def" or x == "ghi":
-    pass
-
-if (
+_ = (
     x == "abc"
     or x == "def"
-):
-    pass
-
+)
 
 # these should not
 
-y = "abc"
-
-if x == "abc" or y == "def":
-    pass
+_ = x == "abc" or y == "def"

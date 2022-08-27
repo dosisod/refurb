@@ -39,6 +39,12 @@ def check(node: OpExpr, errors: list[Error]) -> None:
         case OpExpr(
             op="or",
             left=ComparisonExpr(operators=["=="], operands=[lhs, _]),
-            right=ComparisonExpr(operators=["=="], operands=[rhs, _]),
+            right=(
+                ComparisonExpr(operators=["=="], operands=[rhs, _])
+                | OpExpr(
+                    op="or",
+                    left=ComparisonExpr(operators=["=="], operands=[rhs, _]),
+                )
+            ),
         ) if str(lhs) == str(rhs):
-            errors.append(ErrorUseInExpr(node.line, node.column))
+            errors.append(ErrorUseInExpr(lhs.line, lhs.column))
