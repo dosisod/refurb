@@ -1,0 +1,24 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install Poetry
+        run: pipx install poetry
+
+      - name: Deploy
+        run: poetry publish -u __token__ -p "${{ secrets.PYPI_DEPLOY }}" --build --dry-run
