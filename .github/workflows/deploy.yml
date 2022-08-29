@@ -21,4 +21,4 @@ jobs:
         run: pipx install poetry
 
       - name: Deploy
-        run: poetry publish -u __token__ -p "${{ secrets.PYPI_DEPLOY }}" --build --dry-run
+        run: poetry publish -u __token__ -p "${{ secrets.PYPI_DEPLOY }}" --build
