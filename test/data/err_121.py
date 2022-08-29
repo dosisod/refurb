@@ -4,6 +4,7 @@ num = num2 = 123
 
 _ = isinstance(num, float) or isinstance(num, int)
 _ = isinstance(num, (float, str)) or isinstance(num, int)
+_ = isinstance(num, (float, str)) or isinstance(num, int) or True
 
 
 # these will not

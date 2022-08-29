@@ -2,6 +2,7 @@ from dataclasses import dataclass
 
 from mypy.nodes import CallExpr, NameExpr, OpExpr
 
+from refurb.checks.common import extract_binary_oper
 from refurb.error import Error
 
 
@@ -39,11 +40,16 @@ class ErrorUseIsinstanceTuple(Error):
 
 
 def check(node: OpExpr, errors: list[Error]) -> None:
-    match node:
-        case OpExpr(
-            op="or",
-            left=CallExpr(callee=NameExpr() as lhs, args=lhs_args),
-            right=CallExpr(callee=NameExpr() as rhs, args=rhs_args),
+    exprs = extract_binary_oper("or", node)
+
+    # TODO: remove when next mypy version is released
+    if not exprs:
+        return
+
+    match exprs:
+        case (
+            CallExpr(callee=NameExpr() as lhs, args=lhs_args),
+            CallExpr(callee=NameExpr() as rhs, args=rhs_args),
         ) if (
             lhs.fullname == rhs.fullname
             and lhs.fullname in ("builtins.isinstance", "builtins.issubclass")

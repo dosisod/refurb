@@ -2,6 +2,7 @@ from dataclasses import dataclass
 
 from mypy.nodes import ComparisonExpr, OpExpr
 
+from refurb.checks.common import extract_binary_oper
 from refurb.error import Error
 
 
@@ -35,16 +36,15 @@ class ErrorUseInExpr(Error):
 
 
 def check(node: OpExpr, errors: list[Error]) -> None:
-    match node:
-        case OpExpr(
-            op="or",
-            left=ComparisonExpr(operators=["=="], operands=[lhs, _]),
-            right=(
-                ComparisonExpr(operators=["=="], operands=[rhs, _])
-                | OpExpr(
-                    op="or",
-                    left=ComparisonExpr(operators=["=="], operands=[rhs, _]),
-                )
-            ),
+    exprs = extract_binary_oper("or", node)
+
+    # TODO: remove when next mypy version is released
+    if not exprs:
+        return
+
+    match exprs:
+        case (
+            ComparisonExpr(operators=["=="], operands=[lhs, _]),
+            ComparisonExpr(operators=["=="], operands=[rhs, _]),
         ) if str(lhs) == str(rhs):
             errors.append(ErrorUseInExpr(lhs.line, lhs.column))

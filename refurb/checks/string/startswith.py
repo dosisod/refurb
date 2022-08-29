@@ -2,6 +2,7 @@ from dataclasses import dataclass
 
 from mypy.nodes import CallExpr, MemberExpr, NameExpr, OpExpr, Var
 
+from refurb.checks.common import extract_binary_oper
 from refurb.error import Error
 
 
@@ -33,23 +34,27 @@ class ErrorUseStartswithTuple(Error):
 
 
 def check(node: OpExpr, errors: list[Error]) -> None:
-    match node:
-        case OpExpr(
-            op="or",
-            left=CallExpr(
+    exprs = extract_binary_oper("or", node)
+
+    # TODO: remove when next mypy version is released
+    if not exprs:
+        return
+
+    match exprs:
+        case (
+            CallExpr(
                 callee=MemberExpr(
                     expr=NameExpr(node=Var(type=ty)) as lhs, name=lhs_func
                 ),
                 args=args,
             ),
-            right=CallExpr(
-                callee=MemberExpr(expr=NameExpr() as rhs, name=rhs_func)
-            ),
+            CallExpr(callee=MemberExpr(expr=NameExpr() as rhs, name=rhs_func)),
         ) if (
             lhs.fullname == rhs.fullname
             and str(ty) in ("builtins.str", "builtins.bytes")
             and lhs_func == rhs_func
             and lhs_func in ("startswith", "endswith")
+            and args
         ):
             errors.append(
                 ErrorUseStartswithTuple(
