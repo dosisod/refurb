@@ -146,7 +146,7 @@ def check_func(caller: CallExpr, func: FuncDef, errors: list[Error]) -> None:
             default = args[i][1].initializer
 
         else:
-            return
+            return  # pragma: no cover
 
         if str(value) == str(default):
             errors.append(ErrorUseImplicitDefault(value.line, value.column))
@@ -169,8 +169,12 @@ def check_symbol(
                 if isinstance(item, Decorator):
                     check_func(node, item.func, errors)
 
+            if symbol.impl:
+                if isinstance(symbol.impl, FuncDef):
+                    check_func(node, symbol.impl, errors)
+
                 else:
-                    check_func(node, item, errors)
+                    check_func(node, symbol.impl.func, errors)
 
         case TypeInfo():
             for func_name in ("__new__", "__init__"):

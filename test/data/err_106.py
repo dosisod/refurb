@@ -17,3 +17,5 @@ bspaces = b"hello\tworld".replace(b"\t", b" " * tabsize)
 
 spaces = "hello\tworld".replace("\t", "x")
 spaces = "hello\tworld".replace("x", " ")
+
+bspaces = b"hello\tworld".replace(b"\t", b"x")

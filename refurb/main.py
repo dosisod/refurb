@@ -86,12 +86,12 @@ def run_refurb(cli: Cli) -> Sequence[Error | str]:
     except CompileError as e:
         return [msg.replace("mypy", "refurb") for msg in e.messages]
 
-    errors: list[Error] = []
+    errors: list[Error | str] = []
 
     for file in files:
         if tree := result.graph[file.module].tree:
             if cli.debug:
-                print(tree)
+                errors.append(str(tree))
 
             rv = RefurbVisitor(cli.ignore)
 
@@ -105,9 +105,9 @@ def run_refurb(cli: Cli) -> Sequence[Error | str]:
     return sorted(errors, key=sort_errors)
 
 
-def sort_errors(error: Error | str) -> tuple[int, int, int] | str:
+def sort_errors(error: Error | str) -> tuple[int, int, int] | tuple[int, str]:
     if isinstance(error, str):
-        return error
+        return (-1, error)
 
     return (error.line, error.column, error.code)
 

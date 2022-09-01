@@ -1,4 +1,6 @@
-test: flake8 mypy black isort test-unit
+.PHONY: install flake8 mypy black isort test test-e2e
+
+all: flake8 mypy black isort test
 
 install:
 	pip install -r requirements.txt
@@ -17,8 +19,8 @@ black:
 isort:
 	isort . --diff --check
 
-test-unit:
-	pytest
+test:
+	pytest --cov=refurb --cov-report=html --cov-report=term-missing
 
 test-e2e:
 	pip install -e .

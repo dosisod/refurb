@@ -33,7 +33,7 @@ jobs:
         run: make isort
 
       - name: Run unit tests
-        run: make test-unit
+        run: make test
 
       - name: Run e2e tests
         run: make test-e2e

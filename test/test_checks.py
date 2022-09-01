@@ -39,3 +39,13 @@ def test_ignore_check_is_respected() -> None:
     errors = run_refurb(Cli(files=[test_file], ignore=set((100,))))
 
     assert len(errors) == 0
+
+
+def test_system_exit_is_caught() -> None:
+    test_pkg = "test/e2e/empty_package"
+
+    errors = run_refurb(Cli(files=[test_pkg]))
+
+    assert errors == [
+        "refurb: There are no .py[i] files in directory 'test/e2e/empty_package'"
+    ]

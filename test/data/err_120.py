@@ -1,3 +1,6 @@
+from typing import overload
+
+
 def f(a: int = 1, b: int = 2) -> int:
     return a + b
 
@@ -23,6 +26,28 @@ class C:
 
     @staticmethod
     def f4():
+        pass
+
+@overload
+def over() -> None: ...
+
+@overload
+def over(x: int = 1) -> None: ...
+
+def over(x: int = 2, y: int = 3) -> None:
+    pass
+
+class C2:
+    @overload
+    @staticmethod
+    def over() -> None: ...
+
+    @overload
+    @staticmethod
+    def over(x: int = 1) -> None: ...
+
+    @staticmethod
+    def over(x: int = 2, y: int = 3) -> None:
         pass
 
 
@@ -61,6 +86,12 @@ def args(*args, x: int = 1):
 args(x=1)
 args(None, x=1)
 args(None, None, x=1)
+
+over(1)
+over(2)
+
+C2.over(1)
+C2.over(2)
 
 
 # these should not
