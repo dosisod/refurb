@@ -105,7 +105,7 @@ def check(node: FuncItem, errors: list[Error]) -> None:
                 ]
             ),
         ) if lhs_name == expr_lhs and rhs_name == expr_rhs:
-            if func_name := BINARY_OPERATORS.get(op, None):
+            if func_name := BINARY_OPERATORS.get(op):
                 errors.append(
                     ErrorUseOperators(
                         node.line,
@@ -128,7 +128,7 @@ def check(node: FuncItem, errors: list[Error]) -> None:
                 ]
             ),
         ) if name == expr_name:
-            if func_name := UNARY_OPERATORS.get(op, None):
+            if func_name := UNARY_OPERATORS.get(op):
                 errors.append(
                     ErrorUseOperators(
                         node.line,

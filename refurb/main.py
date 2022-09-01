@@ -29,7 +29,7 @@ def parse_error_id(err: str) -> int:
 
 
 def parse_args(args: list[str]) -> Cli:
-    if len(args) == 0:
+    if not args:
         raise ValueError("refurb: no arguments passed")
 
     if args[0] == "--explain":
