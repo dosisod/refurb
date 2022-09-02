@@ -6,6 +6,9 @@ install:
 	pip install -r requirements.txt
 	pip install -r dev-requirements.txt
 
+install-local:
+	pip install -e .
+
 flake8:
 	flake8
 
@@ -22,8 +25,7 @@ isort:
 test:
 	pytest --cov=refurb --cov-report=html --cov-report=term-missing --cov-fail-under=100
 
-test-e2e:
-	pip install -e .
+test-e2e: install-local
 	refurb test/e2e/dummy.py
 
 refurb:

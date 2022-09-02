@@ -30,13 +30,16 @@ $ refurb file.py
 ## Installing (for development)
 
 ```
+$ git clone https://github.com/dosisod/refurb
+$ cd refurb
 $ make install
+$ make install-local
 ```
 
-Tests can be ran all at once with `make test`, or you can run each tool on its own using
+Tests can be ran all at once with `make`, or you can run each tool on its own using
 `make black`, `make flake8`, and so on.
 
-Unit tests can be ran with `pytest` or `make test-unit`.
+Unit tests can be ran with `pytest` or `make test`.
 
 > Since the end-to-end (e2e) tests are slow, they are not ran when running `make test`.
 > You will need to run `make test-e2e` to run them.
