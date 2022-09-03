@@ -105,11 +105,13 @@ def run_refurb(cli: Cli) -> Sequence[Error | str]:
     return sorted(errors, key=sort_errors)
 
 
-def sort_errors(error: Error | str) -> tuple[int, int, int] | tuple[int, str]:
+def sort_errors(
+    error: Error | str,
+) -> tuple[str, int, int, int] | tuple[str, str]:
     if isinstance(error, str):
-        return (-1, error)
+        return ("", error)
 
-    return (error.line, error.column, error.code)
+    return (error.filename or "", error.line, error.column, error.code)
 
 
 def main(args: list[str]) -> int:

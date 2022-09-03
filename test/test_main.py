@@ -30,11 +30,16 @@ def test_errors_are_sorted():
         code = 101
 
     errors: list[Error | str] = [
-        Error100(line=10, column=5, msg=""),
-        Error101(line=1, column=5, msg=""),
-        Error100(line=2, column=7, msg=""),
-        Error100(line=1, column=10, msg=""),
-        Error101(line=10, column=5, msg=""),
+        Error100(filename="0_first", line=10, column=5, msg=""),
+        Error101(filename="1_last", line=1, column=5, msg=""),
+        Error100(filename="0_first", line=2, column=7, msg=""),
+        Error100(filename="1_last", line=1, column=10, msg=""),
+        Error101(filename="0_first", line=10, column=5, msg=""),
+        Error100(filename="1_last", line=10, column=5, msg=""),
+        Error101(filename="0_first", line=1, column=5, msg=""),
+        Error100(filename="1_last", line=2, column=7, msg=""),
+        Error100(filename="0_first", line=1, column=10, msg=""),
+        Error101(filename="1_last", line=10, column=5, msg=""),
         "some other error",
     ]
 
@@ -42,11 +47,16 @@ def test_errors_are_sorted():
 
     assert sorted_errors == [
         "some other error",
-        Error101(line=1, column=5, msg=""),
-        Error100(line=1, column=10, msg=""),
-        Error100(line=2, column=7, msg=""),
-        Error100(line=10, column=5, msg=""),
-        Error101(line=10, column=5, msg=""),
+        Error101(filename="0_first", line=1, column=5, msg=""),
+        Error100(filename="0_first", line=1, column=10, msg=""),
+        Error100(filename="0_first", line=2, column=7, msg=""),
+        Error100(filename="0_first", line=10, column=5, msg=""),
+        Error101(filename="0_first", line=10, column=5, msg=""),
+        Error101(filename="1_last", line=1, column=5, msg=""),
+        Error100(filename="1_last", line=1, column=10, msg=""),
+        Error100(filename="1_last", line=2, column=7, msg=""),
+        Error100(filename="1_last", line=10, column=5, msg=""),
+        Error101(filename="1_last", line=10, column=5, msg=""),
     ]
 
 
