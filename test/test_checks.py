@@ -1,18 +1,16 @@
 from pathlib import Path
 
-import pytest
-
 from refurb.main import Cli, run_refurb
 
 TEST_DATA_PATH = Path("test/data")
 
 
-@pytest.mark.parametrize("test", TEST_DATA_PATH.glob("*.py"))
-def test_checks(test: Path) -> None:
-    errors = run_refurb(Cli(files=[str(test)]))
+def test_checks() -> None:
+    errors = run_refurb(Cli(files=["test/"]))
     got = "\n".join([str(error) for error in errors])
 
-    expected = test.with_suffix(".txt").read_text()[:-1]
+    files = sorted(TEST_DATA_PATH.glob("*.txt"), key=lambda p: p.name)
+    expected = "\n".join(file.read_text()[:-1] for file in files)
 
     assert got == expected
 
