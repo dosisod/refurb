@@ -6,8 +6,6 @@ f"{repr(123)}"
 
 f"{ascii('hello world')}"
 
-f"{int(123)}"
-
 f"{bin(0b1100)}"
 
 f"{oct(0o777)}"
@@ -24,3 +22,5 @@ f"{123}"
 f"{0b1010:b}"
 
 f"{str('hello world')!s}"
+
+f"{str(b'hello world', encoding='utf8')}"

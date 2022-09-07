@@ -1,8 +1,7 @@
 test/data/err_119.py:3:1 [FURB119]: Replace `{str(x)}` with `{x}`
 test/data/err_119.py:5:1 [FURB119]: Replace `{repr(x)}` with `{x!r}`
 test/data/err_119.py:7:1 [FURB119]: Replace `{ascii(x)}` with `{x!a}`
-test/data/err_119.py:9:1 [FURB119]: Replace `{int(x)}` with `{x}`
-test/data/err_119.py:11:1 [FURB119]: Replace `{bin(x)}` with `{x:#b}`
-test/data/err_119.py:13:1 [FURB119]: Replace `{oct(x)}` with `{x:#o}`
-test/data/err_119.py:15:1 [FURB119]: Replace `{hex(x)}` with `{x:#x}`
-test/data/err_119.py:17:1 [FURB119]: Replace `{chr(x)}` with `{x:c}`
+test/data/err_119.py:9:1 [FURB119]: Replace `{bin(x)}` with `{x:#b}`
+test/data/err_119.py:11:1 [FURB119]: Replace `{oct(x)}` with `{x:#o}`
+test/data/err_119.py:13:1 [FURB119]: Replace `{hex(x)}` with `{x:#x}`
+test/data/err_119.py:15:1 [FURB119]: Replace `{chr(x)}` with `{x:c}`

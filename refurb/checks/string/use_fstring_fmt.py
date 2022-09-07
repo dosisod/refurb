@@ -40,7 +40,6 @@ CONVERSIONS = {
     "builtins.repr": "x!r",
     "builtins.ascii": "x!a",
     "builtins.bin": "x:#b",
-    "builtins.int": "x",
     "builtins.oct": "x:#o",
     "builtins.hex": "x:#x",
     "builtins.chr": "x:c",
@@ -56,6 +55,7 @@ def check(node: CallExpr, errors: list[Error]) -> None:
             match inner:
                 case CallExpr(
                     callee=NameExpr(fullname=fullname) as func,
+                    args=[_],
                 ) if fullname in CONVERSIONS.keys():
                     func_name = f"{{{func.name}(x)}}"
                     conversion = f"{{{CONVERSIONS[fullname or '']}}}"
