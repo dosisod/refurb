@@ -34,7 +34,7 @@ def test_mypy_error_is_bubbled_up() -> None:
 def test_ignore_check_is_respected() -> None:
     test_file = str(TEST_DATA_PATH / "err_100.py")
 
-    errors = run_refurb(Cli(files=[test_file], ignore=set((100,))))
+    errors = run_refurb(Cli(files=[test_file], ignore=set((100, 123))))
 
     assert len(errors) == 0
 
