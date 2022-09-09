@@ -1,0 +1,6 @@
+test/data/err_124.py:5:5 [FURB124]: Use `x == y == z` instead of `x == y and x == z`
+test/data/err_124.py:6:5 [FURB124]: Use `x == y == z` instead of `x == y and x == z`
+test/data/err_124.py:7:5 [FURB124]: Use `x == y == z` instead of `x == y and x == z`
+test/data/err_124.py:8:5 [FURB124]: Use `x == y == z` instead of `x == y and x == z`
+test/data/err_124.py:9:5 [FURB124]: Use `x == y == z` instead of `x == y and x == z`
+test/data/err_124.py:9:16 [FURB124]: Use `x == y == z` instead of `x == y and x == z`
