@@ -1,0 +1,7 @@
+test/data/err_125.py:4:5 [FURB125]: Return is redundant here
+test/data/err_125.py:9:5 [FURB125]: Return is redundant here
+test/data/err_125.py:17:13 [FURB125]: Return is redundant here
+test/data/err_125.py:24:9 [FURB125]: Return is redundant here
+test/data/err_125.py:34:9 [FURB125]: Return is redundant here
+test/data/err_125.py:44:21 [FURB125]: Return is redundant here
+test/data/err_125.py:48:9 [FURB125]: Return is redundant here
