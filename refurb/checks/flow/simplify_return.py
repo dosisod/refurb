@@ -1,0 +1,91 @@
+from dataclasses import dataclass
+
+from mypy.nodes import (
+    Block,
+    Expression,
+    FuncItem,
+    IfStmt,
+    MatchStmt,
+    ReturnStmt,
+    Statement,
+)
+from mypy.patterns import AsPattern
+
+from refurb.error import Error
+
+
+@dataclass
+class ErrorSimplifyReturn(Error):
+    """
+    Sometimes a return statement can be written more succinctly:
+
+    Bad:
+
+    ```
+    def index_or_default(nums: list[Any], index: int, default: Any):
+        if index >= len(nums):
+            return default
+
+        else:
+            return nums[index]
+
+    def is_on_axis(position: tuple[int, int]) -> bool:
+        match position:
+            case (0, _) | (_, 0):
+                return True
+
+            case _:
+                return False
+    ```
+
+    Good:
+
+    ```
+    def index_or_default(nums: list[Any], index: int, default: Any):
+        if index >= len(nums):
+            return default
+
+        return nums[index]
+
+    def is_on_axis(position: tuple[int, int]) -> bool:
+        match position:
+            case (0, _) | (_, 0):
+                return True
+
+        return False
+    ```
+    """
+
+    code = 126
+
+
+def get_trailing_return(node: Statement) -> Statement | None:
+    match node:
+        case ReturnStmt(expr=Expression()):
+            return node
+
+        case (
+            MatchStmt(
+                bodies=[*_, Block(body=[stmt])],
+                patterns=[*_, AsPattern(pattern=None)],
+            )
+            | IfStmt(else_body=Block(body=[stmt]))
+        ) if return_node := get_trailing_return(stmt):
+            return return_node
+
+    return None
+
+
+def check(node: FuncItem, errors: list[Error]) -> None:
+    match node:
+        case FuncItem(body=Block(body=[*_, IfStmt() | MatchStmt() as stmt])):
+            if return_node := get_trailing_return(stmt):
+                name = "case _" if type(stmt) is MatchStmt else "else"
+
+                errors.append(
+                    ErrorSimplifyReturn(
+                        return_node.line,
+                        return_node.column,
+                        f"Replace `{name}: return x` with `return x`",
+                    )
+                )
