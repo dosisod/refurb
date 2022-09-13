@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Generator
 
 from mypy.nodes import (
     Block,
@@ -32,6 +33,8 @@ class ErrorNoTrailingReturn(Error):
             print("x is 1")
 
         else:
+            print("x is not 1")
+
             return
     ```
 
@@ -44,6 +47,9 @@ class ErrorNoTrailingReturn(Error):
     def func2(x):
         if x == 1:
             print("x is 1")
+
+        else:
+            print("x is not 1")
     ```
     """
 
@@ -51,17 +57,20 @@ class ErrorNoTrailingReturn(Error):
     msg: str = "Return is redundant here"
 
 
-def get_trailing_return(node: Statement) -> Statement | None:
+def get_trailing_return(node: Statement) -> Generator[Statement, None, None]:
     match node:
-        case ReturnStmt(expr=None) as stmt:
-            return stmt
+        case ReturnStmt(expr=None):
+            yield node
+
+        case MatchStmt(bodies=bodies):
+            for body in bodies:
+                yield from get_trailing_return(body.body[-1])
 
         case (
-            MatchStmt(bodies=[*_, Block(body=[*_, stmt])])
-            | IfStmt(else_body=Block(body=[*_, stmt]))
+            IfStmt(else_body=Block(body=[*_, stmt]))
             | WithStmt(body=Block(body=[*_, stmt]))
-        ) if return_node := get_trailing_return(stmt):
-            return return_node
+        ):
+            yield from get_trailing_return(stmt)
 
     return None
 
@@ -69,7 +78,7 @@ def get_trailing_return(node: Statement) -> Statement | None:
 def check(node: FuncItem, errors: list[Error]) -> None:
     match node:
         case FuncItem(body=Block(body=[*_, stmt])):
-            if return_node := get_trailing_return(stmt):
+            for return_node in get_trailing_return(stmt):
                 errors.append(
                     ErrorNoTrailingReturn(return_node.line, return_node.column)
                 )

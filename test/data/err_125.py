@@ -48,6 +48,24 @@ def with_stmt():
         return
 
 
+def match_without_wildcard():
+    match 1:
+        case 1:
+            return
+
+
+def match_multiple_bodies():
+    match [123]:
+        case [_]:
+            return
+
+        case []:
+            return
+
+        case _:
+            return
+
+
 # these will not
 
 def return_value():
