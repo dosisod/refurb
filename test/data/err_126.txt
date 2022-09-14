@@ -1,3 +1,4 @@
 test/data/err_126.py:8:9 [FURB126]: Replace `else: return x` with `return x`
 test/data/err_126.py:17:13 [FURB126]: Replace `case _: return x` with `return x`
 test/data/err_126.py:30:21 [FURB126]: Replace `case _: return x` with `return x`
+test/data/err_126.py:45:13 [FURB126]: Replace `case _: return x` with `return x`

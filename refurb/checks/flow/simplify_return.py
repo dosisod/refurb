@@ -64,14 +64,16 @@ def get_trailing_return(node: Statement) -> Statement | None:
         case ReturnStmt(expr=Expression()):
             return node
 
-        case (
-            MatchStmt(
-                bodies=[*_, Block(body=[stmt])],
-                patterns=[*_, AsPattern(pattern=None)],
-            )
-            | IfStmt(else_body=Block(body=[stmt]))
-        ) if return_node := get_trailing_return(stmt):
-            return return_node
+        case MatchStmt(
+            bodies=[*bodies, Block(body=[stmt])],
+            patterns=[*_, AsPattern(pattern=None)],
+        ) if all(isinstance(block.body[-1], ReturnStmt) for block in bodies):
+            return get_trailing_return(stmt)
+
+        case IfStmt(
+            body=[Block(body=[*_, ReturnStmt()])], else_body=Block(body=[stmt])
+        ):
+            return get_trailing_return(stmt)
 
     return None
 

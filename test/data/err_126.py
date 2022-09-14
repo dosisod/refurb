@@ -29,6 +29,21 @@ def nested(x):
                 case _:
                     return False
 
+def match_multiple_stmts(x):
+    match x:
+        case 1:
+            pass
+
+            return 1
+
+        case 2:
+            pass
+
+            return 2
+
+        case _:
+            return 3
+
 
 # these will not
 
@@ -74,3 +89,18 @@ def func6(x):
 
         case 2:
             return 2
+
+def func7(x):
+    match x:
+        case 1:
+            pass
+
+        case _:
+            return 2
+
+def func8(x):
+    if x == 1:
+        pass
+
+    else:
+        return 1
