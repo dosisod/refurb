@@ -2,6 +2,7 @@ import importlib
 import pkgutil
 from collections import defaultdict
 from inspect import signature
+from types import UnionType
 from typing import Callable, Type
 
 from mypy.nodes import Node
@@ -34,7 +35,13 @@ def load_checks(ignore: set[int]) -> defaultdict[Type[Node], list[Check]]:
         if func := getattr(module, "check", None):
             params = list(signature(func).parameters.values())
 
-            found[params[0].annotation].append(func)
+            match params[0].annotation:
+                case UnionType() as types:
+                    for ty in types.__args__:
+                        found[ty].append(func)
+
+                case ty:
+                    found[ty].append(func)
 
     return found
 
