@@ -1,13 +1,16 @@
 from dataclasses import dataclass
 
 from mypy.nodes import (
+    Block,
     CallExpr,
     ExpressionStmt,
     MemberExpr,
+    MypyFile,
     NameExpr,
     Statement,
 )
 
+from refurb.checks.common import check_block_like
 from refurb.error import Error
 
 
@@ -47,6 +50,10 @@ class Last:
     line: int = 0
     column: int = 0
     did_error: bool = False
+
+
+def check(node: Block | MypyFile, errors: list[Error]) -> None:
+    check_block_like(check_stmts, node, errors)
 
 
 def check_stmts(stmts: list[Statement], errors: list[Error]) -> None:

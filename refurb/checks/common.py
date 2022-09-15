@@ -1,4 +1,8 @@
-from mypy.nodes import Expression, OpExpr
+from collections.abc import Callable
+
+from mypy.nodes import Block, Expression, MypyFile, OpExpr, Statement
+
+from refurb.error import Error
 
 
 def extract_binary_oper(
@@ -18,3 +22,16 @@ def extract_binary_oper(
                     return lhs, rhs
 
     return None
+
+
+def check_block_like(
+    func: Callable[[list[Statement], list[Error]], None],
+    node: Block | MypyFile,
+    errors: list[Error],
+) -> None:
+    match node:
+        case Block():
+            func(node.body, errors)
+
+        case MypyFile():
+            func(node.defs, errors)

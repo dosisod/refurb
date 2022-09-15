@@ -9,6 +9,7 @@ from mypy.nodes import (
     WithStmt,
 )
 
+from refurb.checks.common import check_block_like
 from refurb.error import Error
 
 
@@ -42,15 +43,10 @@ class ErrorNoWithAssign(Error):
 
 
 def check(node: Block | MypyFile, errors: list[Error]) -> None:
-    match node:
-        case Block():
-            check_statements(node.body, errors)
-
-        case MypyFile():
-            check_statements(node.defs, errors)
+    check_block_like(check_stmts, node, errors)
 
 
-def check_statements(body: list[Statement], errors: list[Error]) -> None:
+def check_stmts(body: list[Statement], errors: list[Error]) -> None:
     assign = None
 
     for stmt in body:
