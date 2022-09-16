@@ -1,0 +1,5 @@
+test/data/err_128.py:9:1 [FURB128]: Use tuple unpacking instead of temporary variables to swap values
+test/data/err_128.py:16:1 [FURB128]: Use tuple unpacking instead of temporary variables to swap values
+test/data/err_128.py:24:1 [FURB128]: Use tuple unpacking instead of temporary variables to swap values
+test/data/err_128.py:30:1 [FURB128]: Use tuple unpacking instead of temporary variables to swap values
+test/data/err_128.py:33:1 [FURB128]: Use tuple unpacking instead of temporary variables to swap values
