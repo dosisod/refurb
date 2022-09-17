@@ -57,3 +57,7 @@ def test_parse_ignore_check_missing_arg() -> None:
 
 def test_debug_parsing() -> None:
     assert parse_args(["--debug", "file"]) == Cli(files=["file"], debug=True)
+
+
+def test_generate_subcommand() -> None:
+    assert parse_args(["gen"]) == Cli(generate=True)

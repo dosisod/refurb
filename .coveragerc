@@ -4,3 +4,4 @@
 
 omit =
     refurb/__main__.py
+    refurb/gen.py

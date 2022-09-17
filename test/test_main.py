@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from unittest.mock import patch
 
 from refurb.error import Error
 from refurb.main import Cli, main, run_refurb, sort_errors
@@ -74,3 +75,10 @@ MypyFile:1(
   ExpressionStmt:1(
     StrExpr(\\u000aThis is a dummy file just to make sure that the refurb command is installed\\u000aand running correctly.\\u000a)))"""
     ]
+
+
+def test_generate_subcommand():
+    with patch("refurb.main.generate") as p:
+        main(["gen"])
+
+        p.assert_called_once()

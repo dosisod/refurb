@@ -8,6 +8,7 @@ from mypy.main import process_options
 
 from .error import Error
 from .explain import explain
+from .gen import main as generate
 from .visitor import RefurbVisitor
 
 
@@ -17,6 +18,7 @@ class Cli:
     explain: int | None = None
     ignore: set[int] | None = None
     debug: bool = False
+    generate: bool = False
 
 
 def parse_error_id(err: str) -> int:
@@ -31,6 +33,9 @@ def parse_error_id(err: str) -> int:
 def parse_args(args: list[str]) -> Cli:
     if not args:
         raise ValueError("refurb: no arguments passed")
+
+    if args[0] == "gen":
+        return Cli(generate=True)
 
     if args[0] == "--explain":
         if len(args) != 2:
@@ -121,6 +126,11 @@ def main(args: list[str]) -> int:
     except ValueError as e:
         print(e)
         return 1
+
+    if cli.generate:
+        generate()
+
+        return 0
 
     if cli.explain:
         print(explain(cli.explain))
