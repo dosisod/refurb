@@ -5,7 +5,7 @@ from inspect import signature
 from types import UnionType
 from typing import Callable, Type
 
-from mypy.nodes import Node
+from mypy.nodes import CallExpr, Node
 from mypy.traverser import TraverserVisitor
 
 from . import checks
@@ -61,14 +61,25 @@ def build_visitor(
 class RefurbVisitor(TraverserVisitor):
     errors: list[Error]
 
+    _dont_build = ("visit_call_expr",)
+
     def __init__(self, ignore: set[int] | None = None) -> None:
         self.errors = []
+        self.checks = load_checks(ignore or set())
 
-        checks = load_checks(ignore or set())
-        types = set(checks.keys())
+        types = set(self.checks.keys())
 
         for name, type in MAPPINGS.items():
-            if type in types:
-                func = build_visitor(name, type, checks)
+            if type in types and name not in self._dont_build:
+                func = build_visitor(name, type, self.checks)
 
                 setattr(self, name, func.__get__(self))
+
+    def visit_call_expr(self, o: CallExpr) -> None:
+        for arg in o.args:
+            arg.accept(self)
+
+        o.callee.accept(self)
+
+        for check in self.checks[CallExpr]:
+            check(o, self.errors)
