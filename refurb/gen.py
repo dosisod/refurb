@@ -64,6 +64,18 @@ def fzf(data: list[str] | None, args: list[str] = []) -> str:
     return process.stdout[:-1].decode()
 
 
+def folders_needing_init_file(path: Path) -> list[Path]:
+    path = path.resolve()
+    cwd = Path.cwd().resolve()
+
+    if path.is_relative_to(cwd):
+        to_remove = len(cwd.parents) + 1
+
+        return [path, *list(path.parents)[:-to_remove]]
+
+    return []
+
+
 def main() -> None:
     node_type = fzf([x.__name__ for x in MAPPINGS.values()])
 
@@ -83,6 +95,9 @@ def main() -> None:
 
     with suppress(FileExistsError):
         file.parent.mkdir(parents=True, exist_ok=True)
+
+        for folder in folders_needing_init_file(file.parent):
+            (folder / "__init__.py").touch(exist_ok=True)
 
     file.write_text(template)
 
