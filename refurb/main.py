@@ -9,6 +9,7 @@ from mypy.main import process_options
 from .error import Error
 from .explain import explain
 from .gen import main as generate
+from .loader import load_checks
 from .visitor import RefurbVisitor
 
 
@@ -17,6 +18,7 @@ class Cli:
     files: list[str] | None = None
     explain: int | None = None
     ignore: set[int] | None = None
+    load: list[str] | None = None
     debug: bool = False
     generate: bool = False
 
@@ -46,6 +48,7 @@ def parse_args(args: list[str]) -> Cli:
     iargs = iter(args)
     files: list[str] = []
     ignore: set[int] = set()
+    load: list[str] = []
     debug = False
 
     for arg in iargs:
@@ -60,13 +63,23 @@ def parse_args(args: list[str]) -> Cli:
 
             ignore.add(parse_error_id(value))
 
+        elif arg == "--load":
+            value = next(iargs, None)
+
+            if value is None:
+                raise ValueError(f'refurb: missing argument after "{arg}"')
+
+            load.append(value)
+
         elif arg.startswith("-"):
             raise ValueError(f'refurb: unsupported option "{arg}"')
 
         else:
             files.append(arg)
 
-    return Cli(files=files, ignore=ignore or None, debug=debug)
+    return Cli(
+        files=files, ignore=ignore or None, load=load or None, debug=debug
+    )
 
 
 def run_refurb(cli: Cli) -> Sequence[Error | str]:
@@ -98,14 +111,15 @@ def run_refurb(cli: Cli) -> Sequence[Error | str]:
             if cli.debug:
                 errors.append(str(tree))
 
-            rv = RefurbVisitor(cli.ignore)
+            checks = load_checks(cli.ignore or set(), cli.load or [])
+            visitor = RefurbVisitor(checks)
 
-            tree.accept(rv)
+            tree.accept(visitor)
 
-            for error in rv.errors:
+            for error in visitor.errors:
                 error.filename = file.path
 
-            errors += rv.errors
+            errors += visitor.errors
 
     return sorted(errors, key=sort_errors)
 

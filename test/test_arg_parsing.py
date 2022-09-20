@@ -61,3 +61,16 @@ def test_debug_parsing() -> None:
 
 def test_generate_subcommand() -> None:
     assert parse_args(["gen"]) == Cli(generate=True)
+
+
+def test_load_flag() -> None:
+    assert parse_args(["--load", "some_module"]) == Cli(
+        files=[], load=["some_module"]
+    )
+
+
+def test_parse_load_flag_missing_arg() -> None:
+    with pytest.raises(
+        ValueError, match='refurb: missing argument after "--load"'
+    ):
+        parse_args(["--load"])
