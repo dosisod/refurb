@@ -34,6 +34,7 @@ class Error{error_name}(Error):
 
     code = 999
     msg: str = "Your message here"
+    prefix: str = "XYZ"
 
 
 def check(node: {node_type}, errors: list[Error]) -> None:
@@ -46,7 +47,7 @@ def check(node: {node_type}, errors: list[Error]) -> None:
 def fzf(data: list[str] | None, args: list[str] = []) -> str:
     env = os.environ | {
         "SHELL": "/bin/bash",
-        "FZF_DEFAULT_COMMAND": "find refurb -name '*.py' -not -path '*__*' > /dev/null 2>&1 | true",  # noqa: E501
+        "FZF_DEFAULT_COMMAND": "find refurb -name '*.py' -not -path '*__*' 2> /dev/null || true",  # noqa: E501
     }
 
     process = run(

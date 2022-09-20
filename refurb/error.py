@@ -9,6 +9,7 @@ class Error:
     column: int
     msg: str
     filename: Optional[str] = None
+    prefix: str = "FURB"
 
     def __str__(self) -> str:
-        return f"{self.filename}:{self.line}:{self.column + 1} [FURB{self.code}]: {self.msg}"  # noqa
+        return f"{self.filename}:{self.line}:{self.column + 1} [{self.prefix}{self.code}]: {self.msg}"  # noqa: E501

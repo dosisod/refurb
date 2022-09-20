@@ -30,6 +30,11 @@ def test_errors_are_sorted():
     class Error101(Error):
         code = 101
 
+    @dataclass
+    class CustomError100(Error):
+        prefix: str = "ABC"
+        code = 100
+
     errors: list[Error | str] = [
         Error100(filename="0_first", line=10, column=5, msg=""),
         Error101(filename="1_last", line=1, column=5, msg=""),
@@ -41,6 +46,7 @@ def test_errors_are_sorted():
         Error100(filename="1_last", line=2, column=7, msg=""),
         Error100(filename="0_first", line=1, column=10, msg=""),
         Error101(filename="1_last", line=10, column=5, msg=""),
+        CustomError100(filename="1_last", line=10, column=5, msg=""),
         "some other error",
     ]
 
@@ -56,6 +62,7 @@ def test_errors_are_sorted():
         Error101(filename="1_last", line=1, column=5, msg=""),
         Error100(filename="1_last", line=1, column=10, msg=""),
         Error100(filename="1_last", line=2, column=7, msg=""),
+        CustomError100(filename="1_last", line=10, column=5, msg=""),
         Error100(filename="1_last", line=10, column=5, msg=""),
         Error101(filename="1_last", line=10, column=5, msg=""),
     ]
