@@ -1,10 +1,12 @@
 import pytest
 
-from refurb.main import Cli, parse_args
+from refurb.settings import Settings, merge_settings
+from refurb.settings import parse_command_line_args as parse_args
+from refurb.settings import parse_config_file
 
 
 def test_parse_explain():
-    assert parse_args(["--explain", "123"]) == Cli(explain=123)
+    assert parse_args(["--explain", "123"]) == Settings(explain=123)
 
 
 @pytest.mark.parametrize("args", (["--explain"], ["--explain", "123", "456"]))
@@ -17,7 +19,7 @@ def test_parse_explain_missing_option(args: list[str]) -> None:
 
 
 def test_parse_explain_furb_prefix() -> None:
-    assert parse_args(["--explain", "FURB123"]) == Cli(explain=123)
+    assert parse_args(["--explain", "FURB123"]) == Settings(explain=123)
 
 
 def test_require_numbers_as_explain_id() -> None:
@@ -28,7 +30,7 @@ def test_require_numbers_as_explain_id() -> None:
 
 
 def test_parse_files() -> None:
-    assert parse_args(["a", "b", "c"]) == Cli(files=["a", "b", "c"])
+    assert parse_args(["a", "b", "c"]) == Settings(files=["a", "b", "c"])
 
 
 def test_check_for_unsupported_flags() -> None:
@@ -43,7 +45,7 @@ def test_no_args_is_check() -> None:
 
 def test_parse_ignore() -> None:
     got = parse_args(["--ignore", "FURB123", "--ignore", "321"])
-    expected = Cli(files=[], ignore=set((123, 321)))
+    expected = Settings(files=[], ignore=set((123, 321)))
 
     assert got == expected
 
@@ -56,15 +58,17 @@ def test_parse_ignore_check_missing_arg() -> None:
 
 
 def test_debug_parsing() -> None:
-    assert parse_args(["--debug", "file"]) == Cli(files=["file"], debug=True)
+    assert parse_args(["--debug", "file"]) == Settings(
+        files=["file"], debug=True
+    )
 
 
 def test_generate_subcommand() -> None:
-    assert parse_args(["gen"]) == Cli(generate=True)
+    assert parse_args(["gen"]) == Settings(generate=True)
 
 
 def test_load_flag() -> None:
-    assert parse_args(["--load", "some_module"]) == Cli(
+    assert parse_args(["--load", "some_module"]) == Settings(
         files=[], load=["some_module"]
     )
 
@@ -74,3 +78,49 @@ def test_parse_load_flag_missing_arg() -> None:
         ValueError, match='refurb: missing argument after "--load"'
     ):
         parse_args(["--load"])
+
+
+def test_parse_config_file() -> None:
+    contents = """\
+[tool.refurb]
+load = ["some", "folders"]
+ignore = [100, "FURB101"]
+"""
+
+    config = parse_config_file(contents)
+
+    assert config == Settings(load=["some", "folders"], ignore=set((100, 101)))
+
+
+def test_merge_command_line_args_and_config_file() -> None:
+    contents = """\
+[tool.refurb]
+load = ["some", "folders"]
+ignore = [100, "FURB101"]
+"""
+
+    command_line_args = parse_args(["some_file.py"])
+    config_file = parse_config_file(contents)
+
+    config = merge_settings(command_line_args, config_file)
+
+    assert config == Settings(
+        files=["some_file.py"],
+        load=["some", "folders"],
+        ignore=set((100, 101)),
+    )
+
+
+def test_command_line_args_override_config_file() -> None:
+    contents = """\
+[tool.refurb]
+load = ["some", "folders"]
+ignore = [100, "FURB101"]
+"""
+
+    command_line_args = parse_args(["--load", "x", "--ignore", "123"])
+    config_file = parse_config_file(contents)
+
+    config = merge_settings(command_line_args, config_file)
+
+    assert config == Settings(files=[], load=["x"], ignore=set((123,)))

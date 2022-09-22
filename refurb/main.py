@@ -1,4 +1,3 @@
-from dataclasses import dataclass
 from io import StringIO
 from typing import Sequence
 
@@ -10,83 +9,15 @@ from .error import Error
 from .explain import explain
 from .gen import main as generate
 from .loader import load_checks
+from .settings import Settings, load_settings
 from .visitor import RefurbVisitor
 
 
-@dataclass
-class Cli:
-    files: list[str] | None = None
-    explain: int | None = None
-    ignore: set[int] | None = None
-    load: list[str] | None = None
-    debug: bool = False
-    generate: bool = False
-
-
-def parse_error_id(err: str) -> int:
-    id = err.replace("FURB", "")
-
-    if id.isdigit():
-        return int(id)
-
-    raise ValueError(f'refurb: "{id}" must be in form FURB123 or 123')
-
-
-def parse_args(args: list[str]) -> Cli:
-    if not args:
-        raise ValueError("refurb: no arguments passed")
-
-    if args[0] == "gen":
-        return Cli(generate=True)
-
-    if args[0] == "--explain":
-        if len(args) != 2:
-            raise ValueError("usage: refurb --explain ID")
-
-        return Cli(explain=parse_error_id(args[1]))
-
-    iargs = iter(args)
-    files: list[str] = []
-    ignore: set[int] = set()
-    load: list[str] = []
-    debug = False
-
-    for arg in iargs:
-        if arg == "--debug":
-            debug = True
-
-        elif arg == "--ignore":
-            value = next(iargs, None)
-
-            if value is None:
-                raise ValueError(f'refurb: missing argument after "{arg}"')
-
-            ignore.add(parse_error_id(value))
-
-        elif arg == "--load":
-            value = next(iargs, None)
-
-            if value is None:
-                raise ValueError(f'refurb: missing argument after "{arg}"')
-
-            load.append(value)
-
-        elif arg.startswith("-"):
-            raise ValueError(f'refurb: unsupported option "{arg}"')
-
-        else:
-            files.append(arg)
-
-    return Cli(
-        files=files, ignore=ignore or None, load=load or None, debug=debug
-    )
-
-
-def run_refurb(cli: Cli) -> Sequence[Error | str]:
+def run_refurb(settings: Settings) -> Sequence[Error | str]:
     stderr = StringIO()
 
     try:
-        files, opt = process_options(cli.files or [], stderr=stderr)
+        files, opt = process_options(settings.files or [], stderr=stderr)
 
     except SystemExit:
         return ["refurb: " + err for err in stderr.getvalue().splitlines()]
@@ -108,10 +39,10 @@ def run_refurb(cli: Cli) -> Sequence[Error | str]:
 
     for file in files:
         if tree := result.graph[file.module].tree:
-            if cli.debug:
+            if settings.debug:
                 errors.append(str(tree))
 
-            checks = load_checks(cli.ignore or set(), cli.load or [])
+            checks = load_checks(settings.ignore or set(), settings.load or [])
             visitor = RefurbVisitor(checks)
 
             tree.accept(visitor)
@@ -141,22 +72,22 @@ def sort_errors(
 
 def main(args: list[str]) -> int:
     try:
-        cli = parse_args(args)
+        settings = load_settings(args)
 
     except ValueError as e:
         print(e)
         return 1
 
-    if cli.generate:
+    if settings.generate:
         generate()
 
         return 0
 
-    if cli.explain:
-        print(explain(cli.explain))
+    if settings.explain:
+        print(explain(settings.explain))
         return 0
 
-    errors = run_refurb(cli)
+    errors = run_refurb(settings)
 
     for error in errors:
         print(error)

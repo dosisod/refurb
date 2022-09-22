@@ -2,7 +2,8 @@ from dataclasses import dataclass
 from unittest.mock import patch
 
 from refurb.error import Error
-from refurb.main import Cli, main, run_refurb, sort_errors
+from refurb.main import main, run_refurb, sort_errors
+from refurb.settings import Settings
 
 
 def test_invalid_args_returns_error_code():
@@ -69,9 +70,9 @@ def test_errors_are_sorted():
 
 
 def test_debug_flag():
-    cli_options = Cli(files=["test/e2e/dummy.py"], debug=True)
+    settings = Settings(files=["test/e2e/dummy.py"], debug=True)
 
-    output = run_refurb(cli_options)
+    output = run_refurb(settings)
 
     print(output)
 
