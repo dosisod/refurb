@@ -28,6 +28,47 @@ pytest = "^7.1.2"
 [tool.poetry.scripts]
 refurb = "refurb.__main__:main"
 
+[tool.isort]
+multi_line_output = 3
+include_trailing_comma = true
+color_output = true
+
+[tool.mypy]
+check_untyped_defs = true
+disallow_any_decorated = true
+disallow_any_explicit = true
+disallow_any_generics = true
+disallow_any_unimported = true
+disallow_incomplete_defs = true
+disallow_subclassing_any = true
+namespace_packages = true
+no_implicit_optional = true
+strict_equality = true
+warn_redundant_casts = true
+warn_return_any = true
+warn_unreachable = true
+warn_unused_configs = true
+warn_unused_ignores = true
+
+[tool.coverage.run]
+# TODO: enable this
+# branch = true
+
+omit = [
+  "refurb/__main__.py",
+  "refurb/gen.py"
+]
+
+[tool.black]
+exclude = "test/data/*"
+line-length = 79
+check = true
+diff = true
+color = true
+
+[tool.pytest.ini_options]
+addopts = "--cov=refurb --cov-report=html --cov-report=term-missing --cov-fail-under=100"
+
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"

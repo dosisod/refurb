@@ -1,7 +1,0 @@
-[run]
-# TODO: enable this
-# branch = true
-
-omit =
-    refurb/__main__.py
-    refurb/gen.py
