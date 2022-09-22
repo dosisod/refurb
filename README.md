@@ -44,14 +44,55 @@ Unit tests can be ran with `pytest` or `make test`.
 > Since the end-to-end (e2e) tests are slow, they are not ran when running `make test`.
 > You will need to run `make test-e2e` to run them.
 
+## Explainations For Checks
+
+You can use `refurb --explain FURB123`, where `FURB123` is the error code you are trying to look up.
+For example:
+
+````
+$ refurb --explain FURB123
+Don't cast a variable or literal if it is already of that type. For
+example:
+
+Bad:
+
+```
+name = str("bob")
+num = int(123)
+```
+
+Good:
+
+```
+name = "bob"
+num = 123
+````
+
 ## Ignoring Certain Checks
 
 Use `--ignore 123` to ignore check 123. The error code can be in the form `FURB123` or `123`.
-Example:
+
+## Configuring Refurb
+
+In addition to the command line arguments, you can also add your settings in the `pyproject.toml` file.
+For example, the following command line arguments:
 
 ```
-refurb file.py --ignore FURB101
+refurb file.py --ignore 100 --load some_dir
 ```
+
+Corresponds to the following in your `pyproject.toml` file:
+
+```
+[tool.refurb]
+ignore = [100]
+load = ["some_dir"]
+```
+
+And all you need to run is `refurb file.py`!
+
+> Note that `ignore` and `load` are the only supported options in the config file, since
+> all other command line options are one-offs, and don't make sense to be in the config file.
 
 ## Writing Your Own Check
 
