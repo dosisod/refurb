@@ -1,7 +1,8 @@
 from pathlib import Path
 
+from refurb.error import ErrorCode
 from refurb.main import run_refurb
-from refurb.settings import Settings
+from refurb.settings import Settings, parse_command_line_args
 
 TEST_DATA_PATH = Path("test/data")
 
@@ -35,9 +36,29 @@ def test_mypy_error_is_bubbled_up() -> None:
 def test_ignore_check_is_respected() -> None:
     test_file = str(TEST_DATA_PATH / "err_100.py")
 
-    errors = run_refurb(Settings(files=[test_file], ignore=set((100, 123))))
+    errors = run_refurb(
+        Settings(
+            files=[test_file], ignore=set((ErrorCode(100), ErrorCode(123)))
+        )
+    )
 
     assert len(errors) == 0
+
+
+def test_ignore_custom_check_is_respected() -> None:
+    args = [
+        "test/e2e/custom_check.py",
+        "--load",
+        "test.custom_checks.disallow_call",
+    ]
+
+    ignore_args = args + ["--ignore", "XYZ999"]
+
+    errors_normal = run_refurb(parse_command_line_args(args))
+    errors_while_ignoring = run_refurb(parse_command_line_args(ignore_args))
+
+    assert errors_normal
+    assert not errors_while_ignoring
 
 
 def test_system_exit_is_caught() -> None:

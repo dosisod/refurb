@@ -1,22 +1,15 @@
-import importlib
-import pkgutil
 from textwrap import dedent
 
-from . import checks
+from refurb.loader import get_error_class, get_modules
+
+from .error import ErrorCode
 
 
-def explain(id: int) -> str:
-    for info in pkgutil.walk_packages(checks.__path__, "refurb.checks."):
-        if info.ispkg:
-            continue
+def explain(lookup: ErrorCode, paths: list[str] = []) -> str:
+    for module in get_modules(paths):
+        error = get_error_class(module)
 
-        module = importlib.import_module(info.name)
+        if error and ErrorCode.from_error(error) == lookup:
+            return dedent(error.__doc__ or "").strip()
 
-        for name in dir(module):
-            if name.startswith("Error") and name != "Error":
-                err = getattr(module, name)
-
-                if err.code == id:
-                    return dedent(err.__doc__).strip()
-
-    return f"Error: Id {id} not found"
+    return f'refurb: Error code "{lookup}" not found'

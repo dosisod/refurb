@@ -1,25 +1,26 @@
 import pytest
 
+from refurb.error import ErrorCode
 from refurb.settings import Settings, merge_settings
 from refurb.settings import parse_command_line_args as parse_args
-from refurb.settings import parse_config_file
+from refurb.settings import parse_config_file, parse_error_id
 
 
 def test_parse_explain():
-    assert parse_args(["--explain", "123"]) == Settings(explain=123)
+    assert parse_args(["--explain", "123"]) == Settings(explain=ErrorCode(123))
 
 
-@pytest.mark.parametrize("args", (["--explain"], ["--explain", "123", "456"]))
-def test_parse_explain_missing_option(args: list[str]) -> None:
-    with pytest.raises(ValueError, match="usage: refurb --explain ID"):
-        parse_args(args)
+def test_parse_explain_missing_option() -> None:
+    msg = 'refurb: missing argument after "--explain"'
 
-    with pytest.raises(ValueError, match="usage: refurb --explain ID"):
-        parse_args(args)
+    with pytest.raises(ValueError, match=msg):
+        parse_args(["--explain"])
 
 
 def test_parse_explain_furb_prefix() -> None:
-    assert parse_args(["--explain", "FURB123"]) == Settings(explain=123)
+    assert parse_args(["--explain", "FURB123"]) == Settings(
+        explain=ErrorCode(123)
+    )
 
 
 def test_require_numbers_as_explain_id() -> None:
@@ -45,7 +46,7 @@ def test_no_args_is_check() -> None:
 
 def test_parse_ignore() -> None:
     got = parse_args(["--ignore", "FURB123", "--ignore", "321"])
-    expected = Settings(files=[], ignore=set((123, 321)))
+    expected = Settings(ignore=set((ErrorCode(123), ErrorCode(321))))
 
     assert got == expected
 
@@ -69,7 +70,7 @@ def test_generate_subcommand() -> None:
 
 def test_load_flag() -> None:
     assert parse_args(["--load", "some_module"]) == Settings(
-        files=[], load=["some_module"]
+        load=["some_module"]
     )
 
 
@@ -89,7 +90,9 @@ ignore = [100, "FURB101"]
 
     config = parse_config_file(contents)
 
-    assert config == Settings(load=["some", "folders"], ignore=set((100, 101)))
+    assert config == Settings(
+        load=["some", "folders"], ignore=set((ErrorCode(100), ErrorCode(101)))
+    )
 
 
 def test_merge_command_line_args_and_config_file() -> None:
@@ -107,7 +110,7 @@ ignore = [100, "FURB101"]
     assert config == Settings(
         files=["some_file.py"],
         load=["some", "folders"],
-        ignore=set((100, 101)),
+        ignore=set((ErrorCode(100), ErrorCode(101))),
     )
 
 
@@ -123,4 +126,26 @@ ignore = [100, "FURB101"]
 
     config = merge_settings(command_line_args, config_file)
 
-    assert config == Settings(files=[], load=["x"], ignore=set((123,)))
+    assert config == Settings(load=["x"], ignore=set((ErrorCode(123),)))
+
+
+def test_parse_error_codes() -> None:
+    tests = {
+        "FURB123": ErrorCode(123),
+        "123": ErrorCode(123),
+        "ABC100": ErrorCode(prefix="ABC", id=100),
+        "ABCDE100": ValueError,
+        "ABC1234": ValueError,
+        "AB123": ValueError,
+        "invalid": ValueError,
+        "12": ValueError,
+        "-123": ValueError,
+    }
+
+    for input, output in tests.items():
+        if output == ValueError:
+            with pytest.raises(ValueError):
+                parse_error_id(input)
+
+        else:
+            assert parse_error_id(input) == output

@@ -32,9 +32,9 @@ class Error{error_name}(Error):
     ```
     """
 
+    prefix = "XYZ"
     code = 999
     msg: str = "Your message here"
-    prefix: str = "XYZ"
 
 
 def check(node: {node_type}, errors: list[Error]) -> None:

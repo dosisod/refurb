@@ -84,7 +84,7 @@ def main(args: list[str]) -> int:
         return 0
 
     if settings.explain:
-        print(explain(settings.explain))
+        print(explain(settings.explain, settings.load or []))
         return 0
 
     errors = run_refurb(settings)

@@ -33,7 +33,7 @@ def test_errors_are_sorted():
 
     @dataclass
     class CustomError100(Error):
-        prefix: str = "ABC"
+        prefix = "ABC"
         code = 100
 
     errors: list[Error | str] = [

@@ -1,3 +1,4 @@
+import re
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -7,23 +8,29 @@ except ImportError:
     import tomli as tomllib  # type: ignore
 
 
+from .error import ErrorCode
+
+
 @dataclass
 class Settings:
     files: list[str] | None = None
-    explain: int | None = None
-    ignore: set[int] | None = None
+    explain: ErrorCode | None = None
+    ignore: set[ErrorCode] | None = None
     load: list[str] | None = None
     debug: bool = False
     generate: bool = False
 
 
-def parse_error_id(err: str) -> int:
-    id = err.replace("FURB", "")
+ERROR_ID_REGEX = re.compile("^([A-Z]{3,4})?(\\d{3})$")
 
-    if id.isdigit():
-        return int(id)
 
-    raise ValueError(f'refurb: "{id}" must be in form FURB123 or 123')
+def parse_error_id(err: str) -> ErrorCode:
+    if match := ERROR_ID_REGEX.match(err):
+        groups = match.groups()
+
+        return ErrorCode(prefix=groups[0] or "FURB", id=int(groups[1]))
+
+    raise ValueError(f'refurb: "{err}" must be in form FURB123 or 123')
 
 
 def parse_config_file(contents: str) -> Settings:
@@ -47,21 +54,24 @@ def parse_command_line_args(args: list[str]) -> Settings:
     if args[0] == "gen":
         return Settings(generate=True)
 
-    if args[0] == "--explain":
-        if len(args) != 2:
-            raise ValueError("usage: refurb --explain ID")
-
-        return Settings(explain=parse_error_id(args[1]))
-
     iargs = iter(args)
     files: list[str] = []
-    ignore: set[int] = set()
+    ignore: set[ErrorCode] = set()
     load: list[str] = []
+    explain: ErrorCode | None = None
     debug = False
 
     for arg in iargs:
         if arg == "--debug":
             debug = True
+
+        elif arg == "--explain":
+            value = next(iargs, None)
+
+            if value is None:
+                raise ValueError(f'refurb: missing argument after "{arg}"')
+
+            explain = parse_error_id(value)
 
         elif arg == "--ignore":
             value = next(iargs, None)
@@ -86,7 +96,11 @@ def parse_command_line_args(args: list[str]) -> Settings:
             files.append(arg)
 
     return Settings(
-        files=files, ignore=ignore or None, load=load or None, debug=debug
+        files=files or None,
+        ignore=ignore or None,
+        load=load or None,
+        debug=debug,
+        explain=explain,
     )
 
 
