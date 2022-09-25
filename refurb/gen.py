@@ -9,13 +9,13 @@ from ._visitor_mappings import MAPPINGS
 FILE_TEMPLATE = '''\
 from dataclasses import dataclass
 
-from mypy.nodes import {node_type}
+from {module} import {node}
 
 from refurb.error import Error
 
 
 @dataclass
-class Error{error_name}(Error):
+class Error{error}(Error):
     """
     TODO: fill this in
 
@@ -37,10 +37,10 @@ class Error{error_name}(Error):
     msg: str = "Your message here"
 
 
-def check(node: {node_type}, errors: list[Error]) -> None:
+def check(node: {node}, errors: list[Error]) -> None:
     match node:
-        case {node_type}():
-            errors.append(Error{error_name}(node.line, node.column))
+        case {node}():
+            errors.append(Error{error}(node.line, node.column))
 '''
 
 
@@ -78,12 +78,14 @@ def folders_needing_init_file(path: Path) -> list[Path]:
 
 
 def main() -> None:
-    node_type = fzf([x.__name__ for x in MAPPINGS.values()])
+    nodes: dict[str, type] = {x.__name__: x for x in MAPPINGS.values()}
+
+    selected = fzf(list(nodes.keys()))
 
     file = Path(
         fzf(
             None, args=["--print-query", "--query", "refurb/checks/"]
-        ).splitlines()[-1]
+        ).splitlines()[0]
     )
 
     if file.suffix != ".py":
@@ -92,7 +94,11 @@ def main() -> None:
 
     error_name = "".join(x.capitalize() for x in file.stem.split("_"))
 
-    template = FILE_TEMPLATE.format(node_type=node_type, error_name=error_name)
+    template = FILE_TEMPLATE.format(
+        node=selected,
+        error=error_name,
+        module=nodes[selected].__module__,
+    )
 
     with suppress(FileExistsError):
         file.parent.mkdir(parents=True, exist_ok=True)
