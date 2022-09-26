@@ -1,16 +1,40 @@
+import re
+from functools import cache
 from io import StringIO
+from pathlib import Path
 from typing import Sequence
 
 from mypy.build import build
 from mypy.errors import CompileError
 from mypy.main import process_options
 
-from .error import Error
+from .error import Error, ErrorCode
 from .explain import explain
 from .gen import main as generate
 from .loader import load_checks
 from .settings import Settings, load_settings
 from .visitor import RefurbVisitor
+
+
+@cache
+def get_source_lines(filepath: str) -> list[str]:
+    return Path(filepath).read_text().splitlines()
+
+
+def ignored_via_comment(error: Error | str) -> bool:
+    if isinstance(error, str) or not error.filename:
+        return False
+
+    line = get_source_lines(error.filename)[error.line - 1]
+
+    if comment := re.search("# noqa(: [A-Z]{3,4}\\d{3})?$", line):
+        ignore = comment.group(1)
+        error_code = str(ErrorCode.from_error(type(error)))
+
+        if not ignore or ignore[2:] == error_code:
+            return True
+
+    return False
 
 
 def run_refurb(settings: Settings) -> Sequence[Error | str]:
@@ -52,7 +76,10 @@ def run_refurb(settings: Settings) -> Sequence[Error | str]:
 
             errors += visitor.errors
 
-    return sorted(errors, key=sort_errors)
+    return sorted(
+        [error for error in errors if not ignored_via_comment(error)],
+        key=sort_errors,
+    )
 
 
 def sort_errors(
