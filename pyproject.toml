@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "refurb"
-version = "0.2.2"
+version = "0.2.3"
 description = "A tool for refurbish and modernize Python codebases"
 authors = ["dosisod"]
 license = "GPL-3.0-only"
@@ -51,9 +51,6 @@ warn_unused_configs = true
 warn_unused_ignores = true
 
 [tool.coverage.run]
-# TODO: enable this
-# branch = true
-
 omit = [
   "refurb/__main__.py",
   "refurb/gen.py"
