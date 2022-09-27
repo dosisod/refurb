@@ -3,6 +3,7 @@ import pkgutil
 import sys
 from collections import defaultdict
 from collections.abc import Generator
+from importlib.metadata import entry_points
 from inspect import signature
 from pathlib import Path
 from types import ModuleType, UnionType
@@ -19,9 +20,11 @@ Check = Callable[[Node, list[Error]], None]
 def get_modules(paths: list[str]) -> Generator[ModuleType, None, None]:
     sys.path.append(str(Path.cwd()))
 
-    extra = (__import__(x) for x in paths)
+    plugins = [x.value for x in entry_points(group="refurb.plugins")]
 
-    for pkg in (checks_module, *extra):
+    extra_modules = (__import__(x) for x in paths + plugins)
+
+    for pkg in (checks_module, *extra_modules):
         for info in pkgutil.walk_packages(pkg.__path__, f"{pkg.__name__}."):
             if info.ispkg:
                 continue
