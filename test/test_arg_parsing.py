@@ -129,6 +129,26 @@ ignore = [100, "FURB101"]
     assert config == Settings(load=["x"], ignore=set((ErrorCode(123),)))
 
 
+def test_config_missing_ignore_option_is_allowed() -> None:
+    contents = """\
+[tool.refurb]
+load = ["x"]
+"""
+
+    assert parse_config_file(contents) == Settings(load=["x"])
+
+
+def test_config_missing_load_option_is_allowed() -> None:
+    contents = """\
+[tool.refurb]
+ignore = [123]
+"""
+
+    assert parse_config_file(contents) == Settings(
+        ignore=set((ErrorCode(123),))
+    )
+
+
 def test_parse_error_codes() -> None:
     tests = {
         "FURB123": ErrorCode(123),

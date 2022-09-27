@@ -39,10 +39,10 @@ def parse_config_file(contents: str) -> Settings:
     if tool := config.get("tool"):
         if settings := tool.get("refurb"):
             ignore = set(
-                parse_error_id(str(x)) for x in settings.get("ignore")
+                parse_error_id(str(x)) for x in settings.get("ignore", [])
             )
 
-            return Settings(ignore=ignore, load=settings.get("load"))
+            return Settings(ignore=ignore or None, load=settings.get("load"))
 
     return Settings()
 
