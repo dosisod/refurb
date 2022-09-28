@@ -40,7 +40,13 @@ class ErrorUsePathlibReadText(Error):
 def check(node: WithStmt, errors: list[Error]) -> None:
     match node:
         case WithStmt(
-            expr=[CallExpr(callee=NameExpr(name="open"), args=args)],
+            expr=[
+                CallExpr(
+                    callee=NameExpr(name="open"),
+                    args=args,
+                    arg_names=arg_names,
+                )
+            ],
             target=[NameExpr(name=with_name)],
             body=Block(
                 body=[
@@ -48,24 +54,36 @@ def check(node: WithStmt, errors: list[Error]) -> None:
                         rvalue=CallExpr(
                             callee=MemberExpr(
                                 expr=NameExpr(name=read_name), name="read"
-                            )
+                            ),
+                            args=[],
                         )
                     )
                 ]
             ),
         ) if with_name == read_name:
-            is_binary = False
+            func = "read_text"
+            read_text_params = ""
+            with_params = ""
 
-            match args:
-                case [_, StrExpr(value=mode)] if "b" in mode:
-                    is_binary = True
+            for i, name in enumerate(arg_names[1:], start=1):
+                if name in (None, "mode"):
+                    with_params = ", ..."
 
-            func = "read_bytes" if is_binary else "read_text"
+                    match args[i]:
+                        case StrExpr(value=mode) if "b" in mode:
+                            func = "read_bytes"
+
+                elif name in ("encoding", "errors"):
+                    read_text_params = "..."
+                    with_params = ", ..."
+
+                else:
+                    return
 
             errors.append(
                 ErrorUsePathlibReadText(
                     node.line,
                     node.column,
-                    f"Use `y = Path(x).{func}()` instead of `with open(x, ...) as f: y = f.read()`",  # noqa: E501
+                    f"Use `y = Path(x).{func}({read_text_params})` instead of `with open(x{with_params}) as f: y = f.read()`",  # noqa: E501
                 )
             )
