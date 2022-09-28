@@ -74,8 +74,6 @@ def test_debug_flag():
 
     output = run_refurb(settings)
 
-    print(output)
-
     assert output == [
         """\
 MypyFile:1(
@@ -90,3 +88,20 @@ def test_generate_subcommand():
         main(["gen"])
 
         p.assert_called_once()
+
+
+def test_help_flag_calls_print():
+    for args in (["--help"], ["-h"], []):
+        with patch("builtins.print") as p:
+            main(args)  # type: ignore
+
+            p.assert_called_once()
+            assert "usage" in p.call_args[0][0]
+
+
+def test_version_flag_calls_version_func():
+    for args in (["--version"], ["-v"]):
+        with patch("refurb.main.version") as p:
+            main(args)
+
+            p.assert_called_once()
