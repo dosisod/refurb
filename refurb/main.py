@@ -1,5 +1,6 @@
 import re
 from functools import cache
+from importlib import metadata
 from io import StringIO
 from pathlib import Path
 from typing import Sequence
@@ -21,12 +22,14 @@ def usage() -> None:
         """\
 usage: refurb [--ignore err] [--load path] [--debug] src [srcs...]
        refurb [--help | -h]
+       refurb [--version | -v]
        refurb --explain err
        refurb gen
 
 Command Line Options:
 
 -h, --help       This help menu.
+--version, -v    Print version information.
 --ignore err     Ignore an error. Can be repeated.
 --load module    Add a module to the list of paths to be searched when looking
                  for checks. Can be repeated.
@@ -40,6 +43,13 @@ gen              Generate boilerplate code for a new check, meant for
                  developers.
 """
     )
+
+
+def version() -> str:  # pragma: no cover
+    refurb_version = metadata.version("refurb")
+    mypy_version = metadata.version("mypy")
+
+    return f"Refurb: v{refurb_version}\nMypy: v{mypy_version}"
 
 
 @cache
@@ -136,6 +146,11 @@ def main(args: list[str]) -> int:
 
         return 0
 
+    if settings.version:
+        print(version())
+
+        return 0
+
     if settings.generate:
         generate()
 
@@ -143,6 +158,7 @@ def main(args: list[str]) -> int:
 
     if settings.explain:
         print(explain(settings.explain, settings.load or []))
+
         return 0
 
     errors = run_refurb(settings)
