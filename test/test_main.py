@@ -105,3 +105,26 @@ def test_version_flag_calls_version_func():
             main(args)
 
             p.assert_called_once()
+
+
+def test_explain_flag_mentioned_if_error_exists():
+    with patch("builtins.print") as p:
+        main(["test/data/err_100.py"])
+
+        p.assert_called_once()
+        assert "Run `refurb --explain ERR`" in p.call_args[0][0]
+
+
+def test_explain_flag_not_mentioned_when_quiet_flag_is_enabled():
+    with patch("builtins.print") as p:
+        main(["test/data/err_100.py", "--quiet"])
+
+        p.assert_called_once()
+        assert "Run `refurb --explain ERR`" not in p.call_args[0][0]
+
+
+def test_no_blank_line_printed_if_there_are_no_errors():
+    with patch("builtins.print") as p:
+        main(["test/e2e/dummy.py"])
+
+        assert p.call_count == 0

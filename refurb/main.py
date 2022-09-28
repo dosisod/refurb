@@ -20,7 +20,7 @@ from .visitor import RefurbVisitor
 def usage() -> None:
     print(
         """\
-usage: refurb [--ignore err] [--load path] [--debug] src [srcs...]
+usage: refurb [--ignore err] [--load path] [--debug] [--quiet] src [srcs...]
        refurb [--help | -h]
        refurb [--version | -v]
        refurb --explain err
@@ -34,6 +34,7 @@ Command Line Options:
 --load module    Add a module to the list of paths to be searched when looking
                  for checks. Can be repeated.
 --debug          Print the AST representation of all files that where checked.
+--quiet          Suppress default "--explain" suggestion when an error occurs.
 src              A file or folder.
 
 
@@ -133,6 +134,15 @@ def sort_errors(
     )
 
 
+def format_errors(errors: Sequence[Error | str], quiet: bool) -> str:
+    done = "\n".join((str(error) for error in errors))
+
+    if not quiet and any(isinstance(error, Error) for error in errors):
+        done += "\n\nRun `refurb --explain ERR` to further explain an error. Use `--quiet` to silence this message"  # noqa: E501
+
+    return done
+
+
 def main(args: list[str]) -> int:
     try:
         settings = load_settings(args)
@@ -163,7 +173,7 @@ def main(args: list[str]) -> int:
 
     errors = run_refurb(settings)
 
-    for error in errors:
-        print(error)
+    if formatted_errors := format_errors(errors, settings.quiet):
+        print(formatted_errors)
 
     return 1 if errors else 0

@@ -70,6 +70,12 @@ def test_debug_parsing() -> None:
     )
 
 
+def test_quiet_flag_parsing() -> None:
+    assert parse_args(["--quiet", "file"]) == Settings(
+        files=["file"], quiet=True
+    )
+
+
 def test_generate_subcommand() -> None:
     assert parse_args(["gen"]) == Settings(generate=True)
 

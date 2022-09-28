@@ -39,7 +39,7 @@ Before installing, it is recommended that you setup a [virtual environment](http
 
 ```
 $ pip3 install refurb
-$ refurb file.py
+$ refurb file.py folder/
 ```
 
 > Note: Refurb only supports Python 3.10. It can check Python 3.6 code and up, but Refurb
@@ -83,7 +83,7 @@ In addition to the command line arguments, you can also add your settings in the
 For example, the following command line arguments:
 
 ```
-refurb file.py --ignore 100 --load some_module
+refurb file.py --ignore 100 --load some_module --quiet
 ```
 
 Corresponds to the following in your `pyproject.toml` file:
@@ -92,6 +92,7 @@ Corresponds to the following in your `pyproject.toml` file:
 [tool.refurb]
 ignore = [100]
 load = ["some_module"]
+quiet = True
 ```
 
 Now all you need to type is `refurb file.py`! Supplying command line arguments will

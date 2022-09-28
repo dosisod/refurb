@@ -21,6 +21,7 @@ class Settings:
     generate: bool = False
     help: bool = False
     version: bool = False
+    quiet: bool = False
 
 
 ERROR_ID_REGEX = re.compile("^([A-Z]{3,4})?(\\d{3})$")
@@ -44,7 +45,11 @@ def parse_config_file(contents: str) -> Settings:
                 parse_error_id(str(x)) for x in settings.get("ignore", [])
             )
 
-            return Settings(ignore=ignore or None, load=settings.get("load"))
+            return Settings(
+                ignore=ignore or None,
+                load=settings.get("load"),
+                quiet=settings.get("quiet", False),
+            )
 
     return Settings()
 
@@ -65,10 +70,14 @@ def parse_command_line_args(args: list[str]) -> Settings:
     load: list[str] = []
     explain: ErrorCode | None = None
     debug = False
+    quiet = False
 
     for arg in iargs:
         if arg == "--debug":
             debug = True
+
+        elif arg == "--quiet":
+            quiet = True
 
         elif arg == "--explain":
             value = next(iargs, None)
@@ -106,6 +115,7 @@ def parse_command_line_args(args: list[str]) -> Settings:
         load=load or None,
         debug=debug,
         explain=explain,
+        quiet=quiet,
     )
 
 
