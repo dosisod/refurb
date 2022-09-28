@@ -1,13 +1,13 @@
 [tool.poetry]
 name = "refurb"
-version = "0.2.4"
+version = "1.0.0"
 description = "A tool for refurbish and modernize Python codebases"
 authors = ["dosisod"]
 license = "GPL-3.0-only"
 readme = "README.md"
 repository = "https://github.com/dosisod/refurb"
 classifiers = [
-  "Development Status :: 4 - Beta",
+  "Development Status :: 5 - Production/Stable",
   "Environment :: Console",
   "Intended Audience :: Developers",
   "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
