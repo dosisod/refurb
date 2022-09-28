@@ -16,6 +16,32 @@ from .settings import Settings, load_settings
 from .visitor import RefurbVisitor
 
 
+def usage() -> None:
+    print(
+        """\
+usage: refurb [--ignore err] [--load path] [--debug] src [srcs...]
+       refurb [--help | -h]
+       refurb --explain err
+       refurb gen
+
+Command Line Options:
+
+-h, --help       This help menu.
+--ignore err     Ignore an error. Can be repeated.
+--load module    Add a module to the list of paths to be searched when looking
+                 for checks. Can be repeated.
+--debug          Print the AST representation of all files that where checked.
+src              A file or folder.
+
+
+Subcommands:
+
+gen              Generate boilerplate code for a new check, meant for
+                 developers.
+"""
+    )
+
+
 @cache
 def get_source_lines(filepath: str) -> list[str]:
     return Path(filepath).read_text().splitlines()
@@ -104,6 +130,11 @@ def main(args: list[str]) -> int:
     except ValueError as e:
         print(e)
         return 1
+
+    if settings.help:
+        usage()
+
+        return 0
 
     if settings.generate:
         generate()

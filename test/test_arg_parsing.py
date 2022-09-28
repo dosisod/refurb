@@ -39,9 +39,10 @@ def test_check_for_unsupported_flags() -> None:
         parse_args(["-x"])
 
 
-def test_no_args_is_check() -> None:
-    with pytest.raises(ValueError, match="refurb: no arguments passed"):
-        parse_args([])
+def test_help_args() -> None:
+    assert parse_args([]) == Settings(help=True)
+    assert parse_args(["--help"]) == Settings(help=True)
+    assert parse_args(["-h"]) == Settings(help=True)
 
 
 def test_parse_ignore() -> None:

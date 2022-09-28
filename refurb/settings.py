@@ -19,6 +19,7 @@ class Settings:
     load: list[str] | None = None
     debug: bool = False
     generate: bool = False
+    help: bool = False
 
 
 ERROR_ID_REGEX = re.compile("^([A-Z]{3,4})?(\\d{3})$")
@@ -48,8 +49,8 @@ def parse_config_file(contents: str) -> Settings:
 
 
 def parse_command_line_args(args: list[str]) -> Settings:
-    if not args:
-        raise ValueError("refurb: no arguments passed")
+    if not args or args[0] in ("--help", "-h"):
+        return Settings(help=True)
 
     if args[0] == "gen":
         return Settings(generate=True)
