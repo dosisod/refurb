@@ -1,0 +1,6 @@
+-   id: refurb
+    name: refurb
+    description: A tool for refurbishing and modernizing Python codebases.
+    entry: refurb
+    language: python
+    types: [python]
