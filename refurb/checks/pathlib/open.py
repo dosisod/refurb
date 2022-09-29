@@ -9,7 +9,7 @@ from refurb.error import Error
 @dataclass
 class ErrorUsePathlibOpen(Error):
     """
-    When you want to open a Pathlib object, don't stringify the name and pass
+    When you want to open a Path object, don't stringify the name and pass
     it to `open()`, just call `.open()` instead:
 
     Bad:

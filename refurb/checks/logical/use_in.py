@@ -10,7 +10,7 @@ from refurb.error import Error
 class ErrorUseInExpr(Error):
     """
     When comparing a value to multiple possible options, don't use multiple
-    `or` checks, use a single `is` expr:
+    `or` checks, use a single `in` expr:
 
     Bad:
 
@@ -27,7 +27,7 @@ class ErrorUseInExpr(Error):
     ```
 
     Note: This should not be used if the operands depend on boolean short
-    circuting, since the operands will be eagerly evaluated. This is primarily
+    circuiting, since the operands will be eagerly evaluated. This is primarily
     useful for comparing against a range of constant values.
     """
 

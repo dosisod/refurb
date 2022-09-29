@@ -11,7 +11,7 @@ from refurb.error import Error
 class ErrorUseEqualChain(Error):
     """
     When checking that multiple objects are equal to each other, don't use
-    an `and` expression, use a comparison chain instead. For example:
+    an `and` expression. Use a comparison chain instead, for example:
 
     Bad:
 

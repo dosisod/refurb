@@ -17,9 +17,9 @@ from .util import is_pathlike
 @dataclass
 class ErrorUseWithSuffix(Error):
     """
-    A common operation is changing the extention of a file. If you have an
+    A common operation is changing the extension of a file. If you have an
     existing `Path` object, you don't need to convert it to a string, slice
-    it, and append a new extention. Instead, use the `with_suffix()` function:
+    it, and append a new extension. Instead, use the `with_suffix()` function:
 
     Bad:
 
