@@ -8,7 +8,7 @@ from refurb.error import Error
 @dataclass
 class ErrorUseFStringFormat(Error):
     """
-    Certain expressions which are passed to f-strings are redundant, because
+    Certain expressions which are passed to f-strings are redundant because
     the f-string itself is capable of formatting it. For example:
 
     Bad:

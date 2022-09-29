@@ -16,7 +16,7 @@ from refurb.error import Error
 @dataclass
 class ErrorNoWithAssign(Error):
     """
-    Due to Python's scoping rules, you can use a variable which has gone "out
+    Due to Python's scoping rules, you can use a variable that has gone "out
     of scope" so long as all previous code paths can bind to it. Long story
     short, you don't need to declare a variable before you assign it in a
     `with` statement:

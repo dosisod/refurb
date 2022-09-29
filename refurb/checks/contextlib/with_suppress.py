@@ -11,7 +11,7 @@ class ErrorUseWithSuppress(Error):
     """
     Often times you want to handle an exception, and just ignore it. You can do
     this with a `try/except` block, using a single `pass` in the `except`
-    block, but there is a simpler and more consice way using the `suppress()`
+    block, but there is a simpler and more concise way using the `suppress()`
     method from `contextlib`:
 
     Bad:

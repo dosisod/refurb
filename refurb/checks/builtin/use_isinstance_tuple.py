@@ -27,7 +27,7 @@ class ErrorUseIsinstanceTuple(Error):
         pass
     ```
 
-    Note: In python 3.10+ you can also pass type unions as the second param to
+    Note: In Python 3.10+, you can also pass type unions as the second param to
     these functions:
 
     ```

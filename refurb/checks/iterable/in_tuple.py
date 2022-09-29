@@ -8,8 +8,8 @@ from refurb.error import Error
 @dataclass
 class ErrorUseTupleWithInExpr(Error):
     """
-    Since tuple's cannot change value over time, it is more performant to use
-    them in `for` loops, generators, etc:
+    Since tuples cannot change value over time, it is more performant to use
+    them in `for` loops, generators, etc.:
 
     Bad:
 
