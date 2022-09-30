@@ -47,16 +47,20 @@ def check(node: Block | MypyFile, errors: list[Error]) -> None:
 
 
 def check_stmts(body: list[Statement], errors: list[Error]) -> None:
-    assign = None
+    assign: AssignmentStmt | None = None
 
     for stmt in body:
         if assign:
-            match stmt:  # type: ignore
+            match stmt:
                 case WithStmt(
                     body=Block(
                         body=[AssignmentStmt(lvalues=[NameExpr() as name])]
                     )
-                ) if name.fullname == assign.lvalues[0].fullname:
+                ) if (
+                    name.fullname
+                    and name.fullname
+                    == assign.lvalues[0].fullname  # type: ignore
+                ):
                     errors.append(
                         ErrorNoWithAssign(assign.line, assign.column)
                     )

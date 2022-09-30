@@ -47,13 +47,11 @@ def check(node: CallExpr, errors: list[Error]) -> None:
         case CallExpr(
             callee=NameExpr(fullname=fullname, name=name),
             args=[],
-        ) if fullname in FUNC_NAMES.keys():
-            newer = FUNC_NAMES[fullname or ""]
-
+        ) if literal := FUNC_NAMES.get(fullname or ""):
             errors.append(
                 ErrorUseLiteral(
                     node.line,
                     node.column,
-                    f"Use `{newer}` instead of `{name}()`",
+                    f"Use `{literal}` instead of `{name}()`",
                 )
             )

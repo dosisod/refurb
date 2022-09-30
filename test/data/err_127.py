@@ -1,24 +1,27 @@
-class DummyResource:
-    def __enter__(self):
-        pass
-
-    def __exit__(self, type, value, traceback):
-        pass
+from contextlib import nullcontext
 
 # these will match
 
 def func():
     x = ""
 
-    with DummyResource():
+    with nullcontext():
         x = "some value"
 
 
 x = ""
 
-with DummyResource():
+with nullcontext():
     x = "some value"
 
 
 # these will not
 
+from contextlib import nullcontext
+from typing import TYPE_CHECKING
+
+if not TYPE_CHECKING:
+    x = 1
+
+    with nullcontext():
+        y = 2

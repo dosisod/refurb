@@ -58,9 +58,7 @@ def check_stmts(stmts: list[Statement], errors: list[Error]) -> None:
                         lvalues=[NameExpr() as e], rvalue=NameExpr() as f
                     ),
                 ] if (
-                    a.fullname == f.fullname
-                    and b.fullname == c.fullname
-                    and d.fullname == e.fullname
+                    a.name == f.name and b.name == c.name and d.name == e.name
                 ):
                     errors.append(ErrorUseTupleSwap(a.line, a.column))
 

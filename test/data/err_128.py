@@ -54,3 +54,11 @@ tmp = x
 x = y
 pass
 y = tmp
+
+from typing import TYPE_CHECKING
+
+# See https://github.com/dosisod/refurb/issues/23
+if not TYPE_CHECKING:
+    x = tmp
+    x = tmp
+    x = tmp
