@@ -53,10 +53,12 @@ def check(node: TryStmt, errors: list[Error]) -> None:
                     tmp = ", ".join(cast(NameExpr, exc).name for exc in items)
                     inner = f"({tmp})"
 
+            except_inner = f" {inner}" if inner else ""
+
             errors.append(
                 ErrorUseWithSuppress(
                     node.line,
                     node.column,
-                    f"Use `with suppress({inner}): ...` instead of `try: ... except: pass`",  # noqa: E501
+                    f"Use `with suppress({inner}): ...` instead of `try: ... except{except_inner}: pass`",  # noqa: E501
                 )
             )
