@@ -1,8 +1,5 @@
 # these will match
 
-def just_return():
-    return
-
 def stmt_then_return():
     pass
 
@@ -67,6 +64,9 @@ def match_multiple_bodies():
 
 
 # these will not
+
+def just_return():
+    return
 
 def return_value():
     return 1

@@ -77,7 +77,10 @@ def get_trailing_return(node: Statement) -> Generator[Statement, None, None]:
 
 def check(node: FuncItem, errors: list[Error]) -> None:
     match node:
-        case FuncItem(body=Block(body=[*_, stmt])):
+        case FuncItem(body=Block(body=[*prev, stmt])):
+            if not prev and isinstance(stmt, ReturnStmt):
+                return
+
             for return_node in get_trailing_return(stmt):
                 errors.append(
                     ErrorNoTrailingReturn(return_node.line, return_node.column)
