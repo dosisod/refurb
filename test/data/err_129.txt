@@ -1,0 +1,5 @@
+test/data/err_129.py:4:17 [FURB129]: Replace `f.readlines()` with `f`
+test/data/err_129.py:9:37 [FURB129]: Replace `f.readlines()` with `f`
+test/data/err_129.py:13:41 [FURB129]: Replace `f.readlines()` with `f`
+test/data/err_129.py:17:41 [FURB129]: Replace `f.readlines()` with `f`
+test/data/err_129.py:21:13 [FURB129]: Replace `f.readlines()` with `f`
