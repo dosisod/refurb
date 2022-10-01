@@ -77,6 +77,16 @@ This flag can be repeated.
 > The `FURB` prefix indicates that this is a built-in error. The `FURB` prefix is optional,
 > but for all other errors (ie, `ABC123`), the prefix is required.
 
+You can also use inline comments to disable errors:
+
+```
+x = int(0)  # noqa: FURB123
+y = list()  # noqa
+```
+
+Here, `noqa: FURB123` specifically ignores the FURB123 error for that line, and `noqa` ignores
+all errors on that line.
+
 ## Configuring Refurb
 
 In addition to the command line arguments, you can also add your settings in the `pyproject.toml` file.
@@ -88,15 +98,30 @@ refurb file.py --ignore 100 --load some_module --quiet
 
 Corresponds to the following in your `pyproject.toml` file:
 
-```
+```toml
 [tool.refurb]
 ignore = [100]
 load = ["some_module"]
-quiet = True
+quiet = true
 ```
 
 Now all you need to type is `refurb file.py`! Supplying command line arguments will
 override any existing settings in the config file.
+
+## Using Refurb With `pre-commit`
+
+You can use Refurb with [pre-commit](https://pre-commit.com/) by adding the following
+to your `.pre-commit-config.yaml` file:
+
+```yaml
+  - repo: https://github.com/dosisod/refurb
+    rev: REVISION
+    hooks:
+      - id: refurb
+```
+
+Replacing `REVISION` with a version or SHA of your choosing (or leave it blank to
+let `pre-commit` find the most recent one for you).
 
 ## Plugins
 
