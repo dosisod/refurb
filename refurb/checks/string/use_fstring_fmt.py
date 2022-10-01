@@ -56,7 +56,7 @@ def check(node: CallExpr, errors: list[Error]) -> None:
                 case CallExpr(
                     callee=NameExpr(fullname=fullname) as func,
                     args=[_],
-                ) if fullname in CONVERSIONS.keys():
+                ) if fullname in CONVERSIONS:
                     func_name = f"{{{func.name}(x)}}"
                     conversion = f"{{{CONVERSIONS[fullname or '']}}}"
 

@@ -41,7 +41,7 @@ def check(node: IndexExpr, errors: list[Error]) -> None:
         case IndexExpr(
             base=CallExpr(callee=NameExpr() as name_node),
             index=SliceExpr(begin_index=IntExpr(value=2), end_index=None),
-        ) if name_node.fullname in FUNC_CONVERSIONS.keys():
+        ) if name_node.fullname in FUNC_CONVERSIONS:
             format = FUNC_CONVERSIONS[name_node.fullname or ""]
             fstring = f'f"{{num:{format}}}"'
 
