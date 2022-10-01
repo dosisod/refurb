@@ -94,7 +94,7 @@ def run_refurb(settings: Settings) -> Sequence[Error | str]:
         result = build(files, options=opt)
 
     except CompileError as e:
-        return [msg.replace("mypy", "refurb") for msg in e.messages]
+        return [re.sub("^mypy: ", "refurb: ", msg) for msg in e.messages]
 
     errors: list[Error | str] = []
 
