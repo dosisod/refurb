@@ -1,4 +1,4 @@
-test/data/inline_comments.py:10:5 [FURB123]: Use `x` instead of `int(x)`
-test/data/inline_comments.py:11:5 [FURB123]: Use `x` instead of `int(x)`
-test/data/inline_comments.py:12:5 [FURB123]: Use `x` instead of `int(x)`
-test/data/inline_comments.py:13:5 [FURB123]: Use `x` instead of `int(x)`
+test/data/inline_comments.py:10:5 [FURB123]: Replace `int(x)` with `x`
+test/data/inline_comments.py:11:5 [FURB123]: Replace `int(x)` with `x`
+test/data/inline_comments.py:12:5 [FURB123]: Replace `int(x)` with `x`
+test/data/inline_comments.py:13:5 [FURB123]: Replace `int(x)` with `x`

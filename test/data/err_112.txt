@@ -7,4 +7,4 @@ test/data/err_112.py:8:5 [FURB112]: Use `0.0` instead of `float()`
 test/data/err_112.py:9:5 [FURB112]: Use `0j` instead of `complex()`
 test/data/err_112.py:10:5 [FURB112]: Use `False` instead of `bool()`
 test/data/err_112.py:11:6 [FURB112]: Use `b""` instead of `bytes()`
-test/data/err_112.py:24:6 [FURB123]: Use `x` instead of `int(x)`
+test/data/err_112.py:24:6 [FURB123]: Replace `int(x)` with `x`
