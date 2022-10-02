@@ -8,31 +8,49 @@ name = "bob"
 fruits = frozenset(("apple", "orange", "banana"))
 
 
-_ = len(nums) == 0
-_ = len(authors) == 0
-_ = len(primes) == 0
-_ = len(data) == 0
-_ = len(name) == 0
-_ = len(fruits) == 0
+if len(nums) == 0: ...
+if len(authors) == 0: ...
+if len(primes) == 0: ...
+if len(data) == 0: ...
+if len(name) == 0: ...
+if len(fruits) == 0: ...
 
+if len(nums) <= 0: ...
+if len(nums) > 0: ...
+if len(nums) != 0: ...
+if len(nums) >= 1: ...
 
-_ = len(nums) <= 0
-_ = len(nums) > 0
-_ = len(nums) != 0
-_ = len(nums) >= 1
+if len([]) == 0: ...
+if len({}) == 0: ...
+if len(()) == 0: ...
+if len("") == 0: ...
+if len(set(())) == 0: ...
+if len(frozenset(())) == 0: ...
 
-_ = len([]) == 0
-_ = len({}) == 0
-_ = len(()) == 0
-_ = len("") == 0
-_ = len(set(())) == 0
-_ = len(frozenset(())) == 0
+if True and len(nums) == 0: ...
+
+match 1:
+    case 1 if len(nums) == 0:
+        pass
+
+_ = [x for x in () if len(nums) == 0]
+_ = (x for x in () if len(nums) == 0)
+_ = {"k": v for v in () if len(nums) == 0}
+
+_ = 1 if len(nums) == 0 else 2
+
+while len(nums) == 0:
+    pass
+
+assert len(nums) == 0
 
 
 # these should not
 
-_ = len(nums) == 1
-_ = len(nums) != 1
+if len(nums) == 1: ...
+if len(nums) != 1: ...
+
+x = len(nums) == 0
 
 
 # We cannot verify all containers. For example, with this container, the length
@@ -46,4 +64,4 @@ class Container:
 
 container = Container()
 
-_ = len(container) == 0
+if len(container) == 0: ...

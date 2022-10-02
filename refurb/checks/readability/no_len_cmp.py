@@ -1,17 +1,25 @@
 from dataclasses import dataclass
 
 from mypy.nodes import (
+    AssertStmt,
     CallExpr,
     ComparisonExpr,
+    ConditionalExpr,
     DictExpr,
+    DictionaryComprehension,
     Expression,
+    GeneratorExpr,
+    IfStmt,
     IntExpr,
     ListExpr,
+    MatchStmt,
     NameExpr,
     StrExpr,
     TupleExpr,
     Var,
+    WhileStmt,
 )
+from mypy.traverser import TraverserVisitor
 
 from refurb.error import Error
 
@@ -90,7 +98,21 @@ IS_COMPARISON_TRUTHY: dict[tuple[str, int], bool] = {
 }
 
 
-def check(node: ComparisonExpr, errors: list[Error]) -> None:
+class LenComparisonVisitor(TraverserVisitor):
+    errors: list[Error]
+
+    def __init__(self, errors: list[Error]) -> None:
+        super().__init__()
+
+        self.errors = errors
+
+    def visit_comparison_expr(self, o: ComparisonExpr) -> None:
+        super().visit_comparison_expr(o)
+
+        check_comparison(o, self.errors)
+
+
+def check_comparison(node: ComparisonExpr, errors: list[Error]) -> None:
     match node:
         case ComparisonExpr(
             operators=[oper],
@@ -116,3 +138,48 @@ def check(node: ComparisonExpr, errors: list[Error]) -> None:
                     f"Use `{expr}` instead of `len(x) {oper} {num}`",
                 )
             )
+
+
+ConditionLikeNode = (
+    IfStmt
+    | MatchStmt
+    | GeneratorExpr
+    | DictionaryComprehension
+    | ConditionalExpr
+    | WhileStmt
+    | AssertStmt
+)
+
+
+def check(node: ConditionLikeNode, errors: list[Error]) -> None:
+    check_condition_like(LenComparisonVisitor(errors), node)
+
+
+def check_condition_like(
+    visitor: TraverserVisitor,
+    node: ConditionLikeNode,
+) -> None:
+    match node:
+        case IfStmt(expr=exprs):
+            for expr in exprs:
+                expr.accept(visitor)
+
+        case MatchStmt(guards=guards) if guards:
+            for guard in guards:
+                if guard:
+                    guard.accept(visitor)
+
+        case (
+            GeneratorExpr(condlists=conditions)
+            | DictionaryComprehension(condlists=conditions)
+        ):
+            for condition in conditions:
+                for expr in condition:
+                    expr.accept(visitor)
+
+        case (
+            ConditionalExpr(cond=expr)
+            | WhileStmt(expr=expr)
+            | AssertStmt(expr=expr)
+        ):
+            expr.accept(visitor)
