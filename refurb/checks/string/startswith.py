@@ -7,7 +7,7 @@ from refurb.error import Error
 
 
 @dataclass
-class ErrorUseStartswithTuple(Error):
+class ErrorInfo(Error):
     """
     `startswith()` and `endswith()` both takes a tuple, so instead of calling
     `startswith()` multiple times on the same string, you can check them all
@@ -57,7 +57,7 @@ def check(node: OpExpr, errors: list[Error]) -> None:
             and args
         ):
             errors.append(
-                ErrorUseStartswithTuple(
+                ErrorInfo(
                     args[0].line,
                     args[0].column,
                     msg=f"Replace `x.{lhs_func}(y) or x.{lhs_func}(z)` with `x.{lhs_func}((y, z))`",  # noqa: E501

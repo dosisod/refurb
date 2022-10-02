@@ -7,7 +7,7 @@ from refurb.error import Error
 
 
 @dataclass
-class ErrorUseInExpr(Error):
+class ErrorInfo(Error):
     """
     When comparing a value to multiple possible options, don't use multiple
     `or` checks, use a single `in` expr:
@@ -47,4 +47,4 @@ def check(node: OpExpr, errors: list[Error]) -> None:
             ComparisonExpr(operators=["=="], operands=[lhs, _]),
             ComparisonExpr(operators=["=="], operands=[rhs, _]),
         ) if str(lhs) == str(rhs):
-            errors.append(ErrorUseInExpr(lhs.line, lhs.column))
+            errors.append(ErrorInfo(lhs.line, lhs.column))

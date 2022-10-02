@@ -7,7 +7,7 @@ from refurb.error import Error
 
 
 @dataclass
-class ErrorUseWithSuppress(Error):
+class ErrorInfo(Error):
     """
     Often times you want to handle an exception, and just ignore it. You can do
     this with a `try/except` block, using a single `pass` in the `except`
@@ -56,7 +56,7 @@ def check(node: TryStmt, errors: list[Error]) -> None:
             except_inner = f" {inner}" if inner else ""
 
             errors.append(
-                ErrorUseWithSuppress(
+                ErrorInfo(
                     node.line,
                     node.column,
                     f"Use `with suppress({inner}): ...` instead of `try: ... except{except_inner}: pass`",  # noqa: E501

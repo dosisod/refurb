@@ -14,7 +14,7 @@ from refurb.error import Error
 
 
 @dataclass
-class ErrorUseExpandtabs(Error):
+class ErrorInfo(Error):
     """
     Instead of using `replace("\\t", " " * 8)`, you can use the `expandtabs()`
     method. It is more succinct and descriptive. It also allows for an optional
@@ -64,7 +64,7 @@ def check_str(node: CallExpr, errors: list[Error]) -> None:
                 tabsize = ""
 
             errors.append(
-                ErrorUseExpandtabs(
+                ErrorInfo(
                     func.line,
                     (func.end_column or 0) - len("replace"),
                     f'Replace `x.replace("\\t", {expr_value})` with `x.expandtabs({tabsize})`',  # noqa: E501
@@ -98,7 +98,7 @@ def check_bytes(node: CallExpr, errors: list[Error]) -> None:
                 tabsize = ""
 
             errors.append(
-                ErrorUseExpandtabs(
+                ErrorInfo(
                     func.line,
                     (func.end_column or 0) - len("replace"),
                     f'Replace `x.replace(b"\\t", {expr_value})` with `x.expandtabs({tabsize})`',  # noqa: E501

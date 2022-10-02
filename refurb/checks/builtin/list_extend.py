@@ -15,7 +15,7 @@ from refurb.error import Error
 
 
 @dataclass
-class ErrorUseListExtend(Error):
+class ErrorInfo(Error):
     """
     When appending multiple values to a list, you can use the `.extend()`
     method to add an iterable to the end of an existing list. This way, you
@@ -67,7 +67,7 @@ def check_stmts(stmts: list[Statement], errors: list[Error]) -> None:
                 )
             ):
                 if not last.did_error and name == last.name:
-                    errors.append(ErrorUseListExtend(last.line, last.column))
+                    errors.append(ErrorInfo(last.line, last.column))
                     last.did_error = True
 
                 last.name = name

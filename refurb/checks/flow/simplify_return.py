@@ -15,7 +15,7 @@ from refurb.error import Error
 
 
 @dataclass
-class ErrorSimplifyReturn(Error):
+class ErrorInfo(Error):
     """
     Sometimes a return statement can be written more succinctly:
 
@@ -85,7 +85,7 @@ def check(node: FuncItem, errors: list[Error]) -> None:
                 name = "case _" if type(stmt) is MatchStmt else "else"
 
                 errors.append(
-                    ErrorSimplifyReturn(
+                    ErrorInfo(
                         return_node.line,
                         return_node.column,
                         f"Replace `{name}: return x` with `return x`",

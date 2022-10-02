@@ -6,7 +6,7 @@ from refurb.error import Error
 
 
 @dataclass
-class ErrorUseOrExpr(Error):
+class ErrorInfo(Error):
     """
     Sometimes ternary (aka, inline if statements) can be simplified to a single
     or expression.
@@ -32,4 +32,4 @@ class ErrorUseOrExpr(Error):
 
 def check(node: ConditionalExpr, errors: list[Error]) -> None:
     if str(node.if_expr) == str(node.cond):
-        errors.append(ErrorUseOrExpr(node.line, node.column))
+        errors.append(ErrorInfo(node.line, node.column))

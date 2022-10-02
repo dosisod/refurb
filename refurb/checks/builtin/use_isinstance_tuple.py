@@ -7,7 +7,7 @@ from refurb.error import Error
 
 
 @dataclass
-class ErrorUseIsinstanceTuple(Error):
+class ErrorInfo(Error):
     """
     `isinstance()` and `issubclass()` both take tuple arguments, so instead of
     calling them multiple times for the same object, you can check all of them
@@ -57,7 +57,7 @@ def check(node: OpExpr, errors: list[Error]) -> None:
             and str(lhs_args[0]) == str(rhs_args[0])
         ):
             errors.append(
-                ErrorUseIsinstanceTuple(
+                ErrorInfo(
                     lhs_args[1].line,
                     lhs_args[1].column,
                     msg=f"Replace `{lhs.name}(x, y) or {lhs.name}(x, z)` with `{lhs.name}(x, (y, z))`",  # noqa: E501

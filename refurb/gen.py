@@ -15,7 +15,7 @@ from refurb.error import Error
 
 
 @dataclass
-class Error{error}(Error):
+class ErrorInfo(Error):
     """
     TODO: fill this in
 
@@ -40,7 +40,7 @@ class Error{error}(Error):
 def check(node: {node}, errors: list[Error]) -> None:
     match node:
         case {node}():
-            errors.append(Error{error}(node.line, node.column))
+            errors.append(ErrorInfo(node.line, node.column))
 '''
 
 
@@ -92,12 +92,8 @@ def main() -> None:
         print('refurb: File must end in ".py"')
         sys.exit(1)
 
-    error_name = "".join(x.capitalize() for x in file.stem.split("_"))
-
     template = FILE_TEMPLATE.format(
-        node=selected,
-        error=error_name,
-        module=nodes[selected].__module__,
+        node=selected, module=nodes[selected].__module__
     )
 
     with suppress(FileExistsError):

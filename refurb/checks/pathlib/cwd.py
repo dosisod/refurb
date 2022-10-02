@@ -6,7 +6,7 @@ from refurb.error import Error
 
 
 @dataclass
-class ErrorUsePathCwd(Error):
+class ErrorInfo(Error):
     """
     A modern alternative to `os.getcwd()` is the `Path.cwd()` function:
 
@@ -32,4 +32,4 @@ def check(node: CallExpr, errors: list[Error]) -> None:
         case CallExpr(callee=NameExpr(fullname=name)) | CallExpr(
             callee=MemberExpr(fullname=name)
         ) if name in ("os.getcwd", "os.getcwdb"):
-            errors.append(ErrorUsePathCwd(node.line, node.column))
+            errors.append(ErrorInfo(node.line, node.column))

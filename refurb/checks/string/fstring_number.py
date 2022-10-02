@@ -6,7 +6,7 @@ from refurb.error import Error
 
 
 @dataclass
-class ErrorUseFStringNumber(Error):
+class ErrorInfo(Error):
     """
     The `bin()`, `oct()`, and `hex()` functions return the string
     representation of a number but with a prefix attached. If you don't want
@@ -46,7 +46,7 @@ def check(node: IndexExpr, errors: list[Error]) -> None:
             fstring = f'f"{{num:{format}}}"'
 
             errors.append(
-                ErrorUseFStringNumber(
+                ErrorInfo(
                     node.line,
                     node.column,
                     f"Use `{fstring}` instead of `{name_node.name}(num)[2:]`",

@@ -14,7 +14,7 @@ from refurb.error import Error
 
 
 @dataclass
-class ErrorUseImplicitReadlines(Error):
+class ErrorInfo(Error):
     """
     When iterating over a file object line-by-line you don't need to add
     `.readlines()`, simply iterate over the object itself. This assumes you
@@ -57,9 +57,9 @@ def get_readline_file_object(expr: Expression) -> NameExpr | None:
 def check(node: ForStmt | GeneratorExpr, errors: list[Error]) -> None:
     if isinstance(node, ForStmt):
         if f := get_readline_file_object(node.expr):
-            errors.append(ErrorUseImplicitReadlines(f.line, f.column))
+            errors.append(ErrorInfo(f.line, f.column))
 
     else:
         for expr in node.sequences:
             if f := get_readline_file_object(expr):
-                errors.append(ErrorUseImplicitReadlines(f.line, f.column))
+                errors.append(ErrorInfo(f.line, f.column))

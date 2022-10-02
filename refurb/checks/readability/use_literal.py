@@ -6,7 +6,7 @@ from refurb.error import Error
 
 
 @dataclass
-class ErrorUseLiteral(Error):
+class ErrorInfo(Error):
     """
     Using `list` and `dict` without any arguments is slower, and not Pythonic.
     Use `[]` and `{}` instead:
@@ -49,7 +49,7 @@ def check(node: CallExpr, errors: list[Error]) -> None:
             args=[],
         ) if literal := FUNC_NAMES.get(fullname or ""):
             errors.append(
-                ErrorUseLiteral(
+                ErrorInfo(
                     node.line,
                     node.column,
                     f"Use `{literal}` instead of `{name}()`",

@@ -14,7 +14,7 @@ from refurb.error import Error
 
 
 @dataclass
-class ErrorUsePathlibWriteText(Error):
+class ErrorInfo(Error):
     """
     When you just want to save some contents to a file, using a `with` block is
     a bit overkill. Instead you can use pathlib's `write_text()` function:
@@ -60,7 +60,7 @@ def check(node: WithStmt, errors: list[Error]) -> None:
             func = "write_bytes" if ("b" in mode) else "write_text"
 
             errors.append(
-                ErrorUsePathlibWriteText(
+                ErrorInfo(
                     node.line,
                     node.column,
                     f"Use `y = Path(x).{func}(y)` instead of `with open(x, ...) as f: f.write(y)`",  # noqa: E501

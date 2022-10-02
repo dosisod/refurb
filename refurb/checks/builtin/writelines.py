@@ -15,7 +15,7 @@ from refurb.error import Error
 
 
 @dataclass
-class ErrorUseWritelines(Error):
+class ErrorInfo(Error):
     """
     When you want to write a list of lines to a file, don't call `.write()`
     for every line, use `.writelines()` instead:
@@ -75,4 +75,4 @@ def check(node: WithStmt, errors: list[Error]) -> None:
                 ]
             ),
         ) if str(ty).startswith("io.") and resource.fullname == file.fullname:
-            errors.append(ErrorUseWritelines(for_stmt.line, for_stmt.column))
+            errors.append(ErrorInfo(for_stmt.line, for_stmt.column))
