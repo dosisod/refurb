@@ -7,7 +7,7 @@ from refurb.error import Error
 
 
 @dataclass
-class ErrorUseTupleSwap(Error):
+class ErrorInfo(Error):
     """
     You don't need to use a temporary variable to swap 2 variables, you can use
     tuple unpacking instead:
@@ -60,7 +60,7 @@ def check_stmts(stmts: list[Statement], errors: list[Error]) -> None:
                 ] if (
                     a.name == f.name and b.name == c.name and d.name == e.name
                 ):
-                    errors.append(ErrorUseTupleSwap(a.line, a.column))
+                    errors.append(ErrorInfo(a.line, a.column))
 
                     assignments = []
 

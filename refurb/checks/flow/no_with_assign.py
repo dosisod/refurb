@@ -14,7 +14,7 @@ from refurb.error import Error
 
 
 @dataclass
-class ErrorNoWithAssign(Error):
+class ErrorInfo(Error):
     """
     Due to Python's scoping rules, you can use a variable that has gone "out
     of scope" so long as all previous code paths can bind to it. Long story
@@ -61,9 +61,7 @@ def check_stmts(body: list[Statement], errors: list[Error]) -> None:
                     and name.fullname
                     == assign.lvalues[0].fullname  # type: ignore
                 ):
-                    errors.append(
-                        ErrorNoWithAssign(assign.line, assign.column)
-                    )
+                    errors.append(ErrorInfo(assign.line, assign.column))
 
             assign = None
 

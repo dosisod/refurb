@@ -7,7 +7,7 @@ from refurb.error import Error
 
 
 @dataclass
-class ErrorUsePathlibOpen(Error):
+class ErrorInfo(Error):
     """
     When you want to open a Path object, don't stringify the name and pass
     it to `open()`, just call `.open()` instead:
@@ -54,7 +54,7 @@ def check(node: CallExpr, errors: list[Error]) -> None:
                     args = f", {mode}"
 
             errors.append(
-                ErrorUsePathlibOpen(
+                ErrorInfo(
                     open_node.line,
                     open_node.column,
                     f"Use `x.open({mode})` instead of `open(str(x){args})`",

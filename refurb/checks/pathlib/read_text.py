@@ -14,7 +14,7 @@ from refurb.error import Error
 
 
 @dataclass
-class ErrorUsePathlibReadText(Error):
+class ErrorInfo(Error):
     """
     When you just want to save the contents of a file to a variable, using a
     `with` block is a bit overkill. A simpler alternative is to use pathlib's
@@ -81,7 +81,7 @@ def check(node: WithStmt, errors: list[Error]) -> None:
                     return
 
             errors.append(
-                ErrorUsePathlibReadText(
+                ErrorInfo(
                     node.line,
                     node.column,
                     f"Use `y = Path(x).{func}({read_text_params})` instead of `with open(x{with_params}) as f: y = f.read()`",  # noqa: E501

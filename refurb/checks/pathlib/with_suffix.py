@@ -15,7 +15,7 @@ from .util import is_pathlike
 
 
 @dataclass
-class ErrorUseWithSuffix(Error):
+class ErrorInfo(Error):
     """
     A common operation is changing the extension of a file. If you have an
     existing `Path` object, you don't need to convert it to a string, slice
@@ -51,4 +51,4 @@ def check(node: OpExpr, errors: list[Error]) -> None:
             ),
             right=StrExpr(),
         ) if is_pathlike(arg):
-            errors.append(ErrorUseWithSuffix(arg.line, arg.column))
+            errors.append(ErrorInfo(arg.line, arg.column))

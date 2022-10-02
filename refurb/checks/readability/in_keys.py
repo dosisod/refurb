@@ -6,7 +6,7 @@ from refurb.error import Error
 
 
 @dataclass
-class ErrorUseTupleWithInExpr(Error):
+class ErrorInfo(Error):
     """
     If you only want to check if a key exists in a dictionary, you don't need
     to call `.keys()` first, just use `in` on the dictionary itself:
@@ -48,7 +48,7 @@ def check(node: ComparisonExpr, errors: list[Error]) -> None:
             ],
         ) if str(ty).startswith("builtins.dict"):
             errors.append(
-                ErrorUseTupleWithInExpr(
+                ErrorInfo(
                     expr.line,
                     expr.column,
                     f"Replace `{oper} d.keys()` with `{oper} d`",

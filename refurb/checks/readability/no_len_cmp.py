@@ -25,7 +25,7 @@ from refurb.error import Error
 
 
 @dataclass
-class ErrorNoLenCompare(Error):
+class ErrorInfo(Error):
     """
     Don't check a container's length to determine if it is empty or not, use
     a truthiness check instead:
@@ -132,7 +132,7 @@ def check_comparison(node: ComparisonExpr, errors: list[Error]) -> None:
             expr = "x" if is_truthy else "not x"
 
             errors.append(
-                ErrorNoLenCompare(
+                ErrorInfo(
                     node.line,
                     node.column,
                     f"Use `{expr}` instead of `len(x) {oper} {num}`",

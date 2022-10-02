@@ -14,7 +14,7 @@ from refurb.error import Error
 
 
 @dataclass
-class ErrorUseFuncName(Error):
+class ErrorInfo(Error):
     """
     Don't use a lambda if it is just forwarding its arguments to a
     function verbatim:
@@ -62,4 +62,4 @@ def check(node: LambdaExpr, errors: list[Error]) -> None:
             arguments=lambda_args,
             body=Block(body=[ReturnStmt(expr=CallExpr(args=func_args))]),
         ) if get_lambda_arg_names(lambda_args) == get_func_names(func_args):
-            errors.append(ErrorUseFuncName(node.line, node.column))
+            errors.append(ErrorInfo(node.line, node.column))

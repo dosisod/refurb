@@ -6,7 +6,7 @@ from refurb.error import Error
 
 
 @dataclass
-class ErrorUseTupleWithInExpr(Error):
+class ErrorInfo(Error):
     """
     Since tuples cannot change value over time, it is more performant to use
     them in `for` loops, generators, etc.:
@@ -45,11 +45,9 @@ def check(
             )
             | ForStmt(expr=ListExpr() as expr)
         ):
-            errors.append(ErrorUseTupleWithInExpr(expr.line, expr.column))
+            errors.append(ErrorInfo(expr.line, expr.column))
 
         case GeneratorExpr():
             for expr in node.sequences:  # type: ignore
                 if isinstance(expr, ListExpr):
-                    errors.append(
-                        ErrorUseTupleWithInExpr(expr.line, expr.column)
-                    )
+                    errors.append(ErrorInfo(expr.line, expr.column))

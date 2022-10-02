@@ -6,7 +6,7 @@ from refurb.error import Error
 
 
 @dataclass
-class ErrorUseFStringFormat(Error):
+class ErrorInfo(Error):
     """
     Certain expressions which are passed to f-strings are redundant because
     the f-string itself is capable of formatting it. For example:
@@ -61,7 +61,7 @@ def check(node: CallExpr, errors: list[Error]) -> None:
                     conversion = f"{{{CONVERSIONS[fullname or '']}}}"
 
                     errors.append(
-                        ErrorUseFStringFormat(
+                        ErrorInfo(
                             node.line,
                             node.column,
                             f"Replace `{func_name}` with `{conversion}`",

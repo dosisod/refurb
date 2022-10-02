@@ -23,7 +23,7 @@ from refurb.error import Error
 
 
 @dataclass
-class ErrorUseImplicitDefault(Error):
+class ErrorInfo(Error):
     """
     Don't pass an argument if it is the same as the default value:
 
@@ -149,7 +149,7 @@ def check_func(caller: CallExpr, func: FuncDef, errors: list[Error]) -> None:
             return  # pragma: no cover
 
         if str(value) == str(default):
-            errors.append(ErrorUseImplicitDefault(value.line, value.column))
+            errors.append(ErrorInfo(value.line, value.column))
 
 
 def check_symbol(

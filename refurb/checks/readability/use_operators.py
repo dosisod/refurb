@@ -16,7 +16,7 @@ from refurb.error import Error
 
 
 @dataclass
-class ErrorUseOperators(Error):
+class ErrorInfo(Error):
     """
     Don't write lambdas/functions to wrap builtin operators, use the `operator`
     module instead:
@@ -107,7 +107,7 @@ def check(node: FuncItem, errors: list[Error]) -> None:
         ) if lhs_name == expr_lhs and rhs_name == expr_rhs:
             if func_name := BINARY_OPERATORS.get(op):
                 errors.append(
-                    ErrorUseOperators(
+                    ErrorInfo(
                         node.line,
                         node.column,
                         f"Replace {func_type} with `operator.{func_name}`",
@@ -130,7 +130,7 @@ def check(node: FuncItem, errors: list[Error]) -> None:
         ) if name == expr_name:
             if func_name := UNARY_OPERATORS.get(op):
                 errors.append(
-                    ErrorUseOperators(
+                    ErrorInfo(
                         node.line,
                         node.column,
                         f"Replace {func_type} with `operator.{func_name}`",

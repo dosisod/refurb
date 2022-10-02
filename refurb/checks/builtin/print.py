@@ -6,7 +6,7 @@ from refurb.error import Error
 
 
 @dataclass
-class ErrorSimplifyPrint(Error):
+class ErrorInfo(Error):
     """
     `print("")` can be simplified to just `print()`.
     """
@@ -21,4 +21,4 @@ def check(node: CallExpr, errors: list[Error]) -> None:
             callee=NameExpr(fullname="builtins.print"),
             args=[StrExpr(value="")],
         ):
-            errors.append(ErrorSimplifyPrint(node.line, node.column))
+            errors.append(ErrorInfo(node.line, node.column))

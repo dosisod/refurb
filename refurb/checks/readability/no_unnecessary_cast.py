@@ -19,7 +19,7 @@ from refurb.error import Error
 
 
 @dataclass
-class ErrorNoUnnecessaryCast(Error):
+class ErrorInfo(Error):
     """
     Don't cast a variable or literal if it is already of that type. For
     example:
@@ -86,7 +86,7 @@ def check(node: CallExpr, errors: list[Error]) -> None:
                         return
 
             errors.append(
-                ErrorNoUnnecessaryCast(
+                ErrorInfo(
                     node.line,
                     node.column,
                     f"Use `x` instead of `{name}(x)`",

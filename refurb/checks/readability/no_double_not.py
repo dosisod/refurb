@@ -6,7 +6,7 @@ from refurb.error import Error
 
 
 @dataclass
-class ErrorNoDoubleNot(Error):
+class ErrorInfo(Error):
     """
     Double negatives are confusing, so use `bool(x)` instead of `not not x`.
 
@@ -32,4 +32,4 @@ class ErrorNoDoubleNot(Error):
 def check(node: UnaryExpr, errors: list[Error]) -> None:
     match node:
         case UnaryExpr(op="not", expr=UnaryExpr(op="not")):
-            errors.append(ErrorNoDoubleNot(node.line, node.column))
+            errors.append(ErrorInfo(node.line, node.column))

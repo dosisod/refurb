@@ -8,7 +8,7 @@ from refurb.error import Error
 
 
 @dataclass
-class ErrorUseEqualChain(Error):
+class ErrorInfo(Error):
     """
     When checking that multiple objects are equal to each other, don't use
     an `and` expression. Use a comparison chain instead, for example:
@@ -52,4 +52,4 @@ def check(node: OpExpr, errors: list[Error]) -> None:
             ComparisonExpr(operators=["=="], operands=[a, b]),
             ComparisonExpr(operators=["=="], operands=[c, d]),
         ) if has_common_expr((a, b, c, d)):
-            errors.append(ErrorUseEqualChain(a.line, a.column))
+            errors.append(ErrorInfo(a.line, a.column))

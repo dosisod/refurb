@@ -15,7 +15,7 @@ from refurb.error import Error
 
 
 @dataclass
-class ErrorNoTrailingReturn(Error):
+class ErrorInfo(Error):
     """
     Don't explicitly return if you are already at the end of the control flow
     for the current function:
@@ -82,6 +82,4 @@ def check(node: FuncItem, errors: list[Error]) -> None:
                 return
 
             for return_node in get_trailing_return(stmt):
-                errors.append(
-                    ErrorNoTrailingReturn(return_node.line, return_node.column)
-                )
+                errors.append(ErrorInfo(return_node.line, return_node.column))
