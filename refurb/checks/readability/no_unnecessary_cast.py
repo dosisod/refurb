@@ -21,14 +21,24 @@ from refurb.error import Error
 @dataclass
 class ErrorInfo(Error):
     """
-    Don't cast a variable or literal if it is already of that type. For
-    example:
+    Don't cast a variable or literal if it is already of that type. This
+    usually is the result of not realizing a type is alreay the type you want,
+    or artifacts of some debugging code. One example of where this might be
+    intentional is when using container types like `dict` or `list`, which
+    will create a shadow copy. If that is the case, it might be preferable
+    to use `.copy()` instead, since it makes it more explicit that a copy
+    is taking place.
+
+    Examples:
 
     Bad:
 
     ```
     name = str("bob")
     num = int(123)
+
+    ages = {"bob": 123}
+    copy = dict(ages)
     ```
 
     Good:
@@ -36,6 +46,9 @@ class ErrorInfo(Error):
     ```
     name = "bob"
     num = 123
+
+    ages = {"bob": 123}
+    copy = ages.copy()
     ```
     """
 
@@ -43,15 +56,15 @@ class ErrorInfo(Error):
 
 
 FUNC_NAMES = {
-    "builtins.bool": None,
-    "builtins.bytes": BytesExpr,
-    "builtins.complex": ComplexExpr,
-    "builtins.dict": DictExpr,
-    "builtins.float": FloatExpr,
-    "builtins.int": IntExpr,
-    "builtins.list": ListExpr,
-    "builtins.str": StrExpr,
-    "builtins.tuple": TupleExpr,
+    "builtins.bool": (None, "x"),
+    "builtins.bytes": (BytesExpr, "x"),
+    "builtins.complex": (ComplexExpr, "x"),
+    "builtins.dict": (DictExpr, "x.copy()"),
+    "builtins.float": (FloatExpr, "x"),
+    "builtins.int": (IntExpr, "x"),
+    "builtins.list": (ListExpr, "x.copy()"),
+    "builtins.str": (StrExpr, "x"),
+    "builtins.tuple": (TupleExpr, "x"),
 }
 
 
@@ -68,7 +81,9 @@ def check(node: CallExpr, errors: list[Error]) -> None:
             callee=NameExpr(fullname=fullname, name=name),
             args=[arg],
         ) if fullname in FUNC_NAMES:
-            if type(arg) == FUNC_NAMES[fullname]:
+            node_type, msg = FUNC_NAMES[fullname]
+
+            if type(arg) == node_type:
                 pass
 
             elif is_boolean_literal(arg) and name == "bool":
@@ -89,6 +104,6 @@ def check(node: CallExpr, errors: list[Error]) -> None:
                 ErrorInfo(
                     node.line,
                     node.column,
-                    f"Use `x` instead of `{name}(x)`",
+                    f"Replace `{name}(x)` with `{msg}`",
                 )
             )
