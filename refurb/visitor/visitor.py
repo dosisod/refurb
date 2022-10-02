@@ -1,11 +1,11 @@
 from collections import defaultdict
 from typing import Callable, Type
 
-from mypy.nodes import CallExpr, Node
+from mypy.nodes import CallExpr, Node, OpExpr
 from mypy.traverser import TraverserVisitor
 
-from ._visitor_mappings import MAPPINGS
-from .error import Error
+from .method_mapping import VISITOR_NAME_TO_NODE_TYPE_MAPPING
+from ..error import Error
 
 Check = Callable[[Node, list[Error]], None]
 
@@ -33,7 +33,7 @@ class RefurbVisitor(TraverserVisitor):
 
         types = set(self.checks.keys())
 
-        for name, type in MAPPINGS.items():
+        for name, type in VISITOR_NAME_TO_NODE_TYPE_MAPPING.items():
             if type in types and name not in self._dont_build:
                 func = build_visitor(name, type, self.checks)
 

@@ -4,7 +4,7 @@ from contextlib import suppress
 from pathlib import Path
 from subprocess import PIPE, run
 
-from ._visitor_mappings import MAPPINGS
+from .visitor import VISITOR_NAME_TO_NODE_TYPE_MAPPING
 
 FILE_TEMPLATE = '''\
 from dataclasses import dataclass
@@ -78,7 +78,9 @@ def folders_needing_init_file(path: Path) -> list[Path]:
 
 
 def main() -> None:
-    nodes: dict[str, type] = {x.__name__: x for x in MAPPINGS.values()}
+    nodes: dict[str, type] = {
+        x.__name__: x for x in VISITOR_NAME_TO_NODE_TYPE_MAPPING.values()
+    }
 
     selected = fzf(list(nodes.keys()))
 
