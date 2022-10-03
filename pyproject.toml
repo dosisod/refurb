@@ -34,21 +34,16 @@ include_trailing_comma = true
 color_output = true
 
 [tool.mypy]
-check_untyped_defs = true
+namespace_packages = true
+strict = true
 disallow_any_decorated = true
 disallow_any_explicit = true
-disallow_any_generics = true
 disallow_any_unimported = true
-disallow_incomplete_defs = true
-disallow_subclassing_any = true
-namespace_packages = true
-no_implicit_optional = true
-strict_equality = true
-warn_redundant_casts = true
-warn_return_any = true
 warn_unreachable = true
-warn_unused_configs = true
-warn_unused_ignores = true
+
+[[tool.mypy.overrides]]
+module = "test.*"
+allow_untyped_defs = true
 
 [tool.coverage.run]
 omit = [
