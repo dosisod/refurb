@@ -34,7 +34,12 @@ include_trailing_comma = true
 color_output = true
 
 [tool.mypy]
+namespace_packages = true
 strict = true
+disallow_any_decorated = true
+disallow_any_explicit = true
+disallow_any_unimported = true
+warn_unreachable = true
 
 [[tool.mypy.overrides]]
 module = "test.*"
