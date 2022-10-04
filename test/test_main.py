@@ -1,8 +1,6 @@
 import os
 from dataclasses import dataclass
-from locale import LC_ALL
-from locale import Error as LocaleError
-from locale import setlocale
+from locale import LC_ALL, setlocale
 from unittest.mock import patch
 
 import pytest
@@ -137,7 +135,7 @@ def test_no_blank_line_printed_if_there_are_no_errors():
 
 
 @pytest.mark.skipif(not os.getenv("CI"), reason="Locale installation required")
-def test_utf8_is_used_to_load_files_when_error_occurs():
+def test_utf8_is_used_to_load_files_when_error_occurs():  # type: ignore
     """
     See issue https://github.com/dosisod/refurb/issues/37. This check will
     set the zh_CN.GBK locale, run a particular file, and if all goes well,
