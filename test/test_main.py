@@ -1,3 +1,4 @@
+import os
 from dataclasses import dataclass
 from locale import LC_ALL
 from locale import Error as LocaleError
@@ -139,7 +140,9 @@ def test_utf8_is_used_to_load_files_when_error_occurs():
     """
     See issue https://github.com/dosisod/refurb/issues/37. This check will
     set the zh_CN.GBK locale, run a particular file, and if all goes well,
-    no exception will be thrown.
+    no exception will be thrown. When running locally, this test will not
+    fail if the locale is not installed, but when running on the CI server,
+    it will.
     """
 
     locale = "zh_CN.GBK"
@@ -148,7 +151,13 @@ def test_utf8_is_used_to_load_files_when_error_occurs():
         setlocale(LC_ALL, locale)
 
     except LocaleError:
-        pytest.xfail(f"Locale {locale} not installed")
+        msg = "Locale {locale} not installed"
+
+        if os.getenv("CI"):
+            pytest.fail(msg)
+
+        else:
+            pytest.xfail(msg)
 
     try:
         main(["test/e2e/gbk.py"])
