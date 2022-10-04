@@ -55,7 +55,7 @@ def version() -> str:  # pragma: no cover
 
 @cache
 def get_source_lines(filepath: str) -> list[str]:
-    return Path(filepath).read_text().splitlines()
+    return Path(filepath).read_text("utf8").splitlines()
 
 
 def ignored_via_comment(error: Error | str) -> bool:

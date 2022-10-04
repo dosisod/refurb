@@ -136,6 +136,7 @@ def test_no_blank_line_printed_if_there_are_no_errors():
         assert p.call_count == 0
 
 
+@pytest.mark.skipif(not os.getenv("CI"), reason="Locale installation required")
 def test_utf8_is_used_to_load_files_when_error_occurs():
     """
     See issue https://github.com/dosisod/refurb/issues/37. This check will
@@ -145,19 +146,7 @@ def test_utf8_is_used_to_load_files_when_error_occurs():
     it will.
     """
 
-    locale = "zh_CN.GBK"
-
-    try:
-        setlocale(LC_ALL, locale)
-
-    except LocaleError:
-        msg = f"Locale {locale} not installed"
-
-        if os.getenv("CI"):
-            pytest.fail(msg)
-
-        else:
-            pytest.xfail(msg)
+    setlocale(LC_ALL, "zh_CN.GBK")
 
     try:
         main(["test/e2e/gbk.py"])
