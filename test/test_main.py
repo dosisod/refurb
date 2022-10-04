@@ -139,9 +139,8 @@ def test_utf8_is_used_to_load_files_when_error_occurs():  # type: ignore
     """
     See issue https://github.com/dosisod/refurb/issues/37. This check will
     set the zh_CN.GBK locale, run a particular file, and if all goes well,
-    no exception will be thrown. When running locally, this test will not
-    fail if the locale is not installed, but when running on the CI server,
-    it will.
+    no exception will be thrown. This test is only ran when the CI environment
+    variable is set, which is set by GitHub Actions.
     """
 
     setlocale(LC_ALL, "zh_CN.GBK")
