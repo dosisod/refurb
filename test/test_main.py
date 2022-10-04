@@ -151,7 +151,7 @@ def test_utf8_is_used_to_load_files_when_error_occurs():
         setlocale(LC_ALL, locale)
 
     except LocaleError:
-        msg = "Locale {locale} not installed"
+        msg = f"Locale {locale} not installed"
 
         if os.getenv("CI"):
             pytest.fail(msg)
