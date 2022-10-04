@@ -1,7 +1,7 @@
 from collections import defaultdict
 from typing import Callable, Type
 
-from mypy.nodes import CallExpr, Node, OpExpr
+from mypy.nodes import CallExpr, Node
 from mypy.traverser import TraverserVisitor
 
 from .method_mapping import VISITOR_NAME_TO_NODE_TYPE_MAPPING

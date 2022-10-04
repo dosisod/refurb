@@ -1,5 +1,3 @@
-import sys
-
 import pytest
 import mypy.patterns
 import mypy.nodes
