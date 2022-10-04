@@ -15,8 +15,8 @@ jobs:
 
       - name: Install locales
         run: |
-          locale-gen zh_CN.GBK
-          update-locale
+          sudo locale-gen zh_CN.GBK
+          sudo update-locale
 
       - uses: actions/setup-python@v4
         with:
