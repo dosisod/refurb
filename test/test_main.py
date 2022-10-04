@@ -1,5 +1,9 @@
+import os
 from dataclasses import dataclass
+from locale import LC_ALL, setlocale
 from unittest.mock import patch
+
+import pytest
 
 from refurb.error import Error
 from refurb.main import main, run_refurb, sort_errors
@@ -128,3 +132,25 @@ def test_no_blank_line_printed_if_there_are_no_errors():
         main(["test/e2e/dummy.py"])
 
         assert p.call_count == 0
+
+
+@pytest.mark.skipif(not os.getenv("CI"), reason="Locale installation required")
+def test_utf8_is_used_to_load_files_when_error_occurs():  # type: ignore
+    """
+    See issue https://github.com/dosisod/refurb/issues/37. This check will
+    set the zh_CN.GBK locale, run a particular file, and if all goes well,
+    no exception will be thrown. This test is only ran when the CI environment
+    variable is set, which is set by GitHub Actions.
+    """
+
+    setlocale(LC_ALL, "zh_CN.GBK")
+
+    try:
+        main(["test/e2e/gbk.py"])
+
+    except UnicodeDecodeError:
+        setlocale(LC_ALL, "")
+
+        raise
+
+    setlocale(LC_ALL, "")

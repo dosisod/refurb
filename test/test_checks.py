@@ -8,7 +8,7 @@ TEST_DATA_PATH = Path("test/data")
 
 
 def test_checks() -> None:
-    errors = run_refurb(Settings(files=["test/"]))
+    errors = run_refurb(Settings(files=["test/data"]))
     got = "\n".join([str(error) for error in errors])
 
     files = sorted(TEST_DATA_PATH.glob("*.txt"), key=lambda p: p.name)

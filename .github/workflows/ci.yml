@@ -13,6 +13,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Install locales
+        run: |
+          sudo locale-gen zh_CN.GBK
+          sudo update-locale
+
       - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
