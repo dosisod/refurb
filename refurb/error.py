@@ -19,6 +19,7 @@ class ErrorCode:
 
 @dataclass
 class Error:
+    enabled: ClassVar[bool] = True
     prefix: ClassVar[str] = "FURB"
     code: ClassVar[int]
     line: int

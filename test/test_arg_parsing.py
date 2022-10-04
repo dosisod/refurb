@@ -64,6 +64,20 @@ def test_parse_ignore_check_missing_arg() -> None:
         parse_args(["--ignore"])
 
 
+def test_parse_enable() -> None:
+    got = parse_args(["--enable", "FURB123", "--enable", "321"])
+    expected = Settings(enable=set((ErrorCode(123), ErrorCode(321))))
+
+    assert got == expected
+
+
+def test_parse_enable_check_missing_arg() -> None:
+    with pytest.raises(
+        ValueError, match='refurb: missing argument after "--enable"'
+    ):
+        parse_args(["--enable"])
+
+
 def test_debug_parsing() -> None:
     assert parse_args(["--debug", "file"]) == Settings(
         files=["file"], debug=True
@@ -98,12 +112,15 @@ def test_parse_config_file() -> None:
 [tool.refurb]
 load = ["some", "folders"]
 ignore = [100, "FURB101"]
+enable = ["FURB111", "FURB222"]
 """
 
     config = parse_config_file(contents)
 
     assert config == Settings(
-        load=["some", "folders"], ignore=set((ErrorCode(100), ErrorCode(101)))
+        load=["some", "folders"],
+        ignore=set((ErrorCode(100), ErrorCode(101))),
+        enable=set((ErrorCode(111), ErrorCode(222))),
     )
 
 
@@ -131,14 +148,21 @@ def test_command_line_args_override_config_file() -> None:
 [tool.refurb]
 load = ["some", "folders"]
 ignore = [100, "FURB101"]
+enable = ["FURB111", "FURB222"]
 """
 
-    command_line_args = parse_args(["--load", "x", "--ignore", "123"])
+    command_line_args = parse_args(
+        ["--load", "x", "--ignore", "123", "--enable", "FURB200"]
+    )
     config_file = parse_config_file(contents)
 
     config = merge_settings(command_line_args, config_file)
 
-    assert config == Settings(load=["x"], ignore=set((ErrorCode(123),)))
+    assert config == Settings(
+        load=["x"],
+        ignore=set((ErrorCode(123),)),
+        enable=set((ErrorCode(200),)),
+    )
 
 
 def test_config_missing_ignore_option_is_allowed() -> None:
