@@ -17,6 +17,7 @@ class Settings:
     explain: ErrorCode | None = None
     ignore: set[ErrorCode] | None = None
     load: list[str] | None = None
+    enable: set[ErrorCode] | None = None
     debug: bool = False
     generate: bool = False
     help: bool = False
@@ -45,8 +46,13 @@ def parse_config_file(contents: str) -> Settings:
                 parse_error_id(str(x)) for x in settings.get("ignore", [])
             )
 
+            enable = set(
+                parse_error_id(str(x)) for x in settings.get("enable", [])
+            )
+
             return Settings(
                 ignore=ignore or None,
+                enable=enable or None,
                 load=settings.get("load"),
                 quiet=settings.get("quiet", False),
             )
@@ -67,6 +73,7 @@ def parse_command_line_args(args: list[str]) -> Settings:
     iargs = iter(args)
     files: list[str] = []
     ignore: set[ErrorCode] = set()
+    enable: set[ErrorCode] = set()
     load: list[str] = []
     explain: ErrorCode | None = None
     debug = False
@@ -95,6 +102,14 @@ def parse_command_line_args(args: list[str]) -> Settings:
 
             ignore.add(parse_error_id(value))
 
+        elif arg == "--enable":
+            value = next(iargs, None)
+
+            if value is None:
+                raise ValueError(f'refurb: missing argument after "{arg}"')
+
+            enable.add(parse_error_id(value))
+
         elif arg == "--load":
             value = next(iargs, None)
 
@@ -112,6 +127,7 @@ def parse_command_line_args(args: list[str]) -> Settings:
     return Settings(
         files=files or None,
         ignore=ignore or None,
+        enable=enable or None,
         load=load or None,
         debug=debug,
         explain=explain,
@@ -122,6 +138,9 @@ def parse_command_line_args(args: list[str]) -> Settings:
 def merge_settings(command_line: Settings, config_file: Settings) -> Settings:
     if not command_line.ignore:
         command_line.ignore = config_file.ignore
+
+    if not command_line.enable:
+        command_line.enable = config_file.enable
 
     if not command_line.load:
         command_line.load = config_file.load

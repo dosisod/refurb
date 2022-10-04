@@ -103,7 +103,7 @@ def run_refurb(settings: Settings) -> Sequence[Error | str]:
             if settings.debug:
                 errors.append(str(tree))
 
-            checks = load_checks(settings.ignore or set(), settings.load or [])
+            checks = load_checks(settings)
             visitor = RefurbVisitor(checks)
 
             tree.accept(visitor)

@@ -13,6 +13,7 @@ from mypy.nodes import Node
 
 from . import checks as checks_module
 from .error import Error, ErrorCode
+from .settings import Settings
 
 Check = Callable[[Node, list[Error]], None]
 
@@ -40,15 +41,22 @@ def get_error_class(module: ModuleType) -> type[Error] | None:
     return None
 
 
-def load_checks(
-    ignore: set[ErrorCode], paths: list[str]
-) -> defaultdict[Type[Node], list[Check]]:
+def load_checks(settings: Settings) -> defaultdict[Type[Node], list[Check]]:
     found: defaultdict[Type[Node], list[Check]] = defaultdict(list)
+    ignore = settings.ignore or set()
+    paths = settings.load or []
+    enabled = settings.enable or set()
 
     for module in get_modules(paths):
         error = get_error_class(module)
+        if not error:
+            continue
 
-        if not error or ErrorCode.from_error(error) in ignore:
+        error_code = ErrorCode.from_error(error)
+
+        is_enabled = error.enabled or error_code in enabled
+
+        if not is_enabled or error_code in ignore:
             continue
 
         if func := getattr(module, "check", None):
