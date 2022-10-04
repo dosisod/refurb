@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 if sys.version_info >= (3, 11):
-    import tomllib
+    import tomllib  # pragma: no cover
 else:
     import tomli as tomllib
 
