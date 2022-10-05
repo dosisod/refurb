@@ -1,6 +1,7 @@
-test/data/err_109.py:3:10 [FURB109]: Use `in (x, y, z)` instead of `in [x, y, z]`
-test/data/err_109.py:6:13 [FURB109]: Use `in (x, y, z)` instead of `in [x, y, z]`
-test/data/err_109.py:8:13 [FURB109]: Use `in (x, y, z)` instead of `in [x, y, z]`
-test/data/err_109.py:11:22 [FURB109]: Use `in (x, y, z)` instead of `in [x, y, z]`
-test/data/err_109.py:12:14 [FURB109]: Use `in (x, y, z)` instead of `in [x, y, z]`
-test/data/err_109.py:15:9 [FURB109]: Use `in (x, y, z)` instead of `in [x, y, z]`
+test/data/err_109.py:3:10 [FURB109]: Replace `in [x, y, z]` with `in (x, y, z)`
+test/data/err_109.py:6:13 [FURB109]: Replace `in [x, y, z]` with `in (x, y, z)`
+test/data/err_109.py:8:13 [FURB109]: Replace `in [x, y, z]` with `in (x, y, z)`
+test/data/err_109.py:11:22 [FURB109]: Replace `in [x, y, z]` with `in (x, y, z)`
+test/data/err_109.py:12:14 [FURB109]: Replace `in [x, y, z]` with `in (x, y, z)`
+test/data/err_109.py:15:9 [FURB109]: Replace `in [x, y, z]` with `in (x, y, z)`
+test/data/err_109.py:18:13 [FURB109]: Replace `not in [x, y, z]` with `not in (x, y, z)`
