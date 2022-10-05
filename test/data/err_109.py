@@ -15,6 +15,9 @@ for x in [1, 2, 3]:
 if 1 in [1, 2, 3]:
     pass
 
+if 1 not in [1, 2, 3]:
+    pass
+
 
 # these will not
 

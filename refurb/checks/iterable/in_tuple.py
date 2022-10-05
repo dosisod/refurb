@@ -8,8 +8,8 @@ from refurb.error import Error
 @dataclass
 class ErrorInfo(Error):
     """
-    Since tuples cannot change value over time, it is more performant to use
-    them in `for` loops, generators, etc.:
+    Since tuple, list, and set literals can be used with the `in` operator, it
+    is best to pick one and stick with it.
 
     Bad:
 
@@ -31,23 +31,28 @@ class ErrorInfo(Error):
     """
 
     code = 109
-    msg: str = "Use `in (x, y, z)` instead of `in [x, y, z]`"
+
+
+def error_msg(oper: str) -> str:
+    return f"Replace `{oper} [x, y, z]` with `{oper} (x, y, z)`"
 
 
 def check(
     node: ComparisonExpr | ForStmt | GeneratorExpr, errors: list[Error]
 ) -> None:
     match node:
-        case (
-            ComparisonExpr(
-                operators=["in"],
-                operands=[_, ListExpr() as expr],
-            )
-            | ForStmt(expr=ListExpr() as expr)
+        case ComparisonExpr(
+            operators=["in" | "not in" as oper],
+            operands=[_, ListExpr() as expr],
         ):
-            errors.append(ErrorInfo(expr.line, expr.column))
+            errors.append(ErrorInfo(expr.line, expr.column, error_msg(oper)))
+
+        case ForStmt(expr=ListExpr() as expr):
+            errors.append(ErrorInfo(expr.line, expr.column, error_msg("in")))
 
         case GeneratorExpr():
             for expr in node.sequences:  # type: ignore
                 if isinstance(expr, ListExpr):
-                    errors.append(ErrorInfo(expr.line, expr.column))
+                    errors.append(
+                        ErrorInfo(expr.line, expr.column, error_msg("in"))
+                    )
