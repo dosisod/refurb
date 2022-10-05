@@ -52,3 +52,9 @@ except:
 
 else:
     print("no exception thrown")
+
+try:
+    print()
+
+except ("not", "an", "exception"):
+    pass
