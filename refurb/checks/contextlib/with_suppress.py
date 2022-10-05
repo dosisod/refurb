@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from typing import cast
 
 from mypy.nodes import Block, NameExpr, PassStmt, TryStmt, TupleExpr
 
@@ -43,22 +42,31 @@ def check(node: TryStmt, errors: list[Error]) -> None:
             else_body=None,
             finally_body=None,
         ):
-            inner = ""
-
             match types:
                 case NameExpr(name=name):
                     inner = name
+                    except_inner = f" {inner}"
 
                 case TupleExpr(items=items):
-                    tmp = ", ".join(cast(NameExpr, exc).name for exc in items)
-                    inner = f"({tmp})"
+                    if any(not isinstance(item, NameExpr) for item in items):
+                        return
 
-            except_inner = f" {inner}" if inner else ""
+                    inner = ", ".join(
+                        item.name for item in items  # type: ignore
+                    )
+
+                    except_inner = f" ({inner})"
+
+                case None:
+                    inner = except_inner = ""
+
+                case _:
+                    return
 
             errors.append(
                 ErrorInfo(
                     node.line,
                     node.column,
-                    f"Use `with suppress({inner}): ...` instead of `try: ... except{except_inner}: pass`",  # noqa: E501
+                    f"Replace `try: ... except{except_inner}: pass` with `with suppress({inner}): ...`",  # noqa: E501
                 )
             )
