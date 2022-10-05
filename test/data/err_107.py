@@ -58,3 +58,9 @@ try:
 
 except ("not", "an", "exception"):
     pass
+
+try:
+    print()
+
+except "not an exception":
+    pass
