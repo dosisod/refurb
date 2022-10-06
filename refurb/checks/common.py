@@ -18,6 +18,9 @@ def extract_binary_oper(
                 case OpExpr(op=op, left=rhs) if op == oper:
                     return lhs, rhs
 
+                case OpExpr():
+                    return None
+
                 case Expression():
                     return lhs, rhs
 

@@ -15,3 +15,5 @@ def f(x, y):
     return True
 
 _ = f(num, float) or f(num2, int)
+
+_ = isinstance(num, (float, str)) or isinstance(num, int) and True
