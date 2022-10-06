@@ -15,3 +15,5 @@ name_copy = name
 _ = name.startswith("a") or name_copy.startswith("b")
 
 _ = name.startswith() or name.startswith("x")
+
+_ = name.startswith("x") or name.startswith("y") and True
