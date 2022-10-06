@@ -1,0 +1,3 @@
+test/data/err_131.py:6:1 [FURB131]: Replace `del x[y]` with `x.pop(y)`
+test/data/err_131.py:7:1 [FURB131]: Replace `del x[y]` with `x.pop(y)`
+test/data/err_131.py:8:1 [FURB131]: Replace `del x[:]` with `x.clear()`
