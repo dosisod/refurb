@@ -58,7 +58,8 @@ def check(node: TryStmt, errors: list[Error]) -> None:
                     except_inner = f" ({inner})"
 
                 case None:
-                    inner = except_inner = ""
+                    inner = "BaseException"
+                    except_inner = ""
 
                 case _:
                     return
