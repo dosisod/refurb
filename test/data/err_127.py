@@ -1,4 +1,4 @@
-from contextlib import nullcontext
+from contextlib import nullcontext, suppress
 
 # these will match
 
@@ -25,3 +25,9 @@ if not TYPE_CHECKING:
 
     with nullcontext():
         y = 2
+
+
+# see https://github.com/dosisod/refurb/issues/47
+x = 1
+with suppress(Exception):
+    x = 2
