@@ -2,3 +2,4 @@
 exclude = .git,__pycache__,.venv,test/data
 per-file-ignores =
     test/*:E501
+    refurb/main.py:E501
