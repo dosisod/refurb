@@ -1,4 +1,4 @@
-test/data/err_107.py:3:1 [FURB107]: Replace `try: ... except: pass` with `with suppress(): ...`
+test/data/err_107.py:3:1 [FURB107]: Replace `try: ... except: pass` with `with suppress(BaseException): ...`
 test/data/err_107.py:8:1 [FURB107]: Replace `try: ... except Exception: pass` with `with suppress(Exception): ...`
 test/data/err_107.py:14:1 [FURB107]: Replace `try: ... except Exception: pass` with `with suppress(Exception): ...`
 test/data/err_107.py:19:1 [FURB107]: Replace `try: ... except (ValueError, FileNotFoundError): pass` with `with suppress(ValueError, FileNotFoundError): ...`

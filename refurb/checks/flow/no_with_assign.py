@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from mypy.nodes import (
     AssignmentStmt,
     Block,
+    CallExpr,
     MypyFile,
     NameExpr,
     Statement,
@@ -55,13 +56,25 @@ def check_stmts(body: list[Statement], errors: list[Error]) -> None:
                 case WithStmt(
                     body=Block(
                         body=[AssignmentStmt(lvalues=[NameExpr() as name])]
-                    )
+                    ),
+                    expr=resources,
                 ) if (
                     name.fullname
                     and name.fullname
                     == assign.lvalues[0].fullname  # type: ignore
                 ):
-                    errors.append(ErrorInfo(assign.line, assign.column))
+                    # Skip if suppress() is one of the resources
+
+                    # see https://github.com/dosisod/refurb/issues/47
+                    for resource in resources:
+                        match resource:
+                            case CallExpr(
+                                callee=NameExpr(fullname="contextlib.suppress")
+                            ):
+                                break
+
+                    else:
+                        errors.append(ErrorInfo(assign.line, assign.column))
 
             assign = None
 
