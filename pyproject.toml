@@ -18,6 +18,7 @@ classifiers = [
 [tool.poetry.dependencies]
 python = "^3.10"
 mypy = "^0.981"
+tomli = {version = "^2.0.1", python = "<3.11"}
 
 [tool.poetry.dev-dependencies]
 black = "^22.6.0"
