@@ -91,6 +91,8 @@ def run_refurb(settings: Settings) -> Sequence[Error | str]:
     opt.incremental = True
     opt.fine_grained_incremental = True
     opt.cache_fine_grained = True
+    opt.allow_redefinition = True
+    opt.local_partial_types = True
 
     try:
         result = build(files, options=opt)
