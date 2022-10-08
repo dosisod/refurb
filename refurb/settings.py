@@ -1,12 +1,12 @@
 import re
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 
-try:
-    import tomllib  # type: ignore
-except ImportError:
-    import tomli as tomllib  # type: ignore
-
+if sys.version_info >= (3, 11):
+    import tomllib  # pragma: no cover
+else:
+    import tomli as tomllib
 
 from .error import ErrorCode
 
