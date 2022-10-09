@@ -116,6 +116,10 @@ quiet = true
 Now all you need to type is `refurb file.py`! Supplying command line arguments will
 override any existing settings in the config file.
 
+You can use the `--config-file` flag to tell Refurb to use a different config file from the
+default `pyproject.toml` file. Note that it still must be in the same form as the normal
+`pyproject.toml` file.
+
 ## Using Refurb With `pre-commit`
 
 You can use Refurb with [pre-commit](https://pre-commit.com/) by adding the following
