@@ -7,7 +7,7 @@ import pytest
 
 from refurb.error import Error
 from refurb.main import main, run_refurb, sort_errors
-from refurb.settings import Settings
+from refurb.settings import Settings, load_settings
 
 
 def test_invalid_args_returns_error_code():
@@ -154,3 +154,16 @@ def test_utf8_is_used_to_load_files_when_error_occurs():  # type: ignore
         raise
 
     setlocale(LC_ALL, "")
+
+
+def test_load_custom_config_file():
+    args = [
+        "test/data/err_101.py",
+        "--quiet",
+        "--config-file",
+        "test/config/config.toml",
+    ]
+
+    errors = run_refurb(load_settings(args))
+
+    assert not errors

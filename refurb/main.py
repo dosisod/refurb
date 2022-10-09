@@ -20,7 +20,8 @@ from .visitor import RefurbVisitor
 def usage() -> None:
     print(
         """\
-usage: refurb [--ignore err] [--load path] [--debug] [--quiet] [--enable] src [srcs...]
+usage: refurb [--ignore err] [--load path] [--debug] [--quiet] [--enable]
+              [--config-file path] src [srcs...]
        refurb [--help | -h]
        refurb [--version | -v]
        refurb --explain err
@@ -28,16 +29,17 @@ usage: refurb [--ignore err] [--load path] [--debug] [--quiet] [--enable] src [s
 
 Command Line Options:
 
--h, --help       This help menu.
---version, -v    Print version information.
---ignore err     Ignore an error. Can be repeated.
---load module    Add a module to the list of paths to be searched when looking
-                 for checks. Can be repeated.
---debug          Print the AST representation of all files that where checked.
---quiet          Suppress default "--explain" suggestion when an error occurs.
---enable         Load a check which is disabled.
---explain        Print the explaination/documentation from a given error code.
-src              A file or folder.
+-h, --help          This help menu.
+--version, -v       Print version information.
+--ignore err        Ignore an error. Can be repeated.
+--load module       Add a module to the list of paths to be searched when looking
+                    for checks. Can be repeated.
+--debug             Print the AST representation of all files that where checked.
+--quiet             Suppress default "--explain" suggestion when an error occurs.
+--enable            Load a check which is disabled.
+--config-file file  Load "file" instead of the default config file
+--explain           Print the explaination/documentation from a given error code.
+src                 A file or folder.
 
 
 Subcommands:

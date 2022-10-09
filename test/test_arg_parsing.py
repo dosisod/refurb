@@ -107,6 +107,19 @@ def test_parse_load_flag_missing_arg() -> None:
         parse_args(["--load"])
 
 
+def test_parse_config_file_flag_missing_arg() -> None:
+    with pytest.raises(
+        ValueError, match='refurb: missing argument after "--config-file"'
+    ):
+        parse_args(["--config-file"])
+
+
+def test_config_file_flag() -> None:
+    assert parse_args(["--config-file", "some_file"]) == Settings(
+        config_file="some_file",
+    )
+
+
 def test_parse_config_file() -> None:
     contents = """\
 [tool.refurb]

@@ -2,6 +2,7 @@ import re
 import sys
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Iterator
 
 if sys.version_info >= (3, 11):
     import tomllib  # pragma: no cover
@@ -23,6 +24,7 @@ class Settings:
     help: bool = False
     version: bool = False
     quiet: bool = False
+    config_file: str | None = None
 
 
 ERROR_ID_REGEX = re.compile("^([A-Z]{3,4})?(\\d{3})$")
@@ -71,52 +73,40 @@ def parse_command_line_args(args: list[str]) -> Settings:
         return Settings(generate=True)
 
     iargs = iter(args)
+
+    settings = Settings()
     files: list[str] = []
     ignore: set[ErrorCode] = set()
-    enable: set[ErrorCode] = set()
     load: list[str] = []
-    explain: ErrorCode | None = None
-    debug = False
-    quiet = False
+    enable: set[ErrorCode] = set()
+
+    def get_next_arg(arg: str, args: Iterator[str]) -> str:
+        if (value := next(args, None)) is not None:
+            return value
+
+        raise ValueError(f'refurb: missing argument after "{arg}"')
 
     for arg in iargs:
         if arg == "--debug":
-            debug = True
+            settings.debug = True
 
         elif arg == "--quiet":
-            quiet = True
+            settings.quiet = True
 
         elif arg == "--explain":
-            value = next(iargs, None)
-
-            if value is None:
-                raise ValueError(f'refurb: missing argument after "{arg}"')
-
-            explain = parse_error_id(value)
+            settings.explain = parse_error_id(get_next_arg(arg, iargs))
 
         elif arg == "--ignore":
-            value = next(iargs, None)
-
-            if value is None:
-                raise ValueError(f'refurb: missing argument after "{arg}"')
-
-            ignore.add(parse_error_id(value))
+            ignore.add(parse_error_id(get_next_arg(arg, iargs)))
 
         elif arg == "--enable":
-            value = next(iargs, None)
-
-            if value is None:
-                raise ValueError(f'refurb: missing argument after "{arg}"')
-
-            enable.add(parse_error_id(value))
+            enable.add(parse_error_id(get_next_arg(arg, iargs)))
 
         elif arg == "--load":
-            value = next(iargs, None)
+            load.append(get_next_arg(arg, iargs))
 
-            if value is None:
-                raise ValueError(f'refurb: missing argument after "{arg}"')
-
-            load.append(value)
+        elif arg == "--config-file":
+            settings.config_file = get_next_arg(arg, iargs)
 
         elif arg.startswith("-"):
             raise ValueError(f'refurb: unsupported option "{arg}"')
@@ -124,15 +114,12 @@ def parse_command_line_args(args: list[str]) -> Settings:
         else:
             files.append(arg)
 
-    return Settings(
-        files=files or None,
-        ignore=ignore or None,
-        enable=enable or None,
-        load=load or None,
-        debug=debug,
-        explain=explain,
-        quiet=quiet,
-    )
+    settings.files = files or None
+    settings.ignore = ignore or None
+    settings.enable = enable or None
+    settings.load = load or None
+
+    return settings
 
 
 def merge_settings(command_line: Settings, config_file: Settings) -> Settings:
@@ -149,10 +136,12 @@ def merge_settings(command_line: Settings, config_file: Settings) -> Settings:
 
 
 def load_settings(args: list[str]) -> Settings:
-    file = Path("pyproject.toml")
+    cli_args = parse_command_line_args(args)
+
+    file = Path(cli_args.config_file or "pyproject.toml")
 
     config_file = (
         parse_config_file(file.read_text()) if file.exists() else Settings()
     )
 
-    return merge_settings(parse_command_line_args(args), config_file)
+    return merge_settings(cli_args, config_file)
