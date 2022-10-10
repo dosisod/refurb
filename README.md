@@ -113,8 +113,11 @@ load = ["some_module"]
 quiet = true
 ```
 
-Now all you need to type is `refurb file.py`! Supplying command line arguments will
-override any existing settings in the config file.
+Now all you need to type is `refurb file.py`!
+
+Note that the values in the config file will be merged with the values specified via the
+command line. In the case of boolean arguments like `--quiet`, the command line arguments
+take precedence. All other arguments (such as `ignore` and `load`) will be combined.
 
 You can use the `--config-file` flag to tell Refurb to use a different config file from the
 default `pyproject.toml` file. Note that it still must be in the same form as the normal
