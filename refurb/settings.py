@@ -1,6 +1,6 @@
 import re
 import sys
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Iterator
 
@@ -14,17 +14,33 @@ from .error import ErrorCode
 
 @dataclass
 class Settings:
-    files: list[str] | None = None
+    files: list[str] = field(default_factory=list)
     explain: ErrorCode | None = None
-    ignore: set[ErrorCode] | None = None
-    load: list[str] | None = None
-    enable: set[ErrorCode] | None = None
+    ignore: set[ErrorCode] = field(default_factory=set)
+    load: list[str] = field(default_factory=list)
+    enable: set[ErrorCode] = field(default_factory=set)
     debug: bool = False
     generate: bool = False
     help: bool = False
     version: bool = False
     quiet: bool = False
     config_file: str | None = None
+
+    @staticmethod
+    def merge(old: "Settings", new: "Settings") -> "Settings":
+        return Settings(
+            files=old.files + new.files,
+            explain=old.explain or new.explain,
+            ignore=old.ignore | new.ignore,
+            enable=old.enable | new.enable,
+            load=old.load + new.load,
+            debug=old.debug or new.debug,
+            generate=old.generate or new.generate,
+            help=old.help or new.help,
+            version=old.version or new.version,
+            quiet=old.quiet or new.quiet,
+            config_file=old.config_file or new.config_file,
+        )
 
 
 ERROR_ID_REGEX = re.compile("^([A-Z]{3,4})?(\\d{3})$")
@@ -53,9 +69,9 @@ def parse_config_file(contents: str) -> Settings:
             )
 
             return Settings(
-                ignore=ignore or None,
-                enable=enable or None,
-                load=settings.get("load"),
+                ignore=ignore,
+                enable=enable,
+                load=settings.get("load", []),
                 quiet=settings.get("quiet", False),
             )
 
@@ -75,10 +91,6 @@ def parse_command_line_args(args: list[str]) -> Settings:
     iargs = iter(args)
 
     settings = Settings()
-    files: list[str] = []
-    ignore: set[ErrorCode] = set()
-    load: list[str] = []
-    enable: set[ErrorCode] = set()
 
     def get_next_arg(arg: str, args: Iterator[str]) -> str:
         if (value := next(args, None)) is not None:
@@ -97,13 +109,13 @@ def parse_command_line_args(args: list[str]) -> Settings:
             settings.explain = parse_error_id(get_next_arg(arg, iargs))
 
         elif arg == "--ignore":
-            ignore.add(parse_error_id(get_next_arg(arg, iargs)))
+            settings.ignore.add(parse_error_id(get_next_arg(arg, iargs)))
 
         elif arg == "--enable":
-            enable.add(parse_error_id(get_next_arg(arg, iargs)))
+            settings.enable.add(parse_error_id(get_next_arg(arg, iargs)))
 
         elif arg == "--load":
-            load.append(get_next_arg(arg, iargs))
+            settings.load.append(get_next_arg(arg, iargs))
 
         elif arg == "--config-file":
             settings.config_file = get_next_arg(arg, iargs)
@@ -112,27 +124,9 @@ def parse_command_line_args(args: list[str]) -> Settings:
             raise ValueError(f'refurb: unsupported option "{arg}"')
 
         else:
-            files.append(arg)
-
-    settings.files = files or None
-    settings.ignore = ignore or None
-    settings.enable = enable or None
-    settings.load = load or None
+            settings.files.append(arg)
 
     return settings
-
-
-def merge_settings(command_line: Settings, config_file: Settings) -> Settings:
-    if not command_line.ignore:
-        command_line.ignore = config_file.ignore
-
-    if not command_line.enable:
-        command_line.enable = config_file.enable
-
-    if not command_line.load:
-        command_line.load = config_file.load
-
-    return command_line
 
 
 def load_settings(args: list[str]) -> Settings:
@@ -144,4 +138,4 @@ def load_settings(args: list[str]) -> Settings:
         parse_config_file(file.read_text()) if file.exists() else Settings()
     )
 
-    return merge_settings(cli_args, config_file)
+    return Settings.merge(config_file, cli_args)

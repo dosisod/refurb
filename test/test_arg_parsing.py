@@ -1,7 +1,7 @@
 import pytest
 
 from refurb.error import ErrorCode
-from refurb.settings import Settings, merge_settings
+from refurb.settings import Settings
 from refurb.settings import parse_command_line_args as parse_args
 from refurb.settings import parse_config_file, parse_error_id
 
@@ -147,21 +147,22 @@ ignore = [100, "FURB101"]
     command_line_args = parse_args(["some_file.py"])
     config_file = parse_config_file(contents)
 
-    config = merge_settings(command_line_args, config_file)
+    merged = Settings.merge(config_file, command_line_args)
 
-    assert config == Settings(
+    assert merged == Settings(
         files=["some_file.py"],
         load=["some", "folders"],
         ignore=set((ErrorCode(100), ErrorCode(101))),
     )
 
 
-def test_command_line_args_override_config_file() -> None:
+def test_command_line_args_merge_config_file() -> None:
     contents = """\
 [tool.refurb]
 load = ["some", "folders"]
 ignore = [100, "FURB101"]
 enable = ["FURB111", "FURB222"]
+quiet = true
 """
 
     command_line_args = parse_args(
@@ -169,12 +170,13 @@ enable = ["FURB111", "FURB222"]
     )
     config_file = parse_config_file(contents)
 
-    config = merge_settings(command_line_args, config_file)
+    merged = Settings.merge(config_file, command_line_args)
 
-    assert config == Settings(
-        load=["x"],
-        ignore=set((ErrorCode(123),)),
-        enable=set((ErrorCode(200),)),
+    assert merged == Settings(
+        load=["some", "folders", "x"],
+        ignore=set((ErrorCode(100), ErrorCode(101), ErrorCode(123))),
+        enable=set((ErrorCode(111), ErrorCode(222), ErrorCode(200))),
+        quiet=True,
     )
 
 
