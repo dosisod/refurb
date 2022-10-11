@@ -16,4 +16,6 @@ lambda x: f(x, True)
 lambda x, y: f(y, x)
 lambda x: bool(x + 1)
 lambda x: x + 1
+lambda x: print(*x)
+lambda x: print(**x)
 lambda: True
