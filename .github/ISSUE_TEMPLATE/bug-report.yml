@@ -1,0 +1,68 @@
+name: "🐞 Bug Report"
+description: File a bug report
+title: "[Bug]: "
+labels: ["bug"]
+
+assignees:
+  - dosisod
+
+body:
+  - type: markdown
+    attributes:
+      value: Thank you for submitting a bug report for Refurb! Please fill out the information below so we can fix your issue as quickly as possible!
+
+  - type: textarea
+    id: describe
+    attributes:
+      label: The Bug
+      description: Describe what the issue you are experiencing with a [minimal, reproducible example](https://stackoverflow.com/help/minimal-reproducible-example). The placeholder example below is just an example, and can be changed as needed.
+      value: |
+        The following code:
+
+        ```python
+        # Your code here
+        ```
+
+        Emits the following error:
+
+        ```
+        $ refurb file.py
+        # Some error here
+        ```
+
+        But it should not be emitting an error instance because...
+
+    validations:
+      required: true
+
+  - type: textarea
+    id: refurb-versions
+    attributes:
+      label: Version Info
+      description: What is the output of `refurb --version`?
+      render: shell
+    validations:
+      required: true
+
+  - type: input
+    id: python-version
+    attributes:
+      label: Python Version
+      description: What is the output of `python --version`?
+    validations:
+      required: true
+
+  - type: textarea
+    id: config-file
+    attributes:
+      label: Config File
+      description: What is in the `[tool.refurb]` section of your `pyproject.toml` file, if any?
+      value: "# N/A"
+      render: TOML
+
+  - type: textarea
+    id: extra-info
+    attributes:
+      label: Extra Info
+      description: Is there any extra information you would like to add?
+      value: None
