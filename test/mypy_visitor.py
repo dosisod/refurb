@@ -42,9 +42,8 @@ from typing import Any, Callable
 
 import mypy.nodes
 import mypy.traverser
-import pytest
 
-VisitorNodeTypeMap = dict[str, mypy.nodes.Node]
+VisitorNodeTypeMap = dict[str, type[mypy.nodes.Node]]
 Namespace = dict[str, Any]  # type: ignore
 
 
@@ -105,10 +104,9 @@ def pure_python_mypy() -> Iterator[None]:
 
     # First, backup all imported mypy modules and remove them from sys.modules,
     # so they will not be found in resolution
-    saved_mypy = dict()
+    saved_mypy = {}
     for mod_name in list(loaded_mypy_modules()):
-        saved_mypy[mod_name] = sys.modules[mod_name]
-        del sys.modules[mod_name]
+        saved_mypy[mod_name] = sys.modules.pop(mod_name)
 
     with prefer_pure_python_imports():
         # After the modules are clean, ensure the newly imported mypy modules
@@ -134,17 +132,16 @@ def pure_python_mypy() -> Iterator[None]:
         sys.modules[mod_name] = module
 
 
-def _get_class_globals(clazz: type, localns: Namespace) -> Namespace:
+def _get_class_globals(target_class: type, localns: Namespace) -> Namespace:
     """
     Get the globals namespace for the full class hierarchy that starts in
-    clazz.
+    target_class.
 
     This follows the recommendation of PEP-563 to resolve stringified type
     annotations at runtime.
     """
     all_globals = localns.copy()
-    all_globals.update(localns)
-    for base in inspect.getmro(clazz):
+    for base in inspect.getmro(target_class):
         all_globals.update(vars(sys.modules[base.__module__]))
     return all_globals
 
@@ -154,7 +151,7 @@ def _make_mappings(globalns: Namespace) -> VisitorNodeTypeMap:
     Generate a mapping between the name of a visitor method in TraverserVisitor
     and the type of its first (non-self) parameter.
     """
-    visitor_method_map = dict()
+    visitor_method_map = {}
     from mypy.traverser import TraverserVisitor
 
     methods = inspect.getmembers(
@@ -176,8 +173,7 @@ def _make_mappings(globalns: Namespace) -> VisitorNodeTypeMap:
 _globals = _get_class_globals(mypy.traverser.TraverserVisitor, locals())
 
 
-@pytest.fixture(scope="session")
-def mypy_visitor_mapping() -> VisitorNodeTypeMap:
+def get_mypy_visitor_mapping() -> VisitorNodeTypeMap:
     """
     Provide the visitor method name to node type mapping as it comes from Mypy.
 

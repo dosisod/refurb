@@ -1,6 +1,5 @@
 import itertools
 import typing
-from collections import defaultdict
 from collections.abc import Iterable
 
 import pytest
@@ -9,6 +8,8 @@ from mypy.nodes import Node
 from refurb.visitor import METHOD_NODE_MAPPINGS, RefurbVisitor
 from refurb.visitor.mapping import VisitorNodeTypeMap
 from refurb.visitor.visitor import Checks
+
+from .mypy_visitor import get_mypy_visitor_mapping
 
 
 @pytest.fixture
@@ -19,8 +20,7 @@ def dummy_visitor() -> RefurbVisitor:
 
     This forces method generation but calling the methods does nothing.
     """
-    checks: Checks = defaultdict(list)
-    checks |= {ty: [] for ty in METHOD_NODE_MAPPINGS.values()}
+    checks = Checks(list, {ty: [] for ty in METHOD_NODE_MAPPINGS.values()})
     return RefurbVisitor(checks)
 
 
@@ -52,7 +52,6 @@ def test_visitor_generation(dummy_visitor: RefurbVisitor) -> None:
 
     visitor_mappings: VisitorNodeTypeMap = {}
     for method_name, method in get_visit_methods(dummy_visitor):
-        print(method_name)
         method_types = typing.get_type_hints(method)
         assert "o" in method_types, f"No 'o' parameter in method {method_name}"
         node_type = method_types["o"]
@@ -61,7 +60,7 @@ def test_visitor_generation(dummy_visitor: RefurbVisitor) -> None:
     assert visitor_mappings == METHOD_NODE_MAPPINGS
 
 
-def test_mypy_consistence(mypy_visitor_mapping: VisitorNodeTypeMap) -> None:
+def test_mypy_consistence() -> None:
     """
     Ensure the visitor method name to node type mappings used in refurb are
     in sync with the ones of mypy.
@@ -71,4 +70,6 @@ def test_mypy_consistence(mypy_visitor_mapping: VisitorNodeTypeMap) -> None:
 
     If this fails, review the mappings in refurb.visitor.METHOD_NODE_MAPPINGS.
     """
+
+    mypy_visitor_mapping = get_mypy_visitor_mapping()
     assert METHOD_NODE_MAPPINGS == mypy_visitor_mapping
