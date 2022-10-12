@@ -5,9 +5,9 @@ from contextlib import suppress
 from pathlib import Path
 from subprocess import PIPE, run
 
-from ._visitor_mappings import MAPPINGS
 from .error import ErrorCode
 from .loader import get_error_class, get_modules
+from .visitor import METHOD_NODE_MAPPINGS
 
 FILE_TEMPLATE = '''\
 from dataclasses import dataclass
@@ -93,7 +93,7 @@ def get_next_error_id(prefix: str) -> int:
     return highest
 
 
-NODES: dict[str, type] = {x.__name__: x for x in MAPPINGS.values()}
+NODES: dict[str, type] = {x.__name__: x for x in METHOD_NODE_MAPPINGS.values()}
 
 
 def node_type_prompt() -> list[str]:
