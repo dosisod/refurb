@@ -26,7 +26,7 @@ def dummy_visitor() -> RefurbVisitor:
 
 def get_visit_methods(
     visitor: RefurbVisitor,
-) -> Iterable[tuple[str, typing.Type[Node]]]:
+) -> Iterable[tuple[str, type[Node]]]:
     """
     Find visitor methods in the instance's __dict__ (those that have been
     generated in __init__) and in the class' __dict__ (the ones that are

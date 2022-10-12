@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import Callable, Type
+from typing import Callable
 
 from mypy.nodes import CallExpr, Node
 from mypy.traverser import TraverserVisitor
@@ -8,11 +8,11 @@ from ..error import Error
 from .mapping import METHOD_NODE_MAPPINGS
 
 Check = Callable[[Node, list[Error]], None]
-Checks = defaultdict[Type[Node], list[Check]]
+Checks = defaultdict[type[Node], list[Check]]
 VisitorMethod = Callable[["RefurbVisitor", Node], None]
 
 
-def build_visitor(name: str, ty: Type[Node], checks: Checks) -> VisitorMethod:
+def build_visitor(name: str, ty: type[Node], checks: Checks) -> VisitorMethod:
     def inner(self: RefurbVisitor, o: Node) -> None:
         getattr(TraverserVisitor, name)(self, o)
 
@@ -29,7 +29,7 @@ class RefurbVisitor(TraverserVisitor):
 
     _dont_build = ("visit_call_expr",)
 
-    def __init__(self, checks: defaultdict[Type[Node], list[Check]]) -> None:
+    def __init__(self, checks: defaultdict[type[Node], list[Check]]) -> None:
         self.errors = []
         self.checks = checks
 

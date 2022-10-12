@@ -1,9 +1,7 @@
-from typing import Type
-
 import mypy.nodes
 import mypy.patterns
 
-VisitorNodeTypeMap = dict[str, Type[mypy.nodes.Node]]
+VisitorNodeTypeMap = dict[str, type[mypy.nodes.Node]]
 
 METHOD_NODE_MAPPINGS: VisitorNodeTypeMap = {
     "visit_as_pattern": mypy.patterns.AsPattern,
