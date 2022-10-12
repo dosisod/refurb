@@ -29,4 +29,5 @@ test-e2e: install-local
 	refurb test/e2e/dummy.py
 
 refurb:
-	refurb refurb
+	refurb refurb test/*.py
+
