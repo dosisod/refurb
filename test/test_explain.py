@@ -13,6 +13,6 @@ def test_error_if_check_doesnt_exist() -> None:
 
 
 def test_check_with_no_docstring_gives_error() -> None:
-    msg = explain(ErrorCode(100, "XYZ"), ["test.custom_checks"])
+    msg = explain(ErrorCode(102, "XYZ"), ["test.custom_checks"])
 
-    assert msg == 'refurb: Explaination for "XYZ100" not found'
+    assert msg == 'refurb: Explaination for "XYZ102" not found'

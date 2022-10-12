@@ -8,7 +8,7 @@ from refurb.error import Error
 @dataclass
 class ErrorInfo(Error):
     prefix = "XYZ"
-    code = 100
+    code = 102
     msg: str = "Your message here"
 
 
