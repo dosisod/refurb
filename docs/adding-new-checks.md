@@ -30,17 +30,11 @@ expressions, and it is named as such.
   in which case you should prefix it with `no_`. For example, the `no_del.py` check will check
   for usage of the `del` statement.
 
-Once your file has been auto-generated, you will need to increment the error code id (it
-defaults to `999`). The easiest way to find the next number is to look in the `test/data/` folder.
-The files named `err_999.py` and `err_999.txt` are the test data for each check, more on that
-later. You can also run this shell command to find the next number for you:
+* Choose a prefix which is between 3-4 characters, and is uppercase alpha (regex: `[A-Z]{3,4}`).
 
-```
-$ ls -1 test/data/err_* | sort | tail -n 1
-test/data/err_131.txt
-```
-
-In this case, the next number would be 132.
+* Make sure that the auto-generated error code id (the `code` field) is correct. It will try
+to detect the next id based off of the supplied prefix, but if it cannot find it, it will default
+to 100.
 
 Also, if you are making a check for Refurb itself, remove the `suffix` line, which defaults
 to `XYZ`. Deleting this will fallback to `FURB`, which is used for the built-in Refurb checks.

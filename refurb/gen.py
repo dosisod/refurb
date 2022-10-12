@@ -1,15 +1,18 @@
 import os
 import sys
+from collections import defaultdict
 from contextlib import suppress
 from pathlib import Path
 from subprocess import PIPE, run
 
 from ._visitor_mappings import MAPPINGS
+from .error import ErrorCode
+from .loader import get_error_class, get_modules
 
 FILE_TEMPLATE = '''\
 from dataclasses import dataclass
 
-from {module} import {node}
+{imports}
 
 from refurb.error import Error
 
@@ -32,14 +35,14 @@ class ErrorInfo(Error):
     ```
     """
 
-    prefix = "XYZ"
-    code = 999
+    prefix = "{prefix}"
+    code = {id}
     msg: str = "Your message here"
 
 
-def check(node: {node}, errors: list[Error]) -> None:
+def check(node: {accept_type}, errors: list[Error]) -> None:
     match node:
-        case {node}():
+        case {pattern}:
             errors.append(ErrorInfo(node.line, node.column))
 '''
 
@@ -77,23 +80,79 @@ def folders_needing_init_file(path: Path) -> list[Path]:
     return []
 
 
-def main() -> None:
-    nodes: dict[str, type] = {x.__name__: x for x in MAPPINGS.values()}
+def get_next_error_id(prefix: str) -> int:
+    highest = 0
 
-    selected = fzf(list(nodes.keys()))
+    for module in get_modules([]):
+        if error := get_error_class(module):
+            error_code = ErrorCode.from_error(error)
 
-    file = Path(
+            if error_code.prefix == prefix:
+                highest = max(highest, error_code.id + 1)
+
+    return highest
+
+
+NODES: dict[str, type] = {x.__name__: x for x in MAPPINGS.values()}
+
+
+def node_type_prompt() -> list[str]:
+    return sorted(
         fzf(
-            None, args=["--print-query", "--query", "refurb/checks/"]
+            list(NODES.keys()), args=["--prompt", "type> ", "--multi"]
+        ).splitlines()
+    )
+
+
+def filename_prompt() -> Path:
+    return Path(
+        fzf(
+            None,
+            args=[
+                "--prompt",
+                "filename> ",
+                "--print-query",
+                "--query",
+                "refurb/checks/",
+            ],
         ).splitlines()[0]
     )
+
+
+def prefix_prompt() -> str:
+    return fzf(
+        [""], args=["--prompt", "prefix> ", "--print-query", "--query", "FURB"]
+    )
+
+
+def build_imports(names: list[str]) -> str:
+    modules: defaultdict[str, list[str]] = defaultdict(list)
+
+    for name in names:
+        modules[NODES[name].__module__].append(name)
+
+    return "\n".join(
+        f"from {module} import {', '.join(names)}"
+        for module, names in sorted(modules.items(), key=lambda x: x[0])
+    )
+
+
+def main() -> None:
+    selected = node_type_prompt()
+    file = filename_prompt()
 
     if file.suffix != ".py":
         print('refurb: File must end in ".py"')
         sys.exit(1)
 
+    prefix = prefix_prompt()
+
     template = FILE_TEMPLATE.format(
-        node=selected, module=nodes[selected].__module__
+        accept_type=" | ".join(selected),
+        imports=build_imports(selected),
+        prefix=prefix,
+        id=get_next_error_id(prefix) or 100,
+        pattern=" | ".join(f"{x}()" for x in selected),
     )
 
     with suppress(FileExistsError):
@@ -102,7 +161,7 @@ def main() -> None:
         for folder in folders_needing_init_file(file.parent):
             (folder / "__init__.py").touch(exist_ok=True)
 
-    file.write_text(template)
+    file.write_text(template, "utf8")
 
     print(f"Generated {file}")
 
