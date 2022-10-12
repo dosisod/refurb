@@ -23,9 +23,13 @@ def get_modules(paths: list[str]) -> Generator[ModuleType, None, None]:
 
     plugins = [x.value for x in entry_points(group="refurb.plugins")]
 
-    extra_modules = (__import__(x) for x in paths + plugins)
+    extra_modules = (importlib.import_module(x) for x in paths + plugins)
 
     for pkg in (checks_module, *extra_modules):
+        if not hasattr(pkg, "__path__"):
+            yield importlib.import_module(pkg.__name__)
+            continue
+
         for info in pkgutil.walk_packages(pkg.__path__, f"{pkg.__name__}."):
             if info.ispkg:
                 continue

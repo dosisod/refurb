@@ -52,7 +52,7 @@ def test_ignore_custom_check_is_respected() -> None:
         "test.custom_checks.disallow_call",
     ]
 
-    ignore_args = args + ["--ignore", "XYZ999"]
+    ignore_args = args + ["--ignore", "XYZ100"]
 
     errors_normal = run_refurb(parse_command_line_args(args))
     errors_while_ignoring = run_refurb(parse_command_line_args(ignore_args))
@@ -87,11 +87,11 @@ def test_disabled_check_ran_if_explicitly_enabled() -> None:
         Settings(
             files=["test/e2e/dummy.py"],
             load=[DISABLED_CHECK],
-            enable=set((ErrorCode(prefix="XYZ", id=999),)),
+            enable=set((ErrorCode(prefix="XYZ", id=101),)),
         )
     )
 
-    expected = "test/e2e/dummy.py:1:1 [XYZ999]: This message is disabled by default"  # noqa: E501
+    expected = "test/e2e/dummy.py:1:1 [XYZ101]: This message is disabled by default"  # noqa: E501
 
     assert len(errors) == 1
     assert str(errors[0]) == expected

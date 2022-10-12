@@ -9,7 +9,7 @@ from refurb.error import Error
 class ErrorInfo(Error):
     enabled = False
     prefix = "XYZ"
-    code = 999
+    code = 101
     msg: str = "This message is disabled by default"
 
 

@@ -173,7 +173,8 @@ files in the `refurb/checks/` folder for some examples.
 Then, to load your new check, use `refurb file.py --load your.path.here`
 
 > Note that when using `--load`, you need to use dots in your argument, just like
-> importing a normal python module.
+> importing a normal python module. If `your.path.here` is a directory, all checks
+> in that directory will be loaded. If it is a file, only that file will be loaded.
 
 ## Developing
 

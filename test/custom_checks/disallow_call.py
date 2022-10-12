@@ -12,7 +12,7 @@ class ErrorDisallowCall(Error):
     """
 
     prefix = "XYZ"
-    code = 999
+    code = 100
     msg: str = "Your message here"
 
 
