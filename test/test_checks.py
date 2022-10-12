@@ -4,7 +4,15 @@ from refurb.error import ErrorCode
 from refurb.main import run_refurb
 from refurb.settings import Settings, parse_command_line_args
 
-TEST_DATA_PATH = Path("test/data")
+
+def get_test_data_path() -> Path:
+    data_path = Path(__file__).parent / "data"
+    assert data_path.exists()
+    assert data_path.is_dir()
+    return data_path
+
+
+TEST_DATA_PATH = get_test_data_path()
 
 
 def test_checks() -> None:
