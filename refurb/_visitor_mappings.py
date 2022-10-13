@@ -42,6 +42,7 @@ from mypy.nodes import (
     NamedTupleExpr,
     NameExpr,
     NewTypeExpr,
+    Node,
     NonlocalDecl,
     OperatorAssignmentStmt,
     OpExpr,
@@ -88,7 +89,7 @@ from mypy.patterns import (
 
 # TODO: Dynamically generate this somehow instead of hardcoding it
 
-MAPPINGS = {
+MAPPINGS: dict[str, type[Node]] = {
     "visit_as_pattern": AsPattern,
     "visit_assert_stmt": AssertStmt,
     "visit_assert_type_expr": AssertTypeExpr,
