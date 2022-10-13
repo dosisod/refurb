@@ -1,24 +1,32 @@
-test/data/err_115.py:11:4 [FURB115]: Use `not x` instead of `len(x) == 0`
-test/data/err_115.py:12:4 [FURB115]: Use `not x` instead of `len(x) == 0`
-test/data/err_115.py:13:4 [FURB115]: Use `not x` instead of `len(x) == 0`
-test/data/err_115.py:14:4 [FURB115]: Use `not x` instead of `len(x) == 0`
-test/data/err_115.py:15:4 [FURB115]: Use `not x` instead of `len(x) == 0`
-test/data/err_115.py:16:4 [FURB115]: Use `not x` instead of `len(x) == 0`
-test/data/err_115.py:18:4 [FURB115]: Use `not x` instead of `len(x) <= 0`
-test/data/err_115.py:19:4 [FURB115]: Use `x` instead of `len(x) > 0`
-test/data/err_115.py:20:4 [FURB115]: Use `x` instead of `len(x) != 0`
-test/data/err_115.py:21:4 [FURB115]: Use `x` instead of `len(x) >= 1`
-test/data/err_115.py:23:4 [FURB115]: Use `not x` instead of `len(x) == 0`
-test/data/err_115.py:24:4 [FURB115]: Use `not x` instead of `len(x) == 0`
-test/data/err_115.py:25:4 [FURB115]: Use `not x` instead of `len(x) == 0`
-test/data/err_115.py:26:4 [FURB115]: Use `not x` instead of `len(x) == 0`
-test/data/err_115.py:27:4 [FURB115]: Use `not x` instead of `len(x) == 0`
-test/data/err_115.py:28:4 [FURB115]: Use `not x` instead of `len(x) == 0`
-test/data/err_115.py:30:13 [FURB115]: Use `not x` instead of `len(x) == 0`
-test/data/err_115.py:33:15 [FURB115]: Use `not x` instead of `len(x) == 0`
-test/data/err_115.py:36:23 [FURB115]: Use `not x` instead of `len(x) == 0`
-test/data/err_115.py:37:23 [FURB115]: Use `not x` instead of `len(x) == 0`
-test/data/err_115.py:38:28 [FURB115]: Use `not x` instead of `len(x) == 0`
-test/data/err_115.py:40:10 [FURB115]: Use `not x` instead of `len(x) == 0`
-test/data/err_115.py:42:7 [FURB115]: Use `not x` instead of `len(x) == 0`
-test/data/err_115.py:45:8 [FURB115]: Use `not x` instead of `len(x) == 0`
+test/data/err_115.py:11:4 [FURB115]: Replace `len(x) == 0` with `not x`
+test/data/err_115.py:12:4 [FURB115]: Replace `len(x) == 0` with `not x`
+test/data/err_115.py:13:4 [FURB115]: Replace `len(x) == 0` with `not x`
+test/data/err_115.py:14:4 [FURB115]: Replace `len(x) == 0` with `not x`
+test/data/err_115.py:15:4 [FURB115]: Replace `len(x) == 0` with `not x`
+test/data/err_115.py:16:4 [FURB115]: Replace `len(x) == 0` with `not x`
+test/data/err_115.py:18:4 [FURB115]: Replace `len(x) <= 0` with `not x`
+test/data/err_115.py:19:4 [FURB115]: Replace `len(x) > 0` with `x`
+test/data/err_115.py:20:4 [FURB115]: Replace `len(x) != 0` with `x`
+test/data/err_115.py:21:4 [FURB115]: Replace `len(x) >= 1` with `x`
+test/data/err_115.py:23:4 [FURB115]: Replace `len(x) == 0` with `not x`
+test/data/err_115.py:24:4 [FURB115]: Replace `len(x) == 0` with `not x`
+test/data/err_115.py:25:4 [FURB115]: Replace `len(x) == 0` with `not x`
+test/data/err_115.py:26:4 [FURB115]: Replace `len(x) == 0` with `not x`
+test/data/err_115.py:27:4 [FURB115]: Replace `len(x) == 0` with `not x`
+test/data/err_115.py:28:4 [FURB115]: Replace `len(x) == 0` with `not x`
+test/data/err_115.py:30:13 [FURB115]: Replace `len(x) == 0` with `not x`
+test/data/err_115.py:33:15 [FURB115]: Replace `len(x) == 0` with `not x`
+test/data/err_115.py:36:23 [FURB115]: Replace `len(x) == 0` with `not x`
+test/data/err_115.py:37:23 [FURB115]: Replace `len(x) == 0` with `not x`
+test/data/err_115.py:38:28 [FURB115]: Replace `len(x) == 0` with `not x`
+test/data/err_115.py:40:10 [FURB115]: Replace `len(x) == 0` with `not x`
+test/data/err_115.py:42:7 [FURB115]: Replace `len(x) == 0` with `not x`
+test/data/err_115.py:45:8 [FURB115]: Replace `len(x) == 0` with `not x`
+test/data/err_115.py:50:4 [FURB115]: Replace `len(x)` with `x`
+test/data/err_115.py:53:15 [FURB115]: Replace `len(x)` with `x`
+test/data/err_115.py:56:23 [FURB115]: Replace `len(x)` with `x`
+test/data/err_115.py:57:23 [FURB115]: Replace `len(x)` with `x`
+test/data/err_115.py:58:28 [FURB115]: Replace `len(x)` with `x`
+test/data/err_115.py:60:10 [FURB115]: Replace `len(x)` with `x`
+test/data/err_115.py:62:7 [FURB115]: Replace `len(x)` with `x`
+test/data/err_115.py:65:8 [FURB115]: Replace `len(x)` with `x`
