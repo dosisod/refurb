@@ -19,6 +19,7 @@ class Settings:
     ignore: set[ErrorCode] = field(default_factory=set)
     load: list[str] = field(default_factory=list)
     enable: set[ErrorCode] = field(default_factory=set)
+    disable: set[ErrorCode] = field(default_factory=set)
     debug: bool = False
     generate: bool = False
     help: bool = False
@@ -28,11 +29,17 @@ class Settings:
 
     @staticmethod
     def merge(old: "Settings", new: "Settings") -> "Settings":
+        enable = old.enable | new.enable
+        disable = old.disable | new.disable
+
+        enable -= disable
+
         return Settings(
             files=old.files + new.files,
             explain=old.explain or new.explain,
             ignore=old.ignore | new.ignore,
-            enable=old.enable | new.enable,
+            enable=enable,
+            disable=disable,
             load=old.load + new.load,
             debug=old.debug or new.debug,
             generate=old.generate or new.generate,
@@ -68,9 +75,14 @@ def parse_config_file(contents: str) -> Settings:
                 parse_error_id(str(x)) for x in settings.get("enable", [])
             )
 
+            disable = set(
+                parse_error_id(str(x)) for x in settings.get("disable", [])
+            )
+
             return Settings(
                 ignore=ignore,
-                enable=enable,
+                enable=enable - disable,
+                disable=disable,
                 load=settings.get("load", []),
                 quiet=settings.get("quiet", False),
             )
@@ -112,7 +124,16 @@ def parse_command_line_args(args: list[str]) -> Settings:
             settings.ignore.add(parse_error_id(get_next_arg(arg, iargs)))
 
         elif arg == "--enable":
-            settings.enable.add(parse_error_id(get_next_arg(arg, iargs)))
+            error_code = parse_error_id(get_next_arg(arg, iargs))
+
+            settings.enable.add(error_code)
+            settings.disable.discard(error_code)
+
+        elif arg == "--disable":
+            error_code = parse_error_id(get_next_arg(arg, iargs))
+
+            settings.disable.add(error_code)
+            settings.enable.discard(error_code)
 
         elif arg == "--load":
             settings.load.append(get_next_arg(arg, iargs))

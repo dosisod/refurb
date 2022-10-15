@@ -88,12 +88,16 @@ y = list()  # noqa
 Here, `noqa: FURB123` specifically ignores the FURB123 error for that line, and `noqa` ignores
 all errors on that line.
 
-## Enabling Checks
+## Enabling/Disabling Checks
 
 Certain checks are disabled by default, and need to be enabled first. You can do this using the
 `--enable ERR` flag, where `ERR` is the error code of the check you want to enable. A disabled
 check differs from an ignored check in that a disabled check will never be loaded, whereas an
 ignored check will be loaded, an error will be emitted, and the error will be suppressed.
+
+The opposite of `--enable` is `--disable`, which will disable a check. When `--enable` and `--disable`
+are both specified via the command line, whichever one comes last will take precedence. When using
+`enable` and `disable` via the config file, `disable` will always take precedence.
 
 ## Configuring Refurb
 
