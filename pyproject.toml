@@ -29,6 +29,9 @@ pytest = "^7.1.2"
 [tool.poetry.scripts]
 refurb = "refurb.__main__:main"
 
+[tool.poetry.plugins."flake8.extension"]
+FRB = "refurb.flake8:Flake8Refurb"
+
 [tool.isort]
 multi_line_output = 3
 include_trailing_comma = true
