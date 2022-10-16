@@ -220,3 +220,75 @@ def test_parse_error_codes() -> None:
 
         else:
             assert parse_error_id(input) == output
+
+
+def test_disable_error() -> None:
+    settings = parse_args(["--disable", "FURB100"])
+
+    assert settings == Settings(disable=set((ErrorCode(100),)))
+
+
+def test_disable_existing_enabled_error() -> None:
+    settings = parse_args(["--enable", "FURB100", "--disable", "FURB100"])
+
+    assert settings == Settings(disable=set((ErrorCode(100),)))
+
+
+def test_enable_existing_disabled_error() -> None:
+    settings = parse_args(["--disable", "FURB100", "--enable", "FURB100"])
+
+    assert settings == Settings(enable=set((ErrorCode(100),)))
+
+
+def test_parse_disable_check_missing_arg() -> None:
+    with pytest.raises(
+        ValueError, match='refurb: missing argument after "--disable"'
+    ):
+        parse_args(["--disable"])
+
+
+def test_disable_in_config_file() -> None:
+    contents = """\
+[tool.refurb]
+disable = ["FURB111", "FURB222"]
+"""
+
+    config_file = parse_config_file(contents)
+
+    assert config_file == Settings(
+        disable=set((ErrorCode(111), ErrorCode(222)))
+    )
+
+
+def test_disable_overrides_enable_in_config_file() -> None:
+    contents = """\
+[tool.refurb]
+enable = ["FURB111", "FURB222"]
+disable = ["FURB111", "FURB333", "FURB444"]
+"""
+
+    config_file = parse_config_file(contents)
+
+    assert config_file == Settings(
+        enable=set((ErrorCode(222),)),
+        disable=set((ErrorCode(111), ErrorCode(333), ErrorCode(444))),
+    )
+
+
+def test_disable_cli_arg_overrides_config_file() -> None:
+    contents = """\
+[tool.refurb]
+enable = ["FURB111", "FURB222", "FURB333"]
+disable = ["FURB111", "FURB444"]
+"""
+
+    config_file = parse_config_file(contents)
+
+    command_line_args = parse_args(["--disable", "FURB333"])
+
+    merged = Settings.merge(config_file, command_line_args)
+
+    assert merged == Settings(
+        enable=set((ErrorCode(222),)),
+        disable=set((ErrorCode(111), ErrorCode(333), ErrorCode(444))),
+    )
