@@ -1,0 +1,1 @@
+test/data/err_132.py:5:1 [FURB132]: Replace `if x in s: s.remove(x)` with `s.discard(x)`
