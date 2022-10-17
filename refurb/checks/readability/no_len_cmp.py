@@ -24,8 +24,8 @@ from mypy.nodes import (
 )
 from mypy.traverser import TraverserVisitor
 
-from refurb._visitor_mappings import MAPPINGS
 from refurb.error import Error
+from refurb.visitor import METHOD_NODE_MAPPINGS
 
 
 @dataclass
@@ -121,7 +121,7 @@ class LenComparisonVisitor(TraverserVisitor):
 
         self.errors = errors
 
-        for name, ty in MAPPINGS.items():
+        for name, ty in METHOD_NODE_MAPPINGS.items():
             if ty in (ComparisonExpr, UnaryExpr, OpExpr, CallExpr):
                 continue
 

@@ -7,7 +7,7 @@ from importlib.metadata import entry_points
 from inspect import signature
 from pathlib import Path
 from types import ModuleType, UnionType
-from typing import Callable, Type, cast
+from typing import Callable, cast
 
 from mypy.nodes import Node
 
@@ -45,8 +45,8 @@ def get_error_class(module: ModuleType) -> type[Error] | None:
     return None
 
 
-def load_checks(settings: Settings) -> defaultdict[Type[Node], list[Check]]:
-    found: defaultdict[Type[Node], list[Check]] = defaultdict(list)
+def load_checks(settings: Settings) -> defaultdict[type[Node], list[Check]]:
+    found: defaultdict[type[Node], list[Check]] = defaultdict(list)
     ignore = settings.ignore or set()
     paths = settings.load or []
     enabled = settings.enable or set()
