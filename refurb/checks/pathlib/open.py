@@ -9,15 +9,15 @@ from refurb.error import Error
 @dataclass
 class ErrorInfo(Error):
     """
-    When you want to open a Path object, don't stringify the name and pass
-    it to `open()`, just call `.open()` instead:
+    When you want to open a Path object, don't pass it to `open()`, just call
+    `.open()` on the Path object itself:
 
     Bad:
 
     ```
     path = Path("filename")
 
-    with open(str(path)) as f:
+    with open(path) as f:
         pass
     ```
 
@@ -41,11 +41,12 @@ def check(node: CallExpr, errors: list[Error]) -> None:
             args=[
                 CallExpr(
                     callee=NameExpr(fullname="builtins.str"),
-                    args=[path],
-                ),
+                    args=[arg],
+                )
+                | arg,
                 *rest,
             ],
-        ) if is_pathlike(path):
+        ) if is_pathlike(arg):
             mode = args = ""
 
             match rest:
@@ -53,10 +54,12 @@ def check(node: CallExpr, errors: list[Error]) -> None:
                     mode = f'"{value}"'
                     args = f", {mode}"
 
+            expr = "x" if arg == node.args[0] else "str(x)"
+
             errors.append(
                 ErrorInfo(
                     open_node.line,
                     open_node.column,
-                    f"Use `x.open({mode})` instead of `open(str(x){args})`",
+                    f"Replace `open({expr}{args})` with `x.open({mode})`",
                 )
             )
