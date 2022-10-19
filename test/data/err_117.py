@@ -10,7 +10,16 @@ with open(str(path)) as f:
 with open(str(Path("filename"))) as f:
     pass
 
+with open(Path("filename")) as f:
+    pass
+
+with open(path) as f:
+    pass
+
 with open(str(path), "rb") as f:
+    pass
+
+with open(path, "rb") as f:
     pass
 
 f = open(str(path))

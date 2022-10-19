@@ -1,4 +1,7 @@
-test/data/err_117.py:7:6 [FURB117]: Use `x.open()` instead of `open(str(x))`
-test/data/err_117.py:10:6 [FURB117]: Use `x.open()` instead of `open(str(x))`
-test/data/err_117.py:13:6 [FURB117]: Use `x.open("rb")` instead of `open(str(x), "rb")`
-test/data/err_117.py:16:5 [FURB117]: Use `x.open()` instead of `open(str(x))`
+test/data/err_117.py:7:6 [FURB117]: Replace `open(str(x))` with `x.open()`
+test/data/err_117.py:10:6 [FURB117]: Replace `open(str(x))` with `x.open()`
+test/data/err_117.py:13:6 [FURB117]: Replace `open(x)` with `x.open()`
+test/data/err_117.py:16:6 [FURB117]: Replace `open(x)` with `x.open()`
+test/data/err_117.py:19:6 [FURB117]: Replace `open(str(x), "rb")` with `x.open("rb")`
+test/data/err_117.py:22:6 [FURB117]: Replace `open(x, "rb")` with `x.open("rb")`
+test/data/err_117.py:25:5 [FURB117]: Replace `open(str(x))` with `x.open()`
