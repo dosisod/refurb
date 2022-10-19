@@ -47,20 +47,18 @@ def get_error_class(module: ModuleType) -> type[Error] | None:
 
 def load_checks(settings: Settings) -> defaultdict[type[Node], list[Check]]:
     found: defaultdict[type[Node], list[Check]] = defaultdict(list)
-    ignore = settings.ignore or set()
-    paths = settings.load or []
-    enabled = settings.enable or set()
 
-    for module in get_modules(paths):
+    for module in get_modules(settings.load):
         error = get_error_class(module)
         if not error:
             continue
 
         error_code = ErrorCode.from_error(error)
 
-        is_enabled = error.enabled or error_code in enabled
+        enabled_by_default = not settings.disable_all and error.enabled
+        is_enabled = enabled_by_default or error_code in settings.enable
 
-        if not is_enabled or error_code in ignore:
+        if not is_enabled or error_code in settings.ignore:
             continue
 
         if func := getattr(module, "check", None):
