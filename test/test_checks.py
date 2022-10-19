@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from refurb.error import ErrorCode
+from refurb.error import Error, ErrorCode
 from refurb.main import run_refurb
 from refurb.settings import Settings, parse_command_line_args
 
@@ -103,3 +103,17 @@ def test_disabled_check_ran_if_explicitly_enabled() -> None:
 
     assert len(errors) == 1
     assert str(errors[0]) == expected
+
+
+def test_disable_all_will_only_load_explicitly_enabled_checks() -> None:
+    errors = run_refurb(
+        Settings(
+            files=["test/data/"],
+            disable_all=True,
+            enable=set((ErrorCode(100),)),
+        )
+    )
+
+    assert all(
+        isinstance(error, Error) and error.code == 100 for error in errors
+    )

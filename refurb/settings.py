@@ -25,14 +25,18 @@ class Settings:
     help: bool = False
     version: bool = False
     quiet: bool = False
+    disable_all: bool = False
     config_file: str | None = None
 
     @staticmethod
     def merge(old: "Settings", new: "Settings") -> "Settings":
-        enable = old.enable | new.enable
         disable = old.disable | new.disable
 
-        enable -= disable
+        if not old.disable_all and new.disable_all:
+            enable = new.enable
+
+        else:
+            enable = (old.enable | new.enable) - disable
 
         return Settings(
             files=old.files + new.files,
@@ -45,6 +49,7 @@ class Settings:
             generate=old.generate or new.generate,
             help=old.help or new.help,
             version=old.version or new.version,
+            disable_all=old.disable_all or new.disable_all,
             quiet=old.quiet or new.quiet,
             config_file=old.config_file or new.config_file,
         )
@@ -85,6 +90,7 @@ def parse_config_file(contents: str) -> Settings:
                 disable=disable,
                 load=settings.get("load", []),
                 quiet=settings.get("quiet", False),
+                disable_all=settings.get("disable_all", False),
             )
 
     return Settings()
@@ -116,6 +122,10 @@ def parse_command_line_args(args: list[str]) -> Settings:
 
         elif arg == "--quiet":
             settings.quiet = True
+
+        elif arg == "--disable-all":
+            settings.enable.clear()
+            settings.disable_all = True
 
         elif arg == "--explain":
             settings.explain = parse_error_id(get_next_arg(arg, iargs))

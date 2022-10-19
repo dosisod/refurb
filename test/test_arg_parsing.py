@@ -292,3 +292,53 @@ disable = ["FURB111", "FURB444"]
         enable=set((ErrorCode(222),)),
         disable=set((ErrorCode(111), ErrorCode(333), ErrorCode(444))),
     )
+
+
+def test_disable_all_flag_parsing() -> None:
+    assert parse_args(["--disable-all", "file"]) == Settings(
+        files=["file"], disable_all=True
+    )
+
+
+def test_disable_all_flag_disables_existing_enables() -> None:
+    settings = parse_args(
+        ["--enable", "FURB123", "--disable-all", "--enable", "FURB456"]
+    )
+
+    assert settings == Settings(
+        disable_all=True, enable=set((ErrorCode(456),))
+    )
+
+
+def test_disable_all_in_config_file() -> None:
+    contents = """\
+[tool.refurb]
+disable_all = true
+enable = ["FURB123"]
+"""
+
+    config_file = parse_config_file(contents)
+
+    assert config_file == Settings(
+        disable_all=True,
+        enable=set((ErrorCode(123),)),
+    )
+
+
+def test_disable_all_command_line_override() -> None:
+    contents = """\
+[tool.refurb]
+disable_all = false
+enable = ["FURB123"]
+"""
+
+    config_file = parse_config_file(contents)
+
+    command_line_args = parse_args(["--disable-all", "--enable", "FURB456"])
+
+    merged = Settings.merge(config_file, command_line_args)
+
+    assert merged == Settings(
+        disable_all=True,
+        enable=set((ErrorCode(456),)),
+    )

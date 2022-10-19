@@ -99,6 +99,11 @@ The opposite of `--enable` is `--disable`, which will disable a check. When `--e
 are both specified via the command line, whichever one comes last will take precedence. When using
 `enable` and `disable` via the config file, `disable` will always take precedence.
 
+Use the `--disable-all` flag to disable all checks. This allows you to incrementally `--enable` checks
+as you see fit, as opposed to adding a bunch of `--ignore` flags. To use this in the config file,
+set `disable_all` to `true`. In the config file, `disable_all` is applied first, and the `enable`
+and `disable` fields are applied afterwards.
+
 ## Configuring Refurb
 
 In addition to the command line arguments, you can also add your settings in the `pyproject.toml` file.
