@@ -56,9 +56,10 @@ def load_checks(settings: Settings) -> defaultdict[type[Node], list[Check]]:
         error_code = ErrorCode.from_error(error)
 
         enabled_by_default = not settings.disable_all and error.enabled
+        is_disabled = error_code in settings.disable
         is_enabled = enabled_by_default or error_code in settings.enable
 
-        if not is_enabled or error_code in settings.ignore:
+        if is_disabled or not is_enabled or error_code in settings.ignore:
             continue
 
         if func := getattr(module, "check", None):
