@@ -117,3 +117,14 @@ def test_disable_all_will_only_load_explicitly_enabled_checks() -> None:
     assert all(
         isinstance(error, Error) and error.code == 100 for error in errors
     )
+
+
+def test_disable_will_actually_disable_check_loading() -> None:
+    errors = run_refurb(
+        Settings(
+            files=["test/data/err_123.py"],
+            disable=set((ErrorCode(123),)),
+        )
+    )
+
+    assert not errors
