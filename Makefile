@@ -3,7 +3,7 @@
 all: flake8 mypy black isort test refurb
 
 install:
-	pip install -r requirements.txt
+	pip install .
 	pip install -r dev-requirements.txt
 
 install-local:

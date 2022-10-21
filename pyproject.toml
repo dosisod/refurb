@@ -16,8 +16,8 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.10"
-mypy = "^0.981"
+python = ">=3.10"
+mypy = ">=0.981, <=0.982"
 tomli = {version = "^2.0.1", python = "<3.11"}
 
 [tool.poetry.dev-dependencies]
