@@ -27,6 +27,7 @@ class Settings:
     quiet: bool = False
     disable_all: bool = False
     config_file: str | None = None
+    exclude_mypy_errors: bool = False
 
     @staticmethod
     def merge(old: "Settings", new: "Settings") -> "Settings":
@@ -52,6 +53,9 @@ class Settings:
             disable_all=old.disable_all or new.disable_all,
             quiet=old.quiet or new.quiet,
             config_file=old.config_file or new.config_file,
+            exclude_mypy_errors=(
+                old.exclude_mypy_errors or new.exclude_mypy_errors
+            ),
         )
 
 
