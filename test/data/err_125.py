@@ -54,9 +54,13 @@ def match_without_wildcard():
 def match_multiple_bodies():
     match [123]:
         case [_]:
+            print("here")
+
             return
 
         case []:
+            print("there")
+
             return
 
         case _:
@@ -108,3 +112,12 @@ def nested_match_with_non_trailing_node():
                     return
 
             pass
+
+
+def match_with_early_return(x):
+    match x:
+        case [_]:
+            return
+
+        case []:
+            return

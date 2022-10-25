@@ -10,6 +10,7 @@ from mypy.nodes import (
     Statement,
     WithStmt,
 )
+from mypy.patterns import AsPattern
 
 from refurb.error import Error
 
@@ -62,8 +63,15 @@ def get_trailing_return(node: Statement) -> Generator[Statement, None, None]:
         case ReturnStmt(expr=None):
             yield node
 
-        case MatchStmt(bodies=bodies):
-            for body in bodies:
+        case MatchStmt(bodies=bodies, patterns=patterns):
+            for body, pattern in zip(bodies, patterns):
+                match (body.body, pattern):
+                    case _, AsPattern(pattern=None, name=None):
+                        pass
+
+                    case [ReturnStmt()], _:
+                        continue
+
                 yield from get_trailing_return(body.body[-1])
 
         case (

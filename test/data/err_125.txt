@@ -4,7 +4,6 @@ test/data/err_125.py:21:9 [FURB125]: Return is redundant here
 test/data/err_125.py:31:9 [FURB125]: Return is redundant here
 test/data/err_125.py:41:21 [FURB125]: Return is redundant here
 test/data/err_125.py:45:9 [FURB125]: Return is redundant here
-test/data/err_125.py:51:13 [FURB125]: Return is redundant here
-test/data/err_125.py:57:13 [FURB125]: Return is redundant here
-test/data/err_125.py:60:13 [FURB125]: Return is redundant here
-test/data/err_125.py:63:13 [FURB125]: Return is redundant here
+test/data/err_125.py:59:13 [FURB125]: Return is redundant here
+test/data/err_125.py:64:13 [FURB125]: Return is redundant here
+test/data/err_125.py:67:13 [FURB125]: Return is redundant here
