@@ -3,12 +3,16 @@ name: Test
 on:
   push:
     branches:
-      - 'master'
+      - "master"
   pull_request:
 
 jobs:
   tests:
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11"]
 
     steps:
       - uses: actions/checkout@v3
@@ -20,7 +24,7 @@ jobs:
 
       - uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: ${{ matrix.python-version }}
 
       - name: Pip install
         run: make install

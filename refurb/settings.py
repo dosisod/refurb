@@ -7,7 +7,7 @@ from typing import Iterator
 if sys.version_info >= (3, 11):
     import tomllib  # pragma: no cover
 else:
-    import tomli as tomllib
+    import tomli as tomllib  # pragma: no cover
 
 from .error import ErrorCode
 
