@@ -20,8 +20,9 @@ from .visitor import RefurbVisitor
 def usage() -> None:
     print(
         """\
-usage: refurb [--ignore err] [--load path] [--debug] [--quiet] [--enable]
-              [--config-file path] src [srcs...]
+usage: refurb [--ignore err] [--load path] [--debug] [--quiet] [--enable err]
+              [--disable err] [--disable-all] [--config-file path]
+              [--python-version version] src [srcs...]
        refurb [--help | -h]
        refurb [--version | -v]
        refurb --explain err
@@ -37,8 +38,10 @@ Command Line Options:
 --debug             Print the AST representation of all files that where checked.
 --quiet             Suppress default "--explain" suggestion when an error occurs.
 --enable            Load a check which is disabled.
---config-file file  Load "file" instead of the default config file
+--config-file file  Load "file" instead of the default config file.
 --explain           Print the explaination/documentation from a given error code.
+--disable-all       Disable all checks by default.
+--python-version    Version of the Python code being checked.
 src                 A file or folder.
 
 
@@ -95,6 +98,9 @@ def run_refurb(settings: Settings) -> Sequence[Error | str]:
     opt.cache_fine_grained = True
     opt.allow_redefinition = True
     opt.local_partial_types = True
+
+    if settings.python_version:
+        opt.python_version = settings.python_version  # pragma: no cover
 
     try:
         result = build(files, options=opt)

@@ -27,6 +27,7 @@ class Settings:
     quiet: bool = False
     disable_all: bool = False
     config_file: str | None = None
+    python_version: tuple[int, int] | None = None
 
     @staticmethod
     def merge(old: "Settings", new: "Settings") -> "Settings":
@@ -52,6 +53,7 @@ class Settings:
             disable_all=old.disable_all or new.disable_all,
             quiet=old.quiet or new.quiet,
             config_file=old.config_file or new.config_file,
+            python_version=old.python_version or new.python_version,
         )
 
 
@@ -67,30 +69,43 @@ def parse_error_id(err: str) -> ErrorCode:
     raise ValueError(f'refurb: "{err}" must be in form FURB123 or 123')
 
 
+def parse_python_version(version: str) -> tuple[int, int]:
+    nums = version.split(".")
+
+    if len(nums) == 2 and all(num.isnumeric() for num in nums):
+        return tuple(int(num) for num in nums)[:2]  # type: ignore
+
+    raise ValueError("refurb: version must be in form `x.y`")
+
+
 def parse_config_file(contents: str) -> Settings:
     config = tomllib.loads(contents)
 
     if tool := config.get("tool"):
-        if settings := tool.get("refurb"):
+        if config := tool.get("refurb"):
             ignore = set(
-                parse_error_id(str(x)) for x in settings.get("ignore", [])
+                parse_error_id(str(x)) for x in config.get("ignore", [])
             )
 
             enable = set(
-                parse_error_id(str(x)) for x in settings.get("enable", [])
+                parse_error_id(str(x)) for x in config.get("enable", [])
             )
 
             disable = set(
-                parse_error_id(str(x)) for x in settings.get("disable", [])
+                parse_error_id(str(x)) for x in config.get("disable", [])
             )
+
+            version = config.get("python_version")
+            python_version = parse_python_version(version) if version else None
 
             return Settings(
                 ignore=ignore,
                 enable=enable - disable,
                 disable=disable,
-                load=settings.get("load", []),
-                quiet=settings.get("quiet", False),
-                disable_all=settings.get("disable_all", False),
+                load=config.get("load", []),
+                quiet=config.get("quiet", False),
+                disable_all=config.get("disable_all", False),
+                python_version=python_version,
             )
 
     return Settings()
@@ -150,6 +165,11 @@ def parse_command_line_args(args: list[str]) -> Settings:
 
         elif arg == "--config-file":
             settings.config_file = get_next_arg(arg, iargs)
+
+        elif arg == "--python-version":
+            version = get_next_arg(arg, iargs)
+
+            settings.python_version = parse_python_version(version)
 
         elif arg.startswith("-"):
             raise ValueError(f'refurb: unsupported option "{arg}"')
