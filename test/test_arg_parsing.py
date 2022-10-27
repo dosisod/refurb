@@ -342,3 +342,28 @@ enable = ["FURB123"]
         disable_all=True,
         enable=set((ErrorCode(456),)),
     )
+
+
+def test_parse_python_version_flag() -> None:
+    settings = parse_args(["--python-version", "3.9"])
+
+    assert settings.python_version == (3, 9)
+
+
+def test_parse_invalid_python_version_flag_will_fail() -> None:
+    versions = ["3.10.8", "x.y", "-3.-8"]
+
+    for version in versions:
+        with pytest.raises(ValueError):
+            parse_args(["--python-version", version])
+
+
+def test_parse_python_version_flag_in_config_file() -> None:
+    contents = """\
+[tool.refurb]
+python_version = "3.5"
+"""
+
+    config_file = parse_config_file(contents)
+
+    assert config_file.python_version == (3, 5)
