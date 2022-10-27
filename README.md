@@ -107,7 +107,8 @@ and `disable` fields are applied afterwards.
 ## Setting Python Version
 
 Use the `--python-version` flag to tell Refurb which version of Python your codebase is using. This
-should allow for better detection of language features, and allow for better error messages.
+should allow for better detection of language features, and allow for better error messages. The argument
+for this flag must be in the form `x.y`, for example, `3.10`.
 
 ## Configuring Refurb
 
