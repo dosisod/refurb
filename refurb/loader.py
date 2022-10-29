@@ -22,19 +22,34 @@ def get_modules(paths: list[str]) -> Generator[ModuleType, None, None]:
     sys.path.append(str(Path.cwd()))
 
     plugins = [x.value for x in entry_points(group="refurb.plugins")]
-
     extra_modules = (importlib.import_module(x) for x in paths + plugins)
 
+    loaded: set[ModuleType] = set()
+
     for pkg in (checks_module, *extra_modules):
+        if pkg in loaded:
+            continue
+
         if not hasattr(pkg, "__path__"):
-            yield importlib.import_module(pkg.__name__)
+            module = importlib.import_module(pkg.__name__)
+
+            if module not in loaded:
+                loaded.add(module)
+                yield module
+
             continue
 
         for info in pkgutil.walk_packages(pkg.__path__, f"{pkg.__name__}."):
             if info.ispkg:
                 continue
 
-            yield importlib.import_module(info.name)
+            module = importlib.import_module(info.name)
+
+            if module not in loaded:
+                loaded.add(module)
+                yield module
+
+        loaded.add(pkg)
 
 
 def get_error_class(module: ModuleType) -> type[Error] | None:

@@ -128,3 +128,27 @@ def test_disable_will_actually_disable_check_loading() -> None:
     )
 
     assert not errors
+
+
+def test_load_will_only_load_each_modules_once() -> None:
+    errors = run_refurb(
+        Settings(
+            files=["test/e2e/custom_check.py"],
+            load=["test.custom_checks", "test.custom_checks"],
+        )
+    )
+
+    assert len(errors) == 1
+
+
+def test_load_builtin_checks_again_does_nothing() -> None:
+    errors1 = run_refurb(Settings(files=["test/data/err_100.py"]))
+
+    errors2 = run_refurb(
+        Settings(
+            files=["test/data/err_100.py"],
+            load=["refurb"],
+        )
+    )
+
+    assert len(errors1) == len(errors2)
