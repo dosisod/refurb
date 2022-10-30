@@ -7,15 +7,14 @@ from importlib.metadata import entry_points
 from inspect import signature
 from pathlib import Path
 from types import ModuleType, UnionType
-from typing import Callable, cast
+from typing import cast
 
 from mypy.nodes import Node
 
 from . import checks as checks_module
 from .error import Error, ErrorCode
 from .settings import Settings
-
-Check = Callable[[Node, list[Error]], None]
+from .types import Check
 
 
 def get_modules(paths: list[str]) -> Generator[ModuleType, None, None]:
