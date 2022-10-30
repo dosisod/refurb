@@ -5,9 +5,10 @@ from collections.abc import Iterable
 import pytest
 from mypy.nodes import Node
 
+from refurb.settings import Settings
+from refurb.types import Checks
 from refurb.visitor import METHOD_NODE_MAPPINGS, RefurbVisitor
 from refurb.visitor.mapping import VisitorNodeTypeMap
-from refurb.visitor.visitor import Checks
 
 from .mypy_visitor import get_mypy_visitor_mapping
 
@@ -21,7 +22,7 @@ def dummy_visitor() -> RefurbVisitor:
     This forces method generation but calling the methods does nothing.
     """
     checks = Checks(list, {ty: [] for ty in METHOD_NODE_MAPPINGS.values()})
-    return RefurbVisitor(checks)
+    return RefurbVisitor(checks, Settings())
 
 
 def get_visit_methods(

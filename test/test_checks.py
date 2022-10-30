@@ -7,22 +7,18 @@ from refurb.settings import Settings, parse_command_line_args
 
 def get_test_data_path() -> Path:
     data_path = Path(__file__).parent / "data"
+
     assert data_path.exists()
     assert data_path.is_dir()
-    return data_path
+
+    return data_path.relative_to(Path.cwd())
 
 
 TEST_DATA_PATH = get_test_data_path()
 
 
 def test_checks() -> None:
-    errors = run_refurb(Settings(files=["test/data"]))
-    got = "\n".join([str(error) for error in errors])
-
-    files = sorted(TEST_DATA_PATH.glob("*.txt"), key=lambda p: p.name)
-    expected = "\n".join(file.read_text()[:-1] for file in files)
-
-    assert got == expected
+    run_checks_in_folder(TEST_DATA_PATH)
 
 
 def test_fatal_mypy_error_is_bubbled_up() -> None:
@@ -131,24 +127,61 @@ def test_disable_will_actually_disable_check_loading() -> None:
 
 
 def test_load_will_only_load_each_modules_once() -> None:
-    errors = run_refurb(
+    errors_normal = run_refurb(
+        Settings(
+            files=["test/e2e/custom_check.py"],
+            load=["test.custom_checks"],
+        )
+    )
+
+    duplicated_load_errors = run_refurb(
         Settings(
             files=["test/e2e/custom_check.py"],
             load=["test.custom_checks", "test.custom_checks"],
         )
     )
 
-    assert len(errors) == 1
+    assert len(errors_normal) == len(duplicated_load_errors)
 
 
 def test_load_builtin_checks_again_does_nothing() -> None:
-    errors1 = run_refurb(Settings(files=["test/data/err_100.py"]))
+    errors_normal = run_refurb(Settings(files=["test/data/err_100.py"]))
 
-    errors2 = run_refurb(
+    duplicated_load_errors = run_refurb(
         Settings(
             files=["test/data/err_100.py"],
             load=["refurb"],
         )
     )
 
-    assert len(errors1) == len(errors2)
+    assert len(errors_normal) == len(duplicated_load_errors)
+
+
+def test_injection_of_settings_into_checks() -> None:
+    errors = run_refurb(
+        Settings(
+            files=["test/e2e/dummy.py"],
+            load=["test.custom_checks.settings"],
+        )
+    )
+
+    msg = "test/e2e/dummy.py:1:1 [XYZ103]: Files being checked: ['test/e2e/dummy.py']"
+
+    assert len(errors) == 1
+    assert str(errors[0]) == msg
+
+
+def test_checks_with_python_version_dependant_error_msgs() -> None:
+    run_checks_in_folder(Path("test/data_3.10"), version=(3, 10))
+
+
+def run_checks_in_folder(
+    folder: Path, *, version: tuple[int, int] | None = None
+) -> None:
+    errors = run_refurb(Settings(files=[str(folder)], python_version=version))
+    got = "\n".join([str(error) for error in errors])
+
+    files = sorted(folder.glob("*.txt"), key=lambda p: p.name)
+    expected = "\n".join(file.read_text()[:-1] for file in files)
+
+    assert got == expected

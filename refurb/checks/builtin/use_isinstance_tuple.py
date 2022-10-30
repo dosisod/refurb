@@ -4,6 +4,7 @@ from mypy.nodes import CallExpr, NameExpr, OpExpr
 
 from refurb.checks.common import extract_binary_oper
 from refurb.error import Error
+from refurb.settings import Settings
 
 
 @dataclass
@@ -39,7 +40,7 @@ class ErrorInfo(Error):
     code = 121
 
 
-def check(node: OpExpr, errors: list[Error]) -> None:
+def check(node: OpExpr, errors: list[Error], settings: Settings) -> None:
     exprs = extract_binary_oper("or", node)
 
     # TODO: remove when next mypy version is released
@@ -56,10 +57,15 @@ def check(node: OpExpr, errors: list[Error]) -> None:
             and len(lhs_args) == 2
             and str(lhs_args[0]) == str(rhs_args[0])
         ):
+            if settings.python_version and settings.python_version >= (3, 10):
+                type_args = "y | z"
+            else:
+                type_args = "(y, z)"
+
             errors.append(
                 ErrorInfo(
                     lhs_args[1].line,
                     lhs_args[1].column,
-                    msg=f"Replace `{lhs.name}(x, y) or {lhs.name}(x, z)` with `{lhs.name}(x, (y, z))`",  # noqa: E501
+                    msg=f"Replace `{lhs.name}(x, y) or {lhs.name}(x, z)` with `{lhs.name}(x, {type_args})`",  # noqa: E501
                 )
             )
