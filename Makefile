@@ -14,7 +14,7 @@ flake8:
 
 mypy:
 	mypy -p refurb
-	mypy -p test --exclude "test/data/*"
+	mypy -p test --exclude "test/data*"
 
 black:
 	black refurb test
@@ -30,4 +30,3 @@ test-e2e: install-local
 
 refurb:
 	refurb refurb test/*.py
-

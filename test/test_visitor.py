@@ -6,9 +6,9 @@ import pytest
 from mypy.nodes import Node
 
 from refurb.settings import Settings
+from refurb.types import Checks
 from refurb.visitor import METHOD_NODE_MAPPINGS, RefurbVisitor
 from refurb.visitor.mapping import VisitorNodeTypeMap
-from refurb.visitor.visitor import Checks
 
 from .mypy_visitor import get_mypy_visitor_mapping
 
