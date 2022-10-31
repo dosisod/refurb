@@ -50,6 +50,7 @@ class ErrorInfo(Error):
     ```
     """
 
+    enabled = False
     code = 120
     msg: str = "Don't pass an argument if it is the same as the default value"
 
