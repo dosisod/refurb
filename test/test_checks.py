@@ -178,7 +178,13 @@ def test_checks_with_python_version_dependant_error_msgs() -> None:
 def run_checks_in_folder(
     folder: Path, *, version: tuple[int, int] | None = None
 ) -> None:
-    errors = run_refurb(Settings(files=[str(folder)], python_version=version))
+    errors = run_refurb(
+        Settings(
+            files=[str(folder)],
+            python_version=version,
+            enable=set((ErrorCode(120),)),
+        )
+    )
     got = "\n".join([str(error) for error in errors])
 
     files = sorted(folder.glob("*.txt"), key=lambda p: p.name)
