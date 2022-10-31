@@ -1,0 +1,7 @@
+test/data/err_133.py:7:9 [FURB133]: Continue is redundant here
+test/data/err_133.py:13:9 [FURB133]: Continue is redundant here
+test/data/err_133.py:21:13 [FURB133]: Continue is redundant here
+test/data/err_133.py:29:17 [FURB133]: Continue is redundant here
+test/data/err_133.py:34:17 [FURB133]: Continue is redundant here
+test/data/err_133.py:37:17 [FURB133]: Continue is redundant here
+test/data/err_133.py:42:13 [FURB133]: Continue is redundant here
