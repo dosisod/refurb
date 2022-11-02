@@ -367,3 +367,45 @@ python_version = "3.5"
     config_file = parse_config_file(contents)
 
     assert config_file.python_version == (3, 5)
+
+
+def test_enable_all_flag() -> None:
+    assert parse_args(["--enable-all"]) == Settings(enable_all=True)
+
+
+def test_enable_all_will_clear_any_previously_disabled_checks() -> None:
+    settings = parse_args(["--disable", "FURB100", "--enable-all"])
+
+    assert settings == Settings(enable_all=True)
+
+
+def test_enable_all_in_config_file() -> None:
+    config = """\
+[tool.refurb]
+enable_all = true
+"""
+
+    assert parse_config_file(config).enable_all
+
+
+def test_enable_all_and_disable_all_are_mutually_exclusive() -> None:
+    with pytest.raises(ValueError, match="can't be used at the same time"):
+        Settings(enable_all=True, disable_all=True)
+
+
+def test_merging_enable_all_field() -> None:
+    config = """\
+[tool.refurb]
+enable = ["FURB100", "FURB101", "FURB102"]
+disable = ["FURB100", "FURB103"]
+"""
+
+    config_file = parse_config_file(config)
+
+    command_line_args = parse_args(["--enable-all", "--disable", "FURB105"])
+
+    merged_settings = Settings.merge(config_file, command_line_args)
+
+    assert merged_settings == Settings(
+        enable_all=True, disable=set((ErrorCode(105),))
+    )

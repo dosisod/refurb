@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import re
 import sys
 from dataclasses import dataclass, field
@@ -25,18 +27,29 @@ class Settings:
     help: bool = False
     version: bool = False
     quiet: bool = False
+    enable_all: bool = False
     disable_all: bool = False
     config_file: str | None = None
     python_version: tuple[int, int] | None = None
 
-    @staticmethod
-    def merge(old: "Settings", new: "Settings") -> "Settings":
-        disable = old.disable | new.disable
+    def __post_init__(self) -> None:
+        if self.enable_all and self.disable_all:
+            raise ValueError(
+                'refurb: "enable all" and "disable all" can\'t be used at the same time'  # noqa: E501
+            )
 
+    @staticmethod
+    def merge(old: Settings, new: Settings) -> Settings:
         if not old.disable_all and new.disable_all:
             enable = new.enable
+            disable = set()
+
+        elif not old.enable_all and new.enable_all:
+            disable = new.disable
+            enable = set()
 
         else:
+            disable = old.disable | new.disable
             enable = (old.enable | new.enable) - disable
 
         return Settings(
@@ -51,6 +64,7 @@ class Settings:
             help=old.help or new.help,
             version=old.version or new.version,
             disable_all=old.disable_all or new.disable_all,
+            enable_all=old.enable_all or new.enable_all,
             quiet=old.quiet or new.quiet,
             config_file=old.config_file or new.config_file,
             python_version=old.python_version or new.python_version,
@@ -105,6 +119,7 @@ def parse_config_file(contents: str) -> Settings:
                 load=config.get("load", []),
                 quiet=config.get("quiet", False),
                 disable_all=config.get("disable_all", False),
+                enable_all=config.get("enable_all", False),
                 python_version=python_version,
             )
 
@@ -141,6 +156,10 @@ def parse_command_line_args(args: list[str]) -> Settings:
         elif arg == "--disable-all":
             settings.enable.clear()
             settings.disable_all = True
+
+        elif arg == "--enable-all":
+            settings.disable.clear()
+            settings.enable_all = True
 
         elif arg == "--explain":
             settings.explain = parse_error_id(get_next_arg(arg, iargs))

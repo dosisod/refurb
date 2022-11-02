@@ -101,8 +101,17 @@ are both specified via the command line, whichever one comes last will take prec
 
 Use the `--disable-all` flag to disable all checks. This allows you to incrementally `--enable` checks
 as you see fit, as opposed to adding a bunch of `--ignore` flags. To use this in the config file,
-set `disable_all` to `true`. In the config file, `disable_all` is applied first, and the `enable`
-and `disable` fields are applied afterwards.
+set `disable_all` to `true`.
+
+Use the `--enable-all` flag to enable all checks by default. This allows you to opt into all checks
+that Refurb (and Refurb plugins) have to offer. This is a good option for new codebases. To use this
+in a config file, set `enable_all` to `true`.
+
+In the config file, `disable_all`/`enable_all` is applied first, and then the `enable` and `disable`
+fields are applied afterwards.
+
+> Note that `disable_all` and `enable_all` are mutually exclusive, both on the command line and in
+> the config file. You will get an error if you try to specify both.
 
 ## Setting Python Version
 

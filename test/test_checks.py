@@ -171,6 +171,18 @@ def test_injection_of_settings_into_checks() -> None:
     assert str(errors[0]) == msg
 
 
+def test_explicitly_disabled_check_is_ignored_when_enable_all_is_set() -> None:
+    errors = run_refurb(
+        Settings(
+            files=["test/data/err_123.py"],
+            enable_all=True,
+            disable=set((ErrorCode(123),)),
+        )
+    )
+
+    assert not errors
+
+
 def test_checks_with_python_version_dependant_error_msgs() -> None:
     run_checks_in_folder(Path("test/data_3.10"), version=(3, 10))
 

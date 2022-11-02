@@ -59,21 +59,25 @@ def get_error_class(module: ModuleType) -> type[Error] | None:
     return None
 
 
+def should_skip_loading_check(settings: Settings, error: type[Error]) -> bool:
+    error_code = ErrorCode.from_error(error)
+
+    return (
+        error_code in settings.ignore
+        or (settings.enable_all and error_code in settings.disable)
+        or (settings.disable_all and error_code not in settings.enable)
+        or (not error.enabled and error_code not in settings.enable)
+        or error_code in settings.disable
+    )
+
+
 def load_checks(settings: Settings) -> defaultdict[type[Node], list[Check]]:
     found: defaultdict[type[Node], list[Check]] = defaultdict(list)
 
     for module in get_modules(settings.load):
         error = get_error_class(module)
-        if not error:
-            continue
 
-        error_code = ErrorCode.from_error(error)
-
-        enabled_by_default = not settings.disable_all and error.enabled
-        is_disabled = error_code in settings.disable
-        is_enabled = enabled_by_default or error_code in settings.enable
-
-        if is_disabled or not is_enabled or error_code in settings.ignore:
+        if not error or should_skip_loading_check(settings, error):
             continue
 
         if func := getattr(module, "check", None):
