@@ -21,8 +21,8 @@ def usage() -> None:
     print(
         """\
 usage: refurb [--ignore err] [--load path] [--debug] [--quiet] [--enable err]
-              [--disable err] [--disable-all] [--config-file path]
-              [--python-version version] src [srcs...]
+              [--disable err] [--disable-all] [--enable-all]
+              [--config-file path] [--python-version version] src [srcs...]
        refurb [--help | -h]
        refurb [--version | -v]
        refurb --explain err
@@ -30,19 +30,20 @@ usage: refurb [--ignore err] [--load path] [--debug] [--quiet] [--enable err]
 
 Command Line Options:
 
--h, --help          This help menu.
---version, -v       Print version information.
---ignore err        Ignore an error. Can be repeated.
---load module       Add a module to the list of paths to be searched when looking
-                    for checks. Can be repeated.
---debug             Print the AST representation of all files that where checked.
---quiet             Suppress default "--explain" suggestion when an error occurs.
---enable            Load a check which is disabled.
---config-file file  Load "file" instead of the default config file.
---explain           Print the explaination/documentation from a given error code.
---disable-all       Disable all checks by default.
---python-version    Version of the Python code being checked.
-src                 A file or folder.
+--help, -h            This help menu.
+--version, -v         Print version information.
+--ignore err          Ignore an error. Can be repeated.
+--load module         Add a module to the list of paths to be searched when looking for checks. Can be repeated.
+--debug               Print the AST representation of all files that where checked.
+--quiet               Suppress default "--explain" suggestion when an error occurs.
+--enable err          Load a check which is disabled by default.
+--disable err         Disable loading a check which is enabled by default.
+--config-file file    Load "file" instead of the default config file.
+--explain err         Print the explaination/documentation from a given error code.
+--disable-all         Disable all checks by default.
+--enable-all          Enable all checks by default.
+--python-version x.y  Version of the Python code being checked.
+src                   A file or folder.
 
 
 Subcommands:
