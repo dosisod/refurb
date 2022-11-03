@@ -101,6 +101,21 @@ def test_disabled_check_ran_if_explicitly_enabled() -> None:
     assert str(errors[0]) == expected
 
 
+def test_disabled_check_ran_if_enable_all_is_set() -> None:
+    errors = run_refurb(
+        Settings(
+            files=["test/e2e/dummy.py"],
+            load=[DISABLED_CHECK],
+            enable_all=True,
+        )
+    )
+
+    expected = "test/e2e/dummy.py:1:1 [XYZ101]: This message is disabled by default"  # noqa: E501
+
+    assert len(errors) == 1
+    assert str(errors[0]) == expected
+
+
 def test_disable_all_will_only_load_explicitly_enabled_checks() -> None:
     errors = run_refurb(
         Settings(

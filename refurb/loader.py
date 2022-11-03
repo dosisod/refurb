@@ -62,13 +62,12 @@ def get_error_class(module: ModuleType) -> type[Error] | None:
 def should_skip_loading_check(settings: Settings, error: type[Error]) -> bool:
     error_code = ErrorCode.from_error(error)
 
-    return (
-        error_code in settings.ignore
-        or (settings.enable_all and error_code in settings.disable)
-        or (settings.disable_all and error_code not in settings.enable)
-        or (not error.enabled and error_code not in settings.enable)
-        or error_code in settings.disable
-    )
+    error_is_disabled = settings.disable_all or not error.enabled
+    should_enable = settings.enable_all or error_code in settings.enable
+
+    in_disable_list = error_code in (settings.ignore | settings.disable)
+
+    return (error_is_disabled and not should_enable) or in_disable_list
 
 
 def load_checks(settings: Settings) -> defaultdict[type[Node], list[Check]]:
