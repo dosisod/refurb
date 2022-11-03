@@ -1,0 +1,1 @@
+test/data/err_134.py:5:2 [FURB134]: Replace `@lru_cache(maxsize=None)` with `@cache`
