@@ -233,3 +233,46 @@ the built-in linter for Rust.
 
 Refurb is not a style/type checker. It is not meant as a first-line of defense for
 linting and finding bugs, it is meant for making good code even better.
+
+## Comparison To Other Tools
+
+There are already lots of tools out there for linting and analyzing Python code, so
+you might be wondering why Refurb exists (skepticism is good!). As mentioned above,
+Refurb checks for code which can be made more elegant, something that no other linters
+(that I have found) specialize in. Here is a list of similar linters and analyzers,
+and how they differ from Refurb:
+
+[Black](https://github.com/psf/black): is more focused on the formatting and
+styling of the code (line length, trailing comas, indentation, and so on). It
+does a really good job of making other projects using Black look more or less
+the same. It doesn't do more complex things such as type checking or code
+smell/anti-pattern detection.
+
+[flake8](https://github.com/pycqa/flake8): flake8 is also a linter, is very extensible,
+and performs a lot of semantic analysis-related checks as well, such as "unused
+variable", "break outside of a loop", and so on. It also checks PEP8
+conformance. Refurb won't try and replace flake8, because chances are you
+are already using flake8 anyways.
+
+[Pylint](https://github.com/PyCQA/pylint) has [a lot of checks](https://pylint.pycqa.org/en/latest/user_guide/messages/messages_overview.html)
+which cover a lot of ground, but in general, are focused on bad or buggy
+code, things which you probably didn't mean to do. Refurb assumes that you
+know what you are doing, and will try to cleanup what is already there the best
+it can.
+
+[Mypy](https://github.com/python/mypy), [Pyright](https://github.com/Microsoft/pyright),
+and [Pyre](https://github.com/facebook/pyre-check) are all type checkers, and
+basically just enforce types, ensures arguments match, functions are called in
+a type safe manner, and so on. They do much more then that, but that is the
+general idea. Refurb actually is built on top of Mypy, and uses its AST parser
+so that it gets good type information.
+
+[pyupgrade](https://github.com/asottile/pyupgrade): Pyupgrade has a lot of good
+checks for upgrading your older Python code to the newer syntax, which is really
+useful. Where Refurb differs is that Pyupgrade is more focused on upgrading your
+code to the newer version, whereas Refurb is more focused on cleaning up and
+simplifying what is already there.
+
+In conclusion, Refurb doesn't want you to throw out your old tools, since
+they cover different areas of your code, and all serve a different purpose.
+Refurb is meant to be used in conjunction with the above tools.
