@@ -59,30 +59,6 @@ Path("file.txt").unlink()
 
 We will need to make sure that `len(x) == 2`
 
-### Dont use `items()` when key/value is ignored
-
-Bad:
-
-```python
-d = {"key": "value"}
-
-for _, v in d.items():
-    pass
-
-for k, _ in d.items():
-    pass
-```
-
-Good:
-
-```python
-for v in d.values():
-    pass
-
-for k in d:
-    pass
-```
-
 ## Typing
 
 These should be opt-in, since they can be quite noisy.
