@@ -1,8 +1,10 @@
-test/data/err_106.py:5:27 [FURB106]: Replace `x.replace("\t", " " * 8)` with `x.expandtabs()`
-test/data/err_106.py:6:27 [FURB106]: Replace `x.replace("\t", "    ")` with `x.expandtabs(4)`
-test/data/err_106.py:7:27 [FURB106]: Replace `x.replace("\t", " ")` with `x.expandtabs(1)`
-test/data/err_106.py:8:25 [FURB106]: Replace `x.replace("\t", " " * tabsize)` with `x.expandtabs(tabsize)`
-test/data/err_106.py:10:29 [FURB106]: Replace `x.replace(b"\t", b" " * 8)` with `x.expandtabs()`
-test/data/err_106.py:11:29 [FURB106]: Replace `x.replace(b"\t", b"    ")` with `x.expandtabs(4)`
-test/data/err_106.py:12:29 [FURB106]: Replace `x.replace(b"\t", b" ")` with `x.expandtabs(1)`
-test/data/err_106.py:13:27 [FURB106]: Replace `x.replace(b"\t", b" " * tabsize)` with `x.expandtabs(tabsize)`
+test/data/err_106.py:5:28 [FURB106]: Replace `x.replace("\t", " " * 8)` with `x.expandtabs()`
+test/data/err_106.py:6:28 [FURB106]: Replace `x.replace("\t", "    ")` with `x.expandtabs(4)`
+test/data/err_106.py:7:28 [FURB106]: Replace `x.replace("\t", " ")` with `x.expandtabs(1)`
+test/data/err_106.py:8:26 [FURB106]: Replace `x.replace("\t", " " * tabsize)` with `x.expandtabs(tabsize)`
+test/data/err_106.py:9:26 [FURB106]: Replace `x.replace("\t", tabsize * " ")` with `x.expandtabs(tabsize)`
+test/data/err_106.py:11:30 [FURB106]: Replace `x.replace(b"\t", b" " * 8)` with `x.expandtabs()`
+test/data/err_106.py:12:30 [FURB106]: Replace `x.replace(b"\t", b"    ")` with `x.expandtabs(4)`
+test/data/err_106.py:13:30 [FURB106]: Replace `x.replace(b"\t", b" ")` with `x.expandtabs(1)`
+test/data/err_106.py:14:28 [FURB106]: Replace `x.replace(b"\t", b" " * tabsize)` with `x.expandtabs(tabsize)`
+test/data/err_106.py:15:28 [FURB106]: Replace `x.replace(b"\t", tabsize * b" ")` with `x.expandtabs(tabsize)`

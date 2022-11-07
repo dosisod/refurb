@@ -16,25 +16,27 @@ from refurb.error import Error
 @dataclass
 class ErrorInfo(Error):
     """
-    Instead of using `replace("\\t", " " * 8)`, you can use the `expandtabs()`
-    method. It is more succinct and descriptive. It also allows for an optional
-    parameter for specifying the tab width.
+    If you want to expand the tabs at the start of a string, don't use
+    `.replace("\\t", " " * 8)`, use `.expandtabs()` instead. Note that this
+    only works if the tabs are at the start of the string, since `expandtabs()`
+    will expand each tab to the nearest tab column.
 
     Bad:
 
     ```
-    spaces_8 = "hello\\tworld".replace("\\t", " " * 8)
-    spaces_4 = "hello\\tworld".replace("\\t", "    ")
+    spaces_8 = "\\thello world".replace("\\t", " " * 8)
+    spaces_4 = "\\thello world".replace("\\t", "    ")
     ```
 
     Good:
 
     ```
-    spaces_8 = "hello\\tworld".expandtabs()
-    spaces_4 = "hello\\tworld".expandtabs(4)
+    spaces_8 = "\\thello world".expandtabs()
+    spaces_4 = "\\thello world".expandtabs(4)
     ```
     """
 
+    enabled = False
     code = 106
 
 
@@ -56,6 +58,14 @@ def check_str(node: CallExpr, errors: list[Error]) -> None:
                 ):
                     tabsize = str(value)
                     expr_value = f'" " * {value}'
+
+                case OpExpr(
+                    op="*",
+                    left=IntExpr(value=value) | NameExpr(name=value),
+                    right=StrExpr(value=" "),
+                ):
+                    tabsize = str(value)
+                    expr_value = f'{value} * " "'
 
                 case _:
                     return
@@ -90,6 +100,14 @@ def check_bytes(node: CallExpr, errors: list[Error]) -> None:
                 ):
                     tabsize = str(value)
                     expr_value = f'b" " * {value}'
+
+                case OpExpr(
+                    op="*",
+                    left=IntExpr(value=value) | NameExpr(name=value),
+                    right=BytesExpr(value=" "),
+                ):
+                    tabsize = str(value)
+                    expr_value = f'{value} * b" "'
 
                 case _:
                     return

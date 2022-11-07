@@ -209,7 +209,7 @@ def run_checks_in_folder(
         Settings(
             files=[str(folder)],
             python_version=version,
-            enable=set((ErrorCode(120),)),
+            enable_all=True,
         )
     )
     got = "\n".join([str(error) for error in errors])
