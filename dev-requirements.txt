@@ -9,7 +9,7 @@ isort==5.10.1
 mccabe==0.7.0
 packaging==21.3
 pathspec==0.10.1
-platformdirs==2.5.2
+platformdirs==2.5.3
 pluggy==1.0.0
 py==1.11.0
 pycodestyle==2.9.1
