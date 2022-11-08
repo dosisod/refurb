@@ -43,13 +43,7 @@ def has_common_expr(*exprs: Expression) -> bool:
 
 
 def check(node: OpExpr, errors: list[Error]) -> None:
-    exprs = extract_binary_oper("and", node)
-
-    # TODO: remove when next mypy version is released
-    if not exprs:
-        return
-
-    match exprs:
+    match extract_binary_oper("and", node):
         case (
             ComparisonExpr(operators=["=="], operands=[a, b]),
             ComparisonExpr(operators=["=="], operands=[c, d]),

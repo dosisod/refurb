@@ -36,13 +36,7 @@ class ErrorInfo(Error):
 
 
 def check(node: OpExpr, errors: list[Error]) -> None:
-    exprs = extract_binary_oper("or", node)
-
-    # TODO: remove when next mypy version is released
-    if not exprs:
-        return
-
-    match exprs:
+    match extract_binary_oper("or", node):
         case (
             ComparisonExpr(operators=["=="], operands=[lhs, _]),
             ComparisonExpr(operators=["=="], operands=[rhs, _]),
