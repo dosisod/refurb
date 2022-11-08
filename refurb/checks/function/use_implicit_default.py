@@ -19,6 +19,7 @@ from mypy.nodes import (
 )
 from mypy.types import Instance
 
+from refurb.checks.common import is_equivalent
 from refurb.error import Error
 
 
@@ -149,7 +150,7 @@ def check_func(caller: CallExpr, func: FuncDef, errors: list[Error]) -> None:
         else:
             return  # pragma: no cover
 
-        if str(value) == str(default):
+        if default and is_equivalent(value, default):
             errors.append(ErrorInfo(value.line, value.column))
 
 

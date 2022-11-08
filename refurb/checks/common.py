@@ -1,6 +1,15 @@
 from collections.abc import Callable
 
-from mypy.nodes import Block, Expression, MypyFile, OpExpr, Statement
+from mypy.nodes import (
+    Block,
+    Expression,
+    MemberExpr,
+    MypyFile,
+    NameExpr,
+    Node,
+    OpExpr,
+    Statement,
+)
 
 from refurb.error import Error
 
@@ -38,3 +47,20 @@ def check_block_like(
 
         case MypyFile():
             func(node.defs, errors)
+
+
+def unmangle_name(name: str | None) -> str:
+    return (name or "").replace("'", "")
+
+
+def is_equivalent(lhs: Node, rhs: Node) -> bool:
+    match (lhs, rhs):
+        case NameExpr() as lhs, NameExpr() as rhs:
+            return unmangle_name(lhs.fullname) == unmangle_name(rhs.fullname)
+
+        case MemberExpr() as lhs, MemberExpr() as rhs:
+            return unmangle_name(lhs.fullname) == unmangle_name(
+                rhs.fullname
+            ) and is_equivalent(lhs.expr, rhs.expr)
+
+    return str(lhs) == str(rhs)
