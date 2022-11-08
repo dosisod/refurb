@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from mypy.nodes import ComparisonExpr, OpExpr
 
-from refurb.checks.common import extract_binary_oper
+from refurb.checks.common import extract_binary_oper, is_equivalent
 from refurb.error import Error
 
 
@@ -46,5 +46,5 @@ def check(node: OpExpr, errors: list[Error]) -> None:
         case (
             ComparisonExpr(operators=["=="], operands=[lhs, _]),
             ComparisonExpr(operators=["=="], operands=[rhs, _]),
-        ) if str(lhs) == str(rhs):
+        ) if is_equivalent(lhs, rhs):
             errors.append(ErrorInfo(lhs.line, lhs.column))

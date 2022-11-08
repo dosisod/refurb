@@ -1,9 +1,9 @@
-from collections import Counter
 from dataclasses import dataclass
+from itertools import combinations
 
 from mypy.nodes import ComparisonExpr, Expression, OpExpr
 
-from refurb.checks.common import extract_binary_oper
+from refurb.checks.common import extract_binary_oper, is_equivalent
 from refurb.error import Error
 
 
@@ -34,10 +34,12 @@ class ErrorInfo(Error):
     msg: str = "Use `x == y == z` instead of `x == y and x == z`"
 
 
-def has_common_expr(exprs: tuple[Expression, ...]) -> bool:
-    count = Counter(str(x) for x in exprs).most_common(1)[0][1]
+def has_common_expr(*exprs: Expression) -> bool:
+    for lhs, rhs in combinations(exprs, 2):
+        if is_equivalent(lhs, rhs):
+            return True
 
-    return count > 1
+    return False
 
 
 def check(node: OpExpr, errors: list[Error]) -> None:
@@ -51,5 +53,5 @@ def check(node: OpExpr, errors: list[Error]) -> None:
         case (
             ComparisonExpr(operators=["=="], operands=[a, b]),
             ComparisonExpr(operators=["=="], operands=[c, d]),
-        ) if has_common_expr((a, b, c, d)):
+        ) if has_common_expr(a, b, c, d):
             errors.append(ErrorInfo(a.line, a.column))

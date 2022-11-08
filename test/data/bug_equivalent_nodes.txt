@@ -1,0 +1,1 @@
+test/data/bug_equivalent_nodes.py:19:5 [FURB110]: Use `x or y` instead of `x if x else y`

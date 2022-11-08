@@ -11,6 +11,7 @@ from mypy.nodes import (
     Var,
 )
 
+from refurb.checks.common import is_equivalent
 from refurb.error import Error
 
 
@@ -62,8 +63,8 @@ def check(node: IfStmt, errors: list[Error]) -> None:
                 )
             ],
         ) if (
-            str(lhs) == str(arg)
-            and str(rhs) == str(expr)
+            is_equivalent(lhs, arg)
+            and is_equivalent(rhs, expr)
             and str(ty).startswith("builtins.set[")
         ):
             errors.append(ErrorInfo(node.line, node.column))

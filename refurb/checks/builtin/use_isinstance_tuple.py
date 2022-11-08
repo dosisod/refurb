@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from mypy.nodes import CallExpr, NameExpr, OpExpr
 
-from refurb.checks.common import extract_binary_oper
+from refurb.checks.common import extract_binary_oper, is_equivalent
 from refurb.error import Error
 from refurb.settings import Settings
 
@@ -55,7 +55,7 @@ def check(node: OpExpr, errors: list[Error], settings: Settings) -> None:
             lhs.fullname == rhs.fullname
             and lhs.fullname in ("builtins.isinstance", "builtins.issubclass")
             and len(lhs_args) == 2
-            and str(lhs_args[0]) == str(rhs_args[0])
+            and is_equivalent(lhs_args[0], rhs_args[0])
         ):
             if settings.python_version and settings.python_version >= (3, 10):
                 type_args = "y | z"

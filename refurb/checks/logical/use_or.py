@@ -2,6 +2,7 @@ from dataclasses import dataclass
 
 from mypy.nodes import ConditionalExpr
 
+from refurb.checks.common import is_equivalent
 from refurb.error import Error
 
 
@@ -31,5 +32,5 @@ class ErrorInfo(Error):
 
 
 def check(node: ConditionalExpr, errors: list[Error]) -> None:
-    if str(node.if_expr) == str(node.cond):
+    if is_equivalent(node.if_expr, node.cond):
         errors.append(ErrorInfo(node.line, node.column))
