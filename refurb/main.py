@@ -184,7 +184,12 @@ def main(args: list[str]) -> int:
 
         return 0
 
-    errors = run_refurb(settings)
+    try:
+        errors = run_refurb(settings)
+
+    except TypeError as e:
+        print(e)
+        return 1
 
     if formatted_errors := format_errors(errors, settings.quiet):
         print(formatted_errors)

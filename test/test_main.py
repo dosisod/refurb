@@ -134,6 +134,21 @@ def test_no_blank_line_printed_if_there_are_no_errors():
         assert p.call_count == 0
 
 
+def test_invalid_checks_returns_nice_message() -> None:
+    with patch("builtins.print") as p:
+        args = [
+            "test/e2e/dummy.py",
+            "--load",
+            "test.invalid_checks.invalid_check",
+        ]
+
+        main(args)
+
+        expected = 'test/invalid_checks/invalid_check.py:13: "int" is not a valid Mypy node type'
+
+        assert expected in str(p.call_args[0][0])
+
+
 @pytest.mark.skipif(not os.getenv("CI"), reason="Locale installation required")
 def test_utf8_is_used_to_load_files_when_error_occurs() -> None:
     """
