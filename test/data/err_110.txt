@@ -1,4 +1,4 @@
-test/data/err_110.py:10:5 [FURB110]: Use `x or y` instead of `x if x else y`
-test/data/err_110.py:11:5 [FURB110]: Use `x or y` instead of `x if x else y`
-test/data/err_110.py:13:5 [FURB110]: Use `x or y` instead of `x if x else y`
-test/data/err_110.py:18:5 [FURB110]: Use `x or y` instead of `x if x else y`
+test/data/err_110.py:10:5 [FURB110]: Replace `x if x else y` with `x or y`
+test/data/err_110.py:11:5 [FURB110]: Replace `x if x else y` with `x or y`
+test/data/err_110.py:13:5 [FURB110]: Replace `x if x else y` with `x or y`
+test/data/err_110.py:18:5 [FURB110]: Replace `x if x else y` with `x or y`

@@ -1,2 +1,2 @@
-test/data/err_114.py:3:4 [FURB114]: Use `bool(x)` instead of `not not x`
-test/data/err_114.py:7:4 [FURB114]: Use `bool(x)` instead of `not not x`
+test/data/err_114.py:3:4 [FURB114]: Replace `not not x` with `bool(x)`
+test/data/err_114.py:7:4 [FURB114]: Replace `not not x` with `bool(x)`

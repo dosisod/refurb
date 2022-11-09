@@ -12,7 +12,7 @@ class ErrorInfo(Error):
     """
 
     code = 105
-    msg: str = 'Use `print() instead of `print("")`'
+    msg: str = 'Replace `print("")` with `print()`'
 
 
 def check(node: CallExpr, errors: list[Error]) -> None:

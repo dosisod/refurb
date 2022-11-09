@@ -1,10 +1,10 @@
-test/data/err_112.py:3:5 [FURB112]: Use `[]` instead of `list()`
-test/data/err_112.py:4:5 [FURB112]: Use `{}` instead of `dict()`
-test/data/err_112.py:5:5 [FURB112]: Use `()` instead of `tuple()`
-test/data/err_112.py:6:5 [FURB112]: Use `0` instead of `int()`
-test/data/err_112.py:7:5 [FURB112]: Use `""` instead of `str()`
-test/data/err_112.py:8:5 [FURB112]: Use `0.0` instead of `float()`
-test/data/err_112.py:9:5 [FURB112]: Use `0j` instead of `complex()`
-test/data/err_112.py:10:5 [FURB112]: Use `False` instead of `bool()`
-test/data/err_112.py:11:6 [FURB112]: Use `b""` instead of `bytes()`
+test/data/err_112.py:3:5 [FURB112]: Replace `list()` with `[]`
+test/data/err_112.py:4:5 [FURB112]: Replace `dict()` with `{}`
+test/data/err_112.py:5:5 [FURB112]: Replace `tuple()` with `()`
+test/data/err_112.py:6:5 [FURB112]: Replace `int()` with `0`
+test/data/err_112.py:7:5 [FURB112]: Replace `str()` with `""`
+test/data/err_112.py:8:5 [FURB112]: Replace `float()` with `0.0`
+test/data/err_112.py:9:5 [FURB112]: Replace `complex()` with `0j`
+test/data/err_112.py:10:5 [FURB112]: Replace `bool()` with `False`
+test/data/err_112.py:11:6 [FURB112]: Replace `bytes()` with `b""`
 test/data/err_112.py:24:6 [FURB123]: Replace `int(x)` with `x`

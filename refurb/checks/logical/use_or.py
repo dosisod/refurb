@@ -10,7 +10,7 @@ from refurb.error import Error
 class ErrorInfo(Error):
     """
     Sometimes ternary (aka, inline if statements) can be simplified to a single
-    or expression.
+    `or` expression.
 
     Bad:
 
@@ -28,7 +28,7 @@ class ErrorInfo(Error):
     """
 
     code = 110
-    msg: str = "Use `x or y` instead of `x if x else y`"
+    msg: str = "Replace `x if x else y` with `x or y`"
 
 
 def check(node: ConditionalExpr, errors: list[Error]) -> None:

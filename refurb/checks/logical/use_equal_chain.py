@@ -31,7 +31,7 @@ class ErrorInfo(Error):
     """
 
     code = 124
-    msg: str = "Use `x == y == z` instead of `x == y and x == z`"
+    msg: str = "Replace `x == y and x == z` with `x == y == z`"
 
 
 def has_common_expr(*exprs: Expression) -> bool:

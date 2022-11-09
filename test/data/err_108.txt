@@ -1,6 +1,6 @@
-test/data/err_108.py:11:5 [FURB108]: Use `x in (y, z)` instead of `x == y or x == z`
-test/data/err_108.py:12:5 [FURB108]: Use `x in (y, z)` instead of `x == y or x == z`
-test/data/err_108.py:13:5 [FURB108]: Use `x in (y, z)` instead of `x == y or x == z`
-test/data/err_108.py:13:19 [FURB108]: Use `x in (y, z)` instead of `x == y or x == z`
-test/data/err_108.py:14:5 [FURB108]: Use `x in (y, z)` instead of `x == y or x == z`
-test/data/err_108.py:17:5 [FURB108]: Use `x in (y, z)` instead of `x == y or x == z`
+test/data/err_108.py:11:5 [FURB108]: Replace `x == y or x == z` with `x in (y, z)`
+test/data/err_108.py:12:5 [FURB108]: Replace `x == y or x == z` with `x in (y, z)`
+test/data/err_108.py:13:5 [FURB108]: Replace `x == y or x == z` with `x in (y, z)`
+test/data/err_108.py:13:19 [FURB108]: Replace `x == y or x == z` with `x in (y, z)`
+test/data/err_108.py:14:5 [FURB108]: Replace `x == y or x == z` with `x in (y, z)`
+test/data/err_108.py:17:5 [FURB108]: Replace `x == y or x == z` with `x in (y, z)`

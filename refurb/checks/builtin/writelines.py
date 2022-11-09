@@ -48,7 +48,7 @@ class ErrorInfo(Error):
     """
 
     code = 122
-    msg: str = "Use `f.writelines(lines)` instead of `for line in lines: f.write(line)`"  # noqa: E501
+    msg: str = "Replace `for line in lines: f.write(line)` with `f.writelines(lines)`"  # noqa: E501
 
 
 def check(node: WithStmt, errors: list[Error]) -> None:

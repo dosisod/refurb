@@ -24,7 +24,7 @@ class ErrorInfo(Error):
     """
 
     code = 104
-    msg: str = "Use `Path.cwd()` instead of `os.getcwd()`"
+    msg: str = "Replace `os.getcwd()` with `Path.cwd()`"
 
 
 def check(node: CallExpr, errors: list[Error]) -> None:
@@ -32,4 +32,10 @@ def check(node: CallExpr, errors: list[Error]) -> None:
         case CallExpr(callee=NameExpr(fullname=name)) | CallExpr(
             callee=MemberExpr(fullname=name)
         ) if name in ("os.getcwd", "os.getcwdb"):
-            errors.append(ErrorInfo(node.line, node.column))
+            errors.append(
+                ErrorInfo(
+                    node.line,
+                    node.column,
+                    f"Replace `{name}()` with `Path.cwd()`",
+                )
+            )
