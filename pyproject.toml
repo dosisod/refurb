@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "refurb"
-version = "1.5.0"
+version = "1.6.0"
 description = "A tool for refurbish and modernize Python codebases"
 authors = ["dosisod"]
 license = "GPL-3.0-only"
@@ -17,7 +17,7 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = ">=3.10"
-mypy = ">=0.981, <=0.982"
+mypy = ">=0.981, <=0.990"
 tomli = {version = "^2.0.1", python = "<3.11"}
 
 [tool.poetry.dev-dependencies]
