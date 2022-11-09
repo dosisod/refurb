@@ -53,7 +53,7 @@ def get_modules(paths: list[str]) -> Generator[ModuleType, None, None]:
         loaded.add(pkg)
 
 
-def is_valid_error_class(obj: Any) -> TypeGuard[type[Error]]:
+def is_valid_error_class(obj: Any) -> TypeGuard[type[Error]]:  # type: ignore
     return issubclass(obj, Error)
 
 
@@ -83,7 +83,9 @@ VALID_NODE_TYPES = set(METHOD_NODE_MAPPINGS.values())
 VALID_OPTIONAL_ARGS = (("settings", Settings),)
 
 
-def type_error_with_line_info(func, msg: str) -> TypeError:
+def type_error_with_line_info(  # type: ignore
+    func: Any, msg: str
+) -> TypeError:
     filename = getsourcefile(func)
     line = getsourcelines(func)[1]
 
@@ -93,7 +95,9 @@ def type_error_with_line_info(func, msg: str) -> TypeError:
     return TypeError(f"{filename}:{line}: {msg}")
 
 
-def extract_function_types(func) -> Generator[type[Node], None, None]:
+def extract_function_types(  # type: ignore
+    func: Any,
+) -> Generator[type[Node], None, None]:
     if not callable(func):
         raise TypeError("Check function must be callable")
 
