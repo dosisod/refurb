@@ -1,3 +1,3 @@
-test/data/err_122.py:6:5 [FURB122]: Use `f.writelines(lines)` instead of `for line in lines: f.write(line)`
-test/data/err_122.py:11:5 [FURB122]: Use `f.writelines(lines)` instead of `for line in lines: f.write(line)`
-test/data/err_122.py:16:5 [FURB122]: Use `f.writelines(lines)` instead of `for line in lines: f.write(line)`
+test/data/err_122.py:6:5 [FURB122]: Replace `for line in lines: f.write(line)` with `f.writelines(lines)`
+test/data/err_122.py:11:5 [FURB122]: Replace `for line in lines: f.write(line)` with `f.writelines(lines)`
+test/data/err_122.py:16:5 [FURB122]: Replace `for line in lines: f.write(line)` with `f.writelines(lines)`

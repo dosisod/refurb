@@ -1,3 +1,3 @@
-test/data/err_111.py:7:1 [FURB111]: Use `f` instead of `lambda x: f(x)`
-test/data/err_111.py:8:1 [FURB111]: Use `f` instead of `lambda x: f(x)`
-test/data/err_111.py:9:1 [FURB111]: Use `f` instead of `lambda x: f(x)`
+test/data/err_111.py:7:1 [FURB111]: Replace `lambda: print()` with `print`
+test/data/err_111.py:8:1 [FURB111]: Replace `lambda x: bool(x)` with `bool`
+test/data/err_111.py:9:1 [FURB111]: Replace `lambda x, y: f(x, y)` with `f`

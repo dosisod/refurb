@@ -1,2 +1,2 @@
-test/data/err_103.py:3:1 [FURB103]: Use `y = Path(x).write_text(y)` instead of `with open(x, ...) as f: f.write(y)`
-test/data/err_103.py:6:1 [FURB103]: Use `y = Path(x).write_bytes(y)` instead of `with open(x, ...) as f: f.write(y)`
+test/data/err_103.py:3:1 [FURB103]: Replace `with open(x, ...) as f: f.write(y)` with `Path(x).write_text(y)`
+test/data/err_103.py:6:1 [FURB103]: Replace `with open(x, ...) as f: f.write(y)` with `Path(x).write_bytes(y)`

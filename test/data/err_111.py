@@ -6,7 +6,7 @@ def f(x, y):
 
 lambda: print()
 lambda x: bool(x)
-lambda x, q: f(x, q)
+lambda x, y: f(x, y)
 
 
 # these will not

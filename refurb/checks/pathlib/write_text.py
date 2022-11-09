@@ -63,6 +63,6 @@ def check(node: WithStmt, errors: list[Error]) -> None:
                 ErrorInfo(
                     node.line,
                     node.column,
-                    f"Use `y = Path(x).{func}(y)` instead of `with open(x, ...) as f: f.write(y)`",  # noqa: E501
+                    f"Replace `with open(x, ...) as f: f.write(y)` with `Path(x).{func}(y)`",  # noqa: E501
                 )
             )

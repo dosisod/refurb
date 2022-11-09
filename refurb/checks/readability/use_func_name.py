@@ -38,7 +38,7 @@ class ErrorInfo(Error):
     """
 
     code = 111
-    msg: str = "Use `f` instead of `lambda x: f(x)`"
+    msg: str = "Replace `lambda x: f(x)` with `f`"
 
 
 def get_lambda_arg_names(args: list[Argument]) -> list[str]:
@@ -53,9 +53,26 @@ def check(node: LambdaExpr, errors: list[Error]) -> None:
     match node:
         case LambdaExpr(
             arguments=lambda_args,
-            body=Block(body=[ReturnStmt(expr=CallExpr() as func)]),
+            body=Block(
+                body=[
+                    ReturnStmt(
+                        expr=CallExpr(callee=NameExpr(name=func_name)) as func
+                    ),
+                ]
+            ),
         ) if (
             get_lambda_arg_names(lambda_args) == get_func_arg_names(func.args)
             and all(kind == ArgKind.ARG_POS for kind in func.arg_kinds)
         ):
-            errors.append(ErrorInfo(node.line, node.column))
+            arg_names = get_lambda_arg_names(lambda_args)
+            arg_names = ", ".join(arg_names) if arg_names else ""
+
+            _lambda = f"lambda {arg_names}" if arg_names else "lambda"
+
+            errors.append(
+                ErrorInfo(
+                    node.line,
+                    node.column,
+                    f"Replace `{_lambda}: {func_name}({arg_names})` with `{func_name}`",  # noqa: E501
+                )
+            )

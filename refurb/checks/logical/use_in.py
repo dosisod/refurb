@@ -32,7 +32,7 @@ class ErrorInfo(Error):
     """
 
     code = 108
-    msg: str = "Use `x in (y, z)` instead of `x == y or x == z`"
+    msg: str = "Replace `x == y or x == z` with `x in (y, z)`"
 
 
 def check(node: OpExpr, errors: list[Error]) -> None:

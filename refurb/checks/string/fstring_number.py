@@ -49,6 +49,6 @@ def check(node: IndexExpr, errors: list[Error]) -> None:
                 ErrorInfo(
                     node.line,
                     node.column,
-                    f"Use `{fstring}` instead of `{name_node.name}(num)[2:]`",
+                    f"Replace `{name_node.name}(num)[2:]` with `{fstring}`",
                 )
             )

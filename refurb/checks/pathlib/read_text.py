@@ -84,6 +84,6 @@ def check(node: WithStmt, errors: list[Error]) -> None:
                 ErrorInfo(
                     node.line,
                     node.column,
-                    f"Use `y = Path(x).{func}({read_text_params})` instead of `with open(x{with_params}) as f: y = f.read()`",  # noqa: E501
+                    f"Replace `with open(x{with_params}) as f: y = f.read()` with `y = Path(x).{func}({read_text_params})`",  # noqa: E501
                 )
             )
