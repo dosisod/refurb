@@ -4,12 +4,14 @@ import sys
 from collections import defaultdict
 from collections.abc import Generator
 from importlib.metadata import entry_points
-from inspect import signature
+from inspect import getsourcefile, getsourcelines, signature
 from pathlib import Path
-from types import ModuleType, UnionType
-from typing import cast
+from types import GenericAlias, ModuleType, UnionType
+from typing import Any, TypeGuard
 
 from mypy.nodes import Node
+
+from refurb.visitor.mapping import METHOD_NODE_MAPPINGS
 
 from . import checks as checks_module
 from .error import Error, ErrorCode
@@ -51,10 +53,17 @@ def get_modules(paths: list[str]) -> Generator[ModuleType, None, None]:
         loaded.add(pkg)
 
 
+def is_valid_error_class(obj: Any) -> TypeGuard[type[Error]]:  # type: ignore
+    return issubclass(obj, Error)
+
+
 def get_error_class(module: ModuleType) -> type[Error] | None:
     for name in dir(module):
         if name.startswith("Error") and name not in ("Error", "ErrorCode"):
-            return cast(type[Error], getattr(module, name))
+            error = getattr(module, name)
+
+            if is_valid_error_class(error):
+                return error
 
     return None
 
@@ -70,6 +79,76 @@ def should_skip_loading_check(settings: Settings, error: type[Error]) -> bool:
     return (error_is_disabled and not should_enable) or in_disable_list
 
 
+VALID_NODE_TYPES = set(METHOD_NODE_MAPPINGS.values())
+VALID_OPTIONAL_ARGS = (("settings", Settings),)
+
+
+def type_error_with_line_info(  # type: ignore
+    func: Any, msg: str
+) -> TypeError:
+    filename = getsourcefile(func)
+    line = getsourcelines(func)[1]
+
+    if not filename:
+        return TypeError(msg)  # pragma: no cover
+
+    return TypeError(f"{filename}:{line}: {msg}")
+
+
+def extract_function_types(  # type: ignore
+    func: Any,
+) -> Generator[type[Node], None, None]:
+    if not callable(func):
+        raise TypeError("Check function must be callable")
+
+    params = list(signature(func).parameters.values())
+
+    if len(params) not in (2, 3):
+        raise type_error_with_line_info(
+            func, "Check function must take 2-3 parameters"
+        )
+
+    node_param = params[0].annotation
+    error_param = params[1].annotation
+    optional_params = params[2:]
+
+    if not (
+        type(error_param) == GenericAlias
+        and error_param.__origin__ == list
+        and error_param.__args__[0] == Error
+    ):
+        raise type_error_with_line_info(
+            func, '"error" param must be of type list[Error]'
+        )
+
+    for param in optional_params:
+        if (param.name, param.annotation) not in VALID_OPTIONAL_ARGS:
+            raise type_error_with_line_info(
+                func,
+                f'"{param.name}: {param.annotation.__name__}" is not a valid service',  # noqa: E501
+            )
+
+    match node_param:
+        case UnionType() as types:
+            for ty in types.__args__:
+                if ty not in VALID_NODE_TYPES:
+                    raise type_error_with_line_info(
+                        func,
+                        f'"{ty.__name__}" is not a valid Mypy node type',
+                    )
+
+                yield ty
+
+        case ty if ty in VALID_NODE_TYPES:
+            yield ty
+
+        case _:
+            raise type_error_with_line_info(
+                func,
+                f'"{ty.__name__}" is not a valid Mypy node type',
+            )
+
+
 def load_checks(settings: Settings) -> defaultdict[type[Node], list[Check]]:
     found: defaultdict[type[Node], list[Check]] = defaultdict(list)
 
@@ -80,14 +159,7 @@ def load_checks(settings: Settings) -> defaultdict[type[Node], list[Check]]:
             continue
 
         if func := getattr(module, "check", None):
-            params = list(signature(func).parameters.values())
-
-            match params[0].annotation:
-                case UnionType() as types:
-                    for ty in types.__args__:
-                        found[ty].append(func)
-
-                case ty:
-                    found[ty].append(func)
+            for ty in extract_function_types(func):
+                found[ty].append(func)
 
     return found
