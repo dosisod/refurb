@@ -48,6 +48,7 @@ class ErrorInfo(Error):
     """
 
     code = 135
+    categories = ["dict"]
 
 
 def check(

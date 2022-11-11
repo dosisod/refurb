@@ -34,6 +34,7 @@ class ErrorInfo(Error):
     """
 
     code = 103
+    categories = ["pathlib"]
 
 
 def check(node: WithStmt, errors: list[Error]) -> None:

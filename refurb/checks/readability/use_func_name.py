@@ -39,6 +39,7 @@ class ErrorInfo(Error):
 
     code = 111
     msg: str = "Replace `lambda x: f(x)` with `f`"
+    categories = ["readability"]
 
 
 def get_lambda_arg_names(args: list[Argument]) -> list[str]:

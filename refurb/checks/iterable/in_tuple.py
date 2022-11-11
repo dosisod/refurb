@@ -31,6 +31,7 @@ class ErrorInfo(Error):
     """
 
     code = 109
+    categories = ["iterable", "readability"]
 
 
 def error_msg(oper: str) -> str:

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import ClassVar, Optional
+from typing import ClassVar
 
 
 @dataclass(frozen=True)
@@ -25,7 +25,8 @@ class Error:
     line: int
     column: int
     msg: str
-    filename: Optional[str] = None
+    filename: str | None = None
+    categories: list[str] | None = None
 
     def __str__(self) -> str:
         return f"{self.filename}:{self.line}:{self.column + 1} [{self.prefix}{self.code}]: {self.msg}"  # noqa: E501

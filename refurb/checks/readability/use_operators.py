@@ -44,6 +44,7 @@ class ErrorInfo(Error):
     """
 
     code = 118
+    categories = ["operator"]
 
 
 BINARY_OPERATORS = {

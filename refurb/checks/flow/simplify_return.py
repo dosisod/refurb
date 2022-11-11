@@ -57,6 +57,7 @@ class ErrorInfo(Error):
     """
 
     code = 126
+    categories = ["control-flow", "readability"]
 
 
 def get_trailing_return(node: Statement) -> Statement | None:
