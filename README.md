@@ -261,11 +261,11 @@ know what you are doing, and will try to cleanup what is already there the best
 it can.
 
 [Mypy](https://github.com/python/mypy), [Pyright](https://github.com/Microsoft/pyright),
-and [Pyre](https://github.com/facebook/pyre-check) are all type checkers, and
-basically just enforce types, ensures arguments match, functions are called in
-a type safe manner, and so on. They do much more then that, but that is the
-general idea. Refurb actually is built on top of Mypy, and uses its AST parser
-so that it gets good type information.
+[Pyre](https://github.com/facebook/pyre-check), and [Pytype](https://github.com/google/pytype)
+are all type checkers, and basically just enforce types, ensures arguments match,
+functions are called in a type safe manner, and so on. They do much more then that, but
+that is the general idea. Refurb actually is built on top of Mypy, and uses its AST
+parser so that it gets good type information.
 
 [pyupgrade](https://github.com/asottile/pyupgrade): Pyupgrade has a lot of good
 checks for upgrading your older Python code to the newer syntax, which is really
