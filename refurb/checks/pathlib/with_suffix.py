@@ -36,6 +36,7 @@ class ErrorInfo(Error):
 
     code = 100
     msg: str = "Use `Path(x).with_suffix(y)` instead of slice and concat"  # noqa: E501
+    categories = ["pathlib"]
 
 
 def check(node: OpExpr, errors: list[Error]) -> None:

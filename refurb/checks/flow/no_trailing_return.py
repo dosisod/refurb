@@ -56,6 +56,7 @@ class ErrorInfo(Error):
 
     code = 125
     msg: str = "Return is redundant here"
+    categories = ["control-flow", "readability"]
 
 
 def get_trailing_return(node: Statement) -> Generator[Statement, None, None]:

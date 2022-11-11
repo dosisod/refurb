@@ -27,6 +27,7 @@ class ErrorInfo(Error):
     """
 
     code = 116
+    categories = ["builtin", "fstring"]
 
 
 FUNC_CONVERSIONS = {

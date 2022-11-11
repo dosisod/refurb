@@ -31,6 +31,7 @@ class ErrorInfo(Error):
     """
 
     code = 130
+    categories = ["dict", "readability"]
 
 
 def check(node: ComparisonExpr, errors: list[Error]) -> None:

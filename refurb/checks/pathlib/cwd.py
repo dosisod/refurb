@@ -25,6 +25,7 @@ class ErrorInfo(Error):
 
     code = 104
     msg: str = "Replace `os.getcwd()` with `Path.cwd()`"
+    categories = ["pathlib"]
 
 
 def check(node: CallExpr, errors: list[Error]) -> None:

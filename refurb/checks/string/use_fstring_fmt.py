@@ -33,6 +33,7 @@ class ErrorInfo(Error):
     """
 
     code = 119
+    categories = ["builtin", "fstring"]
 
 
 CONVERSIONS = {

@@ -39,6 +39,7 @@ class ErrorInfo(Error):
 
     code = 129
     msg: str = "Replace `f.readlines()` with `f`"
+    categories = ["builtin", "readability"]
 
 
 def get_readline_file_object(expr: Expression) -> NameExpr | None:

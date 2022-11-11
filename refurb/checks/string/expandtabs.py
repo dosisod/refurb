@@ -38,6 +38,7 @@ class ErrorInfo(Error):
 
     enabled = False
     code = 106
+    categories = ["string"]
 
 
 def check_str(node: CallExpr, errors: list[Error]) -> None:

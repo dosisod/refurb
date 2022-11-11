@@ -29,6 +29,7 @@ class ErrorInfo(Error):
 
     code = 128
     msg: str = "Use tuple unpacking instead of temporary variables to swap values"  # noqa: E501
+    categories = ["readability"]
 
 
 def check(node: Block | MypyFile, errors: list[Error]) -> None:

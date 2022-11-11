@@ -31,6 +31,7 @@ class ErrorInfo(Error):
     """
 
     code = 102
+    categories = ["string"]
 
 
 def check(node: OpExpr, errors: list[Error]) -> None:

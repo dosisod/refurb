@@ -33,6 +33,7 @@ class ErrorInfo(Error):
 
     code = 108
     msg: str = "Replace `x == y or x == z` with `x in (y, z)`"
+    categories = ["logical", "readability"]
 
 
 def check(node: OpExpr, errors: list[Error]) -> None:

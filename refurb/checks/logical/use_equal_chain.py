@@ -32,6 +32,7 @@ class ErrorInfo(Error):
 
     code = 124
     msg: str = "Replace `x == y and x == z` with `x == y == z`"
+    categories = ["logical", "readability"]
 
 
 def has_common_expr(*exprs: Expression) -> bool:

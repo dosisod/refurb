@@ -39,6 +39,7 @@ class ErrorInfo(Error):
     """
 
     code = 131
+    categories = ["builtin", "readability"]
 
 
 def check(node: DelStmt, errors: list[Error]) -> None:

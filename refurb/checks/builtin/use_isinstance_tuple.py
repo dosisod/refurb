@@ -38,6 +38,7 @@ class ErrorInfo(Error):
     """
 
     code = 121
+    categories = ["readability"]
 
 
 def check(node: OpExpr, errors: list[Error], settings: Settings) -> None:

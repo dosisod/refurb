@@ -27,6 +27,7 @@ class ErrorInfo(Error):
     """
 
     code = 112
+    categories = ["pythonic", "readability"]
 
 
 FUNC_NAMES = {

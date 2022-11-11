@@ -41,6 +41,7 @@ class ErrorInfo(Error):
 
     code = 127
     msg: str = "This variable is redeclared later, and can be removed here"
+    categories = ["readability", "scoping"]
 
 
 def check(node: Block | MypyFile, errors: list[Error]) -> None:

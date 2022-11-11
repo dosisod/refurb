@@ -32,6 +32,7 @@ class ErrorInfo(Error):
     """
 
     code = 107
+    categories = ["contextlib", "readability"]
 
 
 def check(node: TryStmt, errors: list[Error]) -> None:

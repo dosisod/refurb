@@ -60,6 +60,7 @@ class ErrorInfo(Error):
     """
 
     code = 115
+    categories = ["iterable", "truthy"]
 
 
 CONTAINER_TYPES = {

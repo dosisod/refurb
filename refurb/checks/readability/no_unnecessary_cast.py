@@ -53,6 +53,7 @@ class ErrorInfo(Error):
     """
 
     code = 123
+    categories = ["readability"]
 
 
 FUNC_NAMES = {
