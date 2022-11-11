@@ -18,8 +18,8 @@ def test_check_categories_are_valid() -> None:
         categories = []
 
         for line in f:
-            if category := re.search("## `([a-z-]+)`", line):
-                categories.append(category.group(1))
+            if name := re.search("## `([a-z-]+)`", line):
+                categories.append(name.group(1))
 
     for module in get_modules([]):
         error = get_error_class(module)
