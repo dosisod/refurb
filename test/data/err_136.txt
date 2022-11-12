@@ -1,0 +1,8 @@
+test/data/err_136.py:6:5 [FURB136]: Replace `x if x < y else y` with `min(x, y)`
+test/data/err_136.py:7:5 [FURB136]: Replace `x if x <= y else y` with `min(x, y)`
+test/data/err_136.py:8:5 [FURB136]: Replace `x if x > y else y` with `max(x, y)`
+test/data/err_136.py:9:5 [FURB136]: Replace `x if x >= y else y` with `max(x, y)`
+test/data/err_136.py:11:5 [FURB136]: Replace `x if y < x else y` with `max(y, x)`
+test/data/err_136.py:12:5 [FURB136]: Replace `x if y <= x else y` with `max(y, x)`
+test/data/err_136.py:13:5 [FURB136]: Replace `x if y > x else y` with `min(y, x)`
+test/data/err_136.py:14:5 [FURB136]: Replace `x if y >= x else y` with `min(y, x)`
