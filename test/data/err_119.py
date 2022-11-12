@@ -14,6 +14,8 @@ f"{hex(0xFF)}"
 
 f"{chr(0x41)}"
 
+f"{format('hello world')}"
+
 
 # these will not
 
