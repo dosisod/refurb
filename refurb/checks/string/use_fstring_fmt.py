@@ -44,6 +44,7 @@ CONVERSIONS = {
     "builtins.oct": "x:#o",
     "builtins.hex": "x:#x",
     "builtins.chr": "x:c",
+    "builtins.format": "x",
 }
 
 
