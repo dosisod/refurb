@@ -59,8 +59,10 @@ def is_equivalent(lhs: Node, rhs: Node) -> bool:
             return unmangle_name(lhs.fullname) == unmangle_name(rhs.fullname)
 
         case MemberExpr() as lhs, MemberExpr() as rhs:
-            return unmangle_name(lhs.fullname) == unmangle_name(
-                rhs.fullname
-            ) and is_equivalent(lhs.expr, rhs.expr)
+            return (
+                lhs.name == rhs.name
+                and unmangle_name(lhs.fullname) == unmangle_name(rhs.fullname)
+                and is_equivalent(lhs.expr, rhs.expr)
+            )
 
     return str(lhs) == str(rhs)

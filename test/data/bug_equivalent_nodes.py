@@ -7,6 +7,7 @@
 
 class Person:
     name: str
+    age: int
 
     def __init__(self, name: str) -> None:
         self.name = name
@@ -20,3 +21,8 @@ _ = (
     if bob.name
     else "alice"
 )
+
+
+# These should not
+
+_ = bob.age if bob.name else 123
