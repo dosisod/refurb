@@ -1,1 +1,1 @@
-test/data/bug_equivalent_nodes.py:19:5 [FURB110]: Replace `x if x else y` with `x or y`
+test/data/bug_equivalent_nodes.py:20:5 [FURB110]: Replace `x if x else y` with `x or y`
