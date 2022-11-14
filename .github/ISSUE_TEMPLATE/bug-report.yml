@@ -11,6 +11,15 @@ body:
     attributes:
       value: Thank you for submitting a bug report for Refurb! Please fill out the information below so we can fix your issue as quickly as possible!
 
+  - type: checkboxes
+    id: tested-master
+    attributes:
+      label: Has your issue already been fixed?
+      description: It is possible that your issue has already been fixed on `master`, but not released to PyPi. There could also already be an open issue for problem.
+      options:
+        - label: Is this still an issue on the `master` branch?
+        - label: Have you looked to see if there are existing similar issues?
+
   - type: textarea
     id: describe
     attributes:
