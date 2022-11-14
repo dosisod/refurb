@@ -83,15 +83,23 @@ def ignored_via_comment(error: Error | str) -> bool:
 
 
 def run_refurb(settings: Settings) -> Sequence[Error | str]:
+    stdout = StringIO()
     stderr = StringIO()
 
     try:
-        files, opt = process_options(settings.files or [], stderr=stderr)
+        files, opt = process_options(
+            settings.files + settings.mypy_args,
+            stdout=stdout,
+            stderr=stderr,
+        )
 
     except SystemExit:
-        return ["refurb: " + err for err in stderr.getvalue().splitlines()]
+        lines = ["refurb: " + err for err in stderr.getvalue().splitlines()]
+
+        return lines + stdout.getvalue().splitlines()
 
     finally:
+        stdout.close()
         stderr.close()
 
     opt.incremental = True

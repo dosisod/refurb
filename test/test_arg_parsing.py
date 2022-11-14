@@ -409,3 +409,34 @@ disable = ["FURB100", "FURB103"]
     assert merged_settings == Settings(
         enable_all=True, disable=set((ErrorCode(105),))
     )
+
+
+def test_parse_mypy_extra_args() -> None:
+    settings = parse_args(["--", "mypy", "args", "here"])
+
+    assert settings == Settings(mypy_args=["mypy", "args", "here"])
+
+
+def test_parse_mypy_extra_args_in_config() -> None:
+    config = """\
+[tool.refurb]
+mypy_args = ["some", "args"]
+"""
+
+    config_file = parse_config_file(config)
+
+    assert config_file == Settings(mypy_args=["some", "args"])
+
+
+def test_cli_args_override_mypy_args_in_config_file() -> None:
+    config = """\
+[tool.refurb]
+mypy_args = ["some", "args"]
+"""
+
+    config_file = parse_config_file(config)
+
+    cli_args = parse_args(["--", "new", "args"])
+    merged = Settings.merge(config_file, cli_args)
+
+    assert merged == Settings(mypy_args=["new", "args"])

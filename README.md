@@ -119,6 +119,21 @@ Use the `--python-version` flag to tell Refurb which version of Python your code
 should allow for better detection of language features, and allow for better error messages. The argument
 for this flag must be in the form `x.y`, for example, `3.10`.
 
+## Overriding Mypy Flags
+
+This is typically used for development purposes, but can also be used to better fine-tune Mypy from
+within Refurb. Any command line arguments after `--` are passed to Mypy. For example:
+
+```
+$ refurb files -- --show-traceback
+```
+
+This tells Mypy to show a traceback if it crashes.
+
+You can also use this in the config file by assigning an array of values to the `mypy_args` field.
+Note that any Mypy arguments passed via the command line arguments will override the `mypy_args`
+field in the config file.
+
 ## Configuring Refurb
 
 In addition to the command line arguments, you can also add your settings in the `pyproject.toml` file.
