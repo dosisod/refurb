@@ -31,6 +31,7 @@ class Settings:
     disable_all: bool = False
     config_file: str | None = None
     python_version: tuple[int, int] | None = None
+    mypy_args: list[str] = field(default_factory=list)
 
     def __post_init__(self) -> None:
         if self.enable_all and self.disable_all:
@@ -68,6 +69,7 @@ class Settings:
             quiet=old.quiet or new.quiet,
             config_file=old.config_file or new.config_file,
             python_version=old.python_version or new.python_version,
+            mypy_args=new.mypy_args or old.mypy_args,
         )
 
 
@@ -111,6 +113,7 @@ def parse_config_file(contents: str) -> Settings:
 
             version = config.get("python_version")
             python_version = parse_python_version(version) if version else None
+            mypy_args = [str(x) for x in config.get("mypy_args", [])]
 
             return Settings(
                 ignore=ignore,
@@ -121,6 +124,7 @@ def parse_config_file(contents: str) -> Settings:
                 disable_all=config.get("disable_all", False),
                 enable_all=config.get("enable_all", False),
                 python_version=python_version,
+                mypy_args=mypy_args,
             )
 
     return Settings()
@@ -189,6 +193,9 @@ def parse_command_line_args(args: list[str]) -> Settings:
             version = get_next_arg(arg, iargs)
 
             settings.python_version = parse_python_version(version)
+
+        elif arg == "--":
+            settings.mypy_args = list(iargs)
 
         elif arg.startswith("-"):
             raise ValueError(f'refurb: unsupported option "{arg}"')

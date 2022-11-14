@@ -1,5 +1,6 @@
 import os
 from dataclasses import dataclass
+from importlib import metadata
 from locale import LC_ALL, setlocale
 from unittest.mock import patch
 
@@ -182,3 +183,11 @@ def test_load_custom_config_file():
     errors = run_refurb(load_settings(args))
 
     assert not errors
+
+
+def test_mypy_args_are_forwarded() -> None:
+    errors = run_refurb(Settings(mypy_args=["--version"]))
+
+    assert len(errors) == 1
+    assert isinstance(errors[0], str)
+    assert errors[0].startswith(f"mypy {metadata.version('mypy')}")
