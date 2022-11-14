@@ -17,8 +17,8 @@ body:
       label: Has your issue already been fixed?
       description: It is possible that your issue has already been fixed on `master`, but not released to PyPi. There could also already be an open issue for problem.
       options:
-        - label: Is this still an issue on the `master` branch?
-        - label: Have you looked to see if there are existing similar issues?
+        - label: Have you checked to see if your issue still exists on the `master` branch? See [the docs](https://github.com/dosisod/refurb#developing) for instructions on how to setup a local build of Refurb.
+        - label: Have you looked at the open/closed issues to see if anyone has already reported your issue?
 
   - type: textarea
     id: describe
