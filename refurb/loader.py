@@ -54,7 +54,14 @@ def get_modules(paths: list[str]) -> Generator[ModuleType, None, None]:
 
 
 def is_valid_error_class(obj: Any) -> TypeGuard[type[Error]]:  # type: ignore
-    return issubclass(obj, Error)
+    name = obj.__name__
+    ignored_names = ("Error", "ErrorCode", "ErrorCategory")
+
+    return (
+        name.startswith("Error")
+        and name not in ignored_names
+        and issubclass(obj, Error)
+    )
 
 
 def get_error_class(module: ModuleType) -> type[Error] | None:
@@ -68,15 +75,22 @@ def get_error_class(module: ModuleType) -> type[Error] | None:
     return None
 
 
-def should_skip_loading_check(settings: Settings, error: type[Error]) -> bool:
+def should_load_check(settings: Settings, error: type[Error]) -> bool:
     error_code = ErrorCode.from_error(error)
 
-    error_is_disabled = settings.disable_all or not error.enabled
-    should_enable = settings.enable_all or error_code in settings.enable
+    if error_code in settings.enable:
+        return True
 
-    in_disable_list = error_code in (settings.ignore | settings.disable)
+    if error_code in (settings.disable | settings.ignore):
+        return False
 
-    return (error_is_disabled and not should_enable) or in_disable_list
+    if settings.enable.intersection(error.categories):
+        return True
+
+    if settings.disable.intersection(error.categories) or settings.disable_all:
+        return False
+
+    return error.enabled or settings.enable_all
 
 
 VALID_NODE_TYPES = set(METHOD_NODE_MAPPINGS.values())
@@ -155,11 +169,9 @@ def load_checks(settings: Settings) -> defaultdict[type[Node], list[Check]]:
     for module in get_modules(settings.load):
         error = get_error_class(module)
 
-        if not error or should_skip_loading_check(settings, error):
-            continue
-
-        if func := getattr(module, "check", None):
-            for ty in extract_function_types(func):
-                found[ty].append(func)
+        if error and should_load_check(settings, error):
+            if func := getattr(module, "check", None):
+                for ty in extract_function_types(func):
+                    found[ty].append(func)
 
     return found

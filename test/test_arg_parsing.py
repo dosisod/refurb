@@ -1,6 +1,6 @@
 import pytest
 
-from refurb.error import ErrorCode
+from refurb.error import ErrorCategory, ErrorCode
 from refurb.settings import Settings
 from refurb.settings import parse_command_line_args as parse_args
 from refurb.settings import parse_config_file, parse_error_id
@@ -57,6 +57,13 @@ def test_parse_ignore() -> None:
     assert got == expected
 
 
+def test_parse_ignore_category() -> None:
+    got = parse_args(["--ignore", "#category"])
+    expected = Settings(ignore=set((ErrorCategory("category"),)))
+
+    assert got == expected
+
+
 def test_parse_ignore_check_missing_arg() -> None:
     with pytest.raises(
         ValueError, match='refurb: missing argument after "--ignore"'
@@ -67,6 +74,13 @@ def test_parse_ignore_check_missing_arg() -> None:
 def test_parse_enable() -> None:
     got = parse_args(["--enable", "FURB123", "--enable", "321"])
     expected = Settings(enable=set((ErrorCode(123), ErrorCode(321))))
+
+    assert got == expected
+
+
+def test_parse_enable_category() -> None:
+    got = parse_args(["--enable", "#category"])
+    expected = Settings(enable=set((ErrorCategory("category"),)))
 
     assert got == expected
 
@@ -226,6 +240,12 @@ def test_disable_error() -> None:
     settings = parse_args(["--disable", "FURB100"])
 
     assert settings == Settings(disable=set((ErrorCode(100),)))
+
+
+def test_disable_error_category() -> None:
+    settings = parse_args(["--disable", "#category"])
+
+    assert settings == Settings(disable=set((ErrorCategory("category"),)))
 
 
 def test_disable_existing_enabled_error() -> None:
@@ -408,6 +428,23 @@ disable = ["FURB100", "FURB103"]
 
     assert merged_settings == Settings(
         enable_all=True, disable=set((ErrorCode(105),))
+    )
+
+
+def test_parse_config_file_categories() -> None:
+    config = """\
+[tool.refurb]
+enable = ["#category-a"]
+disable = ["#category-b"]
+ignore = ["#category-c"]
+"""
+
+    config_file = parse_config_file(config)
+
+    assert config_file == Settings(
+        enable=set((ErrorCategory("category-a"),)),
+        disable=set((ErrorCategory("category-b"),)),
+        ignore=set((ErrorCategory("category-c"),)),
     )
 
 

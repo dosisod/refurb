@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from refurb.error import Error, ErrorCode
+from refurb.error import Error, ErrorCategory, ErrorCode
 from refurb.main import run_refurb
 from refurb.settings import Settings, parse_command_line_args
 
@@ -196,6 +196,29 @@ def test_explicitly_disabled_check_is_ignored_when_enable_all_is_set() -> None:
     )
 
     assert not errors
+
+
+def test_explicitly_enabled_check_from_disabled_category_is_ran() -> None:
+    errors = run_refurb(
+        Settings(
+            files=["test/data/err_123.py"],
+            disable=set((ErrorCategory("readability"),)),
+            enable=set((ErrorCode(123),)),
+        )
+    )
+
+    assert errors
+
+
+def test_explicitly_enabled_category_still_runs() -> None:
+    errors = run_refurb(
+        Settings(
+            files=["test/data/err_123.py"],
+            enable=set((ErrorCategory("readability"),)),
+        )
+    )
+
+    assert errors
 
 
 def test_checks_with_python_version_dependant_error_msgs() -> None:
