@@ -32,6 +32,7 @@ class ErrorInfo(Error):
     """
 
     code = 136
+    categories = ["builtin", "logical", "readability"]
 
 
 FUNC_TABLE = {

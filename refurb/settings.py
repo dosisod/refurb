@@ -11,17 +11,17 @@ if sys.version_info >= (3, 11):
 else:
     import tomli as tomllib  # pragma: no cover
 
-from .error import ErrorCode
+from .error import ErrorCategory, ErrorClassifier, ErrorCode
 
 
 @dataclass
 class Settings:
     files: list[str] = field(default_factory=list)
     explain: ErrorCode | None = None
-    ignore: set[ErrorCode] = field(default_factory=set)
+    ignore: set[ErrorClassifier] = field(default_factory=set)
     load: list[str] = field(default_factory=list)
-    enable: set[ErrorCode] = field(default_factory=set)
-    disable: set[ErrorCode] = field(default_factory=set)
+    enable: set[ErrorClassifier] = field(default_factory=set)
+    disable: set[ErrorClassifier] = field(default_factory=set)
     debug: bool = False
     generate: bool = False
     help: bool = False
@@ -76,6 +76,14 @@ class Settings:
 ERROR_ID_REGEX = re.compile("^([A-Z]{3,4})?(\\d{3})$")
 
 
+def parse_error_classifier(err: str) -> ErrorCategory | ErrorCode:
+    return parse_error_category(err) or parse_error_id(err)
+
+
+def parse_error_category(err: str) -> ErrorCategory | None:
+    return ErrorCategory(err[1:]) if err.startswith("#") else None
+
+
 def parse_error_id(err: str) -> ErrorCode:
     if match := ERROR_ID_REGEX.match(err):
         groups = match.groups()
@@ -100,15 +108,18 @@ def parse_config_file(contents: str) -> Settings:
     if tool := config.get("tool"):
         if config := tool.get("refurb"):
             ignore = set(
-                parse_error_id(str(x)) for x in config.get("ignore", [])
+                parse_error_classifier(str(x))
+                for x in config.get("ignore", [])
             )
 
             enable = set(
-                parse_error_id(str(x)) for x in config.get("enable", [])
+                parse_error_classifier(str(x))
+                for x in config.get("enable", [])
             )
 
             disable = set(
-                parse_error_id(str(x)) for x in config.get("disable", [])
+                parse_error_classifier(str(x))
+                for x in config.get("disable", [])
             )
 
             version = config.get("python_version")
@@ -169,16 +180,18 @@ def parse_command_line_args(args: list[str]) -> Settings:
             settings.explain = parse_error_id(get_next_arg(arg, iargs))
 
         elif arg == "--ignore":
-            settings.ignore.add(parse_error_id(get_next_arg(arg, iargs)))
+            settings.ignore.add(
+                parse_error_classifier(get_next_arg(arg, iargs))
+            )
 
         elif arg == "--enable":
-            error_code = parse_error_id(get_next_arg(arg, iargs))
+            error_code = parse_error_classifier(get_next_arg(arg, iargs))
 
             settings.enable.add(error_code)
             settings.disable.discard(error_code)
 
         elif arg == "--disable":
-            error_code = parse_error_id(get_next_arg(arg, iargs))
+            error_code = parse_error_classifier(get_next_arg(arg, iargs))
 
             settings.disable.add(error_code)
             settings.enable.discard(error_code)

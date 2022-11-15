@@ -113,6 +113,13 @@ fields are applied afterwards.
 > Note that `disable_all` and `enable_all` are mutually exclusive, both on the command line and in
 > the config file. You will get an error if you try to specify both.
 
+You can also disable checks by category using the `#category` syntax. For example, `--disable "#readability"`
+will disable all checks with the `readability` category. The same applies for `enable` and `ignore`.
+Also, if you disable an entire category you can still explicitly re-enable a check in that category.
+
+> Note that `#readability` is wrapped in quotes because your shell will interpret the `#` as the
+> start of a comment.
+
 ## Setting Python Version
 
 Use the `--python-version` flag to tell Refurb which version of Python your codebase is using. This
