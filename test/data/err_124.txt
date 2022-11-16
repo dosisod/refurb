@@ -1,6 +1,7 @@
 test/data/err_124.py:5:5 [FURB124]: Replace `x == y and x == z` with `x == y == z`
-test/data/err_124.py:6:5 [FURB124]: Replace `x == y and x == z` with `x == y == z`
-test/data/err_124.py:7:5 [FURB124]: Replace `x == y and x == z` with `x == y == z`
+test/data/err_124.py:6:5 [FURB124]: Replace `x == y and y == z` with `x == y == z`
+test/data/err_124.py:7:5 [FURB124]: Replace `x == y and z == y` with `x == y == z`
 test/data/err_124.py:8:5 [FURB124]: Replace `x == y and x == z` with `x == y == z`
-test/data/err_124.py:9:5 [FURB124]: Replace `x == y and x == z` with `x == y == z`
-test/data/err_124.py:9:16 [FURB124]: Replace `x == y and x == z` with `x == y == z`
+test/data/err_124.py:9:5 [FURB124]: Replace `x == y and y == z` with `x == y == z`
+test/data/err_124.py:9:16 [FURB124]: Replace `x == y and y == z` with `x == y == z`
+test/data/err_124.py:10:5 [FURB124]: Replace `x == y and z == x` with `x == y == z`

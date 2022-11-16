@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 
-from mypy.nodes import ComparisonExpr, OpExpr
+from mypy.nodes import OpExpr
 
-from refurb.checks.common import extract_binary_oper, is_equivalent
+from refurb.checks.common import get_common_expr_in_comparison_chain
 from refurb.error import Error
 
 
@@ -32,14 +32,26 @@ class ErrorInfo(Error):
     """
 
     code = 108
-    msg: str = "Replace `x == y or x == z` with `x in (y, z)`"
     categories = ["logical", "readability"]
 
 
+def create_message(indices: tuple[int, int]) -> str:
+    names = ["x", "y", "z"]
+    common_name = names[indices[0]]
+    names.insert(indices[1], common_name)
+
+    old = f"{names[0]} == {names[1]} or {names[2]} == {names[3]}"
+
+    names = [name for name in names if name != common_name]
+    new = f"{common_name} in ({', '.join(names)})"
+
+    return f"Replace `{old}` with `{new}`"
+
+
 def check(node: OpExpr, errors: list[Error]) -> None:
-    match extract_binary_oper("or", node):
-        case (
-            ComparisonExpr(operators=["=="], operands=[lhs, _]),
-            ComparisonExpr(operators=["=="], operands=[rhs, _]),
-        ) if is_equivalent(lhs, rhs):
-            errors.append(ErrorInfo(lhs.line, lhs.column))
+    if data := get_common_expr_in_comparison_chain(node, oper="or"):
+        expr, indices = data
+
+        errors.append(
+            ErrorInfo(expr.line, expr.column, create_message(indices))
+        )
