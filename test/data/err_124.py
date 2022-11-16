@@ -7,6 +7,7 @@ _ = x == y and y == z
 _ = x == y and z == y
 _ = x == y and x == z and True
 _ = x == y and y == z and z == 1
+_ = x == y and z == x
 
 
 # these should not
