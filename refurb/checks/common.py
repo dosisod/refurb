@@ -104,3 +104,5 @@ def get_common_expr_in_comparison_chain(
             ComparisonExpr(operators=["=="], operands=[c, d]),
         ) if indices := get_common_expr_positions(a, b, c, d):
             return a, indices
+
+    return None  # pragma: no cover
