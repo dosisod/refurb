@@ -1,0 +1,25 @@
+name: "🚀 Enhancement"
+description: Suggest an enhancement to Refurb
+title: "[Enhancement]: "
+labels: ["enhancement"]
+
+body:
+  - type: markdown
+    attributes:
+      value: Thank you for showing an interest in wanting to improve Refurb!
+
+  - type: textarea
+    id: brief
+    attributes:
+      label: Overview
+      description: Give a brief (couple sentence max) description of your proposed change to Refurb.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: Describe the changes you would like to see in more detail. Include images, examples, mock ups, or any other applicable information which helps convey your proposed change!
+    validations:
+      required: true
