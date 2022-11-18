@@ -107,20 +107,20 @@ def parse_config_file(contents: str) -> Settings:
 
     if tool := config.get("tool"):
         if config := tool.get("refurb"):
-            ignore = set(
+            ignore = {
                 parse_error_classifier(str(x))
                 for x in config.get("ignore", [])
-            )
+            }
 
-            enable = set(
+            enable = {
                 parse_error_classifier(str(x))
                 for x in config.get("enable", [])
-            )
+            }
 
-            disable = set(
+            disable = {
                 parse_error_classifier(str(x))
                 for x in config.get("disable", [])
-            )
+            }
 
             version = config.get("python_version")
             python_version = parse_python_version(version) if version else None
