@@ -10,11 +10,11 @@ with open("file.txt") as f:
 
 
 with open("file.txt") as f:
-    lines = list(f"{line}!" for line in f.readlines())
+    lines = list(f"{line}!" for line in f.readlines())  # noqa: FURB137
 
 
 with open("file.txt", "rb") as f:
-    lines = list(f"{line}!" for line in f.readlines())
+    lines = list(f"{line}!" for line in f.readlines())  # noqa: FURB137
 
 
 f = open("file.txt")
