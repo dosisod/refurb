@@ -1,0 +1,4 @@
+test/data/err_138.py:4:5 [FURB138]: Consider using list comprehension
+test/data/err_138.py:11:5 [FURB138]: Consider using list comprehension
+test/data/err_138.py:18:5 [FURB138]: Consider using list comprehension
+test/data/err_138.py:25:1 [FURB138]: Consider using list comprehension

@@ -68,6 +68,13 @@ These checks cover usage of the built-in `list` object.
 These checks relate to the [pathlib](https://docs.python.org/3/library/pathlib.html)
 standard library module.
 
+## `performance`
+
+These checks are supposted to find slow code that can be written faster. The threshold for
+"fast" and "slow" are somewhat arbitrary and depend on the check, but in general you should
+expect that a check in the `performance` category will make your code faster (and should never
+make it slower).
+
 ## `pythonic`
 
 This is a general catch-all for things which are "unpythonic". It differs from the
