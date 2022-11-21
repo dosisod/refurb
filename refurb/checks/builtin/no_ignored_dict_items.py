@@ -11,8 +11,8 @@ from mypy.nodes import (
     TupleExpr,
     Var,
 )
-from mypy.traverser import TraverserVisitor
 
+from refurb.checks.common import ReadCountVisitor
 from refurb.error import Error
 
 
@@ -104,28 +104,15 @@ def check_unused_key_or_value(
         )
 
 
-class UnreadVisitor(TraverserVisitor):
-    name: NameExpr
-    unread: bool
-
-    def __init__(self, name: NameExpr) -> None:
-        self.name = name
-        self.unread = True
-
-    def visit_name_expr(self, node: NameExpr) -> None:
-        if node.fullname == self.name.fullname:
-            self.unread = False
-
-
 def is_placeholder(name: NameExpr) -> bool:
     return name.name == "_"
 
 
 def is_name_unused_in_context(name: NameExpr, ctx: Node | None) -> bool:
     if ctx:
-        key_visitor = UnreadVisitor(name)
+        key_visitor = ReadCountVisitor(name)
         ctx.accept(key_visitor)
 
-        return key_visitor.unread
+        return not key_visitor.was_read
 
     return False

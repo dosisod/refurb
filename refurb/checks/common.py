@@ -12,6 +12,7 @@ from mypy.nodes import (
     OpExpr,
     Statement,
 )
+from mypy.traverser import TraverserVisitor
 
 from refurb.error import Error
 
@@ -106,3 +107,20 @@ def get_common_expr_in_comparison_chain(
             return a, indices
 
     return None  # pragma: no cover
+
+
+class ReadCountVisitor(TraverserVisitor):
+    name: NameExpr
+    read_count: int
+
+    def __init__(self, name: NameExpr) -> None:
+        self.name = name
+        self.read_count = 0
+
+    def visit_name_expr(self, node: NameExpr) -> None:
+        if node.fullname == self.name.fullname:
+            self.read_count += 1
+
+    @property
+    def was_read(self) -> int:
+        return self.read_count > 0
