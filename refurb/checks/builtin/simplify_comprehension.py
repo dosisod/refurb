@@ -52,6 +52,9 @@ FUNCTION_MAPPINGS = {
     "builtins.tuple": "tuple(...)",
 }
 
+SET_TYPES = ("frozenset", "set")
+COMPREHENSION_SHORTHAND_TYPES = ("list", "set")
+
 NODE_TYPE_TO_FUNC_NAME = {
     ListComprehension: "builtins.list",
     SetComprehension: "builtins.set",
@@ -73,7 +76,13 @@ def check(node: CallExpr, errors: list[Error]) -> None:
                 | SetComprehension() as arg
             ],
         ) if fullname in FUNCTION_MAPPINGS:
-            if isinstance(arg, GeneratorExpr) and name not in ("list", "set"):
+            if (
+                isinstance(arg, GeneratorExpr)
+                and name not in COMPREHENSION_SHORTHAND_TYPES
+            ):
+                return
+
+            if isinstance(arg, SetComprehension) and name not in SET_TYPES:
                 return
 
             old = format_func_name(NODE_TYPE_TO_FUNC_NAME[type(arg)])

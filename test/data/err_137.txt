@@ -3,8 +3,6 @@ test/data/err_137.py:9:1 [FURB137]: Replace `set([...])` with `{...}`
 test/data/err_137.py:10:1 [FURB137]: Replace `set({...})` with `{...}`
 test/data/err_137.py:12:1 [FURB137]: Replace `list(...)` with `[...]`
 test/data/err_137.py:13:1 [FURB137]: Replace `list([...])` with `[...]`
-test/data/err_137.py:14:1 [FURB137]: Replace `list({...})` with `[...]`
-test/data/err_137.py:16:1 [FURB137]: Replace `frozenset([...])` with `frozenset(...)`
-test/data/err_137.py:17:1 [FURB137]: Replace `frozenset({...})` with `frozenset(...)`
-test/data/err_137.py:19:1 [FURB137]: Replace `tuple([...])` with `tuple(...)`
-test/data/err_137.py:20:1 [FURB137]: Replace `tuple({...})` with `tuple(...)`
+test/data/err_137.py:15:1 [FURB137]: Replace `frozenset([...])` with `frozenset(...)`
+test/data/err_137.py:16:1 [FURB137]: Replace `frozenset({...})` with `frozenset(...)`
+test/data/err_137.py:18:1 [FURB137]: Replace `tuple([...])` with `tuple(...)`
