@@ -105,7 +105,7 @@ def is_len_call(node: CallExpr) -> bool:
     return False
 
 
-IS_COMPARISON_TRUTHY: dict[tuple[str, int], bool] = {
+IS_INT_COMPARISON_TRUTHY: dict[tuple[str, int], bool] = {
     ("==", 0): False,
     ("<=", 0): False,
     (">", 0): True,
@@ -137,7 +137,7 @@ class LenComparisonVisitor(TraverserVisitor):
                 operators=[oper],
                 operands=[CallExpr() as call, IntExpr(value=num)],
             ) if is_len_call(call):
-                is_truthy = IS_COMPARISON_TRUTHY.get((oper, num))
+                is_truthy = IS_INT_COMPARISON_TRUTHY.get((oper, num))
 
                 if is_truthy is None:
                     return
@@ -149,6 +149,27 @@ class LenComparisonVisitor(TraverserVisitor):
                         node.line,
                         node.column,
                         f"Replace `len(x) {oper} {num}` with `{expr}`",
+                    )
+                )
+
+            case ComparisonExpr(
+                operators=["==" | "!=" as oper],
+                operands=[
+                    NameExpr() as name,
+                    (ListExpr() | DictExpr()) as expr,
+                ],
+            ) if is_builtin_container_like(name):
+                if expr.items:
+                    return
+
+                old_expr = "[]" if isinstance(expr, ListExpr) else "{}"
+                expr = "not x" if oper == "==" else "x"
+
+                self.errors.append(
+                    ErrorInfo(
+                        node.line,
+                        node.column,
+                        f"Replace `x {oper} {old_expr}` with `{expr}`",
                     )
                 )
 

@@ -64,6 +64,11 @@ while len(nums):
 
 assert len(nums)
 
+assert nums == []
+assert nums != []
+
+assert authors == {}
+assert authors != {}
 
 
 # these should not
@@ -89,3 +94,7 @@ if len(container) == 0: ...
 
 if print(len(nums) == 0): ...
 if (lambda: len(nums) == 0)(): ...
+
+assert nums == [1, 2, 3]
+assert authors == {"author": "book"}
+assert nums <= []
