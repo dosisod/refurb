@@ -159,7 +159,7 @@ class LenComparisonVisitor(TraverserVisitor):
                     (ListExpr() | DictExpr()) as expr,
                 ],
             ) if is_builtin_container_like(name):
-                if expr.items:
+                if expr.items:  # type: ignore
                     return
 
                 old_expr = "[]" if isinstance(expr, ListExpr) else "{}"
