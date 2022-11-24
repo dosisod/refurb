@@ -30,3 +30,7 @@ test/data/err_115.py:58:28 [FURB115]: Replace `len(x)` with `x`
 test/data/err_115.py:60:10 [FURB115]: Replace `len(x)` with `x`
 test/data/err_115.py:62:7 [FURB115]: Replace `len(x)` with `x`
 test/data/err_115.py:65:8 [FURB115]: Replace `len(x)` with `x`
+test/data/err_115.py:67:8 [FURB115]: Replace `x == []` with `not x`
+test/data/err_115.py:68:8 [FURB115]: Replace `x != []` with `x`
+test/data/err_115.py:70:8 [FURB115]: Replace `x == {}` with `not x`
+test/data/err_115.py:71:8 [FURB115]: Replace `x != {}` with `x`
