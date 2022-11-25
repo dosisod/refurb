@@ -1,16 +1,25 @@
 from collections.abc import Callable
-from itertools import combinations
+from itertools import combinations, starmap
 
 from mypy.nodes import (
     Block,
+    CallExpr,
     ComparisonExpr,
+    DictExpr,
     Expression,
+    IndexExpr,
+    ListExpr,
     MemberExpr,
     MypyFile,
     NameExpr,
     Node,
     OpExpr,
+    SetExpr,
+    SliceExpr,
+    StarExpr,
     Statement,
+    TupleExpr,
+    UnaryExpr,
 )
 from mypy.traverser import TraverserVisitor
 
@@ -56,8 +65,11 @@ def unmangle_name(name: str | None) -> str:
     return (name or "").replace("'", "")
 
 
-def is_equivalent(lhs: Node, rhs: Node) -> bool:
+def is_equivalent(lhs: Node | None, rhs: Node | None) -> bool:
     match (lhs, rhs):
+        case None, None:
+            return True
+
         case NameExpr() as lhs, NameExpr() as rhs:
             return unmangle_name(lhs.fullname) == unmangle_name(rhs.fullname)
 
@@ -66,6 +78,60 @@ def is_equivalent(lhs: Node, rhs: Node) -> bool:
                 lhs.name == rhs.name
                 and unmangle_name(lhs.fullname) == unmangle_name(rhs.fullname)
                 and is_equivalent(lhs.expr, rhs.expr)
+            )
+
+        case IndexExpr() as lhs, IndexExpr() as rhs:
+            return is_equivalent(lhs.base, rhs.base) and is_equivalent(
+                lhs.index, rhs.index
+            )
+
+        case CallExpr() as lhs, CallExpr() as rhs:
+            return (
+                is_equivalent(lhs.callee, rhs.callee)
+                and all(starmap(is_equivalent, zip(lhs.args, rhs.args)))
+                and lhs.arg_kinds == rhs.arg_kinds
+                and lhs.arg_names == rhs.arg_names
+            )
+
+        case (
+            (ListExpr() as lhs, ListExpr() as rhs)
+            | (TupleExpr() as lhs, TupleExpr() as rhs)
+            | (SetExpr() as lhs, SetExpr() as rhs)
+        ):
+            return len(lhs.items) == len(rhs.items) and all(
+                starmap(is_equivalent, zip(lhs.items, rhs.items))
+            )
+
+        case DictExpr() as lhs, DictExpr() as rhs:
+            return len(lhs.items) == len(rhs.items) and all(
+                is_equivalent(lhs_item[0], rhs_item[0])
+                and is_equivalent(lhs_item[1], rhs_item[1])
+                for lhs_item, rhs_item in zip(lhs.items, rhs.items)
+            )
+
+        case StarExpr() as lhs, StarExpr() as rhs:
+            return is_equivalent(lhs.expr, rhs.expr)
+
+        case UnaryExpr() as lhs, UnaryExpr() as rhs:
+            return lhs.op == rhs.op and is_equivalent(lhs.expr, rhs.expr)
+
+        case OpExpr() as lhs, OpExpr() as rhs:
+            return (
+                lhs.op == rhs.op
+                and is_equivalent(lhs.left, rhs.left)
+                and is_equivalent(lhs.right, rhs.right)
+            )
+
+        case ComparisonExpr() as lhs, ComparisonExpr() as rhs:
+            return lhs.operators == rhs.operators and all(
+                starmap(is_equivalent, zip(lhs.operands, rhs.operands))
+            )
+
+        case SliceExpr() as lhs, SliceExpr() as rhs:
+            return (
+                is_equivalent(lhs.begin_index, rhs.begin_index)
+                and is_equivalent(lhs.end_index, rhs.end_index)
+                and is_equivalent(lhs.stride, rhs.stride)
             )
 
     return str(lhs) == str(rhs)

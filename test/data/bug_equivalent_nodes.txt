@@ -1,1 +1,12 @@
-test/data/bug_equivalent_nodes.py:20:5 [FURB110]: Replace `x if x else y` with `x or y`
+test/data/bug_equivalent_nodes.py:21:5 [FURB110]: Replace `x if x else y` with `x or y`
+test/data/bug_equivalent_nodes.py:30:5 [FURB110]: Replace `x if x else y` with `x or y`
+test/data/bug_equivalent_nodes.py:42:5 [FURB110]: Replace `x if x else y` with `x or y`
+test/data/bug_equivalent_nodes.py:49:5 [FURB110]: Replace `x if x else y` with `x or y`
+test/data/bug_equivalent_nodes.py:56:5 [FURB110]: Replace `x if x else y` with `x or y`
+test/data/bug_equivalent_nodes.py:63:5 [FURB110]: Replace `x if x else y` with `x or y`
+test/data/bug_equivalent_nodes.py:70:5 [FURB110]: Replace `x if x else y` with `x or y`
+test/data/bug_equivalent_nodes.py:77:5 [FURB110]: Replace `x if x else y` with `x or y`
+test/data/bug_equivalent_nodes.py:84:5 [FURB110]: Replace `x if x else y` with `x or y`
+test/data/bug_equivalent_nodes.py:91:5 [FURB110]: Replace `x if x else y` with `x or y`
+test/data/bug_equivalent_nodes.py:98:5 [FURB110]: Replace `x if x else y` with `x or y`
+test/data/bug_equivalent_nodes.py:105:5 [FURB110]: Replace `x if x else y` with `x or y`
