@@ -98,8 +98,10 @@ def is_equivalent(lhs: Node | None, rhs: Node | None) -> bool:
             | (TupleExpr() as lhs, TupleExpr() as rhs)
             | (SetExpr() as lhs, SetExpr() as rhs)
         ):
-            return len(lhs.items) == len(rhs.items) and all(
-                starmap(is_equivalent, zip(lhs.items, rhs.items))
+            return len(lhs.items) == len(rhs.items) and all(  # type: ignore
+                starmap(
+                    is_equivalent, zip(lhs.items, rhs.items)  # type: ignore
+                )
             )
 
         case DictExpr() as lhs, DictExpr() as rhs:
