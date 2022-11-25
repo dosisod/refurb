@@ -13,8 +13,8 @@ flake8:
 	flake8
 
 mypy:
-	mypy -p refurb
-	mypy -p test --exclude "test/data*"
+	mypy refurb
+	mypy test --exclude "test/data*"
 
 black:
 	black refurb test
