@@ -477,3 +477,22 @@ mypy_args = ["some", "args"]
     merged = Settings.merge(config_file, cli_args)
 
     assert merged == Settings(mypy_args=["new", "args"])
+
+
+def test_flags_which_support_comma_separated_cli_args() -> None:
+    settings = parse_args(
+        [
+            "--enable",
+            "100,101",
+            "--disable",
+            "102,103",
+            "--ignore",
+            "104,105",
+        ]
+    )
+
+    assert settings == Settings(
+        enable=set((ErrorCode(100), ErrorCode(101))),
+        disable=set((ErrorCode(102), ErrorCode(103))),
+        ignore=set((ErrorCode(104), ErrorCode(105))),
+    )
