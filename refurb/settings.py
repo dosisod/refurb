@@ -180,21 +180,27 @@ def parse_command_line_args(args: list[str]) -> Settings:
             settings.explain = parse_error_id(get_next_arg(arg, iargs))
 
         elif arg == "--ignore":
-            settings.ignore.add(
-                parse_error_classifier(get_next_arg(arg, iargs))
-            )
+            classifiers = get_next_arg(arg, iargs).split(",")
+
+            settings.ignore.update(map(parse_error_classifier, classifiers))
 
         elif arg == "--enable":
-            error_code = parse_error_classifier(get_next_arg(arg, iargs))
+            error_codes = {
+                parse_error_classifier(classifier)
+                for classifier in get_next_arg(arg, iargs).split(",")
+            }
 
-            settings.enable.add(error_code)
-            settings.disable.discard(error_code)
+            settings.enable |= error_codes
+            settings.disable -= error_codes
 
         elif arg == "--disable":
-            error_code = parse_error_classifier(get_next_arg(arg, iargs))
+            error_codes = {
+                parse_error_classifier(classifier)
+                for classifier in get_next_arg(arg, iargs).split(",")
+            }
 
-            settings.disable.add(error_code)
-            settings.enable.discard(error_code)
+            settings.disable |= error_codes
+            settings.enable -= error_codes
 
         elif arg == "--load":
             settings.load.append(get_next_arg(arg, iargs))
