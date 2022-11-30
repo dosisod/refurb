@@ -19,26 +19,6 @@ Good:
 file = Path("folder") / "filename"
 ```
 
-### Dont use `os.path.exists()`, use `Path.exists()`
-
-Bad:
-
-```python
-file = "file.txt"
-
-if os.path.exists(file):
-    ...
-```
-
-Good:
-
-```python
-file = Path("file.txt")
-
-if file.exists()
-    ...
-```
-
 ### Dont use `os.remove`, use `Path.unlink()`
 
 Bad:
@@ -99,8 +79,6 @@ class Person:
 ```
 
 ## String
-
-### Dont use `"""<newline>asdf""".lstrip()`, use `"""\<newline>asdf"""`
 
 ### Use fstring instead of `+`
 
@@ -234,7 +212,5 @@ for item in itertools.chain(list1, list2, list3):
 ```
 
 ## Iteration
-
-### Dont use `list` to eagerly evaluate iterator in for loop
 
 ### Dont use `x = x[::-1]`, use `x.reverse()`
