@@ -1,0 +1,4 @@
+test/data/err_141.py:7:5 [FURB141]: Replace `os.path.exists(x)` with `Path(x).exists()`
+test/data/err_141.py:8:5 [FURB141]: Replace `os.path.exists(x)` with `Path(x).exists()`
+test/data/err_141.py:11:5 [FURB141]: Replace `os.path.exists(x)` with `x.exists()`
+test/data/err_141.py:12:5 [FURB141]: Replace `os.path.exists(x)` with `x.exists()`
