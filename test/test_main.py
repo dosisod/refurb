@@ -8,7 +8,7 @@ import pytest
 
 from refurb.error import Error
 from refurb.main import main, run_refurb, sort_errors
-from refurb.settings import Settings, load_settings
+from refurb.settings import Settings, load_settings, parse_command_line_args
 
 
 def test_invalid_args_returns_error_code():
@@ -191,3 +191,10 @@ def test_mypy_args_are_forwarded() -> None:
     assert len(errors) == 1
     assert isinstance(errors[0], str)
     assert errors[0].startswith(f"mypy {metadata.version('mypy')}")
+
+
+def test_stub_files_dont_hide_errors() -> None:
+    errors = run_refurb(parse_command_line_args(["test/e2e/stub_pkg"]))
+
+    assert len(errors) == 1
+    assert "FURB123" in str(errors[0])
