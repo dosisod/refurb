@@ -88,7 +88,7 @@ def run_refurb(settings: Settings) -> Sequence[Error | str]:
 
     try:
         files, opt = process_options(
-            settings.files + settings.mypy_args,
+            settings.files + settings.mypy_args + ["--exclude", ".*\\.pyi"],
             stdout=stdout,
             stderr=stderr,
         )
