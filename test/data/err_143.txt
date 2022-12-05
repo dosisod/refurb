@@ -1,0 +1,10 @@
+test/data/err_143.py:14:5 [FURB143]: Replace `x or set()` with `x`
+test/data/err_143.py:15:5 [FURB143]: Replace `x or frozenset()` with `x`
+test/data/err_143.py:16:5 [FURB143]: Replace `x or []` with `x`
+test/data/err_143.py:17:5 [FURB143]: Replace `x or {}` with `x`
+test/data/err_143.py:18:5 [FURB143]: Replace `x or ()` with `x`
+test/data/err_143.py:19:5 [FURB143]: Replace `x or ()` with `x`
+test/data/err_143.py:20:5 [FURB143]: Replace `x or ""` with `x`
+test/data/err_143.py:21:5 [FURB143]: Replace `x or b""` with `x`
+test/data/err_143.py:22:5 [FURB143]: Replace `x or False` with `x`
+test/data/err_143.py:23:5 [FURB143]: Replace `x or 0` with `x`
