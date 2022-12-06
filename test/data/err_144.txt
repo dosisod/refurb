@@ -1,0 +1,4 @@
+test/data/err_144.py:6:1 [FURB144]: Replace `os.remove(x)` with `Path(x).unlink()`
+test/data/err_144.py:7:1 [FURB144]: Replace `os.unlink(x)` with `Path(x).unlink()`
+test/data/err_144.py:10:1 [FURB144]: Replace `os.remove(x)` with `x.unlink()`
+test/data/err_144.py:11:1 [FURB144]: Replace `os.unlink(x)` with `x.unlink()`
