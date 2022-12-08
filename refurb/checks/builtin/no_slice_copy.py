@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from mypy.nodes import AssignmentStmt, MypyFile, SliceExpr
+from mypy.nodes import AssignmentStmt, DelStmt, IndexExpr, MypyFile, SliceExpr
 from mypy.traverser import TraverserVisitor
 
 from refurb.error import Error
@@ -42,6 +42,10 @@ class SliceExprVisitor(TraverserVisitor):
 
     def visit_assignment_stmt(self, node: AssignmentStmt) -> None:
         node.rvalue.accept(self)
+
+    def visit_del_stmt(self, node: DelStmt) -> None:
+        if not isinstance(node.expr, IndexExpr):
+            node.expr.accept(self)
 
     def visit_slice_expr(self, node: SliceExpr) -> None:
         if node.begin_index is node.end_index is node.stride is None:
