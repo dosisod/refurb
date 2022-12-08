@@ -8,7 +8,7 @@ iniconfig==1.1.1
 isort==5.10.1
 mccabe==0.7.0
 mypy==0.991
-packaging==21.3
+packaging==22.0
 pathspec==0.10.2
 platformdirs==2.5.4
 pluggy==1.0.0
