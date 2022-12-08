@@ -1,0 +1,3 @@
+test/data/err_145.py:5:5 [FURB145]: Replace `x[:]` with `x.copy()`
+test/data/err_145.py:6:5 [FURB145]: Replace `x[:]` with `x.copy()`
+test/data/err_145.py:7:5 [FURB145]: Replace `x[:]` with `x.copy()`
