@@ -19,20 +19,6 @@ Good:
 file = Path("folder") / "filename"
 ```
 
-### Dont use `os.remove`, use `Path.unlink()`
-
-Bad:
-
-```python
-os.remove("file.txt")
-```
-
-Good:
-
-```python
-Path("file.txt").unlink()
-```
-
 ## Dict
 
 ### Replace `{x[0]: x[1] for x in y}` with `dict(y)`
@@ -152,8 +138,6 @@ d[x].append(y)
 ```
 
 ## List
-
-* Dont use `x[:]`, use `x.copy()`
 
 ## Built-in methods
 
