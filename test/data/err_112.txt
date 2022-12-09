@@ -7,4 +7,3 @@ test/data/err_112.py:8:5 [FURB112]: Replace `float()` with `0.0`
 test/data/err_112.py:9:5 [FURB112]: Replace `complex()` with `0j`
 test/data/err_112.py:10:5 [FURB112]: Replace `bool()` with `False`
 test/data/err_112.py:11:6 [FURB112]: Replace `bytes()` with `b""`
-test/data/err_112.py:24:6 [FURB123]: Replace `int(x)` with `x`
