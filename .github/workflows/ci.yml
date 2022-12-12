@@ -14,6 +14,13 @@ jobs:
       matrix:
         python-version: ["3.10", "3.11"]
 
+    env:
+      FORCE_COLOR: 1
+      TERM: xterm-color
+      MYPY_FORCE_COLOR: 1
+      MYPY_FORCE_TERMINAL_WIDTH: 200
+      PYTEST_ADDOPTS: --color=yes
+
     steps:
       - uses: actions/checkout@v3
 
