@@ -57,17 +57,17 @@ def check(
 ) -> None:
     match node:
         case ForStmt(index=index, expr=expr):
-            check_for_loop_like(index, expr, node.body, errors)
+            check_for_loop_like(index, expr, [], errors)
 
         case GeneratorExpr(indices=[index], sequences=[expr]):
-            check_for_loop_like(index, expr, None, errors)
+            check_for_loop_like(index, expr, [node.left_expr], errors)
 
         case DictionaryComprehension(indices=[index], sequences=[expr]):
-            check_for_loop_like(index, expr, None, errors)
+            check_for_loop_like(index, expr, [node.key, node.value], errors)
 
 
 def check_for_loop_like(
-    index: Node, expr: Node, ctx: Node | None, errors: list[Error]
+    index: Node, expr: Node, contexts: list[Node], errors: list[Error]
 ) -> None:
     match index, expr:
         case (
@@ -79,13 +79,13 @@ def check_for_loop_like(
                 )
             ),
         ) if str(ty).startswith("builtins.dict["):
-            check_unused_key_or_value(key, value, ctx, errors)
+            check_unused_key_or_value(key, value, contexts, errors)
 
 
 def check_unused_key_or_value(
-    key: NameExpr, value: NameExpr, node: Node | None, errors: list[Error]
+    key: NameExpr, value: NameExpr, contexts: list[Node], errors: list[Error]
 ) -> None:
-    if is_placeholder(key) or is_name_unused_in_context(key, node):
+    if is_placeholder(key) or is_name_unused_in_contexts(key, contexts):
         errors.append(
             ErrorInfo(
                 key.line,
@@ -94,7 +94,7 @@ def check_unused_key_or_value(
             )
         )
 
-    if is_placeholder(value) or is_name_unused_in_context(value, node):
+    if is_placeholder(value) or is_name_unused_in_contexts(value, contexts):
         errors.append(
             ErrorInfo(
                 value.line,
@@ -108,11 +108,15 @@ def is_placeholder(name: NameExpr) -> bool:
     return name.name == "_"
 
 
-def is_name_unused_in_context(name: NameExpr, ctx: Node | None) -> bool:
-    if ctx:
+def is_name_unused_in_contexts(name: NameExpr, contexts: list[Node]) -> bool:
+    if not contexts:
+        return False
+
+    for ctx in contexts:
         key_visitor = ReadCountVisitor(name)
         ctx.accept(key_visitor)
 
-        return not key_visitor.was_read
+        if key_visitor.was_read:
+            return False
 
-    return False
+    return True
