@@ -12,7 +12,11 @@ from mypy.nodes import (
     Var,
 )
 
-from refurb.checks.common import ReadCountVisitor
+from refurb.checks.common import (
+    check_for_loop_like,
+    is_name_unused_in_contexts,
+    is_placeholder,
+)
 from refurb.error import Error
 
 
@@ -55,18 +59,10 @@ def check(
     node: ForStmt | GeneratorExpr | DictionaryComprehension,
     errors: list[Error],
 ) -> None:
-    match node:
-        case ForStmt(index=index, expr=expr):
-            check_for_loop_like(index, expr, [], errors)
-
-        case GeneratorExpr(indices=[index], sequences=[expr]):
-            check_for_loop_like(index, expr, [node.left_expr], errors)
-
-        case DictionaryComprehension(indices=[index], sequences=[expr]):
-            check_for_loop_like(index, expr, [node.key, node.value], errors)
+    check_for_loop_like(check_dict_items_call, node, errors)
 
 
-def check_for_loop_like(
+def check_dict_items_call(
     index: Node, expr: Node, contexts: list[Node], errors: list[Error]
 ) -> None:
     match index, expr:
@@ -102,21 +98,3 @@ def check_unused_key_or_value(
                 "Value is unused, use `for key in d` instead",
             )
         )
-
-
-def is_placeholder(name: NameExpr) -> bool:
-    return name.name == "_"
-
-
-def is_name_unused_in_contexts(name: NameExpr, contexts: list[Node]) -> bool:
-    if not contexts:
-        return False
-
-    for ctx in contexts:
-        key_visitor = ReadCountVisitor(name)
-        ctx.accept(key_visitor)
-
-        if key_visitor.was_read:
-            return False
-
-    return True

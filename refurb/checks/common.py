@@ -1,12 +1,15 @@
 from collections.abc import Callable
-from itertools import combinations, starmap
+from itertools import chain, combinations, starmap
 
 from mypy.nodes import (
     Block,
     CallExpr,
     ComparisonExpr,
     DictExpr,
+    DictionaryComprehension,
     Expression,
+    ForStmt,
+    GeneratorExpr,
     IndexExpr,
     ListExpr,
     MemberExpr,
@@ -59,6 +62,40 @@ def check_block_like(
 
         case MypyFile():
             func(node.defs, errors)
+
+
+def check_for_loop_like(
+    func: Callable[[Node, Node, list[Node], list[Error]], None],
+    node: ForStmt | GeneratorExpr | DictionaryComprehension,
+    errors: list[Error],
+) -> None:
+    match node:
+        case ForStmt(index=index, expr=expr):
+            func(index, expr, [], errors)
+
+        case GeneratorExpr(
+            indices=[index],
+            sequences=[expr],
+            condlists=condlists,
+        ):
+            func(
+                index,
+                expr,
+                list(chain([node.left_expr], *condlists)),
+                errors,
+            )
+
+        case DictionaryComprehension(
+            indices=[index],
+            sequences=[expr],
+            condlists=condlists,
+        ):
+            func(
+                index,
+                expr,
+                list(chain([node.key, node.value], *condlists)),
+                errors,
+            )
 
 
 def unmangle_name(name: str | None) -> str:
@@ -192,3 +229,21 @@ class ReadCountVisitor(TraverserVisitor):
     @property
     def was_read(self) -> int:
         return self.read_count > 0
+
+
+def is_placeholder(name: NameExpr) -> bool:
+    return unmangle_name(name.name) == "_"
+
+
+def is_name_unused_in_contexts(name: NameExpr, contexts: list[Node]) -> bool:
+    if not contexts:
+        return False
+
+    for ctx in contexts:
+        visitor = ReadCountVisitor(name)
+        ctx.accept(visitor)
+
+        if visitor.was_read:
+            return False
+
+    return True
