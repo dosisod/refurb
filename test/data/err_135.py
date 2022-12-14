@@ -23,11 +23,11 @@ def f4():
 
 
 def f5():
-    (k for k, v in d.items())  # "k" is unused, warn
-    (v for k, v in d.items())  # "v" is unused, warn
+    (k for k, v in d.items())  # "v" is unused, warn
+    (v for k, v in d.items())  # "k" is unused, warn
 
-    {k: "" for k, v in d.items()}  # "k" is unused, warn
-    {v: "" for k, v in d.items()}  # "v" is unused, warn
+    {k: "" for k, v in d.items()}  # "v" is unused, warn
+    {v: "" for k, v in d.items()}  # "k" is unused, warn
 
 
 # these should not
@@ -58,3 +58,10 @@ def f8():
         pass
 
     print(k, v)
+
+def f9():
+    {k: "" for k, v in d.items() if v}
+    {v: "" for k, v in d.items() if k}
+
+    (k for k, v in d.items() if v)
+    (v for k, v in d.items() if k)
