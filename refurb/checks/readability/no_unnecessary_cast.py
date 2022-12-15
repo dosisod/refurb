@@ -22,7 +22,7 @@ from refurb.error import Error
 class ErrorInfo(Error):
     """
     Don't cast a variable or literal if it is already of that type. This
-    usually is the result of not realizing a type is alreay the type you want,
+    usually is the result of not realizing a type is already the type you want,
     or artifacts of some debugging code. One example of where this might be
     intentional is when using container types like `dict` or `list`, which
     will create a shadow copy. If that is the case, it might be preferable
