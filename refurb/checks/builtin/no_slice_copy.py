@@ -47,8 +47,13 @@ class SliceExprVisitor(TraverserVisitor):
         if not isinstance(node.expr, IndexExpr):
             node.expr.accept(self)
 
-    def visit_slice_expr(self, node: SliceExpr) -> None:
-        if node.begin_index is node.end_index is node.stride is None:
+    def visit_index_expr(self, node: IndexExpr) -> None:
+        index = node.index
+
+        if (
+            isinstance(index, SliceExpr)
+            and index.begin_index is index.end_index is index.stride is None
+        ):
             self.errors.append(ErrorInfo(node.line, node.column))
 
 
