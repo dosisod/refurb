@@ -15,3 +15,9 @@ _ = nums[:1]
 _ = nums[::1]
 
 nums[:] = [4, 5, 6]
+
+class C:
+    def __getitem__(self, key):
+        return None
+
+C()[:,]
