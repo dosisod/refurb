@@ -17,12 +17,22 @@ class ErrorInfo(Error):
     ```
     if x == y and x == z:
         pass
+
+    # and
+
+    if x is None and y is None
+        pass
     ```
 
     Good:
 
     ```
     if x == y == z:
+        pass
+
+    # and
+
+    if x is y is None:
         pass
     ```
 
@@ -33,19 +43,24 @@ class ErrorInfo(Error):
     categories = ["logical", "readability"]
 
 
-def create_message(indices: tuple[int, int]) -> str:
+def create_message(indices: tuple[int, int], oper: str = "==") -> str:
     names = ["x", "y", "z"]
     names.insert(indices[1], names[indices[0]])
 
-    expr = f"{names[0]} == {names[1]} and {names[2]} == {names[3]}"
+    expr = f"{names[0]} {oper} {names[1]} and {names[2]} {oper} {names[3]}"
 
-    return f"Replace `{expr}` with `x == y == z`"
+    return f"Replace `{expr}` with `x {oper} y {oper} z`"
 
 
 def check(node: OpExpr, errors: list[Error]) -> None:
-    if data := get_common_expr_in_comparison_chain(node, oper="and"):
-        expr, indices = data
+    for cmp_oper in ("==", "is"):
+        if data := get_common_expr_in_comparison_chain(node, "and", cmp_oper):
+            expr, indices = data
 
-        errors.append(
-            ErrorInfo(expr.line, expr.column, create_message(indices))
-        )
+            errors.append(
+                ErrorInfo(
+                    expr.line,
+                    expr.column,
+                    create_message(indices, cmp_oper),
+                )
+            )

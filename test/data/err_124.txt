@@ -5,3 +5,7 @@ test/data/err_124.py:8:5 [FURB124]: Replace `x == y and x == z` with `x == y == 
 test/data/err_124.py:9:5 [FURB124]: Replace `x == y and y == z` with `x == y == z`
 test/data/err_124.py:9:16 [FURB124]: Replace `x == y and y == z` with `x == y == z`
 test/data/err_124.py:10:5 [FURB124]: Replace `x == y and z == x` with `x == y == z`
+test/data/err_124.py:12:5 [FURB124]: Replace `x is y and z is y` with `x is y is z`
+test/data/err_124.py:13:5 [FURB124]: Replace `x is y and y is z` with `x is y is z`
+test/data/err_124.py:14:5 [FURB124]: Replace `x is y and z is x` with `x is y is z`
+test/data/err_124.py:15:5 [FURB124]: Replace `x is y and z is y` with `x is y is z`
