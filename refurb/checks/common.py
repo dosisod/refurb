@@ -185,7 +185,7 @@ def get_common_expr_positions(*exprs: Expression) -> tuple[int, int] | None:
 
 
 def get_common_expr_in_comparison_chain(
-    node: OpExpr, oper: str
+    node: OpExpr, oper: str, cmp_oper: str = "=="
 ) -> tuple[Expression, tuple[int, int]] | None:
     """
     This function finds the first expression shared between 2 comparison
@@ -206,9 +206,12 @@ def get_common_expr_in_comparison_chain(
 
     match extract_binary_oper(oper, node):
         case (
-            ComparisonExpr(operators=["=="], operands=[a, b]),
-            ComparisonExpr(operators=["=="], operands=[c, d]),
-        ) if indices := get_common_expr_positions(a, b, c, d):
+            ComparisonExpr(operators=[lhs_oper], operands=[a, b]),
+            ComparisonExpr(operators=[rhs_oper], operands=[c, d]),
+        ) if (
+            lhs_oper == rhs_oper == cmp_oper
+            and (indices := get_common_expr_positions(a, b, c, d))
+        ):
             return a, indices
 
     return None  # pragma: no cover
