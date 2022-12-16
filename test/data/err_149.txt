@@ -1,0 +1,5 @@
+test/data/err_149.py:5:5 [FURB149]: Replace `x is True` with `x`
+test/data/err_149.py:6:5 [FURB149]: Replace `x is False` with `not x`
+test/data/err_149.py:7:5 [FURB149]: Replace `x is not True` with `not x`
+test/data/err_149.py:8:5 [FURB149]: Replace `x is not False` with `x`
+test/data/err_149.py:9:5 [FURB149]: Replace `True is x` with `x`
