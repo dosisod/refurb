@@ -8,7 +8,7 @@ from refurb.error import Error
 @dataclass
 class ErrorInfo(Error):
     """
-    Don't use `is` or `is not` to check if a boolean is True or False, simply
+    Don't use `is` or `==` to check if a boolean is True or False, simply
     use the name itself:
 
     Bad:
@@ -49,27 +49,25 @@ def is_bool_variable(expr: Expression) -> bool:
     return False
 
 
-IS_TRUTHY: dict[tuple[str, str], bool] = {
-    ("is", "True"): True,
-    ("is", "False"): False,
-    ("is not", "True"): False,
-    ("is not", "False"): True,
-}
+def is_truthy(oper: str, name: str) -> bool:
+    value = name == "True"
+
+    return not value if oper in ("is not", "!=") else value
 
 
 def check(node: ComparisonExpr, errors: list[Error]) -> None:
     match node:
         case ComparisonExpr(
-            operators=["is" | "is not" as oper],
+            operators=["is" | "is not" | "==" | "!=" as oper],
             operands=[NameExpr() as lhs, NameExpr() as rhs],
         ):
             if is_bool_literal(lhs) and is_bool_variable(rhs):
                 old = f"{lhs.name} {oper} x"
-                new = "x" if IS_TRUTHY[(oper, lhs.name)] else "not x"
+                new = "x" if is_truthy(oper, lhs.name) else "not x"
 
             elif is_bool_variable(lhs) and is_bool_literal(rhs):
                 old = f"x {oper} {rhs.name}"
-                new = "x" if IS_TRUTHY[(oper, rhs.name)] else "not x"
+                new = "x" if is_truthy(oper, rhs.name) else "not x"
 
             else:
                 return

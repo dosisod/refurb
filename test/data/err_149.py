@@ -7,6 +7,14 @@ _ = b is False
 _ = b is not True
 _ = b is not False
 _ = True is b
+_ = False is b
+
+_ = b == True
+_ = b == False
+_ = b != True
+_ = b != False
+_ = True == b
+_ = False == b
 
 
 # these should not
