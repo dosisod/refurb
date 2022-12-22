@@ -8,6 +8,7 @@ _ = float(3.14)
 _ = list([1, 2, 3])
 _ = str("hello world")
 _ = tuple((1, 2, 3))
+_ = int(123)
 
 a = True
 _ = bool(a)
@@ -44,3 +45,4 @@ _ = float(123)
 _ = list((1, 2, 3))
 _ = str(123)
 _ = tuple([1, 2, 3])
+_ = int("0xFF")

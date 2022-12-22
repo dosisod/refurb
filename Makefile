@@ -30,3 +30,8 @@ test-e2e: install-local
 
 refurb:
 	refurb refurb test/*.py
+
+test/data/%.txt: test/data/%.py
+	refurb "$^" --quiet > "$@" || true
+
+update-tests: $(wildcard test/data/*.txt)
