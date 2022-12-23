@@ -87,11 +87,15 @@ def run_refurb(settings: Settings) -> Sequence[Error | str]:
     stderr = StringIO()
 
     try:
-        files, opt = process_options(
-            settings.files + settings.mypy_args + ["--exclude", ".*\\.pyi"],
-            stdout=stdout,
-            stderr=stderr,
-        )
+        args = [
+            *settings.files,
+            *settings.mypy_args,
+            "--exclude",
+            ".*\\.pyi",
+            "--explicit-package-bases",
+        ]
+
+        files, opt = process_options(args, stdout=stdout, stderr=stderr)
 
     except SystemExit:
         lines = ["refurb: " + err for err in stderr.getvalue().splitlines()]
