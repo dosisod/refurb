@@ -61,3 +61,11 @@ nums2.append(2)
 
 nums.copy()
 nums.copy()
+
+class C:
+    def append(self, x):
+        pass
+
+c = C()
+c.append(1)
+c.append(2)
