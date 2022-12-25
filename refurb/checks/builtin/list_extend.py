@@ -8,6 +8,7 @@ from mypy.nodes import (
     MypyFile,
     NameExpr,
     Statement,
+    Var,
 )
 
 from refurb.checks.common import check_block_like
@@ -64,9 +65,12 @@ def check_stmts(stmts: list[Statement], errors: list[Error]) -> None:
         match stmt:
             case ExpressionStmt(
                 expr=CallExpr(
-                    callee=MemberExpr(expr=NameExpr(name=name), name="append")
+                    callee=MemberExpr(
+                        expr=NameExpr(name=name, node=Var(type=ty)),
+                        name="append",
+                    ),
                 )
-            ):
+            ) if str(ty).startswith("builtins.list["):
                 if not last.did_error and name == last.name:
                     errors.append(ErrorInfo(last.line, last.column))
                     last.did_error = True
