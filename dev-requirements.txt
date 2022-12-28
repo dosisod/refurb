@@ -11,7 +11,7 @@ mccabe==0.7.0
 mypy==0.991
 packaging==22.0
 pathspec==0.10.3
-platformdirs==2.6.0
+platformdirs==2.6.1
 pluggy==1.0.0
 py==1.11.0
 pycodestyle==2.10.0
