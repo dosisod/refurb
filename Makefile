@@ -34,4 +34,4 @@ refurb:
 test/data/%.txt: test/data/%.py
 	refurb "$^" --quiet > "$@" || true
 
-update-tests: $(wildcard test/data/*.txt)
+update-tests: $(patsubst %.py,%.txt,$(wildcard test/data/*.py))
