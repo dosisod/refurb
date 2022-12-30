@@ -93,6 +93,7 @@ def run_refurb(settings: Settings) -> Sequence[Error | str]:
             "--exclude",
             ".*\\.pyi",
             "--explicit-package-bases",
+            "--namespace-packages",
         ]
 
         files, opt = process_options(args, stdout=stdout, stderr=stderr)
