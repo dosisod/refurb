@@ -1,0 +1,2 @@
+test/data/pathlib.py:7:6 [FURB117]: Replace `open(x)` with `x.open()`
+test/data/pathlib.py:10:6 [FURB117]: Replace `open(x)` with `x.open()`
