@@ -32,6 +32,6 @@ refurb:
 	refurb refurb test/*.py
 
 test/data/%.txt: test/data/%.py
-	refurb "$^" --quiet > "$@" || true
+	refurb "$^" --enable-all --quiet > "$@" || true
 
 update-tests: $(patsubst %.py,%.txt,$(wildcard test/data/*.py))
