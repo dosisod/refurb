@@ -1,0 +1,4 @@
+test/data/err_151.py:5:1 [FURB151]: Replace `open(x, "w").close()` with `Path(x).touch()`
+test/data/err_151.py:6:1 [FURB151]: Replace `open(x, "w+").close()` with `Path(x).touch()`
+test/data/err_151.py:7:1 [FURB151]: Replace `open(x, "w+").close()` with `Path(x).touch()`
+test/data/err_151.py:11:1 [FURB151]: Replace `open(x, "w").close()` with `x.touch()`
