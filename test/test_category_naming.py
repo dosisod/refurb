@@ -24,8 +24,11 @@ def test_check_categories_are_valid() -> None:
     for module in get_modules([]):
         error = get_error_class(module)
 
-        if not error or not error.categories:
+        if not error:
             continue
+
+        error_msg = f'{module.__file__}: categories missing for "{error.__name__}" class'
+        assert error.categories or not error.enabled, error_msg
 
         error_msg = f'{module.__file__}: categories for "{error.__name__}" class are not sorted'
 

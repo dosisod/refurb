@@ -30,6 +30,7 @@ class ErrorInfo(Error):
 
     code = 139
     msg: str = 'Replace `"""\\n...""".lstrip()` with `"""\\..."""`'
+    categories = ["readability"]
 
 
 def check(node: CallExpr, errors: list[Error]) -> None:

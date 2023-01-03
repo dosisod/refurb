@@ -36,6 +36,7 @@ class ErrorInfo(Error):
 
     enabled = False
     code = 151
+    categories = ["pathlib"]
 
 
 def check(node: CallExpr, errors: list[Error]) -> None:

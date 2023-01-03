@@ -31,6 +31,7 @@ class ErrorInfo(Error):
     """
 
     code = 149
+    categories = ["logical", "readability", "truthy"]
 
 
 def is_bool_literal(expr: Expression) -> bool:
