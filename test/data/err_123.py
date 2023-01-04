@@ -4,7 +4,7 @@ _ = bool(True)
 _ = bytes(b"hello world")
 _ = complex(1j)
 _ = dict({"a": 1})
-_ = float(3.14)
+_ = float(123.456)
 _ = list([1, 2, 3])
 _ = str("hello world")
 _ = tuple((1, 2, 3))
@@ -22,7 +22,7 @@ _ = complex(c)
 d = {"a": 1}
 _ = dict(d)
 
-e = 3.14
+e = 123.456
 _ = float(e)
 
 f = [1, 2, 3]
