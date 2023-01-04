@@ -49,6 +49,11 @@ These checks cover:
 These checks relate to the [itertools](https://docs.python.org/3/library/itertools.html)
 standard library module.
 
+## `math`
+
+These checks relate to the [math](https://docs.python.org/3/library/math.html)
+standard library module.
+
 ## `operator`
 
 These checks relate to the [operator](https://docs.python.org/3/library/operator.html)

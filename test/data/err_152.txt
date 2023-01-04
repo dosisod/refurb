@@ -1,0 +1,11 @@
+test/data/err_152.py:3:6 [FURB152]: Replace `3.14` with `math.pi`
+test/data/err_152.py:4:6 [FURB152]: Replace `3.1415` with `math.pi`
+test/data/err_152.py:5:6 [FURB152]: Replace `3.14` with `math.pi`
+test/data/err_152.py:6:7 [FURB152]: Replace `3.14` with `math.pi`
+test/data/err_152.py:7:5 [FURB152]: Replace `2.71` with `math.e`
+test/data/err_152.py:8:5 [FURB152]: Replace `2.71828` with `math.e`
+test/data/err_152.py:9:6 [FURB152]: Replace `2.71` with `math.e`
+test/data/err_152.py:10:7 [FURB152]: Replace `6.28` with `math.tau`
+test/data/err_152.py:11:7 [FURB152]: Replace `6.2831` with `math.tau`
+test/data/err_152.py:12:11 [FURB152]: Replace `3.14` with `math.pi`
+test/data/err_152.py:13:8 [FURB152]: Replace `6.28` with `math.tau`
