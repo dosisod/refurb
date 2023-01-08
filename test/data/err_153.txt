@@ -1,0 +1,1 @@
+test/data/err_153.py:5:5 [FURB153]: Replace `Path(".")` with `Path()`
