@@ -28,6 +28,7 @@ class ErrorInfo(Error):
     ```
     '''
 
+    name = "no-multiline-lstrip"
     code = 139
     msg: str = 'Replace `"""\\n...""".lstrip()` with `"""\\..."""`'
     categories = ["readability"]

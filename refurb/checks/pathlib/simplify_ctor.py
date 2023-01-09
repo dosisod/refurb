@@ -24,6 +24,7 @@ class ErrorInfo(Error):
     ```
     """
 
+    name = "simplify-path-constructor"
     code = 153
     msg: str = 'Replace `Path(".")` with `Path()`'
     categories = ["pathlib", "readability"]

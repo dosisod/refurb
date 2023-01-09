@@ -27,6 +27,7 @@ class ErrorInfo(Error):
     ```
     """
 
+    name = "use-pathlib-is-funcs"
     code = 146
     categories = ["pathlib"]
 

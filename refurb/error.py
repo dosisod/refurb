@@ -25,6 +25,7 @@ ErrorClassifier = ErrorCategory | ErrorCode
 @dataclass
 class Error:
     enabled: ClassVar[bool] = True
+    name: ClassVar[str | None] = None
     prefix: ClassVar[str] = "FURB"
     categories: ClassVar[list[str]] = []
     code: ClassVar[int]

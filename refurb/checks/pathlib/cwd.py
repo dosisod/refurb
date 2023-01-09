@@ -23,6 +23,7 @@ class ErrorInfo(Error):
     ```
     """
 
+    name = "use-pathlib-cwd"
     code = 104
     msg: str = "Replace `os.getcwd()` with `Path.cwd()`"
     categories = ["pathlib"]

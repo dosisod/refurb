@@ -44,6 +44,7 @@ class ErrorInfo(Error):
     ```
     """
 
+    name = "use-list-comprehension"
     code = 138
     msg: str = "Consider using list comprehension"
     categories = ["performance", "readability"]

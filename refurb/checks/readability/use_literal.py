@@ -26,6 +26,7 @@ class ErrorInfo(Error):
     ```
     """
 
+    name = "use-literal"
     code = 112
     categories = ["pythonic", "readability"]
 

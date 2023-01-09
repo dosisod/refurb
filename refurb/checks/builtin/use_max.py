@@ -31,6 +31,7 @@ class ErrorInfo(Error):
     ```
     """
 
+    name = "use-min-max"
     code = 136
     categories = ["builtin", "logical", "readability"]
 

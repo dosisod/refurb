@@ -39,6 +39,7 @@ class ErrorInfo(Error):
     ```
     """
 
+    name = "use-set-discard"
     code = 132
     msg: str = "Replace `if x in s: s.remove(x)` with `s.discard(x)`"
     categories = ["readability", "set"]

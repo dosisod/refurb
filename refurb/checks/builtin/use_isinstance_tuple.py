@@ -37,6 +37,7 @@ class ErrorInfo(Error):
     ```
     """
 
+    name = "use-isinstance-issubclass-tuple"
     code = 121
     categories = ["readability"]
 

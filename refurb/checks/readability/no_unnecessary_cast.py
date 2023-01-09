@@ -52,6 +52,7 @@ class ErrorInfo(Error):
     ```
     """
 
+    name = "no-redundant-cast"
     code = 123
     categories = ["readability"]
 

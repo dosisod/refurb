@@ -31,6 +31,7 @@ class ErrorInfo(Error):
     ```
     """
 
+    name = "use-with-suppress"
     code = 107
     categories = ["contextlib", "readability"]
 

@@ -36,6 +36,7 @@ class ErrorInfo(Error):
     ```
     """
 
+    name = "use-expandtabs"
     enabled = False
     code = 106
     categories = ["string"]

@@ -39,6 +39,7 @@ class ErrorInfo(Error):
     Note: if `x` depends on side-effects, then this check should be ignored.
     """
 
+    name = "use-comparison-chain"
     code = 124
     categories = ["logical", "readability"]
 

@@ -37,6 +37,7 @@ class ErrorInfo(Error):
     ```
     """
 
+    name = "use-func-name"
     code = 111
     msg: str = "Replace `lambda x: f(x)` with `f`"
     categories = ["readability"]

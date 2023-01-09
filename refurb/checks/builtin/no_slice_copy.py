@@ -27,6 +27,7 @@ class ErrorInfo(Error):
     ```
     """
 
+    name = "no-slice-copy"
     code = 145
     msg: str = "Replace `x[:]` with `x.copy()`"
     categories = ["readability"]

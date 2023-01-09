@@ -39,6 +39,7 @@ class ErrorInfo(Error):
     ```
     """
 
+    name = "no-with-assign"
     code = 127
     msg: str = "This variable is redeclared later, and can be removed here"
     categories = ["readability", "scoping"]

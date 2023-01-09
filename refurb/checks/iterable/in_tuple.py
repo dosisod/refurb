@@ -30,6 +30,10 @@ class ErrorInfo(Error):
     ```
     """
 
+    # Currently this check is hard-coded for tuples, but once we have the
+    # ability to pass parameters into checks this check will be able to work
+    # with a variety of bracket types.
+    name = "use-consistent-in-bracket"
     code = 109
     categories = ["iterable", "readability"]
 
