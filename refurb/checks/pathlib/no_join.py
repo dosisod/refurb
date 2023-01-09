@@ -43,6 +43,7 @@ class ErrorInfo(Error):
     is disabled by default.
     """
 
+    name = "no-path-join"
     enabled = False
     code = 147
     categories = ["pathlib"]

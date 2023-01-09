@@ -34,6 +34,7 @@ class ErrorInfo(Error):
     exist beforehand this check may be for you.
     """
 
+    name = "use-pathlib-touch"
     enabled = False
     code = 151
     categories = ["pathlib"]

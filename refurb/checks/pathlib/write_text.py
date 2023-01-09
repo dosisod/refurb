@@ -33,6 +33,7 @@ class ErrorInfo(Error):
     ```
     """
 
+    name = "use-pathlib-write-text-write-bytes"
     code = 103
     categories = ["pathlib"]
 

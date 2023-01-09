@@ -27,6 +27,7 @@ class ErrorInfo(Error):
     ```
     """
 
+    name = "use-tuple-unpack-swap"
     code = 128
     msg: str = "Use tuple unpacking instead of temporary variables to swap values"  # noqa: E501
     categories = ["readability"]

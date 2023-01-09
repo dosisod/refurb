@@ -56,6 +56,7 @@ class ErrorInfo(Error):
     ```
     """
 
+    name = "simplify-return"
     code = 126
     categories = ["control-flow", "readability"]
 

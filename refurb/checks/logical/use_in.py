@@ -31,6 +31,7 @@ class ErrorInfo(Error):
     useful for comparing against a range of constant values.
     """
 
+    name = "use-in-oper"
     code = 108
     categories = ["logical", "readability"]
 

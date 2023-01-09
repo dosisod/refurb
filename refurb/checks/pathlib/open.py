@@ -31,6 +31,7 @@ class ErrorInfo(Error):
     ```
     """
 
+    name = "use-pathlib-open"
     code = 117
     categories = ["pathlib"]
 

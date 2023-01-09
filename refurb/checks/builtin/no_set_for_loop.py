@@ -42,6 +42,7 @@ class ErrorInfo(Error):
     ```
     """
 
+    name = "no-set-for-loop"
     code = 142
     categories = ["builtin"]
 

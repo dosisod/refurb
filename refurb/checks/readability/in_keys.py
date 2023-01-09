@@ -30,6 +30,7 @@ class ErrorInfo(Error):
     ```
     """
 
+    name = "no-in-dict-keys"
     code = 130
     categories = ["dict", "readability"]
 

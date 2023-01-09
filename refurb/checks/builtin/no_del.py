@@ -38,6 +38,7 @@ class ErrorInfo(Error):
     ```
     """
 
+    name = "no-del"
     code = 131
     categories = ["builtin", "readability"]
 

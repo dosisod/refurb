@@ -41,6 +41,7 @@ class ErrorInfo(Error):
     ```
     """
 
+    name = "use-list-extend"
     code = 113
     msg: str = "Use `x.extend(...)` instead of repeatedly calling `x.append()`"
     categories = ["list"]

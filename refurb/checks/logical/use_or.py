@@ -27,6 +27,7 @@ class ErrorInfo(Error):
     Note: if `x` depends on side-effects, then this check should be ignored.
     """
 
+    name = "use-or-oper"
     code = 110
     msg: str = "Replace `x if x else y` with `x or y`"
     categories = ["logical", "readability"]

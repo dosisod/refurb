@@ -42,6 +42,7 @@ class ErrorInfo(Error):
     ```
     """
 
+    name = "no-default-or"
     code = 143
     categories = ["logical", "readability"]
 

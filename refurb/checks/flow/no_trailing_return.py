@@ -54,6 +54,7 @@ class ErrorInfo(Error):
     ```
     """
 
+    name = "no-redundant-return"
     code = 125
     msg: str = "Return is redundant here"
     categories = ["control-flow", "readability"]

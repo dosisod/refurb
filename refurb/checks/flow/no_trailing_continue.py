@@ -59,6 +59,7 @@ class ErrorInfo(Error):
     ```
     """
 
+    name = "no-redundant-continue"
     code = 133
     msg: str = "Continue is redundant here"
     categories = ["control-flow", "readability"]

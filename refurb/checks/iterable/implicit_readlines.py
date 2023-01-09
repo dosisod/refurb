@@ -37,6 +37,7 @@ class ErrorInfo(Error):
     ```
     """
 
+    name = "simplify-readlines"
     code = 129
     msg: str = "Replace `f.readlines()` with `f`"
     categories = ["builtin", "readability"]
