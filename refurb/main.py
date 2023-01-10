@@ -66,9 +66,8 @@ def get_source_lines(filepath: str) -> list[str]:
     return Path(filepath).read_text("utf8").splitlines()
 
 
-def ignored_via_comment(error: Error | str) -> bool:
-    if isinstance(error, str) or not error.filename:
-        return False
+def is_ignored_via_comment(error: Error) -> bool:
+    assert error.filename
 
     line = get_source_lines(error.filename)[error.line - 1]
 
@@ -80,6 +79,39 @@ def ignored_via_comment(error: Error | str) -> bool:
             return True
 
     return False
+
+
+def is_ignored_via_amend(error: Error, settings: Settings) -> bool:
+    assert error.filename
+
+    path = Path(error.filename).resolve()
+    error_code = ErrorCode.from_error(type(error))
+    config_root = (
+        Path(settings.config_file).parent if settings.config_file else Path()
+    )
+
+    for ignore in settings.ignore:
+        if ignore.path:
+            ignore_path = (config_root / ignore.path).resolve()
+
+            if path.is_relative_to(ignore_path):
+                if isinstance(ignore, ErrorCode):
+                    return str(ignore) == str(error_code)
+
+                return ignore.value in error.categories
+
+    return False
+
+
+def should_ignore_error(error: Error | str, settings: Settings) -> bool:
+    if isinstance(error, str):
+        return False
+
+    return (
+        not error.filename
+        or is_ignored_via_comment(error)
+        or is_ignored_via_amend(error, settings)
+    )
 
 
 def run_refurb(settings: Settings) -> Sequence[Error | str]:
@@ -140,7 +172,11 @@ def run_refurb(settings: Settings) -> Sequence[Error | str]:
             errors += visitor.errors
 
     return sorted(
-        [error for error in errors if not ignored_via_comment(error)],
+        [
+            error
+            for error in errors
+            if not should_ignore_error(error, settings)
+        ],
         key=sort_errors,
     )
 
