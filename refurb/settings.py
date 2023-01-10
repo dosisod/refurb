@@ -2,9 +2,9 @@ from __future__ import annotations
 
 import re
 import sys
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from pathlib import Path
-from typing import Iterator
+from typing import Any, Iterator
 
 if sys.version_info >= (3, 11):
     import tomllib  # pragma: no cover
@@ -102,43 +102,69 @@ def parse_python_version(version: str) -> tuple[int, int]:
     raise ValueError("refurb: version must be in form `x.y`")
 
 
+def parse_amendment(  # type: ignore
+    amendment: dict[str, Any]
+) -> set[ErrorClassifier]:
+    def parse_amend_error(err: str, path: Path) -> ErrorClassifier:
+        classifier = parse_error_classifier(err)
+
+        return replace(classifier, path=path)
+
+    match amendment:
+        case {"path": str(path), "ignore": list(ignored), **extra}:
+            if extra:
+                raise ValueError(
+                    'refurb: only "path" and "ignore" fields are supported'
+                )
+
+            return {parse_amend_error(error, Path(path)) for error in ignored}
+
+    raise ValueError(
+        'refurb: "path" or "ignore" fields are missing or malformed'
+    )
+
+
 def parse_config_file(contents: str) -> Settings:
-    config = tomllib.loads(contents)
+    tool = tomllib.loads(contents).get("tool")
 
-    if tool := config.get("tool"):
-        if config := tool.get("refurb"):
-            ignore = {
-                parse_error_classifier(str(x))
-                for x in config.get("ignore", [])
-            }
+    if not tool:
+        return Settings()
 
-            enable = {
-                parse_error_classifier(str(x))
-                for x in config.get("enable", [])
-            }
+    config = tool.get("refurb")
 
-            disable = {
-                parse_error_classifier(str(x))
-                for x in config.get("disable", [])
-            }
+    if not config:
+        return Settings()
 
-            version = config.get("python_version")
-            python_version = parse_python_version(version) if version else None
-            mypy_args = [str(x) for x in config.get("mypy_args", [])]
+    ignore = {parse_error_classifier(str(x)) for x in config.get("ignore", [])}
+    enable = {parse_error_classifier(str(x)) for x in config.get("enable", [])}
 
-            return Settings(
-                ignore=ignore,
-                enable=enable - disable,
-                disable=disable,
-                load=config.get("load", []),
-                quiet=config.get("quiet", False),
-                disable_all=config.get("disable_all", False),
-                enable_all=config.get("enable_all", False),
-                python_version=python_version,
-                mypy_args=mypy_args,
-            )
+    disable = {
+        parse_error_classifier(str(x)) for x in config.get("disable", [])
+    }
 
-    return Settings()
+    version = config.get("python_version")
+    python_version = parse_python_version(version) if version else None
+    mypy_args = [str(arg) for arg in config.get("mypy_args", [])]
+
+    amendments: list[dict[str, Any]] = config.get("amend", [])  # type: ignore
+
+    if not isinstance(amendments, list):
+        raise ValueError('refurb: "amend" field(s) must be a TOML table')
+
+    for amendment in amendments:
+        ignore.update(parse_amendment(amendment))
+
+    return Settings(
+        ignore=ignore,
+        enable=enable - disable,
+        disable=disable,
+        load=config.get("load", []),
+        quiet=config.get("quiet", False),
+        disable_all=config.get("disable_all", False),
+        enable_all=config.get("enable_all", False),
+        python_version=python_version,
+        mypy_args=mypy_args,
+    )
 
 
 def parse_command_line_args(args: list[str]) -> Settings:

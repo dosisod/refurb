@@ -169,6 +169,33 @@ You can use the `--config-file` flag to tell Refurb to use a different config fi
 default `pyproject.toml` file. Note that it still must be in the same form as the normal
 `pyproject.toml` file.
 
+### Ignore Checks Per File/Folder
+
+If you have a large codebase you might want to ignore errors for certain files or folders,
+which allows you to incrementally fix errors as you see fit. To do that, add the following
+to your `pyproject.toml` file:
+
+```toml
+# these settings will be applied globally
+[tool.refurb]
+enable_all = true
+
+# these will only be applied to the "src" folder
+[[tool.refurb.amend]]
+path = "src"
+ignore = ["FURB123", "FURB120"]
+
+# these will only be applied to the "src/util.py" file
+[[tool.refurb.amend]]
+path = "src/util.py"
+ignore = ["FURB125", "FURB148"]
+```
+
+> Note that only the `ignore` field is available in the `amend` sections. This is because
+> a check can only be enabled/disabled for the entire codebase, and cannot be selectively
+> enabled/disabled on a per-file basis. Assuming a check is enabled though, you can simply
+> `ignore` the errors for the files of your choosing.
+
 ## Using Refurb With `pre-commit`
 
 You can use Refurb with [pre-commit](https://pre-commit.com/) by adding the following

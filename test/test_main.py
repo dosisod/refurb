@@ -185,6 +185,22 @@ def test_load_custom_config_file():
     assert not errors
 
 
+def test_amended_ignores_are_relative_to_config_file():
+    os.chdir("test")
+
+    args = [
+        "data/err_123.py",
+        "--config-file",
+        "config/amend_config.toml",
+    ]
+
+    errors = run_refurb(load_settings(args))
+
+    os.chdir("..")
+
+    assert not errors
+
+
 def test_mypy_args_are_forwarded() -> None:
     errors = run_refurb(Settings(mypy_args=["--version"]))
 

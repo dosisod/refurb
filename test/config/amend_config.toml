@@ -1,0 +1,3 @@
+[[tool.refurb.amend]]
+path = "../data"
+ignore = ["FURB123"]

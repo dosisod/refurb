@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pytest
 
 from refurb.error import ErrorCategory, ErrorCode
@@ -496,3 +498,91 @@ def test_flags_which_support_comma_separated_cli_args() -> None:
         disable=set((ErrorCode(102), ErrorCode(103))),
         ignore=set((ErrorCode(104), ErrorCode(105))),
     )
+
+
+def test_parse_amend_file_paths() -> None:
+    config = """\
+[tool.refurb]
+ignore = ["FURB100"]
+
+[[tool.refurb.amend]]
+path = "some/file/path"
+ignore = ["FURB101", "FURB102"]
+
+[[tool.refurb.amend]]
+path = "some/other/path"
+ignore = ["FURB102", "FURB103"]
+"""
+
+    config_file = parse_config_file(config)
+
+    assert config_file == Settings(
+        ignore=set(
+            (
+                ErrorCode(100),
+                ErrorCode(101, path=Path("some/file/path")),
+                ErrorCode(102, path=Path("some/file/path")),
+                ErrorCode(102, path=Path("some/other/path")),
+                ErrorCode(103, path=Path("some/other/path")),
+            )
+        )
+    )
+
+
+def test_invalid_amend_field_fails() -> None:
+    config = """\
+[tool.refurb]
+amend = "oops"
+"""
+
+    msg = r'"amend" field\(s\) must be a TOML table'
+
+    with pytest.raises(ValueError, match=msg):
+        parse_config_file(config)
+
+
+def test_extra_fields_in_amend_table_fails() -> None:
+    config = """\
+[[tool.refurb.amend]]
+path = "some/folder"
+ignore = ["FURB123"]
+extra = "data"
+"""
+
+    msg = 'only "path" and "ignore" fields are supported'
+
+    with pytest.raises(ValueError, match=msg):
+        parse_config_file(config)
+
+
+def test_missing_or_malformed_fields_in_amend_table_fails() -> None:
+    msg = '"path" or "ignore" fields are missing or malformed'
+
+    config = """\
+[[tool.refurb.amend]]
+ignore = ["FURB123"]
+"""
+
+    with pytest.raises(ValueError, match=msg):
+        parse_config_file(config)
+
+    config = """\
+[[tool.refurb.amend]]
+path = "some/folder"
+"""
+
+    with pytest.raises(ValueError, match=msg):
+        parse_config_file(config)
+
+    config = """\
+[[tool.refurb.amend]]
+path = true
+ignore = false
+"""
+
+    with pytest.raises(ValueError, match=msg):
+        parse_config_file(config)
+
+
+def test_parse_empty_config_file() -> None:
+    assert parse_config_file("") == Settings()

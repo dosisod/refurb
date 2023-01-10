@@ -214,11 +214,55 @@ def test_explicitly_enabled_category_still_runs() -> None:
     errors = run_refurb(
         Settings(
             files=["test/data/err_123.py"],
+            disable_all=True,
             enable=set((ErrorCategory("readability"),)),
         )
     )
 
     assert errors
+
+
+def test_error_not_ignored_if_path_doesnt_apply() -> None:
+    errors = run_refurb(
+        Settings(
+            files=["test/data/err_123.py"],
+            ignore=set((ErrorCode(123, path=Path("some_other_file.py")),)),
+        )
+    )
+
+    assert errors
+
+
+def test_error_not_ignored_if_error_code_doesnt_apply() -> None:
+    errors = run_refurb(
+        Settings(
+            files=["test/data/err_123.py"],
+            ignore=set((ErrorCode(456, path=Path("test/data/err_123.py")),)),
+        )
+    )
+
+    assert errors
+
+
+def test_error_ignored_if_path_applies() -> None:
+    errors = run_refurb(
+        Settings(
+            files=["test/data/err_123.py"],
+            ignore=set((ErrorCode(123, path=Path("test/data/err_123.py")),)),
+        )
+    )
+
+    assert not errors
+
+
+def test_error_ignored_if_category_matches() -> None:
+    error = ErrorCategory("readability", path=Path("test/data/err_123.py"))
+
+    errors = run_refurb(
+        Settings(files=["test/data/err_123.py"], ignore=set((error,)))
+    )
+
+    assert not errors
 
 
 def test_checks_with_python_version_dependant_error_msgs() -> None:

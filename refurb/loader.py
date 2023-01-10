@@ -14,7 +14,7 @@ from mypy.nodes import Node
 from refurb.visitor.mapping import METHOD_NODE_MAPPINGS
 
 from . import checks as checks_module
-from .error import Error, ErrorCode
+from .error import Error, ErrorCategory, ErrorCode
 from .settings import Settings
 from .types import Check
 
@@ -54,6 +54,9 @@ def get_modules(paths: list[str]) -> Generator[ModuleType, None, None]:
 
 
 def is_valid_error_class(obj: Any) -> TypeGuard[type[Error]]:  # type: ignore
+    if not hasattr(obj, "__name__"):
+        return False
+
     name = obj.__name__
     ignored_names = ("Error", "ErrorCode", "ErrorCategory")
 
@@ -84,10 +87,12 @@ def should_load_check(settings: Settings, error: type[Error]) -> bool:
     if error_code in (settings.disable | settings.ignore):
         return False
 
-    if settings.enable.intersection(error.categories):
+    categories = {ErrorCategory(cat) for cat in error.categories}
+
+    if settings.enable & categories:
         return True
 
-    if settings.disable.intersection(error.categories) or settings.disable_all:
+    if settings.disable & categories or settings.disable_all:
         return False
 
     return error.enabled or settings.enable_all
