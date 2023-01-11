@@ -102,14 +102,15 @@ def parse_python_version(version: str) -> tuple[int, int]:
     raise ValueError("refurb: version must be in form `x.y`")
 
 
+def parse_amend_error(err: str, path: Path) -> ErrorClassifier:
+    classifier = parse_error_classifier(err)
+
+    return replace(classifier, path=path)
+
+
 def parse_amendment(  # type: ignore
     amendment: dict[str, Any]
 ) -> set[ErrorClassifier]:
-    def parse_amend_error(err: str, path: Path) -> ErrorClassifier:
-        classifier = parse_error_classifier(err)
-
-        return replace(classifier, path=path)
-
     match amendment:
         case {"path": str(path), "ignore": list(ignored), **extra}:
             if extra:
@@ -117,7 +118,9 @@ def parse_amendment(  # type: ignore
                     'refurb: only "path" and "ignore" fields are supported'
                 )
 
-            return {parse_amend_error(error, Path(path)) for error in ignored}
+            return {
+                parse_amend_error(str(error), Path(path)) for error in ignored
+            }
 
     raise ValueError(
         'refurb: "path" or "ignore" fields are missing or malformed'

@@ -511,7 +511,7 @@ ignore = ["FURB101", "FURB102"]
 
 [[tool.refurb.amend]]
 path = "some/other/path"
-ignore = ["FURB102", "FURB103"]
+ignore = [102, 103]
 """
 
     config_file = parse_config_file(config)
