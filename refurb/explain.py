@@ -15,6 +15,12 @@ def explain(lookup: ErrorCode, paths: list[str] = []) -> str:
             if docstring.startswith(f"{error.__name__}("):
                 return f'refurb: Explaination for "{lookup}" not found'
 
-            return dedent(error.__doc__ or "").strip()
+            docstring = dedent(error.__doc__ or "").strip()
+
+            name = error.name or "<name unknown>"
+            error_code = ErrorCode.from_error(error)
+            categories = " ".join(f"[{x}]" for x in error.categories)
+
+            return f"{error_code}: {name} {categories}\n\n{docstring}"
 
     return f'refurb: Error code "{lookup}" not found'

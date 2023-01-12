@@ -3,7 +3,15 @@ from refurb.explain import explain
 
 
 def test_get_check_explaination_by_id() -> None:
-    assert "error" not in explain(ErrorCode(100)).lower()
+    explaination = explain(ErrorCode(100))
+
+    from refurb.checks.pathlib.with_suffix import ErrorInfo as furb100
+
+    assert "error" not in explaination.lower()
+    assert furb100.name
+    assert furb100.name in explaination
+    assert "FURB100" in explaination
+    assert all(cat in explaination for cat in furb100.categories)
 
 
 def test_error_if_check_doesnt_exist() -> None:
