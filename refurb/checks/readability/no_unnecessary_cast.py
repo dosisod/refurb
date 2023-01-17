@@ -86,7 +86,8 @@ def check(node: CallExpr, errors: list[Error]) -> None:
             node_type, msg = FUNC_NAMES[fullname]
 
             if type(arg) == node_type:
-                pass
+                if isinstance(arg, DictExpr | ListExpr):
+                    msg = "x"
 
             elif is_boolean_literal(arg) and name == "bool":
                 pass

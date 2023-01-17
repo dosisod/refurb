@@ -1,9 +1,9 @@
 test/data/err_123.py:3:5 [FURB123]: Replace `bool(x)` with `x`
 test/data/err_123.py:4:5 [FURB123]: Replace `bytes(x)` with `x`
 test/data/err_123.py:5:5 [FURB123]: Replace `complex(x)` with `x`
-test/data/err_123.py:6:5 [FURB123]: Replace `dict(x)` with `x.copy()`
+test/data/err_123.py:6:5 [FURB123]: Replace `dict(x)` with `x`
 test/data/err_123.py:7:5 [FURB123]: Replace `float(x)` with `x`
-test/data/err_123.py:8:5 [FURB123]: Replace `list(x)` with `x.copy()`
+test/data/err_123.py:8:5 [FURB123]: Replace `list(x)` with `x`
 test/data/err_123.py:9:5 [FURB123]: Replace `str(x)` with `x`
 test/data/err_123.py:10:5 [FURB123]: Replace `tuple(x)` with `x`
 test/data/err_123.py:11:5 [FURB123]: Replace `int(x)` with `x`
