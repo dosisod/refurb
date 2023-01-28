@@ -1,0 +1,1 @@
+test/data/err_155.py:4:5 [FURB146]: Replace `os.path.getsize(x)` with `Path(x).stat().st_size`

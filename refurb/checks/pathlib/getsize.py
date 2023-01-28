@@ -27,8 +27,8 @@ class ErrorInfo(Error):
     ```
     """
 
-    name = "use-pathlib-statsize-funcs"
-    code = 154
+    name = "use-pathlib-stat"
+    code = 155
     categories = ["pathlib"]
 
 
@@ -36,6 +36,11 @@ PATH_TO_PATHLIB_NAMES = {
     "posixpath.getsize": "stat().st_size",
     "genericpath.getsize": "stat().st_size",
     "ntpath.getsize": "stat().st_size",
+    "os.stat": "stat()",
+    "os.path.getatime": "stat().st_atime",
+    "os.path.getmtime": "stat().st_mtime",
+    "os.path.getctime": "stat().st_ctime",
+
 }
 
 
