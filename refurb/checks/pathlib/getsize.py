@@ -33,23 +33,32 @@ class ErrorInfo(Error):
 
 
 PATH_TO_PATHLIB_NAMES = {
-    "posixpath.getsize": "stat().st_size",
-    "genericpath.getsize": "stat().st_size",
-    "ntpath.getsize": "stat().st_size",
     "os.stat": "stat()",
+    "os.path.getsize": "stat().st_size",
     "os.path.getatime": "stat().st_atime",
     "os.path.getmtime": "stat().st_mtime",
     "os.path.getctime": "stat().st_ctime",
-
 }
 
 
 def check(node: CallExpr, errors: list[Error]) -> None:
+
     match node:
         case CallExpr(
-            callee=MemberExpr(fullname=fullname, name=name),
+            callee=MemberExpr(fullname=fullname),
             args=[arg],
-        ) if new_name := PATH_TO_PATHLIB_NAMES.get(fullname or ""):
+        ):
+            normalized_name = fullname or ""
+
+            for name in ("posix", "nt", "generic"):
+                if normalized_name.startswith(name):
+                    normalized_name = normalized_name.replace(name, "os.")
+
+            new_name = PATH_TO_PATHLIB_NAMES.get(normalized_name)
+
+            if not new_name:
+                return
+
             if is_pathlike(arg):
                 replace = f"x.{new_name}"
 
@@ -72,6 +81,6 @@ def check(node: CallExpr, errors: list[Error]) -> None:
                 ErrorInfo(
                     node.line,
                     node.column,
-                    f"Replace `os.path.getsize(x)` with `{replace}`",
+                    f"Replace `{normalized_name}(x)` with `{replace}`",
                 )
             )

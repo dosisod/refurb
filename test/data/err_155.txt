@@ -1,1 +1,12 @@
-test/data/err_155.py:4:5 [FURB146]: Replace `os.path.getsize(x)` with `Path(x).stat().st_size`
+test/data/err_155.py:5:1 [FURB155]: Replace `os.path.getatime(x)` with `Path(x).stat().st_atime`
+test/data/err_155.py:6:1 [FURB155]: Replace `os.path.getatime(x)` with `Path(x).stat().st_atime`
+test/data/err_155.py:7:1 [FURB155]: Replace `os.path.getatime(x)` with `x.stat().st_atime`
+test/data/err_155.py:9:1 [FURB155]: Replace `os.path.getmtime(x)` with `Path(x).stat().st_mtime`
+test/data/err_155.py:10:1 [FURB155]: Replace `os.path.getmtime(x)` with `Path(x).stat().st_mtime`
+test/data/err_155.py:11:1 [FURB155]: Replace `os.path.getmtime(x)` with `x.stat().st_mtime`
+test/data/err_155.py:13:1 [FURB155]: Replace `os.path.getctime(x)` with `Path(x).stat().st_ctime`
+test/data/err_155.py:14:1 [FURB155]: Replace `os.path.getctime(x)` with `Path(x).stat().st_ctime`
+test/data/err_155.py:15:1 [FURB155]: Replace `os.path.getctime(x)` with `x.stat().st_ctime`
+test/data/err_155.py:17:1 [FURB155]: Replace `os.path.getsize(x)` with `Path(x).stat().st_size`
+test/data/err_155.py:18:1 [FURB155]: Replace `os.path.getsize(x)` with `Path(x).stat().st_size`
+test/data/err_155.py:19:1 [FURB155]: Replace `os.path.getsize(x)` with `x.stat().st_size`
