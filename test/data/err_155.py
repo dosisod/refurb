@@ -17,6 +17,7 @@ os.path.getctime(Path("filename"))
 os.path.getsize("filename")
 os.path.getsize(b"filename")
 os.path.getsize(Path("filename"))
+os.path.getsize(__file__)
 
 # this should not match
 os.path.getsize(1)
