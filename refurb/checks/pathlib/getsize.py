@@ -2,6 +2,7 @@ from dataclasses import dataclass
 
 from mypy.nodes import BytesExpr, CallExpr, MemberExpr, NameExpr, StrExpr, Var
 
+from refurb.checks.common import normalize_os_path
 from refurb.checks.pathlib.util import is_pathlike
 from refurb.error import Error
 
@@ -44,16 +45,8 @@ PATH_TO_PATHLIB_NAMES = {
 def check(node: CallExpr, errors: list[Error]) -> None:
 
     match node:
-        case CallExpr(
-            callee=MemberExpr(fullname=fullname),
-            args=[arg],
-        ):
-            normalized_name = fullname or ""
-
-            for name in ("posix", "nt", "generic"):
-                if normalized_name.startswith(name):
-                    normalized_name = normalized_name.replace(name, "os.")
-
+        case CallExpr(callee=MemberExpr(fullname=fullname), args=[arg]):
+            normalized_name = normalize_os_path(fullname or "")
             new_name = PATH_TO_PATHLIB_NAMES.get(normalized_name)
 
             if not new_name:
