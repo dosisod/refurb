@@ -58,7 +58,7 @@ _CHARSETS = [
 ]
 
 CHARSETS_EXACT = {
-    f"strings.{name}": getattr(string, name) for name in _CHARSETS
+    f"string.{name}": getattr(string, name) for name in _CHARSETS
 }
 CHARSET_PERMUTATIONS = {
     name: frozenset(value) for name, value in CHARSETS_EXACT.items()

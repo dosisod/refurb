@@ -1,10 +1,10 @@
-test/data/err_156.py:3:5 [FURB156]: Replace `0123456789` with `strings.digits`
-test/data/err_156.py:4:5 [FURB156]: Replace `01234567` with `strings.octdigits`
-test/data/err_156.py:5:5 [FURB156]: Replace `0123456789abcdefABCDEF` with `strings.hexdigits`
-test/data/err_156.py:6:5 [FURB156]: Replace `abcdefghijklmnopqrstuvwxyz` with `strings.ascii_lowercase`
-test/data/err_156.py:7:5 [FURB156]: Replace `ABCDEFGHIJKLMNOPQRSTUVWXYZ` with `strings.ascii_uppercase`
-test/data/err_156.py:8:5 [FURB156]: Replace `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ` with `strings.ascii_letters`
-test/data/err_156.py:9:5 [FURB156]: Replace `!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~` with `strings.punctuation`
-test/data/err_156.py:10:5 [FURB156]: Replace ` \t\n\r\v\f` with `strings.whitespace`
-test/data/err_156.py:12:5 [FURB156]: Replace `1234567890` with `strings.digits`
-test/data/err_156.py:13:5 [FURB156]: Replace `12345670` with `strings.octdigits`
+test/data/err_156.py:3:5 [FURB156]: Replace `0123456789` with `string.digits`
+test/data/err_156.py:4:5 [FURB156]: Replace `01234567` with `string.octdigits`
+test/data/err_156.py:5:5 [FURB156]: Replace `0123456789abcdefABCDEF` with `string.hexdigits`
+test/data/err_156.py:6:5 [FURB156]: Replace `abcdefghijklmnopqrstuvwxyz` with `string.ascii_lowercase`
+test/data/err_156.py:7:5 [FURB156]: Replace `ABCDEFGHIJKLMNOPQRSTUVWXYZ` with `string.ascii_uppercase`
+test/data/err_156.py:8:5 [FURB156]: Replace `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ` with `string.ascii_letters`
+test/data/err_156.py:9:5 [FURB156]: Replace `!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~` with `string.punctuation`
+test/data/err_156.py:10:5 [FURB156]: Replace ` \t\n\r\v\f` with `string.whitespace`
+test/data/err_156.py:12:5 [FURB156]: Replace `1234567890` with `string.digits`
+test/data/err_156.py:13:5 [FURB156]: Replace `12345670` with `string.octdigits`
