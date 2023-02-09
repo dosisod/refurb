@@ -73,6 +73,10 @@ but also in boolean expressions.
 
 These checks cover usage of the built-in `list` object.
 
+## `pattern-matching`
+
+Checks related to Python 3.10's [Structural Pattern Matching](https://peps.python.org/pep-0636/).
+
 ## `pathlib`
 
 These checks relate to the [pathlib](https://docs.python.org/3/library/pathlib.html)
