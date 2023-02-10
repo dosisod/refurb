@@ -1,0 +1,14 @@
+test/data/err_159.py:3:5 [FURB159]: Replace `x.lstrip().rstrip()` with `x.strip()`
+test/data/err_159.py:4:5 [FURB159]: Replace `x.rstrip().lstrip()` with `x.strip()`
+test/data/err_159.py:5:5 [FURB159]: Replace `x.strip().rstrip()` with `x.strip()`
+test/data/err_159.py:6:5 [FURB159]: Replace `x.lstrip().strip()` with `x.strip()`
+test/data/err_159.py:7:5 [FURB159]: Replace `x.lstrip().lstrip()` with `x.lstrip()`
+test/data/err_159.py:8:5 [FURB159]: Replace `x.rstrip().rstrip()` with `x.rstrip()`
+test/data/err_159.py:9:5 [FURB159]: Replace `x.strip().strip()` with `x.strip()`
+test/data/err_159.py:11:5 [FURB159]: Replace `x.lstrip('x').rstrip('x')` with `x.strip('x')`
+test/data/err_159.py:12:5 [FURB159]: Replace `x.strip('x').rstrip('x')` with `x.strip('x')`
+test/data/err_159.py:14:5 [FURB159]: Replace `x.lstrip('x').lstrip('y')` with `x.lstrip('xy')`
+test/data/err_159.py:15:5 [FURB159]: Replace `x.lstrip('x').lstrip('xy')` with `x.lstrip('xy')`
+test/data/err_159.py:16:5 [FURB159]: Replace `x.lstrip('x').lstrip('x')` with `x.lstrip('x')`
+test/data/err_159.py:17:5 [FURB159]: Replace `x.strip('x').strip('y')` with `x.strip('xy')`
+test/data/err_159.py:20:5 [FURB159]: Replace `x.lstrip().rstrip()` with `x.strip()`
