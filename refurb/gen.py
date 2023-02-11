@@ -47,7 +47,7 @@ def check(node: {accept_type}, errors: list[Error]) -> None:
 '''
 
 
-def fzf(data: list[str] | None, args: list[str] = []) -> str:
+def fzf(data: list[str] | None, args: list[str]) -> str:
     env = os.environ | {
         "SHELL": "/bin/bash",
         "FZF_DEFAULT_COMMAND": "find refurb -name '*.py' -not -path '*__*' 2> /dev/null || true",  # noqa: E501

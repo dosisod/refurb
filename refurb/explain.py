@@ -5,8 +5,8 @@ from refurb.loader import get_error_class, get_modules
 from .error import ErrorCode
 
 
-def explain(lookup: ErrorCode, paths: list[str] = []) -> str:
-    for module in get_modules(paths):
+def explain(lookup: ErrorCode, paths: list[str] | None = None) -> str:
+    for module in get_modules(paths or []):
         error = get_error_class(module)
 
         if error and ErrorCode.from_error(error) == lookup:
