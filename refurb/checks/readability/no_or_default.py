@@ -54,7 +54,6 @@ def check(node: OpExpr, errors: list[Error]) -> None:
                 case CallExpr(
                     callee=NameExpr(name=name, fullname=fullname), args=[]
                 ):
-                    fullname = fullname
                     expr = f"{name}()"
 
                 case ListExpr(items=[]):

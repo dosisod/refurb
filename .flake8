@@ -1,5 +1,6 @@
 [flake8]
-exclude = .git,__pycache__,.venv,test/data
+exclude = .git,__pycache__,.venv,test/data*
 per-file-ignores =
     test/*:E501
     refurb/main.py:E501
+ignore = SIM102, W503
