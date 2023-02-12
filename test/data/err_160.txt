@@ -1,0 +1,1 @@
+test/data/err_160.py:5:1 [FURB160]: Remove redundant assignment of variable to itself
