@@ -1,0 +1,7 @@
+test/data_3.10/err_161.py:3:5 [FURB161]: Replace `bin(x).count("1")` with `x.bit_count()`
+test/data_3.10/err_161.py:4:5 [FURB161]: Replace `bin(x).count("1")` with `(x).bit_count()`
+test/data_3.10/err_161.py:5:5 [FURB161]: Replace `bin(x).count("1")` with `(x).bit_count()`
+test/data_3.10/err_161.py:6:5 [FURB161]: Replace `bin(x)[2:].count("1")` with `x.bit_count()`
+test/data_3.10/err_161.py:9:5 [FURB161]: Replace `bin(x).count("1")` with `x.bit_count()`
+test/data_3.10/err_161.py:10:5 [FURB161]: Replace `bin(x).count("1")` with `x.bit_count()`
+test/data_3.10/err_161.py:11:5 [FURB161]: Replace `bin(x).count("1")` with `x.bit_count()`
