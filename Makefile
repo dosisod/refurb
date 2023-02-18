@@ -31,7 +31,7 @@ test-e2e: install-local
 refurb:
 	refurb refurb test/*.py
 
-test/data/%.txt: test/data/%.py
+test/%.txt: test/%.py
 	refurb "$^" --enable-all --quiet > "$@" || true
 
-update-tests: $(patsubst %.py,%.txt,$(wildcard test/data/*.py))
+update-tests: $(patsubst %.py,%.txt,$(wildcard test/data*/*.py))
