@@ -26,14 +26,19 @@ class ErrorInfo(Error):
 
     name = "simplify-path-constructor"
     code = 153
-    msg: str = 'Replace `Path(".")` with `Path()`'
     categories = ["pathlib", "readability"]
 
 
 def check(node: CallExpr, errors: list[Error]) -> None:
     match node:
         case CallExpr(
-            args=[StrExpr(value=".")],
+            args=[StrExpr(value="." | "" as value)],
             callee=NameExpr(fullname="pathlib.Path"),
         ):
-            errors.append(ErrorInfo(node.line, node.column))
+            errors.append(
+                ErrorInfo(
+                    node.line,
+                    node.column,
+                    f'Replace `Path("{value}")` with `Path()`',
+                )
+            )
