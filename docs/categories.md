@@ -23,6 +23,11 @@ standard library module.
 
 ## `decimal`
 
+These checks are for the [datetime](https://docs.python.org/3/library/datetime.html)
+standard library module.
+
+## `decimal`
+
 These checks are for the [decimal](https://docs.python.org/3/library/decimal.html)
 standard library module.
 
