@@ -21,7 +21,7 @@ and so on.
 These checks are for the [contextlib](https://docs.python.org/3/library/contextlib.html)
 standard library module.
 
-## `decimal`
+## `datetime`
 
 These checks are for the [datetime](https://docs.python.org/3/library/datetime.html)
 standard library module.
