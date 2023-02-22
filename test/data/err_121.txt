@@ -1,3 +1,3 @@
-test/data/err_121.py:5:21 [FURB121]: Replace `isinstance(x, y) or isinstance(x, z)` with `isinstance(x, (y, z))`
-test/data/err_121.py:6:21 [FURB121]: Replace `isinstance(x, y) or isinstance(x, z)` with `isinstance(x, (y, z))`
-test/data/err_121.py:7:21 [FURB121]: Replace `isinstance(x, y) or isinstance(x, z)` with `isinstance(x, (y, z))`
+test/data/err_121.py:5:21 [FURB121]: Replace `isinstance(x, y) or isinstance(x, z)` with `isinstance(x, y | z)`
+test/data/err_121.py:6:21 [FURB121]: Replace `isinstance(x, y) or isinstance(x, z)` with `isinstance(x, y | z)`
+test/data/err_121.py:7:21 [FURB121]: Replace `isinstance(x, y) or isinstance(x, z)` with `isinstance(x, y | z)`

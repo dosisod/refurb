@@ -40,7 +40,7 @@ class ErrorInfo(Error):
 
 
 def check(node: Decorator, errors: list[Error], settings: Settings) -> None:
-    if settings.python_version and settings.python_version < (3, 9):
+    if settings.python_version < (3, 9):
         return  # pragma: no cover
 
     match node:
