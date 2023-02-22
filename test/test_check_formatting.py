@@ -51,8 +51,10 @@ def get_categories_from_docs() -> list[str]:
         categories = []
 
         for line in f:
-            if name := re.search("## `([a-z-]+)`", line):
-                categories.append(name.group(1))
+            if line.startswith("## "):
+                categories.extend(
+                    [cat.strip().strip("`") for cat in line[3:].split(", ")]
+                )
 
         return categories
 

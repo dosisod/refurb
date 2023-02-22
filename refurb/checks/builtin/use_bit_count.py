@@ -41,7 +41,7 @@ class ErrorInfo(Error):
 
     name = "use-bit-count"
     code = 161
-    categories = ["builtin", "performance", "readability"]
+    categories = ["builtin", "performance", "python310", "readability"]
 
 
 def check(node: CallExpr, errors: list[Error], settings: Settings) -> None:

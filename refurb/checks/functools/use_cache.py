@@ -36,7 +36,7 @@ class ErrorInfo(Error):
     name = "use-cache"
     code = 134
     msg: str = "Replace `@lru_cache(maxsize=None)` with `@cache`"
-    categories = ["functools", "readability"]
+    categories = ["functools", "python39", "readability"]
 
 
 def check(node: Decorator, errors: list[Error], settings: Settings) -> None:
