@@ -144,7 +144,7 @@ def run_refurb(settings: Settings) -> Sequence[Error | str]:
     opt.cache_fine_grained = True
     opt.allow_redefinition = True
     opt.local_partial_types = True
-    opt.python_version = settings.python_version  # pragma: no cover
+    opt.python_version = settings.python_version
 
     try:
         result = build(files, options=opt)

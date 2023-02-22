@@ -266,6 +266,8 @@ def test_error_ignored_if_category_matches() -> None:
 
 
 def test_checks_with_python_version_dependant_error_msgs() -> None:
+    run_checks_in_folder(Path("test/data_3.9"), version=(3, 9))
+
     run_checks_in_folder(Path("test/data_3.10"), version=(3, 10))
 
     run_checks_in_folder(Path("test/data_3.11"), version=(3, 11))
