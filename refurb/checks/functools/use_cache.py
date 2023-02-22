@@ -36,11 +36,11 @@ class ErrorInfo(Error):
     name = "use-cache"
     code = 134
     msg: str = "Replace `@lru_cache(maxsize=None)` with `@cache`"
-    categories = ["functools", "readability"]
+    categories = ["functools", "python39", "readability"]
 
 
 def check(node: Decorator, errors: list[Error], settings: Settings) -> None:
-    if settings.python_version and settings.python_version < (3, 9):
+    if settings.python_version < (3, 9):
         return  # pragma: no cover
 
     match node:

@@ -266,6 +266,8 @@ def test_error_ignored_if_category_matches() -> None:
 
 
 def test_checks_with_python_version_dependant_error_msgs() -> None:
+    run_checks_in_folder(Path("test/data_3.9"), version=(3, 9))
+
     run_checks_in_folder(Path("test/data_3.10"), version=(3, 10))
 
     run_checks_in_folder(Path("test/data_3.11"), version=(3, 11))
@@ -274,13 +276,12 @@ def test_checks_with_python_version_dependant_error_msgs() -> None:
 def run_checks_in_folder(
     folder: Path, *, version: tuple[int, int] | None = None
 ) -> None:
-    errors = run_refurb(
-        Settings(
-            files=[str(folder)],
-            python_version=version,
-            enable_all=True,
-        )
-    )
+    settings = Settings(files=[str(folder)], enable_all=True)
+
+    if version:
+        settings.python_version = version
+
+    errors = run_refurb(settings)
     got = "\n".join([str(error) for error in errors])
 
     files = sorted(folder.glob("*.txt"), key=lambda p: p.name)

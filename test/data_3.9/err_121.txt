@@ -1,0 +1,1 @@
+test/data_3.9/err_121.py:6:21 [FURB121]: Replace `isinstance(x, y) or isinstance(x, z)` with `isinstance(x, (y, z))`

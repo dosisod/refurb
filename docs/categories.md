@@ -94,6 +94,13 @@ These checks are supposted to find slow code that can be written faster. The thr
 expect that a check in the `performance` category will make your code faster (and should never
 make it slower).
 
+## `python39`, `python310`, `python311`
+
+These checks are only enabled for Python versions 3.9, 3.10, or 3.11 respectively, or in some
+way are improved in later versions of Python. For example, `isinstance(x, y) or isinstance(x, z)`
+can be written as `isinstance(x, (y, z))` in any Python version, but in Python 3.10+ it can
+be written as `isinstance(x, y | z)`.
+
 ## `pythonic`
 
 This is a general catch-all for things which are "unpythonic". It differs from the

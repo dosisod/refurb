@@ -14,6 +14,10 @@ else:
 from .error import ErrorCategory, ErrorClassifier, ErrorCode
 
 
+def get_python_version() -> tuple[int, int]:
+    return sys.version_info[:2]
+
+
 @dataclass
 class Settings:
     files: list[str] = field(default_factory=list)
@@ -30,7 +34,7 @@ class Settings:
     enable_all: bool = False
     disable_all: bool = False
     config_file: str | None = None
-    python_version: tuple[int, int] | None = None
+    python_version: tuple[int, int] = get_python_version()
     mypy_args: list[str] = field(default_factory=list)
 
     def __post_init__(self) -> None:
@@ -68,7 +72,7 @@ class Settings:
             enable_all=old.enable_all or new.enable_all,
             quiet=old.quiet or new.quiet,
             config_file=old.config_file or new.config_file,
-            python_version=old.python_version or new.python_version,
+            python_version=new.python_version,
             mypy_args=new.mypy_args or old.mypy_args,
         )
 
@@ -146,7 +150,9 @@ def parse_config_file(contents: str) -> Settings:
     }
 
     version = config.get("python_version")
-    python_version = parse_python_version(version) if version else None
+    python_version = (
+        parse_python_version(version) if version else get_python_version()
+    )
     mypy_args = [str(arg) for arg in config.get("mypy_args", [])]
 
     amendments: list[dict[str, Any]] = config.get("amend", [])  # type: ignore

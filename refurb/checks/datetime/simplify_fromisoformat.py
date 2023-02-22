@@ -43,7 +43,7 @@ class ErrorInfo(Error):
 
     name = "simplify-fromisoformat"
     code = 162
-    categories = ["datetime", "readability"]
+    categories = ["datetime", "python311", "readability"]
 
 
 def is_string(node: Expression) -> bool:
@@ -66,7 +66,7 @@ def is_utc_timezone(timezone: str) -> bool:
 
 
 def check(node: CallExpr, errors: list[Error], settings: Settings) -> None:
-    if not settings.python_version or settings.python_version < (3, 11):
+    if settings.python_version < (3, 11):
         return
 
     match node:
