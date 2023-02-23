@@ -41,9 +41,7 @@ def test_ignore_check_is_respected() -> None:
     test_file = str(TEST_DATA_PATH / "err_100.py")
 
     errors = run_refurb(
-        Settings(
-            files=[test_file], ignore=set((ErrorCode(100), ErrorCode(123)))
-        )
+        Settings(files=[test_file], ignore={ErrorCode(100), ErrorCode(123)})
     )
 
     assert len(errors) == 0
@@ -56,7 +54,7 @@ def test_ignore_custom_check_is_respected() -> None:
         "test.custom_checks.disallow_call",
     ]
 
-    ignore_args = args + ["--ignore", "XYZ100"]
+    ignore_args = [*args, "--ignore", "XYZ100"]
 
     errors_normal = run_refurb(parse_command_line_args(args))
     errors_while_ignoring = run_refurb(parse_command_line_args(ignore_args))
@@ -91,7 +89,7 @@ def test_disabled_check_ran_if_explicitly_enabled() -> None:
         Settings(
             files=["test/e2e/dummy.py"],
             load=[DISABLED_CHECK],
-            enable=set((ErrorCode(prefix="XYZ", id=101),)),
+            enable={ErrorCode(prefix="XYZ", id=101)},
         )
     )
 
@@ -121,7 +119,7 @@ def test_disable_all_will_only_load_explicitly_enabled_checks() -> None:
         Settings(
             files=["test/data/"],
             disable_all=True,
-            enable=set((ErrorCode(100),)),
+            enable={ErrorCode(100)},
         )
     )
 
@@ -134,7 +132,7 @@ def test_disable_will_actually_disable_check_loading() -> None:
     errors = run_refurb(
         Settings(
             files=["test/data/err_123.py"],
-            disable=set((ErrorCode(123),)),
+            disable={ErrorCode(123)},
         )
     )
 
@@ -191,7 +189,7 @@ def test_explicitly_disabled_check_is_ignored_when_enable_all_is_set() -> None:
         Settings(
             files=["test/data/err_123.py"],
             enable_all=True,
-            disable=set((ErrorCode(123),)),
+            disable={ErrorCode(123)},
         )
     )
 
@@ -202,8 +200,8 @@ def test_explicitly_enabled_check_from_disabled_category_is_ran() -> None:
     errors = run_refurb(
         Settings(
             files=["test/data/err_123.py"],
-            disable=set((ErrorCategory("readability"),)),
-            enable=set((ErrorCode(123),)),
+            disable={ErrorCategory("readability")},
+            enable={ErrorCode(123)},
         )
     )
 
@@ -215,7 +213,7 @@ def test_explicitly_enabled_category_still_runs() -> None:
         Settings(
             files=["test/data/err_123.py"],
             disable_all=True,
-            enable=set((ErrorCategory("readability"),)),
+            enable={ErrorCategory("readability")},
         )
     )
 
@@ -226,7 +224,7 @@ def test_error_not_ignored_if_path_doesnt_apply() -> None:
     errors = run_refurb(
         Settings(
             files=["test/data/err_123.py"],
-            ignore=set((ErrorCode(123, path=Path("some_other_file.py")),)),
+            ignore={ErrorCode(123, path=Path("some_other_file.py"))},
         )
     )
 
@@ -237,7 +235,7 @@ def test_error_not_ignored_if_error_code_doesnt_apply() -> None:
     errors = run_refurb(
         Settings(
             files=["test/data/err_123.py"],
-            ignore=set((ErrorCode(456, path=Path("test/data/err_123.py")),)),
+            ignore={ErrorCode(456, path=Path("test/data/err_123.py"))},
         )
     )
 
@@ -248,7 +246,7 @@ def test_error_ignored_if_path_applies() -> None:
     errors = run_refurb(
         Settings(
             files=["test/data/err_123.py"],
-            ignore=set((ErrorCode(123, path=Path("test/data/err_123.py")),)),
+            ignore={ErrorCode(123, path=Path("test/data/err_123.py"))},
         )
     )
 
@@ -259,7 +257,7 @@ def test_error_ignored_if_category_matches() -> None:
     error = ErrorCategory("readability", path=Path("test/data/err_123.py"))
 
     errors = run_refurb(
-        Settings(files=["test/data/err_123.py"], ignore=set((error,)))
+        Settings(files=["test/data/err_123.py"], ignore={error})
     )
 
     assert not errors

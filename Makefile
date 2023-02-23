@@ -1,6 +1,6 @@
-.PHONY: install flake8 mypy black isort test test-e2e refurb
+.PHONY: install ruff mypy black isort test test-e2e refurb
 
-all: flake8 mypy black isort test refurb
+all: ruff mypy black isort test refurb
 
 install:
 	pip install .
@@ -9,8 +9,8 @@ install:
 install-local:
 	pip install -e .
 
-flake8:
-	flake8
+ruff:
+	ruff refurb test
 
 mypy:
 	mypy refurb

@@ -56,7 +56,7 @@ def test_errors_are_sorted():
         "some other error",
     ]
 
-    sorted_errors = list(sorted(errors, key=sort_errors))
+    sorted_errors = sorted(errors, key=sort_errors)
 
     assert sorted_errors == [
         "some other error",

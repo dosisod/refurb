@@ -1,5 +1,5 @@
+from collections.abc import Iterator
 from dataclasses import dataclass
-from typing import Iterator
 
 from mypy.nodes import (
     ArgKind,

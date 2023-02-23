@@ -44,7 +44,7 @@ def check(node: FloatExpr, errors: list[Error]) -> None:
     num = str(node.value)
 
     if len(num) <= 3:
-        return None
+        return
 
     for name, value in CONSTANTS.items():
         if num.startswith(value):

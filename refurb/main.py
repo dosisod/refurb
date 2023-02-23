@@ -1,9 +1,9 @@
 import re
+from collections.abc import Sequence
 from functools import cache
 from importlib import metadata
 from io import StringIO
 from pathlib import Path
-from typing import Sequence
 
 from mypy.build import build
 from mypy.errors import CompileError
@@ -195,7 +195,7 @@ def sort_errors(
 
 
 def format_errors(errors: Sequence[Error | str], quiet: bool) -> str:
-    done = "\n".join((str(error) for error in errors))
+    done = "\n".join(str(error) for error in errors)
 
     if not quiet and any(isinstance(error, Error) for error in errors):
         done += "\n\nRun `refurb --explain ERR` to further explain an error. Use `--quiet` to silence this message"

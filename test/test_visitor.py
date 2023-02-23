@@ -13,7 +13,7 @@ from refurb.visitor.mapping import VisitorNodeTypeMap
 from .mypy_visitor import get_mypy_visitor_mapping
 
 
-@pytest.fixture
+@pytest.fixture()
 def dummy_visitor() -> RefurbVisitor:
     """
     This fixture provides a RefurbVisitor instance with a visit method for each
@@ -73,4 +73,4 @@ def test_mypy_consistence() -> None:
     """
 
     mypy_visitor_mapping = get_mypy_visitor_mapping()
-    assert METHOD_NODE_MAPPINGS == mypy_visitor_mapping
+    assert mypy_visitor_mapping == METHOD_NODE_MAPPINGS
