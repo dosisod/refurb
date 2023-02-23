@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "refurb"
-version = "1.12.0"
+version = "1.13.0"
 description = "A tool for refurbish and modernize Python codebases"
 authors = ["dosisod"]
 license = "GPL-3.0-only"
@@ -22,7 +22,6 @@ tomli = {version = "^2.0.1", python = "<3.11"}
 
 [tool.poetry.dev-dependencies]
 black = "^22.6.0"
-flake8 = "^5.0.4"
 isort = "^5.10.1"
 pytest = "^7.1.2"
 
@@ -62,6 +61,25 @@ color = true
 
 [tool.pytest.ini_options]
 addopts = "--cov=refurb --cov-report=html --cov-report=term-missing --cov-fail-under=100"
+
+[tool.ruff]
+line-length = 80
+
+extend-select = [
+  "W", "N", "UP", "YTT", "S", "BLE", "B",
+  "C4", "DTZ", "ISC", "PIE", "PT", "RET",
+  "SIM", "PTH", "PLE", "RUF", "FBT",
+]
+
+# TODO: fix RUF100 not playing well with refurb
+# TODO: fix UP007 not working
+extend-ignore = ["S101", "N813", "N818", "SIM102", "PT012", "RUF100", "F821", "B905", "FBT001", "UP007"]
+
+extend-exclude = ["test/data*"]
+
+[tool.ruff.per-file-ignores]
+"test/*" = ["E501"]
+"refurb/main.py" = ["E501"]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

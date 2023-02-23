@@ -32,13 +32,13 @@ So roughly, we do this:
 import inspect
 import sys
 import typing
-from collections.abc import Iterator
+from collections.abc import Callable, Iterator
 from contextlib import contextmanager
 from dataclasses import dataclass
 from importlib.abc import PathEntryFinder
 from importlib.machinery import FileFinder
 from types import FunctionType
-from typing import Any, Callable
+from typing import Any
 
 import mypy.nodes
 import mypy.traverser
@@ -183,5 +183,4 @@ def get_mypy_visitor_mapping() -> VisitorNodeTypeMap:
     namespace)
     """
     with pure_python_mypy():
-        mapping = _make_mappings(globalns=_globals)
-    return mapping
+        return _make_mappings(globalns=_globals)

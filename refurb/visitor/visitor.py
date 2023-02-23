@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import Callable
+from collections.abc import Callable
 
 from mypy.nodes import CallExpr, Node
 from mypy.traverser import TraverserVisitor

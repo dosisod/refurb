@@ -1,5 +1,5 @@
+from collections.abc import Generator
 from dataclasses import dataclass
-from typing import Generator
 
 from mypy.nodes import (
     Block,

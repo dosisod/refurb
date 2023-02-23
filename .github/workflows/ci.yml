@@ -36,8 +36,8 @@ jobs:
       - name: Pip install
         run: make install
 
-      - name: Run flake8
-        run: make flake8
+      - name: Run ruff
+        run: make ruff
 
       - name: Run mypy
         run: make mypy
