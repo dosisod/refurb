@@ -69,14 +69,16 @@ def get_source_lines(filepath: str) -> list[str]:
 def is_ignored_via_comment(error: Error) -> bool:
     assert error.filename
 
-    line = get_source_lines(error.filename)[error.line - 1]
+    line = get_source_lines(error.filename)[error.line - 1].rstrip()
 
-    if comment := re.search("# noqa(: [A-Z]{3,4}\\d{3})?$", line):
-        ignore = comment.group(1)
-        error_code = str(ErrorCode.from_error(type(error)))
+    if comment := re.search(r"""# noqa(: [^'"]*)?$""", line):
+        ignore = str(ErrorCode.from_error(type(error)))
+        error_codes = comment.group(1)
 
-        if not ignore or ignore[2:] == error_code:
-            return True
+        return not error_codes or any(
+            error_code == ignore
+            for error_code in error_codes[2:].replace(",", " ").split(" ")
+        )
 
     return False
 

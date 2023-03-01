@@ -88,6 +88,13 @@ y = list()  # noqa
 Here, `noqa: FURB123` specifically ignores the FURB123 error for that line, and `noqa` ignores
 all errors on that line.
 
+You can also specify multiple errors to ignore by separating them with a comma/space:
+
+```
+x = not not int(0)  # noqa: FURB114, FURB123
+x = not not int(0)  # noqa: FURB114 FURB123
+```
+
 ## Enabling/Disabling Checks
 
 Certain checks are disabled by default, and need to be enabled first. You can do this using the
