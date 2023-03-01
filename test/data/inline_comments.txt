@@ -1,4 +1,7 @@
-test/data/inline_comments.py:10:5 [FURB123]: Replace `int(x)` with `x`
-test/data/inline_comments.py:11:5 [FURB123]: Replace `int(x)` with `x`
-test/data/inline_comments.py:12:5 [FURB123]: Replace `int(x)` with `x`
-test/data/inline_comments.py:13:5 [FURB123]: Replace `int(x)` with `x`
+test/data/inline_comments.py:18:5 [FURB123]: Replace `int(x)` with `x`
+test/data/inline_comments.py:19:5 [FURB123]: Replace `int(x)` with `x`
+test/data/inline_comments.py:20:5 [FURB123]: Replace `int(x)` with `x`
+test/data/inline_comments.py:21:5 [FURB123]: Replace `int(x)` with `x`
+test/data/inline_comments.py:22:5 [FURB123]: Replace `int(x)` with `x`
+test/data/inline_comments.py:23:5 [FURB123]: Replace `str(x)` with `x`
+test/data/inline_comments.py:24:5 [FURB123]: Replace `str(x)` with `x`
