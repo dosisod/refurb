@@ -578,5 +578,18 @@ ignore = false
         parse_config_file(config)
 
 
+def test_extra_fields_config_file_fails() -> None:
+    config = """\
+[tool.refurb]
+unknown = ""
+fields = ""
+"""
+
+    msg = r"refurb: unknown field\(s\): unknown, fields"
+
+    with pytest.raises(ValueError, match=msg):
+        parse_config_file(config)
+
+
 def test_parse_empty_config_file() -> None:
     assert parse_config_file("") == Settings()
