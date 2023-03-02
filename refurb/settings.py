@@ -143,20 +143,20 @@ def parse_config_file(contents: str) -> Settings:
     if not config:
         return Settings()
 
-    ignore = {parse_error_classifier(str(x)) for x in config.get("ignore", [])}
-    enable = {parse_error_classifier(str(x)) for x in config.get("enable", [])}
+    ignore = {parse_error_classifier(str(x)) for x in config.pop("ignore", [])}
+    enable = {parse_error_classifier(str(x)) for x in config.pop("enable", [])}
 
     disable = {
-        parse_error_classifier(str(x)) for x in config.get("disable", [])
+        parse_error_classifier(str(x)) for x in config.pop("disable", [])
     }
 
-    version = config.get("python_version")
+    version = config.pop("python_version", "")
     python_version = (
         parse_python_version(version) if version else get_python_version()
     )
-    mypy_args = [str(arg) for arg in config.get("mypy_args", [])]
+    mypy_args = [str(arg) for arg in config.pop("mypy_args", [])]
 
-    amendments: list[dict[str, Any]] = config.get("amend", [])  # type: ignore
+    amendments: list[dict[str, Any]] = config.pop("amend", [])  # type: ignore
 
     if not isinstance(amendments, list):
         raise ValueError('refurb: "amend" field(s) must be a TOML table')
@@ -164,17 +164,24 @@ def parse_config_file(contents: str) -> Settings:
     for amendment in amendments:
         ignore.update(parse_amendment(amendment))
 
-    return Settings(
+    settings = Settings(
         ignore=ignore,
         enable=enable - disable,
         disable=disable,
-        load=config.get("load", []),
-        quiet=config.get("quiet", False),
-        disable_all=config.get("disable_all", False),
-        enable_all=config.get("enable_all", False),
+        load=config.pop("load", []),
+        quiet=config.pop("quiet", False),
+        disable_all=config.pop("disable_all", False),
+        enable_all=config.pop("enable_all", False),
         python_version=python_version,
         mypy_args=mypy_args,
     )
+
+    if config:
+        raise ValueError(
+            f"refurb: unknown field(s): {', '.join(config.keys())}"
+        )
+
+    return settings
 
 
 def parse_command_line_args(args: list[str]) -> Settings:
