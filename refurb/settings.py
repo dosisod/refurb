@@ -2,10 +2,10 @@ from __future__ import annotations
 
 import re
 import sys
-from collections.abc import Iterator
+from collections.abc import Callable, Iterator
 from dataclasses import dataclass, field, replace
 from pathlib import Path
-from typing import Any
+from typing import Any, TypeVar
 
 if sys.version_info >= (3, 11):
     import tomllib  # pragma: no cover
@@ -132,6 +132,30 @@ def parse_amendment(  # type: ignore
     )
 
 
+T = TypeVar("T")
+
+
+def pop_type(  # type: ignore[misc]
+    ty: type[T], type_name: str = ""
+) -> Callable[[dict[str, Any], str], T]:
+    def inner(config: dict[str, Any], name: str) -> T:  # type: ignore[misc]
+        x = config.pop(name, ty())
+
+        if isinstance(x, ty):
+            return x
+
+        raise ValueError(
+            f'refurb: "{name}" must be a {type_name or ty.__name__}'
+        )
+
+    return inner
+
+
+pop_list = pop_type(list)
+pop_bool = pop_type(bool)
+pop_str = pop_type(str, "string")
+
+
 def parse_config_file(contents: str) -> Settings:
     tool = tomllib.loads(contents).get("tool")
 
@@ -143,18 +167,29 @@ def parse_config_file(contents: str) -> Settings:
     if not config:
         return Settings()
 
-    ignore = {parse_error_classifier(str(x)) for x in config.pop("ignore", [])}
-    enable = {parse_error_classifier(str(x)) for x in config.pop("enable", [])}
+    settings = Settings()
 
-    disable = {
-        parse_error_classifier(str(x)) for x in config.pop("disable", [])
-    }
+    settings.load = pop_list(config, "load")
+    settings.quiet = pop_bool(config, "quiet")
+    settings.disable_all = pop_bool(config, "disable_all")
+    settings.enable_all = pop_bool(config, "enable_all")
 
-    version = config.pop("python_version", "")
-    python_version = (
+    enable = pop_list(config, "enable")
+    disable = pop_list(config, "disable")
+    settings.enable = {parse_error_classifier(str(x)) for x in enable}
+    settings.disable = {parse_error_classifier(str(x)) for x in disable}
+    settings.enable -= settings.disable
+
+    ignore = pop_list(config, "ignore")
+    settings.ignore = {parse_error_classifier(str(x)) for x in ignore}
+
+    mypy_args = pop_list(config, "mypy_args")
+    settings.mypy_args = [str(x) for x in mypy_args]
+
+    version = pop_str(config, "python_version")
+    settings.python_version = (
         parse_python_version(version) if version else get_python_version()
     )
-    mypy_args = [str(arg) for arg in config.pop("mypy_args", [])]
 
     amendments: list[dict[str, Any]] = config.pop("amend", [])  # type: ignore
 
@@ -162,19 +197,7 @@ def parse_config_file(contents: str) -> Settings:
         raise ValueError('refurb: "amend" field(s) must be a TOML table')
 
     for amendment in amendments:
-        ignore.update(parse_amendment(amendment))
-
-    settings = Settings(
-        ignore=ignore,
-        enable=enable - disable,
-        disable=disable,
-        load=config.pop("load", []),
-        quiet=config.pop("quiet", False),
-        disable_all=config.pop("disable_all", False),
-        enable_all=config.pop("enable_all", False),
-        python_version=python_version,
-        mypy_args=mypy_args,
-    )
+        settings.ignore.update(parse_amendment(amendment))
 
     if config:
         raise ValueError(
