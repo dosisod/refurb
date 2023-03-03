@@ -591,5 +591,25 @@ fields = ""
         parse_config_file(config)
 
 
+def test_incorrectly_typed_args_raises_error() -> None:
+    tests = {
+        "ignore = false": "must be a list",
+        "enable = false": "must be a list",
+        "disable = false": "must be a list",
+        "load = false": "must be a list",
+        "mypy_args = false": "must be a list",
+        "quiet = []": "must be a bool",
+        "disable_all = []": "must be a bool",
+        "enable_all = []": "must be a bool",
+        "python_version = false": "must be a string",
+    }
+
+    for test, expected in tests.items():
+        config = f"[tool.refurb]\n{test}"
+
+        with pytest.raises(ValueError, match=expected):
+            parse_config_file(config)
+
+
 def test_parse_empty_config_file() -> None:
     assert parse_config_file("") == Settings()
