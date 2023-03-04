@@ -55,7 +55,7 @@ def check(node: CallExpr, errors: list[Error]) -> None:
         case CallExpr(
             callee=MemberExpr(fullname=fullname),
             args=args,
-        ) if args and normalize_os_path(fullname or "") == "os.path.join":
+        ) if args and normalize_os_path(fullname) == "os.path.join":
             trailing_dot_dot_args: list[str] = []
 
             for arg in reversed(args):
