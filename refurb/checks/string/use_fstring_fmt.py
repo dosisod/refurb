@@ -61,7 +61,7 @@ def check(node: CallExpr, errors: list[Error]) -> None:
                     args=[_],
                 ) if fullname in CONVERSIONS:
                     func_name = f"{{{func.name}(x)}}"
-                    conversion = f"{{{CONVERSIONS[fullname or '']}}}"
+                    conversion = f"{{{CONVERSIONS[fullname or '']}}}"  # noqa: FURB143, E501
 
                     errors.append(
                         ErrorInfo(

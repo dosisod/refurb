@@ -44,7 +44,7 @@ PATH_TO_PATHLIB_NAMES = {
 def check(node: CallExpr, errors: list[Error]) -> None:
     match node:
         case CallExpr(callee=MemberExpr(fullname=fullname), args=[arg]):
-            normalized_name = normalize_os_path(fullname or "")
+            normalized_name = normalize_os_path(fullname)
             new_name = PATH_TO_PATHLIB_NAMES.get(normalized_name)
 
             if not new_name:

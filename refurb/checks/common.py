@@ -252,13 +252,17 @@ def is_name_unused_in_contexts(name: NameExpr, contexts: list[Node]) -> bool:
     return True
 
 
-def normalize_os_path(module: str) -> str:
+def normalize_os_path(module: str | None) -> str:
     """
     Mypy turns "os.path" module names into their respective platform, such
     as "ntpath" for windows, "posixpath" if they are POSIX only, or
     "genericpath" if they apply to both (I assume). To make life easier
     for us though, we turn those module names into their original form.
     """
+
+    # Used for compatibility with older versions of Mypy.
+    if not module:
+        return ""
 
     segments = module.split(".")
 

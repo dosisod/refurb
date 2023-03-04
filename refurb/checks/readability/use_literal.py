@@ -49,7 +49,7 @@ def check(node: CallExpr, errors: list[Error]) -> None:
         case CallExpr(
             callee=NameExpr(fullname=fullname, name=name),
             args=[],
-        ) if literal := FUNC_NAMES.get(fullname or ""):
+        ) if literal := FUNC_NAMES.get(fullname):
             errors.append(
                 ErrorInfo(
                     node.line,

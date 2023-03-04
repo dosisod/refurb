@@ -75,8 +75,12 @@ CONTAINER_TYPES = {
 }
 
 
-def is_builtin_container_type(type: str) -> bool:
-    return any(type.startswith(x) for x in CONTAINER_TYPES)
+def is_builtin_container_type(ty: str | None) -> bool:
+    # Kept for compatibility with older Mypy versions
+    if not ty:
+        return False  # pragma: no cover
+
+    return any(ty.startswith(x) for x in CONTAINER_TYPES)
 
 
 def is_builtin_container_like(node: Expression) -> bool:
@@ -86,7 +90,7 @@ def is_builtin_container_like(node: Expression) -> bool:
 
         case CallExpr(
             callee=NameExpr(fullname=name)
-        ) if is_builtin_container_type(name or ""):
+        ) if is_builtin_container_type(name):
             return True
 
         case DictExpr() | ListExpr() | StrExpr() | TupleExpr():
