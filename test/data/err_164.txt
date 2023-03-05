@@ -1,0 +1,3 @@
+test/data/err_164.py:6:5 [FURB164]: Replace `Decimal.from_float(x)` with `Decimal(x)`
+test/data/err_164.py:7:5 [FURB164]: Replace `Fraction.from_float(x)` with `Fraction(x)`
+test/data/err_164.py:8:5 [FURB164]: Replace `Fraction.from_decimal(x)` with `Fraction(x)`

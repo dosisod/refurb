@@ -42,6 +42,11 @@ These checks cover:
 
 These checks relate to Python's [f-strings](https://fstring.help/).
 
+## `fractions`
+
+These checks are for the [fractions](https://docs.python.org/3/library/fractions.html)
+standard library module.
+
 ## `functools`
 
 These checks relate to the [functools](https://docs.python.org/3/library/functools.html)
