@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from mypy.nodes import ArgKind, CallExpr, Decorator, NameExpr
+from mypy.nodes import ArgKind, CallExpr, Decorator, NameExpr, RefExpr
 
 from refurb.error import Error
 from refurb.settings import Settings
@@ -47,7 +47,7 @@ def check(node: Decorator, errors: list[Error], settings: Settings) -> None:
         case Decorator(
             decorators=[
                 CallExpr(
-                    callee=NameExpr(fullname="functools.lru_cache"),
+                    callee=RefExpr(fullname="functools.lru_cache"),
                     arg_names=["maxsize"],
                     arg_kinds=[ArgKind.ARG_NAMED],
                     args=[NameExpr(fullname="builtins.None")],

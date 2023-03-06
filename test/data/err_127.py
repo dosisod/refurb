@@ -1,3 +1,4 @@
+import contextlib
 from contextlib import nullcontext, suppress
 
 # these will match
@@ -30,4 +31,8 @@ if not TYPE_CHECKING:
 # see https://github.com/dosisod/refurb/issues/47
 x = 1
 with suppress(Exception):
+    x = 2
+
+x = 1
+with contextlib.suppress(Exception):
     x = 2

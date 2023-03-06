@@ -1,4 +1,5 @@
 import os
+from os import remove, unlink
 from pathlib import Path
 
 # these should match
@@ -9,6 +10,9 @@ os.unlink("file")
 file = Path("file")
 os.remove(file)
 os.unlink(file)
+
+remove("file")
+unlink("file")
 
 # these should not
 

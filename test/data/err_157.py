@@ -1,3 +1,4 @@
+import decimal
 from decimal import Decimal
 
 # these should match
@@ -16,6 +17,7 @@ _ = Decimal(float("-inf"))
 _ = Decimal(float("-INF"))
 _ = Decimal(float("NaN"))
 _ = Decimal(float("nan"))
+_ = decimal.Decimal("0")
 
 
 # these should not

@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from mypy.nodes import BytesExpr, CallExpr, MemberExpr, StrExpr
+from mypy.nodes import BytesExpr, CallExpr, RefExpr, StrExpr
 
 from refurb.checks.common import normalize_os_path
 from refurb.error import Error
@@ -53,7 +53,7 @@ class ErrorInfo(Error):
 def check(node: CallExpr, errors: list[Error]) -> None:
     match node:
         case CallExpr(
-            callee=MemberExpr(fullname=fullname),
+            callee=RefExpr(fullname=fullname),
             args=args,
         ) if args and normalize_os_path(fullname) == "os.path.join":
             trailing_dot_dot_args: list[str] = []

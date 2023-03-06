@@ -1,4 +1,5 @@
 import os
+from os.path import isabs, isdir, isfile, islink
 from pathlib import Path
 
 file = Path("filename")
@@ -32,6 +33,10 @@ os.path.isdir(filename2)
 os.path.isfile(filename2)
 os.path.islink(filename2)
 
+isabs("filename")
+isdir("filename")
+isfile("filename")
+islink("filename")
 
 # these should not
 

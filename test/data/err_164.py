@@ -1,3 +1,5 @@
+import decimal
+import fractions
 from decimal import Decimal
 from fractions import Fraction
 
@@ -6,6 +8,8 @@ from fractions import Fraction
 _ = Decimal.from_float(123)
 _ = Fraction.from_float(123)
 _ = Fraction.from_decimal(Decimal(123))
+_ = decimal.Decimal.from_float(123)
+_ = fractions.Fraction.from_float(123)
 
 
 # these should not

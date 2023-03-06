@@ -1,4 +1,5 @@
 import os
+from os import makedirs, mkdir
 from pathlib import Path
 
 path = Path("folder")
@@ -20,6 +21,8 @@ os.makedirs("folder", exist_ok=True)
 os.makedirs("folder", exist_ok=False)
 os.makedirs("folder", exist_ok=False, mode=0o644)
 
+mkdir("folder")
+makedirs("folder")
 
 # these should not
 

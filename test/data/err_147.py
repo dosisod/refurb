@@ -1,4 +1,5 @@
 import os
+from os.path import join
 from pathlib import Path
 
 # these should match
@@ -24,6 +25,8 @@ os.path.join(b"some", b"path", b"..")
 os.path.join(b"some", b"other", b"path", b"..")
 os.path.join(b"some", b"path", b"..", b"..")
 os.path.join(b"..", b"some", b"path")
+
+join("a")
 
 
 # these should not

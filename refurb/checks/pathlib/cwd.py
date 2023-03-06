@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from mypy.nodes import CallExpr, MemberExpr, NameExpr
+from mypy.nodes import CallExpr, RefExpr
 
 from refurb.error import Error
 
@@ -25,19 +25,19 @@ class ErrorInfo(Error):
 
     name = "use-pathlib-cwd"
     code = 104
-    msg: str = "Replace `os.getcwd()` with `Path.cwd()`"
     categories = ["pathlib"]
 
 
 def check(node: CallExpr, errors: list[Error]) -> None:
     match node:
-        case CallExpr(callee=NameExpr(fullname=name)) | CallExpr(
-            callee=MemberExpr(fullname=name)
-        ) if name in ("os.getcwd", "os.getcwdb"):
+        case CallExpr(callee=RefExpr(fullname=fullname)) if fullname in (
+            "os.getcwd",
+            "os.getcwdb",
+        ):
             errors.append(
                 ErrorInfo(
                     node.line,
                     node.column,
-                    f"Replace `{name}()` with `Path.cwd()`",
+                    f"Replace `{fullname}()` with `Path.cwd()`",
                 )
             )

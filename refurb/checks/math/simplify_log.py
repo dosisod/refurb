@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from mypy.nodes import CallExpr, FloatExpr, IntExpr, MemberExpr
+from mypy.nodes import CallExpr, FloatExpr, IntExpr, RefExpr
 
 from refurb.error import Error
 
@@ -33,7 +33,7 @@ class ErrorInfo(Error):
 def check(node: CallExpr, errors: list[Error]) -> None:
     match node:
         case CallExpr(
-            callee=MemberExpr(fullname="math.log"),
+            callee=RefExpr(fullname="math.log"),
             args=[_, arg],
         ):
             match arg:
@@ -41,7 +41,7 @@ def check(node: CallExpr, errors: list[Error]) -> None:
                     base = str(arg.value)
                     new = f"math.log{int(arg.value)}(x)"
 
-                case MemberExpr(fullname="math.e"):
+                case RefExpr(fullname="math.e"):
                     base = "math.e"
                     new = "math.log(x)"
 
