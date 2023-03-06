@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from mypy.nodes import CallExpr, NameExpr, StrExpr
+from mypy.nodes import CallExpr, RefExpr, StrExpr
 
 from refurb.error import Error
 
@@ -33,7 +33,7 @@ def check(node: CallExpr, errors: list[Error]) -> None:
     match node:
         case CallExpr(
             args=[StrExpr(value="." | "" as value)],
-            callee=NameExpr(fullname="pathlib.Path"),
+            callee=RefExpr(fullname="pathlib.Path"),
         ):
             errors.append(
                 ErrorInfo(

@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from mypy.nodes import CallExpr, NameExpr, StrExpr
+from mypy.nodes import CallExpr, NameExpr, RefExpr, StrExpr
 
 from refurb.error import Error
 
@@ -43,7 +43,7 @@ FLOAT_LITERALS = ["inf", "-inf", "infinity", "-infinity", "nan"]
 def check(node: CallExpr, errors: list[Error]) -> None:
     match node:
         case CallExpr(
-            callee=NameExpr(fullname="_decimal.Decimal"),
+            callee=RefExpr(fullname="_decimal.Decimal"),
             args=[arg],
         ):
             match arg:

@@ -1,2 +1,2 @@
-test/data/err_127.py:6:5 [FURB127]: This variable is redeclared later, and can be removed here
-test/data/err_127.py:12:1 [FURB127]: This variable is redeclared later, and can be removed here
+test/data/err_127.py:7:5 [FURB127]: This variable is redeclared later, and can be removed here
+test/data/err_127.py:13:1 [FURB127]: This variable is redeclared later, and can be removed here

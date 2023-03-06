@@ -131,7 +131,7 @@ class LenComparisonVisitor(TraverserVisitor):
             if ty in (ComparisonExpr, UnaryExpr, OpExpr, CallExpr):
                 continue
 
-            def inner(self: "LenComparisonVisitor", o: Node) -> None:
+            def inner(self: "LenComparisonVisitor", _: Node) -> None:
                 return
 
             setattr(self, name, inner.__get__(self))

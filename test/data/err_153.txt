@@ -1,2 +1,3 @@
-test/data/err_153.py:5:5 [FURB153]: Replace `Path(".")` with `Path()`
-test/data/err_153.py:6:5 [FURB153]: Replace `Path("")` with `Path()`
+test/data/err_153.py:6:5 [FURB153]: Replace `Path(".")` with `Path()`
+test/data/err_153.py:7:5 [FURB153]: Replace `Path("")` with `Path()`
+test/data/err_153.py:8:5 [FURB153]: Replace `Path(".")` with `Path()`

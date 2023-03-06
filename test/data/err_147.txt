@@ -1,18 +1,19 @@
-test/data/err_147.py:6:1 [FURB147]: Replace `os.path.join(x)` with `Path(x)`
-test/data/err_147.py:7:1 [FURB147]: Replace `os.path.join(x, y)` with `Path(x, y)`
-test/data/err_147.py:8:1 [FURB147]: Replace `os.path.join(x, y, z)` with `Path(x, y, z)`
-test/data/err_147.py:9:1 [FURB147]: Replace `os.path.join(...)` with `Path(...)`
-test/data/err_147.py:11:1 [FURB147]: Replace `os.path.join(x, "..")` with `Path(x).parent`
-test/data/err_147.py:12:1 [FURB147]: Replace `os.path.join(x, y, "..")` with `Path(x, y).parent`
-test/data/err_147.py:13:1 [FURB147]: Replace `os.path.join(x, y, z, "..")` with `Path(x, y, z).parent`
-test/data/err_147.py:14:1 [FURB147]: Replace `os.path.join(x, y, "..", "..")` with `Path(x, y).parent.parent`
-test/data/err_147.py:15:1 [FURB147]: Replace `os.path.join(x, y, z)` with `Path(x, y, z)`
-test/data/err_147.py:17:1 [FURB147]: Replace `os.path.join(x)` with `Path(x)`
-test/data/err_147.py:18:1 [FURB147]: Replace `os.path.join(x, y)` with `Path(x, y)`
-test/data/err_147.py:19:1 [FURB147]: Replace `os.path.join(x, y, z)` with `Path(x, y, z)`
-test/data/err_147.py:20:1 [FURB147]: Replace `os.path.join(...)` with `Path(...)`
-test/data/err_147.py:22:1 [FURB147]: Replace `os.path.join(x, b"..")` with `Path(x).parent`
-test/data/err_147.py:23:1 [FURB147]: Replace `os.path.join(x, y, b"..")` with `Path(x, y).parent`
-test/data/err_147.py:24:1 [FURB147]: Replace `os.path.join(x, y, z, b"..")` with `Path(x, y, z).parent`
-test/data/err_147.py:25:1 [FURB147]: Replace `os.path.join(x, y, b"..", b"..")` with `Path(x, y).parent.parent`
-test/data/err_147.py:26:1 [FURB147]: Replace `os.path.join(x, y, z)` with `Path(x, y, z)`
+test/data/err_147.py:7:1 [FURB147]: Replace `os.path.join(x)` with `Path(x)`
+test/data/err_147.py:8:1 [FURB147]: Replace `os.path.join(x, y)` with `Path(x, y)`
+test/data/err_147.py:9:1 [FURB147]: Replace `os.path.join(x, y, z)` with `Path(x, y, z)`
+test/data/err_147.py:10:1 [FURB147]: Replace `os.path.join(...)` with `Path(...)`
+test/data/err_147.py:12:1 [FURB147]: Replace `os.path.join(x, "..")` with `Path(x).parent`
+test/data/err_147.py:13:1 [FURB147]: Replace `os.path.join(x, y, "..")` with `Path(x, y).parent`
+test/data/err_147.py:14:1 [FURB147]: Replace `os.path.join(x, y, z, "..")` with `Path(x, y, z).parent`
+test/data/err_147.py:15:1 [FURB147]: Replace `os.path.join(x, y, "..", "..")` with `Path(x, y).parent.parent`
+test/data/err_147.py:16:1 [FURB147]: Replace `os.path.join(x, y, z)` with `Path(x, y, z)`
+test/data/err_147.py:18:1 [FURB147]: Replace `os.path.join(x)` with `Path(x)`
+test/data/err_147.py:19:1 [FURB147]: Replace `os.path.join(x, y)` with `Path(x, y)`
+test/data/err_147.py:20:1 [FURB147]: Replace `os.path.join(x, y, z)` with `Path(x, y, z)`
+test/data/err_147.py:21:1 [FURB147]: Replace `os.path.join(...)` with `Path(...)`
+test/data/err_147.py:23:1 [FURB147]: Replace `os.path.join(x, b"..")` with `Path(x).parent`
+test/data/err_147.py:24:1 [FURB147]: Replace `os.path.join(x, y, b"..")` with `Path(x, y).parent`
+test/data/err_147.py:25:1 [FURB147]: Replace `os.path.join(x, y, z, b"..")` with `Path(x, y, z).parent`
+test/data/err_147.py:26:1 [FURB147]: Replace `os.path.join(x, y, b"..", b"..")` with `Path(x, y).parent.parent`
+test/data/err_147.py:27:1 [FURB147]: Replace `os.path.join(x, y, z)` with `Path(x, y, z)`
+test/data/err_147.py:29:1 [FURB147]: Replace `os.path.join(x)` with `Path(x)`

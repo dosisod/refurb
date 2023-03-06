@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from mypy.nodes import CallExpr, MemberExpr, NameExpr
+from mypy.nodes import CallExpr, RefExpr
 
 from refurb.checks.common import normalize_os_path
 from refurb.checks.pathlib.util import is_pathlike
@@ -40,7 +40,7 @@ class ErrorInfo(Error):
 def check(node: CallExpr, errors: list[Error]) -> None:
     match node:
         case CallExpr(
-            callee=(MemberExpr() | NameExpr()) as expr,
+            callee=RefExpr() as expr,
             args=[arg],
         ) if normalize_os_path(expr.fullname or "") == "os.path.exists":
             replace = "x.exists()" if is_pathlike(arg) else "Path(x).exists()"

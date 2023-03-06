@@ -6,6 +6,7 @@ from mypy.nodes import (
     CallExpr,
     MypyFile,
     NameExpr,
+    RefExpr,
     Statement,
     WithStmt,
 )
@@ -71,7 +72,7 @@ def check_stmts(body: list[Statement], errors: list[Error]) -> None:
                     for resource in resources:
                         match resource:
                             case CallExpr(
-                                callee=NameExpr(fullname="contextlib.suppress")
+                                callee=RefExpr(fullname="contextlib.suppress")
                             ):
                                 break
 

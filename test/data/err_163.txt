@@ -1,6 +1,8 @@
-test/data/err_163.py:5:5 [FURB163]: Replace `math.log(x, 2)` with `math.log2(x)`
-test/data/err_163.py:6:5 [FURB163]: Replace `math.log(x, 2.0)` with `math.log2(x)`
-test/data/err_163.py:7:5 [FURB163]: Replace `math.log(x, 10)` with `math.log10(x)`
-test/data/err_163.py:8:5 [FURB163]: Replace `math.log(x, 10.0)` with `math.log10(x)`
-test/data/err_163.py:9:5 [FURB163]: Replace `math.log(x, math.e)` with `math.log(x)`
-test/data/err_163.py:10:5 [FURB163]: Replace `math.log(x, 2)` with `math.log2(x)`
+test/data/err_163.py:6:5 [FURB163]: Replace `math.log(x, 2)` with `math.log2(x)`
+test/data/err_163.py:7:5 [FURB163]: Replace `math.log(x, 2.0)` with `math.log2(x)`
+test/data/err_163.py:8:5 [FURB163]: Replace `math.log(x, 10)` with `math.log10(x)`
+test/data/err_163.py:9:5 [FURB163]: Replace `math.log(x, 10.0)` with `math.log10(x)`
+test/data/err_163.py:10:5 [FURB163]: Replace `math.log(x, math.e)` with `math.log(x)`
+test/data/err_163.py:11:5 [FURB163]: Replace `math.log(x, math.e)` with `math.log(x)`
+test/data/err_163.py:12:5 [FURB163]: Replace `math.log(x, 2)` with `math.log2(x)`
+test/data/err_163.py:13:5 [FURB163]: Replace `math.log(x, 10)` with `math.log10(x)`

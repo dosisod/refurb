@@ -1,13 +1,15 @@
-test/data/err_150.py:8:1 [FURB150]: Replace `os.mkdir(x)` with `Path(x).mkdir()`
 test/data/err_150.py:9:1 [FURB150]: Replace `os.mkdir(x)` with `Path(x).mkdir()`
-test/data/err_150.py:10:1 [FURB150]: Replace `os.mkdir(x)` with `x.mkdir()`
-test/data/err_150.py:11:1 [FURB150]: Replace `os.mkdir(x, ...)` with `Path(x).mkdir(...)`
+test/data/err_150.py:10:1 [FURB150]: Replace `os.mkdir(x)` with `Path(x).mkdir()`
+test/data/err_150.py:11:1 [FURB150]: Replace `os.mkdir(x)` with `x.mkdir()`
 test/data/err_150.py:12:1 [FURB150]: Replace `os.mkdir(x, ...)` with `Path(x).mkdir(...)`
-test/data/err_150.py:14:1 [FURB150]: Replace `os.makedirs(x)` with `Path(x).mkdir(parents=True)`
+test/data/err_150.py:13:1 [FURB150]: Replace `os.mkdir(x, ...)` with `Path(x).mkdir(...)`
 test/data/err_150.py:15:1 [FURB150]: Replace `os.makedirs(x)` with `Path(x).mkdir(parents=True)`
-test/data/err_150.py:16:1 [FURB150]: Replace `os.makedirs(x)` with `x.mkdir(parents=True)`
-test/data/err_150.py:17:1 [FURB150]: Replace `os.makedirs(x, ...)` with `Path(x).mkdir(..., parents=True)`
+test/data/err_150.py:16:1 [FURB150]: Replace `os.makedirs(x)` with `Path(x).mkdir(parents=True)`
+test/data/err_150.py:17:1 [FURB150]: Replace `os.makedirs(x)` with `x.mkdir(parents=True)`
 test/data/err_150.py:18:1 [FURB150]: Replace `os.makedirs(x, ...)` with `Path(x).mkdir(..., parents=True)`
 test/data/err_150.py:19:1 [FURB150]: Replace `os.makedirs(x, ...)` with `Path(x).mkdir(..., parents=True)`
 test/data/err_150.py:20:1 [FURB150]: Replace `os.makedirs(x, ...)` with `Path(x).mkdir(..., parents=True)`
 test/data/err_150.py:21:1 [FURB150]: Replace `os.makedirs(x, ...)` with `Path(x).mkdir(..., parents=True)`
+test/data/err_150.py:22:1 [FURB150]: Replace `os.makedirs(x, ...)` with `Path(x).mkdir(..., parents=True)`
+test/data/err_150.py:24:1 [FURB150]: Replace `os.mkdir(x)` with `Path(x).mkdir()`
+test/data/err_150.py:25:1 [FURB150]: Replace `os.makedirs(x)` with `Path(x).mkdir(parents=True)`

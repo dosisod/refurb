@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from mypy.nodes import CallExpr, MemberExpr, NameExpr
+from mypy.nodes import CallExpr, MemberExpr, RefExpr
 
 from refurb.error import Error
 
@@ -43,9 +43,9 @@ def check(node: CallExpr, errors: list[Error]) -> None:
     match node:
         case CallExpr(
             callee=MemberExpr(
-                expr=NameExpr(
+                expr=RefExpr(
                     fullname="_decimal.Decimal" | "fractions.Fraction",
-                    name=klass,
+                    name=klass,  # type: ignore
                 ),
                 name="from_float" | "from_decimal" as ctor,
             ),
