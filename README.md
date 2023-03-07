@@ -133,6 +133,24 @@ Use the `--python-version` flag to tell Refurb which version of Python your code
 should allow for better detection of language features, and allow for better error messages. The argument
 for this flag must be in the form `x.y`, for example, `3.10`.
 
+The syntax for using this in the config file is `python_version = "3.10"`.
+
+## Changing Output Formats
+
+By default everything is outputted as plain text:
+
+```
+file.py:1:5 [FURB123]: Replace `int(x)` with `x`
+```
+
+Here are all of the available formats:
+
+* `text`: The default
+* `github`: Print output for use with [GitHub Annotations](https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions)
+* More to come!
+
+To change the default format use `--format XYZ` on the command line, or `format = "XYZ"` in the config file.
+
 ## Overriding Mypy Flags
 
 This is typically used for development purposes, but can also be used to better fine-tune Mypy from

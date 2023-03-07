@@ -142,6 +142,7 @@ def test_parse_config_file() -> None:
 load = ["some", "folders"]
 ignore = [100, "FURB101"]
 enable = ["FURB111", "FURB222"]
+format = "github"
 """
 
     config = parse_config_file(contents)
@@ -150,6 +151,7 @@ enable = ["FURB111", "FURB222"]
         load=["some", "folders"],
         ignore={ErrorCode(100), ErrorCode(101)},
         enable={ErrorCode(111), ErrorCode(222)},
+        format="github",
     )
 
 
@@ -613,3 +615,14 @@ def test_incorrectly_typed_args_raises_error() -> None:
 
 def test_parse_empty_config_file() -> None:
     assert parse_config_file("") == Settings()
+
+
+def test_parse_format_flag() -> None:
+    assert parse_args(["--format", "github"]) == Settings(format="github")
+
+
+def test_check_format_must_be_valid() -> None:
+    msg = 'refurb: "oops" is not a valid format'
+
+    with pytest.raises(ValueError, match=msg):
+        parse_args(["--format", "oops"])
