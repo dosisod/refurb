@@ -36,9 +36,6 @@ jobs:
       - name: Pip install
         run: make install
 
-      - name: Temp
-        run: refurb --format github temp.py
-
       - name: Run ruff
         run: make ruff
 
