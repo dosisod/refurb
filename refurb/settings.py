@@ -5,7 +5,7 @@ import sys
 from collections.abc import Callable, Iterator
 from dataclasses import dataclass, field, replace
 from pathlib import Path
-from typing import Any, TypeVar
+from typing import Any, Literal, TypeVar
 
 if sys.version_info >= (3, 11):
     import tomllib  # pragma: no cover
@@ -37,6 +37,7 @@ class Settings:
     config_file: str | None = None
     python_version: tuple[int, int] = get_python_version()
     mypy_args: list[str] = field(default_factory=list)
+    format: Literal["text", "github"] = "text"
 
     def __post_init__(self) -> None:
         if self.enable_all and self.disable_all:
@@ -75,6 +76,7 @@ class Settings:
             config_file=old.config_file or new.config_file,
             python_version=new.python_version,
             mypy_args=new.mypy_args or old.mypy_args,
+            format=new.format,
         )
 
 
@@ -107,6 +109,13 @@ def parse_python_version(version: str) -> tuple[int, int]:
     raise ValueError("refurb: version must be in form `x.y`")
 
 
+def validate_format(format: str) -> Literal["github", "text"]:
+    if format in ("github", "text"):
+        return format  # type: ignore
+
+    raise ValueError(f'refurb: "{format}" is not a valid format')
+
+
 def parse_amend_error(err: str, path: Path) -> ErrorClassifier:
     classifier = parse_error_classifier(err)
 
@@ -137,9 +146,11 @@ T = TypeVar("T")
 
 def pop_type(  # type: ignore[misc]
     ty: type[T], type_name: str = ""
-) -> Callable[[dict[str, Any], str], T]:
-    def inner(config: dict[str, Any], name: str) -> T:  # type: ignore[misc]
-        x = config.pop(name, ty())
+) -> Callable[..., T]:
+    def inner(  # type: ignore[misc]
+        config: dict[str, Any], name: str, *, default: T | None = None
+    ) -> T:
+        x = config.pop(name, default or ty())
 
         if isinstance(x, ty):
             return x
@@ -189,6 +200,10 @@ def parse_config_file(contents: str) -> Settings:
     version = pop_str(config, "python_version")
     settings.python_version = (
         parse_python_version(version) if version else get_python_version()
+    )
+
+    settings.format = validate_format(
+        pop_str(config, "format", default="text")
     )
 
     amendments: list[dict[str, Any]] = config.pop("amend", [])  # type: ignore
@@ -278,6 +293,9 @@ def parse_command_line_args(args: list[str]) -> Settings:
             version = get_next_arg(arg, iargs)
 
             settings.python_version = parse_python_version(version)
+
+        elif arg == "--format":
+            settings.format = validate_format(get_next_arg(arg, iargs))
 
         elif arg == "--":
             settings.mypy_args = list(iargs)

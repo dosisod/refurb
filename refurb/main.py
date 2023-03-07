@@ -196,10 +196,32 @@ def sort_errors(
     )
 
 
-def format_errors(errors: Sequence[Error | str], quiet: bool) -> str:
-    done = "\n".join(str(error) for error in errors)
+def format_as_github_annotation(error: Error | str) -> str:
+    if isinstance(error, str):
+        return f"::error title=Refurb Error::{error}"
 
-    if not quiet and any(isinstance(error, Error) for error in errors):
+    assert error.filename
+
+    file = Path(error.filename).resolve().relative_to(Path.cwd())
+
+    return "::error " + ",".join(
+        [
+            f"line={error.line}",
+            f"col={error.column + 1}",
+            f"title=Refurb {error.prefix}{error.code}",
+            f"file={file}::{error.msg}",
+        ]
+    )
+
+
+def format_errors(errors: Sequence[Error | str], settings: Settings) -> str:
+    formatter = (
+        format_as_github_annotation if settings.format == "github" else str
+    )
+
+    done = "\n".join(formatter(error) for error in errors)  # type: ignore
+
+    if not settings.quiet and any(isinstance(err, Error) for err in errors):
         done += "\n\nRun `refurb --explain ERR` to further explain an error. Use `--quiet` to silence this message"
 
     return done
@@ -240,7 +262,7 @@ def main(args: list[str]) -> int:
         print(e)
         return 1
 
-    if formatted_errors := format_errors(errors, settings.quiet):
+    if formatted_errors := format_errors(errors, settings):
         print(formatted_errors)
 
     return 1 if errors else 0
