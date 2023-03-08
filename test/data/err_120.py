@@ -68,8 +68,8 @@ C.f2(1)
 c.f(a=1)
 c.f2(a=1)
 C.f2(a=1)
-C().f(1)
-C().f2(1)
+C().f(1)  # noqa: FURB165
+C().f2(1)  # noqa: FURB165
 C(x=1)
 C.f3(1)
 
