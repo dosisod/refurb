@@ -1,0 +1,6 @@
+test/data/err_165.py:7:5 [FURB165]: Replace `Path().cwd()` with `Path.cwd()`
+test/data/err_165.py:8:5 [FURB165]: Replace `Path(...).cwd()` with `Path.cwd()`
+test/data/err_165.py:22:1 [FURB165]: Replace `C().s()` with `C.s()`
+test/data/err_165.py:23:1 [FURB165]: Replace `C().c()` with `C.c()`
+test/data/err_165.py:24:1 [FURB165]: Replace `C().s(...)` with `C.s(...)`
+test/data/err_165.py:25:1 [FURB165]: Replace `C().c(...)` with `C.c(...)`

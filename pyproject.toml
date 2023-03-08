@@ -63,7 +63,7 @@ color = true
 addopts = "--cov=refurb --cov-report=html --cov-report=term-missing --cov-fail-under=100"
 
 [tool.ruff]
-line-length = 80
+line-length = 79
 
 extend-select = [
   "W", "N", "UP", "YTT", "S", "BLE", "B",
