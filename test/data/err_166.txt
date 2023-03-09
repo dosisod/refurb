@@ -1,0 +1,5 @@
+test/data/err_166.py:3:5 [FURB166]: Replace `int(x[2:], 2)` with `int(x, 0)`
+test/data/err_166.py:4:5 [FURB166]: Replace `int(x[2:], 8)` with `int(x, 0)`
+test/data/err_166.py:5:5 [FURB166]: Replace `int(x[2:], 16)` with `int(x, 0)`
+test/data/err_166.py:8:5 [FURB166]: Replace `int(x[2:], 2)` with `int(x, 0)`
+test/data/err_166.py:10:5 [FURB166]: Replace `int(x[2:], base=16)` with `int(x, base=0)`
