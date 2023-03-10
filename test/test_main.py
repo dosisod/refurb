@@ -1,5 +1,6 @@
 import os
 from dataclasses import dataclass
+from functools import partial
 from importlib import metadata
 from locale import LC_ALL, setlocale
 from unittest.mock import patch
@@ -56,7 +57,8 @@ def test_errors_are_sorted():
         "some other error",
     ]
 
-    sorted_errors = sorted(errors, key=sort_errors)
+    settings = Settings(sort_by="filename")
+    sorted_errors = sorted(errors, key=lambda e: sort_errors(e, settings))
 
     assert sorted_errors == [
         "some other error",
@@ -70,6 +72,24 @@ def test_errors_are_sorted():
         Error100(filename="1_last", line=2, column=7, msg=""),
         CustomError100(filename="1_last", line=10, column=5, msg=""),
         Error100(filename="1_last", line=10, column=5, msg=""),
+        Error101(filename="1_last", line=10, column=5, msg=""),
+    ]
+
+    settings.sort_by = "error"
+    sorted_errors = sorted(errors, key=partial(sort_errors, settings=settings))
+
+    assert sorted_errors == [
+        "some other error",
+        CustomError100(filename="1_last", line=10, column=5, msg=""),
+        Error100(filename="0_first", line=1, column=10, msg=""),
+        Error100(filename="0_first", line=2, column=7, msg=""),
+        Error100(filename="0_first", line=10, column=5, msg=""),
+        Error100(filename="1_last", line=1, column=10, msg=""),
+        Error100(filename="1_last", line=2, column=7, msg=""),
+        Error100(filename="1_last", line=10, column=5, msg=""),
+        Error101(filename="0_first", line=1, column=5, msg=""),
+        Error101(filename="0_first", line=10, column=5, msg=""),
+        Error101(filename="1_last", line=1, column=5, msg=""),
         Error101(filename="1_last", line=10, column=5, msg=""),
     ]
 

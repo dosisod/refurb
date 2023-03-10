@@ -1,6 +1,6 @@
 import re
 from collections.abc import Sequence
-from functools import cache
+from functools import cache, partial
 from importlib import metadata
 from io import StringIO
 from pathlib import Path
@@ -177,15 +177,24 @@ def run_refurb(settings: Settings) -> Sequence[Error | str]:
             for error in errors
             if not should_ignore_error(error, settings)
         ],
-        key=sort_errors,
+        key=partial(sort_errors, settings=settings),
     )
 
 
 def sort_errors(
-    error: Error | str,
-) -> tuple[str, int, int, str, int] | tuple[str, str]:
+    error: Error | str, settings: Settings
+) -> tuple[str | int, ...]:
     if isinstance(error, str):
         return ("", error)
+
+    if settings.sort_by == "error":
+        return (
+            error.prefix,
+            error.code,
+            error.filename or "",
+            error.line,
+            error.column,
+        )
 
     return (
         error.filename or "",

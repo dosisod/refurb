@@ -151,6 +151,14 @@ Here are all of the available formats:
 
 To change the default format use `--format XYZ` on the command line, or `format = "XYZ"` in the config file.
 
+## Changing Sort Order
+
+By default errors are sorted by filename, then by error code. To change this, use the `--sort XYZ` flag on
+the command line, or `sort_by = "XYZ"` in the config file, where `XYZ` is one of the following sort modes:
+
+* `filename`: Sort files in alphabetical order (the default)
+* `error`: Sort by error first, then by filename
+
 ## Overriding Mypy Flags
 
 This is typically used for development purposes, but can also be used to better fine-tune Mypy from

@@ -143,6 +143,7 @@ load = ["some", "folders"]
 ignore = [100, "FURB101"]
 enable = ["FURB111", "FURB222"]
 format = "github"
+sort_by = "error"
 """
 
     config = parse_config_file(contents)
@@ -152,6 +153,7 @@ format = "github"
         ignore={ErrorCode(100), ErrorCode(101)},
         enable={ErrorCode(111), ErrorCode(222)},
         format="github",
+        sort_by="error",
     )
 
 
@@ -626,3 +628,14 @@ def test_check_format_must_be_valid() -> None:
 
     with pytest.raises(ValueError, match=msg):
         parse_args(["--format", "oops"])
+
+
+def test_parse_sort_by_flag() -> None:
+    assert parse_args(["--sort", "error"]) == Settings(sort_by="error")
+
+
+def test_check_sort_by_field_must_be_valid() -> None:
+    msg = 'refurb: cannot sort by "oops"'
+
+    with pytest.raises(ValueError, match=msg):
+        parse_args(["--sort", "oops"])
