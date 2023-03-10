@@ -38,6 +38,7 @@ class Settings:
     python_version: tuple[int, int] = get_python_version()
     mypy_args: list[str] = field(default_factory=list)
     format: Literal["text", "github"] = "text"
+    sort_by: Literal["filename", "error"] = "filename"
 
     def __post_init__(self) -> None:
         if self.enable_all and self.disable_all:
@@ -77,6 +78,7 @@ class Settings:
             python_version=new.python_version,
             mypy_args=new.mypy_args or old.mypy_args,
             format=new.format,
+            sort_by=new.sort_by,
         )
 
 
@@ -114,6 +116,13 @@ def validate_format(format: str) -> Literal["github", "text"]:
         return format  # type: ignore
 
     raise ValueError(f'refurb: "{format}" is not a valid format')
+
+
+def validate_sort_by(sort_by: str) -> Literal["filename", "error"]:
+    if sort_by in ("filename", "error"):
+        return sort_by  # type: ignore
+
+    raise ValueError(f'refurb: cannot sort by "{sort_by}"')
 
 
 def parse_amend_error(err: str, path: Path) -> ErrorClassifier:
@@ -206,6 +215,10 @@ def parse_config_file(contents: str) -> Settings:
         pop_str(config, "format", default="text")
     )
 
+    settings.sort_by = validate_sort_by(
+        pop_str(config, "sort_by", default="filename")
+    )
+
     amendments: list[dict[str, Any]] = config.pop("amend", [])  # type: ignore
 
     if not isinstance(amendments, list):
@@ -296,6 +309,9 @@ def parse_command_line_args(args: list[str]) -> Settings:
 
         elif arg == "--format":
             settings.format = validate_format(get_next_arg(arg, iargs))
+
+        elif arg == "--sort":
+            settings.sort_by = validate_sort_by(get_next_arg(arg, iargs))
 
         elif arg == "--":
             settings.mypy_args = list(iargs)
