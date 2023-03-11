@@ -53,3 +53,7 @@ jobs:
 
       - name: Run e2e tests
         run: make test-e2e
+
+        # TODO: fail if docs are out of date
+      - name: Build docs
+        run: make docs
