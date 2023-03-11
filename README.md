@@ -70,6 +70,8 @@ num = 123
 ```
 ````
 
+An online list of all available checks can be viewed [here](./docs/checks.md).
+
 ## Ignoring Errors
 
 Use `--ignore 123` to ignore error 123. The error code can be in the form `FURB123` or `123`.

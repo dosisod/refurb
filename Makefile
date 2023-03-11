@@ -1,6 +1,6 @@
-.PHONY: install ruff mypy black isort test test-e2e refurb
+.PHONY: install ruff mypy black isort test test-e2e refurb docs
 
-all: ruff mypy black isort test refurb
+all: ruff mypy black isort test refurb docs
 
 install:
 	pip install .
@@ -35,3 +35,6 @@ test/%.txt: test/%.py
 	refurb "$^" --enable-all --quiet > "$@" || true
 
 update-tests: $(patsubst %.py,%.txt,$(wildcard test/data*/*.py))
+
+docs:
+	python3 -m docs.gen_checks
