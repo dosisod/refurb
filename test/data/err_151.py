@@ -13,7 +13,7 @@ open(path, "w").close()  # noqa: FURB117
 
 # these should not
 
-open("file.txt", "r").close()
+open("file.txt", "r").close()  # noqa: FURB120
 open("file.txt", "w", encoding="utf8").close()
 open("file.txt", encoding="w").close()
 open("file.txt").close()
