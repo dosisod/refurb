@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "refurb"
-version = "1.13.0"
+version = "1.14.0"
 description = "A tool for refurbish and modernize Python codebases"
 authors = ["dosisod"]
 license = "GPL-3.0-only"
@@ -67,7 +67,7 @@ line-length = 79
 
 extend-select = [
   "W", "N", "UP", "YTT", "S", "BLE", "B",
-  "C4", "DTZ", "ISC", "PIE", "PT", "RET",
+  "C40", "DTZ", "ISC", "PIE", "PT", "RET",
   "SIM", "PTH", "PLE", "RUF", "FBT",
 ]
 
