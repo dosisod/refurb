@@ -59,9 +59,5 @@ def check(node: OpExpr, errors: list[Error]) -> None:
             expr, indices = data
 
             errors.append(
-                ErrorInfo(
-                    expr.line,
-                    expr.column,
-                    create_message(indices, cmp_oper),
-                )
+                ErrorInfo.from_node(expr, create_message(indices, cmp_oper))
             )

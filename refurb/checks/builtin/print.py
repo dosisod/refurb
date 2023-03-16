@@ -23,4 +23,4 @@ def check(node: CallExpr, errors: list[Error]) -> None:
             callee=NameExpr(fullname="builtins.print"),
             args=[StrExpr(value="")],
         ):
-            errors.append(ErrorInfo(node.line, node.column))
+            errors.append(ErrorInfo.from_node(node))

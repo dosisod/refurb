@@ -81,19 +81,15 @@ def check_unused_index_or_value(
 ) -> None:
     if is_placeholder(index) or is_name_unused_in_contexts(index, contexts):
         errors.append(
-            ErrorInfo(
-                index.line,
-                index.column,
-                "Index is unused, use `for x in y` instead",
+            ErrorInfo.from_node(
+                index, "Index is unused, use `for x in y` instead"
             )
         )
 
     if is_placeholder(value) or is_name_unused_in_contexts(value, contexts):
         errors.append(
-            ErrorInfo(
-                value.line,
-                value.column,
-                "Value is unused, use `for x in range(len(y))` instead",
+            ErrorInfo.from_node(
+                value, "Value is unused, use `for x in range(len(y))` instead"
             )
         )
 

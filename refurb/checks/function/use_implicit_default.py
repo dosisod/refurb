@@ -152,7 +152,7 @@ def check_func(caller: CallExpr, func: FuncDef, errors: list[Error]) -> None:
             return  # pragma: no cover
 
         if default and is_equivalent(value, default):
-            errors.append(ErrorInfo(value.line, value.column))
+            errors.append(ErrorInfo.from_node(value))
 
 
 def check_symbol(

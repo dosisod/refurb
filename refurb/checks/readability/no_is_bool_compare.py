@@ -75,9 +75,5 @@ def check(node: ComparisonExpr, errors: list[Error]) -> None:
                 return
 
             errors.append(
-                ErrorInfo(
-                    node.line,
-                    node.column,
-                    f"Replace `{old}` with `{new}`",
-                )
+                ErrorInfo.from_node(node, f"Replace `{old}` with `{new}`")
             )

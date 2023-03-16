@@ -39,4 +39,4 @@ def check(node: AssignmentStmt, errors: list[Error]) -> None:
             lvalues=[NameExpr(fullname=lhs_name)],
             rvalue=NameExpr(fullname=rhs_name),
         ) if lhs_name and unmangle_name(lhs_name) == unmangle_name(rhs_name):
-            errors.append(ErrorInfo(node.line, node.column))
+            errors.append(ErrorInfo.from_node(node))

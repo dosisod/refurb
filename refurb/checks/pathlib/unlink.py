@@ -45,9 +45,7 @@ def check(node: CallExpr, errors: list[Error]) -> None:
             replace = "x.unlink()" if is_pathlike(arg) else "Path(x).unlink()"
 
             errors.append(
-                ErrorInfo(
-                    node.line,
-                    node.column,
-                    f"Replace `os.{expr.name}(x)` with `{replace}`",
+                ErrorInfo.from_node(
+                    node, f"Replace `os.{expr.name}(x)` with `{replace}`"
                 )
             )

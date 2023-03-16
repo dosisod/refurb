@@ -55,11 +55,7 @@ def emit_error_if_needed(
     new = f"{name} {', '.join(new_args)}"
 
     errors.append(
-        ErrorInfo(
-            found[0].line,
-            found[0].column,
-            f"Replace `{replace}` with `{new}`",
-        )
+        ErrorInfo.from_node(found[0], f"Replace `{replace}` with `{new}`")
     )
 
 

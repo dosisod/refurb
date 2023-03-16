@@ -104,9 +104,5 @@ def check(node: CallExpr, errors: list[Error]) -> None:
                         return
 
             errors.append(
-                ErrorInfo(
-                    node.line,
-                    node.column,
-                    f"Replace `{name}(x)` with `{msg}`",
-                )
+                ErrorInfo.from_node(node, f"Replace `{name}(x)` with `{msg}`")
             )

@@ -54,4 +54,4 @@ def check(node: Decorator, errors: list[Error], settings: Settings) -> None:
                 )
             ]
         ):
-            errors.append(ErrorInfo(node.line, node.column))
+            errors.append(ErrorInfo.from_node(node))

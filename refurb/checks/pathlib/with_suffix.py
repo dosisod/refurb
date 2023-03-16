@@ -53,4 +53,4 @@ def check(node: OpExpr, errors: list[Error]) -> None:
             ),
             right=StrExpr(),
         ) if is_pathlike(arg):
-            errors.append(ErrorInfo(arg.line, arg.column))
+            errors.append(ErrorInfo.from_node(arg))

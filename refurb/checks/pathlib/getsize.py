@@ -70,9 +70,7 @@ def check(node: CallExpr, errors: list[Error]) -> None:
                 replace = f"Path(x).{new_name}"
 
             errors.append(
-                ErrorInfo(
-                    node.line,
-                    node.column,
-                    f"Replace `{normalized_name}(x)` with `{replace}`",
+                ErrorInfo.from_node(
+                    node, f"Replace `{normalized_name}(x)` with `{replace}`"
                 )
             )

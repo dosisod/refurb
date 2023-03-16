@@ -58,9 +58,8 @@ def check(node: OpExpr, errors: list[Error], settings: Settings) -> None:
             )
 
             errors.append(
-                ErrorInfo(
-                    lhs_args[1].line,
-                    lhs_args[1].column,
-                    msg=f"Replace `{lhs.name}(x, y) or {lhs.name}(x, z)` with `{lhs.name}(x, {type_args})`",  # noqa: E501
+                ErrorInfo.from_node(
+                    lhs_args[1],
+                    f"Replace `{lhs.name}(x, y) or {lhs.name}(x, z)` with `{lhs.name}(x, {type_args})`",  # noqa: E501
                 )
             )

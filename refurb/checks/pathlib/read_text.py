@@ -83,9 +83,8 @@ def check(node: WithStmt, errors: list[Error]) -> None:
                     return
 
             errors.append(
-                ErrorInfo(
-                    node.line,
-                    node.column,
+                ErrorInfo.from_node(
+                    node,
                     f"Replace `with open(x{with_params}) as f: y = f.read()` with `y = Path(x).{func}({read_text_params})`",  # noqa: E501
                 )
             )

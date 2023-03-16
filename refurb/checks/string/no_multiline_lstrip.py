@@ -48,9 +48,4 @@ def check(node: CallExpr, errors: list[Error]) -> None:
             and value.startswith("\n")
             and not value[1].isspace()
         ):
-            errors.append(
-                ErrorInfo(
-                    node.line,
-                    node.column,
-                )
-            )
+            errors.append(ErrorInfo.from_node(node))

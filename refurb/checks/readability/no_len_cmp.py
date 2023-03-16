@@ -150,10 +150,8 @@ class LenComparisonVisitor(TraverserVisitor):
                 expr = "x" if is_truthy else "not x"
 
                 self.errors.append(
-                    ErrorInfo(
-                        node.line,
-                        node.column,
-                        f"Replace `len(x) {oper} {num}` with `{expr}`",
+                    ErrorInfo.from_node(
+                        node, f"Replace `len(x) {oper} {num}` with `{expr}`"
                     )
                 )
 
@@ -171,17 +169,15 @@ class LenComparisonVisitor(TraverserVisitor):
                 expr = "not x" if oper == "==" else "x"
 
                 self.errors.append(
-                    ErrorInfo(
-                        node.line,
-                        node.column,
-                        f"Replace `x {oper} {old_expr}` with `{expr}`",
+                    ErrorInfo.from_node(
+                        node, f"Replace `x {oper} {old_expr}` with `{expr}`"
                     )
                 )
 
     def visit_call_expr(self, node: CallExpr) -> None:
         if is_len_call(node):
             self.errors.append(
-                ErrorInfo(node.line, node.column, "Replace `len(x)` with `x`")
+                ErrorInfo.from_node(node, "Replace `len(x)` with `x`")
             )
 
 

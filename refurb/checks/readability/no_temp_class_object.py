@@ -67,9 +67,7 @@ def check(node: CallExpr, errors: list[Error]) -> None:
                     new = f"{class_name}.{func_name}({func_args})"
 
                     errors.append(
-                        ErrorInfo(
-                            node.line,
-                            node.column,
-                            f"Replace `{old}` with `{new}`",
+                        ErrorInfo.from_node(
+                            node, f"Replace `{old}` with `{new}`"
                         )
                     )

@@ -77,4 +77,4 @@ def check(node: WithStmt, errors: list[Error]) -> None:
                 ]
             ),
         ) if str(ty).startswith("io.") and resource.fullname == file.fullname:
-            errors.append(ErrorInfo(for_stmt.line, for_stmt.column))
+            errors.append(ErrorInfo.from_node(for_stmt))

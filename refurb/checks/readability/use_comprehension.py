@@ -94,7 +94,7 @@ def check_stmts(stmts: list[Statement], errors: list[Error]) -> None:
                     stmt.accept(name_visitor)
 
                     if name_visitor.read_count == 1:
-                        errors.append(ErrorInfo(assign.line, assign.column))
+                        errors.append(ErrorInfo.from_node(assign))
 
                 case ForStmt(body=Block(body=[stmt])) if (
                     (name := get_append_func_callee_name(stmt))
@@ -104,7 +104,7 @@ def check_stmts(stmts: list[Statement], errors: list[Error]) -> None:
                     stmt.accept(name_visitor)
 
                     if name_visitor.read_count == 1:
-                        errors.append(ErrorInfo(assign.line, assign.column))
+                        errors.append(ErrorInfo.from_node(assign))
 
             assign = None
 

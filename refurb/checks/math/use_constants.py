@@ -49,9 +49,7 @@ def check(node: FloatExpr, errors: list[Error]) -> None:
     for name, value in CONSTANTS.items():
         if num.startswith(value):
             errors.append(
-                ErrorInfo(
-                    node.line,
-                    node.column,
-                    f"Replace `{num}` with `math.{name}`",
+                ErrorInfo.from_node(
+                    node, f"Replace `{num}` with `math.{name}`"
                 )
             )

@@ -85,9 +85,7 @@ def check(node: CallExpr, errors: list[Error], settings: Settings) -> None:
                 x = "(x)"
 
             errors.append(
-                ErrorInfo(
-                    node.line,
-                    node.column,
-                    f'Replace `{old}.count("1")` with `{x}.bit_count()`',
+                ErrorInfo.from_node(
+                    node, f'Replace `{old}.count("1")` with `{x}.bit_count()`'
                 )
             )

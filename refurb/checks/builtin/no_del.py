@@ -51,10 +51,8 @@ def check(node: DelStmt, errors: list[Error]) -> None:
             match index:
                 case SliceExpr(begin_index=None, end_index=None):
                     errors.append(
-                        ErrorInfo(
-                            node.line,
-                            node.column,
-                            "Replace `del x[:]` with `x.clear()`",
+                        ErrorInfo.from_node(
+                            node, "Replace `del x[:]` with `x.clear()`"
                         )
                     )
 
@@ -63,9 +61,7 @@ def check(node: DelStmt, errors: list[Error]) -> None:
 
                 case _:
                     errors.append(
-                        ErrorInfo(
-                            node.line,
-                            node.column,
-                            "Replace `del x[y]` with `x.pop(y)`",
+                        ErrorInfo.from_node(
+                            node, "Replace `del x[y]` with `x.pop(y)`"
                         )
                     )

@@ -51,9 +51,7 @@ def check(node: CallExpr, errors: list[Error]) -> None:
             args=[],
         ) if literal := FUNC_NAMES.get(fullname):
             errors.append(
-                ErrorInfo(
-                    node.line,
-                    node.column,
-                    f"Replace `{name}()` with `{literal}`",
+                ErrorInfo.from_node(
+                    node, f"Replace `{name}()` with `{literal}`"
                 )
             )

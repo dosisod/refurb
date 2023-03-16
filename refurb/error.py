@@ -4,6 +4,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import ClassVar
 
+from mypy.nodes import Node
+
 
 @dataclass(frozen=True)
 class ErrorCode:
@@ -46,6 +48,18 @@ class Error:
     column: int
     msg: str
     filename: str | None = None
+    line_end: int | None = None
+    column_end: int | None = None
 
     def __str__(self) -> str:
         return f"{self.filename}:{self.line}:{self.column + 1} [{self.prefix}{self.code}]: {self.msg}"  # noqa: E501
+
+    @classmethod
+    def from_node(cls, node: Node, msg: str | None = None) -> Error:
+        return cls(
+            node.line,
+            node.column,
+            line_end=node.end_line,
+            column_end=node.end_column,
+            msg=msg or cls.msg,
+        )

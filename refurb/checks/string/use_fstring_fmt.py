@@ -64,9 +64,7 @@ def check(node: CallExpr, errors: list[Error]) -> None:
                     conversion = f"{{{CONVERSIONS[fullname or '']}}}"  # noqa: FURB143, E501
 
                     errors.append(
-                        ErrorInfo(
-                            node.line,
-                            node.column,
-                            f"Replace `{func_name}` with `{conversion}`",
+                        ErrorInfo.from_node(
+                            node, f"Replace `{func_name}` with `{conversion}`"
                         )
                     )

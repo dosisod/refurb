@@ -48,9 +48,8 @@ def check(node: IndexExpr, errors: list[Error]) -> None:
             fstring = f'f"{{num:{format}}}"'
 
             errors.append(
-                ErrorInfo(
-                    node.line,
-                    node.column,
+                ErrorInfo.from_node(
+                    node,
                     f"Replace `{name_node.name}(num)[2:]` with `{fstring}`",
                 )
             )

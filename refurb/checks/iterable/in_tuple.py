@@ -50,14 +50,12 @@ def check(
             operators=["in" | "not in" as oper],
             operands=[_, ListExpr() as expr],
         ):
-            errors.append(ErrorInfo(expr.line, expr.column, error_msg(oper)))
+            errors.append(ErrorInfo.from_node(expr, error_msg(oper)))
 
         case ForStmt(expr=ListExpr() as expr):
-            errors.append(ErrorInfo(expr.line, expr.column, error_msg("in")))
+            errors.append(ErrorInfo.from_node(expr, error_msg("in")))
 
         case GeneratorExpr():
             for expr in node.sequences:  # type: ignore
                 if isinstance(expr, ListExpr):
-                    errors.append(
-                        ErrorInfo(expr.line, expr.column, error_msg("in"))
-                    )
+                    errors.append(ErrorInfo.from_node(expr, error_msg("in")))

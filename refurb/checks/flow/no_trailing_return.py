@@ -92,4 +92,4 @@ def check(node: FuncItem, errors: list[Error]) -> None:
                 return
 
             for return_node in get_trailing_return(stmt):
-                errors.append(ErrorInfo(return_node.line, return_node.column))
+                errors.append(ErrorInfo.from_node(return_node))

@@ -61,7 +61,7 @@ def check(node: CallExpr, errors: list[Error]) -> None:
 
                     msg = f'Replace `Decimal("{old}")` with `Decimal({new})`'
 
-                    errors.append(ErrorInfo(node.line, node.column, msg))
+                    errors.append(ErrorInfo.from_node(node, msg))
 
                 case CallExpr(
                     callee=NameExpr(fullname="builtins.float"),
@@ -69,4 +69,4 @@ def check(node: CallExpr, errors: list[Error]) -> None:
                 ) if value.lower() in FLOAT_LITERALS:
                     msg = f'Replace `Decimal(float("{value}"))` with `Decimal("{value}")'  # noqa: E501
 
-                    errors.append(ErrorInfo(node.line, node.column, msg))
+                    errors.append(ErrorInfo.from_node(node, msg))

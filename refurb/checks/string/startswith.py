@@ -53,9 +53,8 @@ def check(node: OpExpr, errors: list[Error]) -> None:
             and args
         ):
             errors.append(
-                ErrorInfo(
-                    args[0].line,
-                    args[0].column,
+                ErrorInfo.from_node(
+                    args[0],
                     msg=f"Replace `x.{lhs_func}(y) or x.{lhs_func}(z)` with `x.{lhs_func}((y, z))`",  # noqa: E501
                 )
             )
