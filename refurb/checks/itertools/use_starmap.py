@@ -67,4 +67,4 @@ def check(node: GeneratorExpr, errors: list[Error]) -> None:
                 ):
                     return
 
-            errors.append(ErrorInfo(node.line, node.column))
+            errors.append(ErrorInfo.from_node(node))

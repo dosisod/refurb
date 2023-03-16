@@ -69,10 +69,8 @@ def create_error(node: CallExpr) -> list[Error]:
     )
 
     return [
-        ErrorInfo(
-            node.line,
-            node.column,
-            f"Replace `{fullname}({', '.join(old_args)})` with `{expr}`",
+        ErrorInfo.from_node(
+            node, f"Replace `{fullname}({', '.join(old_args)})` with `{expr}`"
         )
     ]
 

@@ -46,9 +46,7 @@ def check(node: CallExpr, errors: list[Error]) -> None:
             replace = "x.exists()" if is_pathlike(arg) else "Path(x).exists()"
 
             errors.append(
-                ErrorInfo(
-                    node.line,
-                    node.column,
-                    f"Replace `os.path.exists(x)` with `{replace}`",
+                ErrorInfo.from_node(
+                    node, f"Replace `os.path.exists(x)` with `{replace}`"
                 )
             )

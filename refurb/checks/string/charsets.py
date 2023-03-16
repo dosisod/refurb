@@ -82,20 +82,12 @@ def check(node: ComparisonExpr | StrExpr, errors: list[Error]) -> None:
             for name, charset in CHARSET_PERMUTATIONS.items():
                 if value_set == charset:
                     errors.append(
-                        ErrorInfo(
-                            node.line,
-                            node.column,
-                            format_error(value, name),
-                        )
+                        ErrorInfo.from_node(node, format_error(value, name))
                     )
 
         case StrExpr(value=value):
             for name, charset in CHARSETS_EXACT.items():
                 if value == charset:  # type: ignore
                     errors.append(
-                        ErrorInfo(
-                            node.line,
-                            node.column,
-                            format_error(value, name),
-                        )
+                        ErrorInfo.from_node(node, format_error(value, name))
                     )

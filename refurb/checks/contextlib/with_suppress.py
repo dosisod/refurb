@@ -67,9 +67,8 @@ def check(node: TryStmt, errors: list[Error]) -> None:
                     return
 
             errors.append(
-                ErrorInfo(
-                    node.line,
-                    node.column,
+                ErrorInfo.from_node(
+                    node,
                     f"Replace `try: ... except{except_inner}: pass` with `with suppress({inner}): ...`",  # noqa: E501
                 )
             )

@@ -49,9 +49,7 @@ def check(node: CallExpr, errors: list[Error]) -> None:
                     return
 
             errors.append(
-                ErrorInfo(
-                    node.line,
-                    node.column,
-                    f"Replace `math.log(x, {base})` with `{new}`",
+                ErrorInfo.from_node(
+                    node, f"Replace `math.log(x, {base})` with `{new}`"
                 )
             )

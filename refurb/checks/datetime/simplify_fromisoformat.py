@@ -117,9 +117,7 @@ def check(node: CallExpr, errors: list[Error], settings: Settings) -> None:
                     return
 
             errors.append(
-                ErrorInfo(
-                    node.line,
-                    node.column,
-                    f"Replace `{old}` with `fromisoformat(x)`",
+                ErrorInfo.from_node(
+                    node, f"Replace `{old}` with `fromisoformat(x)`"
                 )
             )

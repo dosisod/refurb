@@ -36,9 +36,7 @@ def check(node: CallExpr, errors: list[Error]) -> None:
             callee=RefExpr(fullname="pathlib.Path"),
         ):
             errors.append(
-                ErrorInfo(
-                    node.line,
-                    node.column,
-                    f'Replace `Path("{value}")` with `Path()`',
+                ErrorInfo.from_node(
+                    node, f'Replace `Path("{value}")` with `Path()`'
                 )
             )

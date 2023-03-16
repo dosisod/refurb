@@ -100,6 +100,4 @@ def check(node: ForStmt | WhileStmt, errors: list[Error]) -> None:
                 return
 
             for continue_node in get_trailing_continue(stmt):
-                errors.append(
-                    ErrorInfo(continue_node.line, continue_node.column)
-                )
+                errors.append(ErrorInfo.from_node(continue_node))

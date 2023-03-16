@@ -59,9 +59,9 @@ def get_readline_file_object(expr: Expression) -> NameExpr | None:
 def check(node: ForStmt | GeneratorExpr, errors: list[Error]) -> None:
     if isinstance(node, ForStmt):
         if f := get_readline_file_object(node.expr):
-            errors.append(ErrorInfo(f.line, f.column))
+            errors.append(ErrorInfo.from_node(f))
 
     else:
         for expr in node.sequences:
             if f := get_readline_file_object(expr):
-                errors.append(ErrorInfo(f.line, f.column))
+                errors.append(ErrorInfo.from_node(f))

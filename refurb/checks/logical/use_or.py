@@ -35,4 +35,4 @@ class ErrorInfo(Error):
 
 def check(node: ConditionalExpr, errors: list[Error]) -> None:
     if is_equivalent(node.if_expr, node.cond):
-        errors.append(ErrorInfo(node.line, node.column))
+        errors.append(ErrorInfo.from_node(node))

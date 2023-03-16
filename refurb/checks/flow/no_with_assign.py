@@ -77,7 +77,7 @@ def check_stmts(body: list[Statement], errors: list[Error]) -> None:
                                 break
 
                     else:
-                        errors.append(ErrorInfo(assign.line, assign.column))
+                        errors.append(ErrorInfo.from_node(assign))
 
             assign = None
 

@@ -69,4 +69,4 @@ def check(node: IfStmt, errors: list[Error]) -> None:
             and is_equivalent(rhs, expr)
             and str(ty).startswith("builtins.set[")
         ):
-            errors.append(ErrorInfo(node.line, node.column))
+            errors.append(ErrorInfo.from_node(node))

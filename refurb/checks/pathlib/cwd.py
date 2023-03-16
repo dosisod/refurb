@@ -35,9 +35,7 @@ def check(node: CallExpr, errors: list[Error]) -> None:
             "os.getcwdb",
         ):
             errors.append(
-                ErrorInfo(
-                    node.line,
-                    node.column,
-                    f"Replace `{fullname}()` with `Path.cwd()`",
+                ErrorInfo.from_node(
+                    node, f"Replace `{fullname}()` with `Path.cwd()`"
                 )
             )

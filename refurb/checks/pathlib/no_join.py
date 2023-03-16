@@ -83,9 +83,7 @@ def check(node: CallExpr, errors: list[Error]) -> None:
                 new = "Path(...)"
 
             errors.append(
-                ErrorInfo(
-                    node.line,
-                    node.column,
-                    f"Replace `os.path.join({join_args})` with `{new}`",
+                ErrorInfo.from_node(
+                    node, f"Replace `os.path.join({join_args})` with `{new}`"
                 )
             )

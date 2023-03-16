@@ -77,9 +77,8 @@ def check(node: CallExpr, errors: list[Error]) -> None:
             kw = "base=" if arg_kinds[1] == ArgKind.ARG_NAMED else ""
 
             errors.append(
-                ErrorInfo(
-                    node.line,
-                    node.column,
+                ErrorInfo.from_node(
+                    node,
                     f"Replace `int(x[2:], {kw}{base})` with `int(x, {kw}0)`",
                 )
             )
