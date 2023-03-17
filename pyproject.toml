@@ -34,7 +34,6 @@ include_trailing_comma = true
 color_output = true
 
 [tool.mypy]
-python_version = "3.10"
 allow_redefinition = true
 disallow_any_decorated = true
 disallow_any_explicit = true
