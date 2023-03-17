@@ -34,13 +34,14 @@ include_trailing_comma = true
 color_output = true
 
 [tool.mypy]
-namespace_packages = true
-strict = true
+allow_redefinition = true
 disallow_any_decorated = true
 disallow_any_explicit = true
 disallow_any_unimported = true
+namespace_packages = true
+pretty = true
+strict = true
 warn_unreachable = true
-allow_redefinition = true
 
 [[tool.mypy.overrides]]
 module = "test.*"
@@ -67,13 +68,12 @@ line-length = 79
 
 extend-select = [
   "W", "N", "UP", "YTT", "S", "BLE", "B",
-  "C40", "DTZ", "ISC", "PIE", "PT", "RET",
+  "C4", "DTZ", "ISC", "PIE", "PT", "RET",
   "SIM", "PTH", "PLE", "RUF", "FBT",
 ]
 
 # TODO: fix RUF100 not playing well with refurb
-# TODO: fix UP007 not working
-extend-ignore = ["S101", "N813", "N818", "SIM102", "PT012", "RUF100", "F821", "B905", "FBT001", "UP007"]
+extend-ignore = ["S101", "N813", "N818", "SIM102", "PT012", "RUF100", "F821", "B905", "FBT001"]
 
 extend-exclude = ["test/data*"]
 
