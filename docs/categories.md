@@ -117,6 +117,10 @@ These checks aim to make existing code more readable. This can be subjective, bu
 they reduce the horizontal or vertical length of your code, or make the underlying meaning
 of the code more apparent.
 
+## `regex`
+
+These checks are for the [`re`](https://docs.python.org/3/library/contextlib.html) standard library module.
+
 ## `scoping`
 
 These checks have to do with Python's scoping rules. For more info on how Python's scoping

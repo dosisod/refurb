@@ -43,7 +43,7 @@ class ErrorInfo(Error):
 def check(node: {accept_type}, errors: list[Error]) -> None:
     match node:
         case {pattern}:
-            errors.append(ErrorInfo(node.line, node.column))
+            errors.append(ErrorInfo.from_node(node))
 '''
 
 
