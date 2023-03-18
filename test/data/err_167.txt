@@ -1,0 +1,9 @@
+test/data/err_167.py:6:5 [FURB167]: Replace `re.A` with `re.ASCII`
+test/data/err_167.py:7:5 [FURB167]: Replace `re.I` with `re.IGNORECASE`
+test/data/err_167.py:8:5 [FURB167]: Replace `re.L` with `re.LOCALE`
+test/data/err_167.py:9:5 [FURB167]: Replace `re.M` with `re.MULTILINE`
+test/data/err_167.py:10:5 [FURB167]: Replace `re.S` with `re.DOTALL`
+test/data/err_167.py:11:5 [FURB167]: Replace `re.T` with `re.TEMPLATE`
+test/data/err_167.py:12:5 [FURB167]: Replace `re.U` with `re.UNICODE`
+test/data/err_167.py:13:5 [FURB167]: Replace `re.X` with `re.VERBOSE`
+test/data/err_167.py:15:5 [FURB167]: Replace `re.I` with `re.IGNORECASE`

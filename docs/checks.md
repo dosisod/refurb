@@ -1675,3 +1675,25 @@ This check is disabled by default because there is no way for Refurb to
 detect whether the prefixes that are being stripped are valid Python int
 prefixes (like `0x`) or some other prefix which would fail if parsed using
 this method.
+## FURB167: `use-long-regex-flag`
+
+Categories: `readability` `regex`
+
+Regex operations can be changed using flags such as `re.I`, which will make
+the regex case-insensitive. These single-character flag names can be harder
+to read/remember, and should be replaced with the longer aliases so that
+they are more descriptive.
+
+Bad:
+
+```python
+if re.match("^hello", "hello world", re.I):
+    pass
+```
+
+Good:
+
+```python
+if re.match("^hello", "hello world", re.IGNORECASE):
+    pass
+```
