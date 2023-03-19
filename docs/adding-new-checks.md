@@ -378,7 +378,7 @@ $ refurb test/data/err_132.py --quiet > test/data/err_132.txt
 
 Now when we run `pytest`, all our tests should pass, and our coverage should be at 100%.
 
-The last step is running `./pre-commit` or `make`, which will run all of our linters, type-checkers,
+The last step is running `make` which will run all of our linters, type-checkers,
 and so on.
 
 ## Fin

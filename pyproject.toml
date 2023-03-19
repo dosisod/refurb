@@ -53,6 +53,10 @@ omit = [
   "refurb/gen.py"
 ]
 
+[tool.coverage.report]
+skip_covered = true
+skip_empty = true
+
 [tool.black]
 exclude = "test/data/*"
 line-length = 79
@@ -62,6 +66,7 @@ color = true
 
 [tool.pytest.ini_options]
 addopts = "--cov=refurb --cov-report=html --cov-report=term-missing --cov-fail-under=100"
+testpaths = ["test"]
 
 [tool.ruff]
 line-length = 79
