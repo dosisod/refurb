@@ -757,12 +757,10 @@ if "key" in d:
 
 Categories: `builtin` `readability`
 
-The `del` statement has it's uses, but for the most part, it can be
-replaced with a more flexible and expressive alternative.
-
-With `dict` and `list` types you can remove a key/index by using the
-`.pop()` method. If you want to remove all the elements in a `dict` or
-`list`, use `.clear()` instead.
+The `del` statement is commonly used for popping single elements from dicts
+and lists, though a slice can be used to remove a range of elements
+instead. When removing all elements via a slice, use the faster and more
+succinct `.clear()` method instead.
 
 Bad:
 
@@ -770,8 +768,7 @@ Bad:
 names = {"key": "value"}
 nums = [1, 2, 3]
 
-del names["key"]
-del nums[0]
+del names[:]
 del nums[:]
 ```
 
@@ -781,8 +778,7 @@ Good:
 names = {"key": "value"}
 nums = [1, 2, 3]
 
-names.pop("key")
-nums.pop(0)
+names.clear()
 nums.clear()
 ```
 ## FURB132: `use-set-discard`

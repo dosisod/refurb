@@ -3,12 +3,13 @@ nums = [1, 2, 3]
 
 # these should match
 
-del names["key"]
-del nums[0]
 del nums[:]
 
 
 # these should not
+
+del names["key"]
+del nums[0]
 
 x = 1
 del x

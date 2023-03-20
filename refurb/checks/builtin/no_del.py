@@ -8,12 +8,10 @@ from refurb.error import Error
 @dataclass
 class ErrorInfo(Error):
     """
-    The `del` statement has it's uses, but for the most part, it can be
-    replaced with a more flexible and expressive alternative.
-
-    With `dict` and `list` types you can remove a key/index by using the
-    `.pop()` method. If you want to remove all the elements in a `dict` or
-    `list`, use `.clear()` instead.
+    The `del` statement is commonly used for popping single elements from dicts
+    and lists, though a slice can be used to remove a range of elements
+    instead. When removing all elements via a slice, use the faster and more
+    succinct `.clear()` method instead.
 
     Bad:
 
@@ -21,8 +19,7 @@ class ErrorInfo(Error):
     names = {"key": "value"}
     nums = [1, 2, 3]
 
-    del names["key"]
-    del nums[0]
+    del names[:]
     del nums[:]
     ```
 
@@ -32,8 +29,7 @@ class ErrorInfo(Error):
     names = {"key": "value"}
     nums = [1, 2, 3]
 
-    names.pop("key")
-    nums.pop(0)
+    names.clear()
     nums.clear()
     ```
     """
@@ -41,6 +37,7 @@ class ErrorInfo(Error):
     name = "no-del"
     code = 131
     categories = ["builtin", "readability"]
+    msg: str = "Replace `del x[:]` with `x.clear()`"
 
 
 def check(node: DelStmt, errors: list[Error]) -> None:
@@ -50,18 +47,4 @@ def check(node: DelStmt, errors: list[Error]) -> None:
         ) if str(ty).startswith(("builtins.dict[", "builtins.list[")):
             match index:
                 case SliceExpr(begin_index=None, end_index=None):
-                    errors.append(
-                        ErrorInfo.from_node(
-                            node, "Replace `del x[:]` with `x.clear()`"
-                        )
-                    )
-
-                case SliceExpr():
-                    pass
-
-                case _:
-                    errors.append(
-                        ErrorInfo.from_node(
-                            node, "Replace `del x[y]` with `x.pop(y)`"
-                        )
-                    )
+                    errors.append(ErrorInfo.from_node(node))
