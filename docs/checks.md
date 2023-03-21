@@ -978,12 +978,13 @@ Good:
 nums = [1, 2, 3, 4]
 odds = [num for num in nums if num % 2]
 ```
-## FURB139: `no-multiline-lstrip`
+## FURB139: `no-multiline-strip`
 
 Categories: `readability`
 
-If you want to define a multi-line string but don't want a leading newline,
-use a continuation character ('\'), don't use `.lstrip()`.
+If you want to define a multi-line string but don't want a leading/trailing
+newline, use a continuation character ('\') instead of calling `lstrip()`,
+`rstrip()`, or `strip()`.
 
 Bad:
 
@@ -991,6 +992,10 @@ Bad:
 """
 This is some docstring
 """.lstrip()
+
+"""
+This is another docstring
+""".strip()
 ```
 
 Good:
@@ -998,6 +1003,10 @@ Good:
 ```python
 """\
 This is some docstring
+"""
+
+"""\
+This is another docstring\
 """
 ```
 ## FURB140: `use-starmap`
