@@ -14,6 +14,40 @@ Hello world
 """.lstrip("\n")
 
 
+"""
+Hello world
+""".rstrip()
+
+
+"""\nHello world
+""".rstrip()
+
+
+"""
+Hello world
+""".rstrip("\n")
+
+
+"""
+Hello world
+""".strip()
+
+
+"""
+This is a test
+
+""".strip()
+
+
+"""\nHello world
+""".strip()
+
+
+"""
+Hello world
+""".strip("\n")
+
+
 # these should not
 
 "\n\n".lstrip()
@@ -23,6 +57,12 @@ Hello world
 
 This is a test
 """.lstrip()
+
+
+"""
+This is a test
+
+""".rstrip()
 
 
 """

@@ -1,3 +1,10 @@
 test/data/err_139.py:3:1 [FURB139]: Replace `"""\n...""".lstrip()` with `"""\..."""`
 test/data/err_139.py:8:1 [FURB139]: Replace `"""\n...""".lstrip()` with `"""\..."""`
-test/data/err_139.py:12:1 [FURB139]: Replace `"""\n...""".lstrip()` with `"""\..."""`
+test/data/err_139.py:12:1 [FURB139]: Replace `"""\n...""".lstrip("\n")` with `"""\..."""`
+test/data/err_139.py:17:1 [FURB139]: Replace `"""...\n""".rstrip()` with `"""...\"""`
+test/data/err_139.py:22:1 [FURB139]: Replace `"""...\n""".rstrip()` with `"""...\"""`
+test/data/err_139.py:26:1 [FURB139]: Replace `"""...\n""".rstrip("\n")` with `"""...\"""`
+test/data/err_139.py:31:1 [FURB139]: Replace `"""\n...\n""".strip()` with `"""\...\"""`
+test/data/err_139.py:36:1 [FURB139]: Replace `"""\n...""".strip()` with `"""\..."""`
+test/data/err_139.py:42:1 [FURB139]: Replace `"""\n...\n""".strip()` with `"""\...\"""`
+test/data/err_139.py:46:1 [FURB139]: Replace `"""\n...\n""".strip("\n")` with `"""\...\"""`
