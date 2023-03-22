@@ -1702,3 +1702,27 @@ Good:
 if re.match("^hello", "hello world", re.IGNORECASE):
     pass
 ```
+## FURB168: `no-isinstance-type-none`
+
+Categories: `pythonic` `readability`
+
+Checking if an object is `None` using `isinstance()` is un-pythonic: use an
+`is` comparison instead.
+
+Bad:
+
+```python
+x = 123
+
+if isinstance(x, type(None)):
+    pass
+```
+
+Good:
+
+```python
+x = 123
+
+if x is None:
+    pass
+```

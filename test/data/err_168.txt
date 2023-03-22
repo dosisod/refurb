@@ -1,0 +1,7 @@
+test/data/err_168.py:3:5 [FURB168]: Replace `isinstance(x, type(None))` with `x is None`
+test/data/err_168.py:4:5 [FURB168]: Replace `isinstance(x, (..., type(None)))` with `x is None or isinstance(x, ...)`
+test/data/err_168.py:5:5 [FURB168]: Replace `isinstance(x, (type(None), ...))` with `x is None or isinstance(x, ...)`
+test/data/err_168.py:6:5 [FURB168]: Replace `isinstance(x, ... | type(None))` with `x is None or isinstance(x, ...)`
+test/data/err_168.py:7:5 [FURB168]: Replace `isinstance(x, ... | type(None))` with `x is None or isinstance(x, ...)`
+test/data/err_168.py:8:5 [FURB168]: Replace `isinstance(x, type(None) | ...)` with `x is None or isinstance(x, ...)`
+test/data/err_168.py:9:5 [FURB168]: Replace `isinstance(x, type(None) | ...)` with `x is None or isinstance(x, ...)`
