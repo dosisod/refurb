@@ -2,6 +2,7 @@ from dataclasses import dataclass
 
 from mypy.nodes import CallExpr, Expression, NameExpr, OpExpr, TupleExpr
 
+from refurb.checks.common import is_type_none_call
 from refurb.error import Error
 
 
@@ -33,17 +34,6 @@ class ErrorInfo(Error):
     name = "no-isinstance-type-none"
     code = 168
     categories = ["pythonic", "readability"]
-
-
-def is_type_none_call(node: Expression) -> bool:
-    match node:
-        case CallExpr(
-            callee=NameExpr(fullname="builtins.type"),
-            args=[NameExpr(fullname="builtins.None")],
-        ):
-            return True
-
-    return False
 
 
 def get_type_none_index(node: Expression, index: int = 0) -> int:
