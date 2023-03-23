@@ -270,3 +270,14 @@ def normalize_os_path(module: str | None) -> str:
         return ".".join(["os", "path"] + segments[1:])
 
     return module
+
+
+def is_type_none_call(node: Expression) -> bool:
+    match node:
+        case CallExpr(
+            callee=NameExpr(fullname="builtins.type"),
+            args=[NameExpr(fullname="builtins.None")],
+        ):
+            return True
+
+    return False

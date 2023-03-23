@@ -1726,3 +1726,27 @@ x = 123
 if x is None:
     pass
 ```
+## FURB169: `no-is-type-none`
+
+Categories: `pythonic` `readability`
+
+Don't use `type(None)` to check if the type of an object is `None`, use an
+`is` comparison instead.
+
+Bad:
+
+```python
+x = 123
+
+if type(x) is type(None):
+    pass
+```
+
+Good:
+
+```python
+x = 123
+
+if x is None:
+    pass
+```
