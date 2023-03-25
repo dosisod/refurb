@@ -1750,3 +1750,30 @@ x = 123
 if x is None:
     pass
 ```
+## FURB170: `use-regex-pattern-methods`
+
+Categories: `readability` `regex`
+
+If you are passing a compiled regular expression to a regex function,
+consider calling the regex method on the pattern itself: It is faster, and
+can improve readability.
+
+Bad:
+
+```python
+import re
+
+COMMENT = re.compile(".*(#.*)")
+
+found_comment = re.match(COMMENT, "this is a # comment")
+```
+
+Good:
+
+```python
+import re
+
+COMMENT = re.compile(".*(#.*)")
+
+found_comment = COMMENT.match("this is a # comment")
+```

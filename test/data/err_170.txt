@@ -1,0 +1,14 @@
+test/data/err_170.py:8:5 [FURB170]: Replace `re.search(x, ...)` with `x.search(...)`
+test/data/err_170.py:9:5 [FURB170]: Replace `re.match(x, ...)` with `x.match(...)`
+test/data/err_170.py:10:5 [FURB170]: Replace `re.fullmatch(x, ...)` with `x.fullmatch(...)`
+test/data/err_170.py:11:5 [FURB170]: Replace `re.split(x, ...)` with `x.split(...)`
+test/data/err_170.py:12:5 [FURB170]: Replace `re.split(x, ..., ...)` with `x.split(..., ...)`
+test/data/err_170.py:13:5 [FURB170]: Replace `re.split(x, ..., maxsplit=...)` with `x.split(..., maxsplit=...)`
+test/data/err_170.py:14:5 [FURB170]: Replace `re.findall(x, ...)` with `x.findall(...)`
+test/data/err_170.py:15:5 [FURB170]: Replace `re.finditer(x, ...)` with `x.finditer(...)`
+test/data/err_170.py:16:5 [FURB170]: Replace `re.sub(x, ..., ...)` with `x.sub(..., ...)`
+test/data/err_170.py:17:5 [FURB170]: Replace `re.sub(x, ..., ..., ...)` with `x.sub(..., ..., ...)`
+test/data/err_170.py:18:5 [FURB170]: Replace `re.sub(x, ..., ..., count=...)` with `x.sub(..., ..., count=...)`
+test/data/err_170.py:19:5 [FURB170]: Replace `re.subn(x, ..., ...)` with `x.subn(..., ...)`
+test/data/err_170.py:20:5 [FURB170]: Replace `re.subn(x, ..., ..., count=...)` with `x.subn(..., ..., count=...)`
+test/data/err_170.py:22:5 [FURB170]: Replace `re.search(x, ...)` with `x.search(...)`
