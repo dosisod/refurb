@@ -1,10 +1,12 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from pathlib import Path
-from typing import ClassVar
+from typing import TYPE_CHECKING, ClassVar
 
-from mypy.nodes import Node
+if TYPE_CHECKING:
+    from pathlib import Path
+
+    from mypy.nodes import Node
 
 
 @dataclass(frozen=True)

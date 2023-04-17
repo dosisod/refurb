@@ -2,10 +2,12 @@ from __future__ import annotations
 
 import re
 import sys
-from collections.abc import Callable, Iterator
 from dataclasses import dataclass, field, replace
 from pathlib import Path
-from typing import Any, Literal, TypeVar
+from typing import TYPE_CHECKING, Any, Literal, TypeVar
+
+if TYPE_CHECKING:
+    from collections.abc import Callable, Iterator
 
 if sys.version_info >= (3, 11):
     import tomllib  # pragma: no cover

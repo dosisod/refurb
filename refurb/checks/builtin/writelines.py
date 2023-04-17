@@ -16,7 +16,7 @@ from refurb.error import Error
 
 @dataclass
 class ErrorInfo(Error):
-    """
+    r"""
     When you want to write a list of lines to a file, don't call `.write()`
     for every line, use `.writelines()` instead:
 
@@ -43,7 +43,7 @@ class ErrorInfo(Error):
     need to use a list comprehension instead. For example:
 
     ```
-    f.writelines(f"{line}\\n" for line in lines)
+    f.writelines(f"{line}\n" for line in lines)
     ```
     """
 
