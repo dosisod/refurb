@@ -7,9 +7,9 @@ from refurb.error import Error
 
 @dataclass
 class ErrorInfo(Error):
-    '''
+    r'''
     If you want to define a multi-line string but don't want a leading/trailing
-    newline, use a continuation character ('\\') instead of calling `lstrip()`,
+    newline, use a continuation character ('\') instead of calling `lstrip()`,
     `rstrip()`, or `strip()`.
 
     Bad:
@@ -27,12 +27,12 @@ class ErrorInfo(Error):
     Good:
 
     ```
-    """\\
+    """\
     This is some docstring
     """
 
-    """\\
-    This is another docstring\\
+    """\
+    This is another docstring\
     """
     ```
     '''

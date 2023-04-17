@@ -11,7 +11,7 @@ def test_check_must_be_callable() -> None:
 
 
 def test_check_must_have_valid_number_of_args() -> None:
-    def check():
+    def check() -> None:
         pass
 
     with pytest.raises(

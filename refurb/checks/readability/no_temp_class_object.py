@@ -50,7 +50,7 @@ def check(node: CallExpr, errors: list[Error]) -> None:
         ):
             for func in klass.defn.defs.body:
                 if isinstance(func, Decorator):
-                    func = func.func
+                    func = func.func  # noqa: PLW2901
 
                 elif not isinstance(func, FuncDef):
                     continue
