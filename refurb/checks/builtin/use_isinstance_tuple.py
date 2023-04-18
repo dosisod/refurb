@@ -54,7 +54,9 @@ def check(node: OpExpr, errors: list[Error], settings: Settings) -> None:
             and is_equivalent(lhs_args[0], rhs_args[0])
         ):
             type_args = (
-                "y | z" if settings.python_version >= (3, 10) else "(y, z)"
+                "y | z"
+                if settings.get_python_version() >= (3, 10)
+                else "(y, z)"
             )
 
             errors.append(

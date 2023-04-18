@@ -183,6 +183,10 @@ load = ["some", "folders"]
 ignore = [100, "FURB101"]
 enable = ["FURB111", "FURB222"]
 quiet = true
+format = "github"
+sort_by = "error"
+python_version = "3.7"
+mypy_args = ["some", "args"]
 """
 
     command_line_args = parse_args(
@@ -197,6 +201,10 @@ quiet = true
         ignore={ErrorCode(100), ErrorCode(101), ErrorCode(123)},
         enable={ErrorCode(111), ErrorCode(222), ErrorCode(200)},
         quiet=True,
+        format="github",
+        sort_by="error",
+        python_version=(3, 7),
+        mypy_args=["some", "args"],
     )
 
 
