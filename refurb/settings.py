@@ -37,10 +37,10 @@ class Settings:
     enable_all: bool = False
     disable_all: bool = False
     config_file: str | None = None
-    python_version: tuple[int, int] = get_python_version()
+    python_version: tuple[int, int] | None = None
     mypy_args: list[str] = field(default_factory=list)
-    format: Literal["text", "github"] = "text"
-    sort_by: Literal["filename", "error"] = "filename"
+    format: Literal["text", "github", None] | None = None
+    sort_by: Literal["filename", "error"] | None = None
 
     def __post_init__(self) -> None:
         if self.enable_all and self.disable_all:
@@ -77,11 +77,14 @@ class Settings:
             enable_all=old.enable_all or new.enable_all,
             quiet=old.quiet or new.quiet,
             config_file=old.config_file or new.config_file,
-            python_version=new.python_version,
+            python_version=new.python_version or old.python_version,
             mypy_args=new.mypy_args or old.mypy_args,
-            format=new.format,
-            sort_by=new.sort_by,
+            format=new.format or old.format,
+            sort_by=new.sort_by or old.sort_by,
         )
+
+    def get_python_version(self) -> tuple[int, int]:
+        return self.python_version or get_python_version()
 
 
 ERROR_ID_REGEX = re.compile("^([A-Z]{3,4})?(\\d{3})$")
@@ -158,10 +161,8 @@ T = TypeVar("T")
 def pop_type(  # type: ignore[misc]
     ty: type[T], type_name: str = ""
 ) -> Callable[..., T]:
-    def inner(  # type: ignore[misc]
-        config: dict[str, Any], name: str, *, default: T | None = None
-    ) -> T:
-        x = config.pop(name, default or ty())
+    def inner(config: dict[str, Any], name: str) -> T:  # type: ignore[misc]
+        x = config.pop(name, ty())
 
         if isinstance(x, ty):
             return x
@@ -208,18 +209,16 @@ def parse_config_file(contents: str) -> Settings:
     mypy_args = pop_list(config, "mypy_args")
     settings.mypy_args = [str(x) for x in mypy_args]
 
-    version = pop_str(config, "python_version")
-    settings.python_version = (
-        parse_python_version(version) if version else get_python_version()
-    )
+    if "python_version" in config:
+        version = pop_str(config, "python_version")
 
-    settings.format = validate_format(
-        pop_str(config, "format", default="text")
-    )
+        settings.python_version = parse_python_version(version)
 
-    settings.sort_by = validate_sort_by(
-        pop_str(config, "sort_by", default="filename")
-    )
+    if "format" in config:
+        settings.format = validate_format(pop_str(config, "format"))
+
+    if "sort_by" in config:
+        settings.sort_by = validate_sort_by(pop_str(config, "sort_by"))
 
     amendments: list[dict[str, Any]] = config.pop("amend", [])  # type: ignore
 

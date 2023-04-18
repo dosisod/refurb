@@ -45,7 +45,7 @@ class ErrorInfo(Error):
 
 
 def check(node: CallExpr, errors: list[Error], settings: Settings) -> None:
-    if settings.python_version < (3, 10):
+    if settings.get_python_version() < (3, 10):
         return  # pragma: no cover
 
     match node:
