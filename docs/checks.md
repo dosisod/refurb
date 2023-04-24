@@ -1777,3 +1777,22 @@ COMMENT = re.compile(".*(#.*)")
 
 found_comment = COMMENT.match("this is a # comment")
 ```
+## FURB171: `no-single-item-in`
+
+Categories: `iterable` `readability`
+
+Don't use `in` to check against a single value, use `==` instead:
+
+Bad:
+
+```python
+if name in ("bob",):
+    pass
+```
+
+Good:
+
+```python
+if name == "bob":
+    pass
+```

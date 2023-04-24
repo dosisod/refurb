@@ -1,0 +1,4 @@
+test/data/err_171.py:3:5 [FURB171]: Replace `x in (y,)` with `x == y`
+test/data/err_171.py:4:5 [FURB171]: Replace `x in [y]` with `x == y`
+test/data/err_171.py:5:5 [FURB171]: Replace `x not in (y,)` with `x != y`
+test/data/err_171.py:6:5 [FURB171]: Replace `x not in [y]` with `x != y`
