@@ -647,3 +647,41 @@ def test_check_sort_by_field_must_be_valid() -> None:
 
     with pytest.raises(ValueError, match=msg):
         parse_args(["--sort", "oops"])
+
+
+def test_disallow_empty_string_in_cli() -> None:
+    tests = [
+        [""],
+        ["file.py", ""],
+    ]
+
+    for test in tests:
+        msg = "refurb: argument cannot be empty"
+
+        with pytest.raises(ValueError, match=msg):
+            parse_args(test)
+
+
+def test_ignored_flags_cause_error() -> None:
+    tests = [
+        ["--help", "file.py"],
+        ["--version", "file.py"],
+        ["-h", "file.py"],
+        ["-v", "file.py"],
+        ["file.py", "--help"],
+        ["--version", "file.py"],
+        ["file.py", "-h"],
+        ["file.py", "-v"],
+    ]
+
+    for test in tests:
+        msg = f"refurb: unexpected value before/after `{test[0]}`"
+
+        with pytest.raises(ValueError, match=msg):
+            parse_args(test)
+
+
+def test_generate_subcommand_is_ignored_if_other_files_are_passed() -> None:
+    assert parse_args(["gen", "something"]) == Settings(
+        files=["gen", "something"]
+    )

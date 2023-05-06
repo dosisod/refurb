@@ -237,13 +237,10 @@ def parse_config_file(contents: str) -> Settings:
 
 
 def parse_command_line_args(args: list[str]) -> Settings:
-    if not args or args[0] in ("--help", "-h"):
+    if not args:
         return Settings(help=True)
 
-    if args[0] in ("--version", "-v"):
-        return Settings(version=True)
-
-    if args[0] == "gen":
+    if len(args) == 1 and args[0] == "gen":
         return Settings(generate=True)
 
     iargs = iter(args)
@@ -259,6 +256,12 @@ def parse_command_line_args(args: list[str]) -> Settings:
     for arg in iargs:
         if arg == "--debug":
             settings.debug = True
+
+        elif arg in ("--help", "-h"):
+            settings.help = True
+
+        elif arg in ("--version", "-v"):
+            settings.version = True
 
         elif arg == "--quiet":
             settings.quiet = True
@@ -320,8 +323,16 @@ def parse_command_line_args(args: list[str]) -> Settings:
         elif arg.startswith("-"):
             raise ValueError(f'refurb: unsupported option "{arg}"')
 
-        else:
+        elif arg:
             settings.files.append(arg)
+
+        else:
+            raise ValueError("refurb: argument cannot be empty")
+
+    if len(args) > 1 and (settings.help or settings.version):
+        msg = f"refurb: unexpected value before/after `{args[0]}`"
+
+        raise ValueError(msg)
 
     return settings
 
