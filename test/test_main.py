@@ -221,6 +221,17 @@ def test_amended_ignores_are_relative_to_config_file():
     assert not errors
 
 
+def test_raise_error_if_config_file_is_invalid():
+    tests = {
+        ".": "is a directory",
+        "file_not_found": "was not found",
+    }
+
+    for config_file, expected in tests.items():
+        with pytest.raises(ValueError, match=expected):
+            load_settings(["--config-file", config_file])
+
+
 def test_mypy_args_are_forwarded() -> None:
     errors = run_refurb(Settings(mypy_args=["--version"]))
 

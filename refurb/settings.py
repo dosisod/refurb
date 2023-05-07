@@ -342,8 +342,16 @@ def load_settings(args: list[str]) -> Settings:
 
     file = Path(cli_args.config_file or "pyproject.toml")
 
-    config_file = (
-        parse_config_file(file.read_text()) if file.exists() else Settings()
-    )
+    try:
+        config_file = parse_config_file(file.read_text())
+
+    except IsADirectoryError as ex:
+        raise ValueError(f'refurb: "{file}" is a directory') from ex
+
+    except FileNotFoundError as ex:
+        if cli_args.config_file:
+            raise ValueError(f'refurb: "{file}" was not found') from ex
+
+        config_file = Settings()  # pragma: no cover
 
     return Settings.merge(config_file, cli_args)
