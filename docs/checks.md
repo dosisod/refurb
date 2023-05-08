@@ -496,7 +496,7 @@ for every line, use `.writelines()` instead:
 Bad:
 
 ```python
-lines = ["line 1", "line 2", "line 3"]
+lines = ["line 1\n", "line 2\n", "line 3\n"]
 
 with open("file") as f:
     for line in lines:
@@ -506,7 +506,7 @@ with open("file") as f:
 Good:
 
 ```python
-lines = ["line 1", "line 2", "line 3"]
+lines = ["line 1\n", "line 2\n", "line 3\n"]
 
 with open("file") as f:
     f.writelines(lines)

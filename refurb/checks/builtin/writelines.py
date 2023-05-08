@@ -23,7 +23,7 @@ class ErrorInfo(Error):
     Bad:
 
     ```
-    lines = ["line 1", "line 2", "line 3"]
+    lines = ["line 1\n", "line 2\n", "line 3\n"]
 
     with open("file") as f:
         for line in lines:
@@ -33,7 +33,7 @@ class ErrorInfo(Error):
     Good:
 
     ```
-    lines = ["line 1", "line 2", "line 3"]
+    lines = ["line 1\n", "line 2\n", "line 3\n"]
 
     with open("file") as f:
         f.writelines(lines)
