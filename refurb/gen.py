@@ -54,7 +54,7 @@ def fzf(data: list[str] | None, args: list[str]) -> str:
     }
 
     process = run(
-        ["fzf", "--height=20", *args],
+        ["fzf", "--height=20", *args],  # noqa: S603, S607
         env=env,
         stdout=PIPE,
         input=bytes("\n".join(data), "utf8") if data else None,
