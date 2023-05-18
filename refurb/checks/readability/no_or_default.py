@@ -44,7 +44,7 @@ class ErrorInfo(Error):
 
     name = "no-default-or"
     code = 143
-    categories = ["logical", "readability"]
+    categories = ("logical", "readability")
 
 
 def check(node: OpExpr, errors: list[Error]) -> None:

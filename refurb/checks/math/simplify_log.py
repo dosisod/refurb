@@ -27,7 +27,7 @@ class ErrorInfo(Error):
 
     name = "simplify-math-log"
     code = 163
-    categories = ["math", "readability"]
+    categories = ("math", "readability")
 
 
 def check(node: CallExpr, errors: list[Error]) -> None:

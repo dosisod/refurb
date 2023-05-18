@@ -44,7 +44,7 @@ class Error:
     enabled: ClassVar[bool] = True
     name: ClassVar[str | None] = None
     prefix: ClassVar[str] = "FURB"
-    categories: ClassVar[list[str]] = []
+    categories: ClassVar[tuple[str, ...]] = ()
     code: ClassVar[int]
     line: int
     column: int

@@ -33,7 +33,7 @@ class ErrorInfo(Error):
 
     name = "no-is-type-none"
     code = 169
-    categories = ["pythonic", "readability"]
+    categories = ("pythonic", "readability")
 
 
 def check(node: ComparisonExpr, errors: list[Error]) -> None:

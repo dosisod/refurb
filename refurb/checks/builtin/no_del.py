@@ -36,7 +36,7 @@ class ErrorInfo(Error):
 
     name = "no-del"
     code = 131
-    categories = ["builtin", "readability"]
+    categories = ("builtin", "readability")
     msg: str = "Replace `del x[:]` with `x.clear()`"
 
 

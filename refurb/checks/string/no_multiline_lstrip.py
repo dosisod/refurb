@@ -39,7 +39,7 @@ class ErrorInfo(Error):
 
     name = "no-multiline-strip"
     code = 139
-    categories = ["readability"]
+    categories = ("readability",)
 
 
 def check(node: CallExpr, errors: list[Error]) -> None:

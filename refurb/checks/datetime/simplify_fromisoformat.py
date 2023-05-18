@@ -43,7 +43,7 @@ class ErrorInfo(Error):
 
     name = "simplify-fromisoformat"
     code = 162
-    categories = ["datetime", "python311", "readability"]
+    categories = ("datetime", "python311", "readability")
 
 
 def is_string(node: Expression) -> bool:

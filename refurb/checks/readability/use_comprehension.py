@@ -47,7 +47,7 @@ class ErrorInfo(Error):
     name = "use-list-comprehension"
     code = 138
     msg: str = "Consider using list comprehension"
-    categories = ["performance", "readability"]
+    categories = ("performance", "readability")
 
 
 def check(node: Block | MypyFile, errors: list[Error]) -> None:

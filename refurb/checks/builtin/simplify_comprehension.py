@@ -43,7 +43,7 @@ class ErrorInfo(Error):
     name = "simplify-comprehension"
     enabled = False
     code = 137
-    categories = ["builtin", "iterable", "readability"]
+    categories = ("builtin", "iterable", "readability")
 
 
 FUNCTION_MAPPINGS = {

@@ -33,7 +33,7 @@ class ErrorInfo(Error):
 
     name = "use-min-max"
     code = 136
-    categories = ["builtin", "logical", "readability"]
+    categories = ("builtin", "logical", "readability")
 
 
 FUNC_TABLE = {

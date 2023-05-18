@@ -34,7 +34,7 @@ class ErrorInfo(Error):
 
     name = "use-pathlib-exists"
     code = 141
-    categories = ["pathlib"]
+    categories = ("pathlib",)
 
 
 def check(node: CallExpr, errors: list[Error]) -> None:

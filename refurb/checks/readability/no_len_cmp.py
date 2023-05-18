@@ -61,7 +61,7 @@ class ErrorInfo(Error):
 
     name = "no-len-compare"
     code = 115
-    categories = ["iterable", "truthy"]
+    categories = ("iterable", "truthy")
 
 
 CONTAINER_TYPES = {

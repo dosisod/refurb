@@ -58,7 +58,7 @@ class ErrorInfo(Error):
 
     name = "simplify-return"
     code = 126
-    categories = ["control-flow", "readability"]
+    categories = ("control-flow", "readability")
 
 
 def get_trailing_return(node: Statement) -> Statement | None:

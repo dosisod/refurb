@@ -33,7 +33,7 @@ class ErrorInfo(Error):
 
     name = "use-with-suppress"
     code = 107
-    categories = ["contextlib", "readability"]
+    categories = ("contextlib", "readability")
 
 
 def check(node: TryStmt, errors: list[Error]) -> None:

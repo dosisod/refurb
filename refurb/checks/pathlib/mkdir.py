@@ -35,7 +35,7 @@ class ErrorInfo(Error):
 
     name = "use-pathlib-mkdir"
     code = 150
-    categories = ["pathlib"]
+    categories = ("pathlib",)
 
 
 def create_error(node: CallExpr) -> list[Error]:

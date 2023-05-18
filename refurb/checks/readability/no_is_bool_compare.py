@@ -32,7 +32,7 @@ class ErrorInfo(Error):
 
     name = "no-bool-literal-compare"
     code = 149
-    categories = ["logical", "readability", "truthy"]
+    categories = ("logical", "readability", "truthy")
 
 
 def is_bool_literal(expr: Expression) -> bool:

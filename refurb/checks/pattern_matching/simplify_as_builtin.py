@@ -32,7 +32,7 @@ class ErrorInfo(Error):
 
     name = "simplify-as-pattern-with-builtin"
     code = 158
-    categories = ["pattern-matching", "readability"]
+    categories = ("pattern-matching", "readability")
 
 
 BUILTIN_PATTERN_CLASSES = (

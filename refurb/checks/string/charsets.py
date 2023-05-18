@@ -42,7 +42,7 @@ class ErrorInfo(Error):
 
     name = "use-string-charsets"
     code = 156
-    categories = ["readability", "string"]
+    categories = ("readability", "string")
 
 
 _CHARSETS = [

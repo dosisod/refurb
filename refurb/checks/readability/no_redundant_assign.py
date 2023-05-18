@@ -29,7 +29,7 @@ class ErrorInfo(Error):
 
     code = 160
     name = "no-redundant-assignment"
-    categories = ["readability"]
+    categories = ("readability",)
     msg: str = "Remove redundant assignment of variable to itself"
 
 
