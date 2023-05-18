@@ -26,7 +26,7 @@ class ErrorInfo(Error):
 
     name = "simplify-path-constructor"
     code = 153
-    categories = ["pathlib", "readability"]
+    categories = ("pathlib", "readability")
 
 
 def check(node: CallExpr, errors: list[Error]) -> None:

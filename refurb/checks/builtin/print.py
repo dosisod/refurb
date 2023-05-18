@@ -14,7 +14,7 @@ class ErrorInfo(Error):
     name = "simplify-print"
     code = 105
     msg: str = 'Replace `print("")` with `print()`'
-    categories = ["builtin", "readability"]
+    categories = ("builtin", "readability")
 
 
 def check(node: CallExpr, errors: list[Error]) -> None:

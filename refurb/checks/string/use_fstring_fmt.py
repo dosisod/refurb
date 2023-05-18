@@ -34,7 +34,7 @@ class ErrorInfo(Error):
 
     name = "use-fstring-format"
     code = 119
-    categories = ["builtin", "fstring"]
+    categories = ("builtin", "fstring")
 
 
 CONVERSIONS = {

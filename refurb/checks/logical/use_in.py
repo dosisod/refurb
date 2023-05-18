@@ -33,7 +33,7 @@ class ErrorInfo(Error):
 
     name = "use-in-oper"
     code = 108
-    categories = ["logical", "readability"]
+    categories = ("logical", "readability")
 
 
 def create_message(indices: tuple[int, int]) -> str:

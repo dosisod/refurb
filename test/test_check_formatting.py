@@ -14,7 +14,7 @@ def assert_category_exists(error: type[Error]) -> None:
 def assert_categories_are_sorted(error: type[Error]) -> None:
     error_msg = "categories are not sorted"
 
-    assert sorted(error.categories) == error.categories, error_msg
+    assert tuple(sorted(error.categories)) == error.categories, error_msg
 
 
 def assert_categories_are_valid(

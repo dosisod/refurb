@@ -30,7 +30,7 @@ class ErrorInfo(Error):
     name = "use-or-oper"
     code = 110
     msg: str = "Replace `x if x else y` with `x or y`"
-    categories = ["logical", "readability"]
+    categories = ("logical", "readability")
 
 
 def check(node: ConditionalExpr, errors: list[Error]) -> None:

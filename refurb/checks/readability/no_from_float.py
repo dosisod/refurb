@@ -29,7 +29,7 @@ class ErrorInfo(Error):
 
     name = "no-from-float"
     code = 164
-    categories = ["decimal", "fractions", "readability"]
+    categories = ("decimal", "fractions", "readability")
 
 
 KNOWN_FUNCS = {

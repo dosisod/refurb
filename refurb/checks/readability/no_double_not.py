@@ -28,7 +28,7 @@ class ErrorInfo(Error):
     name = "no-double-not"
     code = 114
     msg: str = "Replace `not not x` with `bool(x)`"
-    categories = ["builtin", "readability", "truthy"]
+    categories = ("builtin", "readability", "truthy")
 
 
 def check(node: UnaryExpr, errors: list[Error]) -> None:

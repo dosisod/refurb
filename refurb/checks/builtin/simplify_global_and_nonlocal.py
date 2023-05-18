@@ -33,7 +33,7 @@ class ErrorInfo(Error):
 
     name = "simplify-global-and-nonlocal"
     code = 154
-    categories = ["builtin", "readability"]
+    categories = ("builtin", "readability")
 
 
 def emit_error_if_needed(

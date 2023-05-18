@@ -39,7 +39,7 @@ class ErrorInfo(Error):
 
     name = "use-func-name"
     code = 111
-    categories = ["readability"]
+    categories = ("readability",)
 
 
 def get_lambda_arg_names(args: list[Argument]) -> list[str]:

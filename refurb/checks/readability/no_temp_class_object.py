@@ -33,7 +33,7 @@ class ErrorInfo(Error):
 
     name = "no-temp-class-object"
     code = 165
-    categories = ["readability"]
+    categories = ("readability",)
 
 
 def check(node: CallExpr, errors: list[Error]) -> None:

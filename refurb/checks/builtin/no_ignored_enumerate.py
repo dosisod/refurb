@@ -52,7 +52,7 @@ class ErrorInfo(Error):
 
     name = "no-ignored-enumerate-items"
     code = 148
-    categories = ["builtin"]
+    categories = ("builtin",)
 
 
 def check(

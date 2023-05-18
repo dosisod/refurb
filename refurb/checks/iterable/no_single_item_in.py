@@ -27,7 +27,7 @@ class ErrorInfo(Error):
 
     name = "no-single-item-in"
     code = 171
-    categories = ["iterable", "readability"]
+    categories = ("iterable", "readability")
 
 
 def check(node: ComparisonExpr, errors: list[Error]) -> None:

@@ -34,7 +34,7 @@ class ErrorInfo(Error):
 
     name = "simplify-strip"
     code = 159
-    categories = ["readability", "string"]
+    categories = ("readability", "string")
 
 
 STRIP_FUNCS = ("lstrip", "rstrip", "strip")

@@ -62,7 +62,7 @@ class ErrorInfo(Error):
     name = "no-redundant-continue"
     code = 133
     msg: str = "Continue is redundant here"
-    categories = ["control-flow", "readability"]
+    categories = ("control-flow", "readability")
 
 
 def get_trailing_continue(node: Statement) -> Generator[Statement, None, None]:

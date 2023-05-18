@@ -35,7 +35,7 @@ class ErrorInfo(Error):
     # with a variety of bracket types.
     name = "use-consistent-in-bracket"
     code = 109
-    categories = ["iterable", "readability"]
+    categories = ("iterable", "readability")
 
 
 def error_msg(oper: str) -> str:

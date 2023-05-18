@@ -50,7 +50,7 @@ class ErrorInfo(Error):
     name = "use-writelines"
     code = 122
     msg: str = "Replace `for line in lines: f.write(line)` with `f.writelines(lines)`"  # noqa: E501
-    categories = ["builtin", "readability"]
+    categories = ("builtin", "readability")
 
 
 def check(node: WithStmt, errors: list[Error]) -> None:

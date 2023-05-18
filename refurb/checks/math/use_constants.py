@@ -30,7 +30,7 @@ class ErrorInfo(Error):
 
     name = "use-math-constant"
     code = 152
-    categories = ["math", "readability"]
+    categories = ("math", "readability")
 
 
 CONSTANTS = {

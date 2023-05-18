@@ -32,7 +32,7 @@ class ErrorInfo(Error):
 
     name = "use-startswith-endswith-tuple"
     code = 102
-    categories = ["string"]
+    categories = ("string",)
 
 
 def check(node: OpExpr, errors: list[Error]) -> None:

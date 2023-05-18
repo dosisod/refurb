@@ -35,7 +35,7 @@ class ErrorInfo(Error):
 
     name = "use-regex-pattern-methods"
     code = 170
-    categories = ["readability", "regex"]
+    categories = ("readability", "regex")
 
 
 # This table represents the function calls that we will emit errors for. The

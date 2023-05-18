@@ -25,7 +25,7 @@ class ErrorInfo(Error):
 
     name = "use-pathlib-cwd"
     code = 104
-    categories = ["pathlib"]
+    categories = ("pathlib",)
 
 
 def check(node: CallExpr, errors: list[Error]) -> None:

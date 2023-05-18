@@ -36,7 +36,7 @@ class ErrorInfo(Error):
 
     name = "use-pathlib-read-text-read-bytes"
     code = 101
-    categories = ["pathlib"]
+    categories = ("pathlib",)
 
 
 def check(node: WithStmt, errors: list[Error]) -> None:

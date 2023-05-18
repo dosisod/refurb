@@ -54,7 +54,7 @@ class ErrorInfo(Error):
     enabled = False
     name = "use-int-base-zero"
     code = 166
-    categories = ["builtin", "readability"]
+    categories = ("builtin", "readability")
 
 
 def check(node: CallExpr, errors: list[Error]) -> None:

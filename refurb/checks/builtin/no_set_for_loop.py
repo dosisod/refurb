@@ -44,7 +44,7 @@ class ErrorInfo(Error):
 
     name = "no-set-for-loop"
     code = 142
-    categories = ["builtin"]
+    categories = ("builtin",)
 
 
 def check(node: ForStmt, errors: list[Error]) -> None:

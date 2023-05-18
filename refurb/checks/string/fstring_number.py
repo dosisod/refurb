@@ -28,7 +28,7 @@ class ErrorInfo(Error):
 
     name = "use-fstring-number-format"
     code = 116
-    categories = ["builtin", "fstring"]
+    categories = ("builtin", "fstring")
 
 
 FUNC_CONVERSIONS = {

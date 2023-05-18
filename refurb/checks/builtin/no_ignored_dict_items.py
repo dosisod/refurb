@@ -53,7 +53,7 @@ class ErrorInfo(Error):
 
     name = "no-ignored-dict-items"
     code = 135
-    categories = ["dict"]
+    categories = ("dict",)
 
 
 def check(

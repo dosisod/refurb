@@ -30,7 +30,7 @@ class ErrorInfo(Error):
 
     name = "use-long-regex-flag"
     code = 167
-    categories = ["readability", "regex"]
+    categories = ("readability", "regex")
 
 
 SHORT_TO_LONG_FLAG = {

@@ -33,7 +33,7 @@ class ErrorInfo(Error):
 
     name = "no-isinstance-type-none"
     code = 168
-    categories = ["pythonic", "readability"]
+    categories = ("pythonic", "readability")
 
 
 def get_type_none_index(node: Expression, index: int = 0) -> int:

@@ -39,7 +39,7 @@ class ErrorInfo(Error):
     name = "use-expandtabs"
     enabled = False
     code = 106
-    categories = ["string"]
+    categories = ("string",)
 
 
 def check_str(node: CallExpr, errors: list[Error]) -> None:

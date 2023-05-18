@@ -30,7 +30,7 @@ class ErrorInfo(Error):
 
     name = "use-pathlib-stat"
     code = 155
-    categories = ["pathlib"]
+    categories = ("pathlib",)
 
 
 PATH_TO_PATHLIB_NAMES = {

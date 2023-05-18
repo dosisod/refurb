@@ -34,7 +34,7 @@ class ErrorInfo(Error):
 
     name = "simplify-decimal-ctor"
     code = 157
-    categories = ["decimal"]
+    categories = ("decimal",)
 
 
 FLOAT_LITERALS = ["inf", "-inf", "infinity", "-infinity", "nan"]

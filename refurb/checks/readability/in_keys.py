@@ -32,7 +32,7 @@ class ErrorInfo(Error):
 
     name = "no-in-dict-keys"
     code = 130
-    categories = ["dict", "readability"]
+    categories = ("dict", "readability")
 
 
 def check(node: ComparisonExpr, errors: list[Error]) -> None:

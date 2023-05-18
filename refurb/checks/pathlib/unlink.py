@@ -33,7 +33,7 @@ class ErrorInfo(Error):
 
     name = "use-pathlib-unlink"
     code = 144
-    categories = ["pathlib"]
+    categories = ("pathlib",)
 
 
 def check(node: CallExpr, errors: list[Error]) -> None:

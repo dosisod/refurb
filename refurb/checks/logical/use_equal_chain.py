@@ -41,7 +41,7 @@ class ErrorInfo(Error):
 
     name = "use-comparison-chain"
     code = 124
-    categories = ["logical", "readability"]
+    categories = ("logical", "readability")
 
 
 def create_message(indices: tuple[int, int], oper: str = "==") -> str:

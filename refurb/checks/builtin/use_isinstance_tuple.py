@@ -39,7 +39,7 @@ class ErrorInfo(Error):
 
     name = "use-isinstance-issubclass-tuple"
     code = 121
-    categories = ["python310", "readability"]
+    categories = ("python310", "readability")
 
 
 def check(node: OpExpr, errors: list[Error], settings: Settings) -> None:
