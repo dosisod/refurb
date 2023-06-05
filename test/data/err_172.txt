@@ -1,0 +1,2 @@
+test/data/err_172.py:5:5 [FURB172]: Replace `x.name.endswith(".txt")` with `x.suffix == ".txt"`
+test/data/err_172.py:6:5 [FURB172]: Replace `x.name.endswith(".ABC")` with `x.suffix == ".ABC"`

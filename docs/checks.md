@@ -1796,3 +1796,32 @@ Good:
 if name == "bob":
     pass
 ```
+## FURB172: `use-suffix`
+
+Categories: `pathlib`
+
+When checking the file extension for a pathlib object don't call
+`endswith()` on the `name` field, directly check against `suffix` instead.
+
+Bad:
+
+```python
+from pathlib import Path
+
+def is_markdown_file(file: Path) -> bool:
+    return file.name.endswith(".md")
+```
+
+Good:
+
+```python
+from pathlib import Path
+
+def is_markdown_file(file: Path) -> bool:
+    return file.suffix == ".md"
+```
+
+Note: The `suffix` field will only contain the last file extension, so
+don't use `suffix` if you are checking for an extension like `.tar.gz`.
+Refurb won't warn in those cases, but it is good to remember in case you
+plan to use this in other places.
