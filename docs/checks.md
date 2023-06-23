@@ -1825,3 +1825,27 @@ Note: The `suffix` field will only contain the last file extension, so
 don't use `suffix` if you are checking for an extension like `.tar.gz`.
 Refurb won't warn in those cases, but it is good to remember in case you
 plan to use this in other places.
+## FURB173: `use-dict-union`
+
+Categories: `dict` `readability`
+
+Dicts can be created/combined in many ways, one of which is the `**`
+operator (inside the dict), and another is the `|` operator (used outside
+the dict). While they both have valid uses, the `|` operator allows for
+more flexibility, including using `|=` to update an existing dict.
+
+See PEP 584 for more info.
+
+Bad:
+
+```python
+def add_defaults(settings: dict[str, str]) -> dict[str, str]:
+    return {"color": "1", **settings}
+```
+
+Good:
+
+```python
+def add_defaults(settings: dict[str, str]) -> dict[str, str]:
+    return {"color": "1"} | settings
+```

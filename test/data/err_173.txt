@@ -1,0 +1,11 @@
+test/data/err_173.py:7:5 [FURB173]: Replace `{**x1, **x2}` with `x1 | x2`
+test/data/err_173.py:8:5 [FURB173]: Replace `{**x1, ...}` with `x1 | {...}`
+test/data/err_173.py:9:5 [FURB173]: Replace `{**x1, ...}` with `x1 | {...}`
+test/data/err_173.py:10:5 [FURB173]: Replace `{..., **x1}` with `{...} | x1`
+test/data/err_173.py:11:5 [FURB173]: Replace `{..., **x1}` with `{...} | x1`
+test/data/err_173.py:12:5 [FURB173]: Replace `{..., **x1, **x2}` with `{...} | x1 | x2`
+test/data/err_173.py:13:5 [FURB173]: Replace `{**x1, **x2, ...}` with `x1 | x2 | {...}`
+test/data/err_173.py:14:5 [FURB173]: Replace `{**x1, **x2, **x3}` with `x1 | x2 | x3`
+test/data/err_173.py:15:5 [FURB173]: Replace `{**x1, **x2, **x3, **x4}` with `x1 | x2 | x3 | x4`
+test/data/err_173.py:16:5 [FURB173]: Replace `{**x1, **x2, **x3, **x4, **x5}` with `x1 | x2 | x3 | x4 | x5`
+test/data/err_173.py:17:5 [FURB173]: Replace `{**x1, **x2, **x3, **x4, ...}` with `x1 | x2 | x3 | x4 | {...}`
