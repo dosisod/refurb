@@ -67,6 +67,7 @@ class ErrorInfo(Error):
 CONTAINER_TYPES = {
     "builtins.list",
     "builtins.tuple",
+    "tuple[",
     "builtins.dict",
     "builtins.set",
     "builtins.frozenset",

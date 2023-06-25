@@ -96,4 +96,6 @@ def check_unused_index_or_value(
 
 # TODO: allow for any type that supports the Sequence protocol
 def is_sequence_type(ty: str) -> bool:
-    return ty.startswith(("builtins.list[", "Tuple[", "builtins.tuple["))
+    return ty.startswith(
+        ("builtins.list[", "Tuple[", "builtins.tuple[", "tuple[")
+    )

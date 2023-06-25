@@ -67,6 +67,7 @@ FUNC_NAMES = {
     "builtins.list": (ListExpr, "x.copy()"),
     "builtins.str": (StrExpr, "x"),
     "builtins.tuple": (TupleExpr, "x"),
+    "tuple[]": (TupleExpr, "x"),
 }
 
 
@@ -96,7 +97,10 @@ def check(node: CallExpr, errors: list[Error]) -> None:
                 match arg:
                     case NameExpr(node=Var(type=ty)) if (
                         str(ty).startswith(fullname)
-                        or (str(ty).startswith("Tuple") and name == "tuple")
+                        or (
+                            str(ty).lower().startswith("tuple[")
+                            and name == "tuple"
+                        )
                     ):
                         pass
 

@@ -87,7 +87,9 @@ def check(node: OpExpr, errors: list[Error]) -> None:
                 case _:
                     return
 
-            type_name = "builtins.tuple" if str(ty) == "Tuple[]" else str(ty)
+            type_name = (
+                "builtins.tuple" if str(ty).lower() == "tuple[]" else str(ty)
+            )
 
             if fullname and type_name.startswith(fullname):
                 errors.append(
