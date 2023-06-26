@@ -37,6 +37,7 @@ class ErrorInfo(Error):
     plan to use this in other places.
     """
 
+    enabled = False
     name = "use-suffix"
     code = 172
     categories = ("pathlib",)
