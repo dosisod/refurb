@@ -126,6 +126,11 @@ These checks are for the [`re`](https://docs.python.org/3/library/contextlib.htm
 These checks have to do with Python's scoping rules. For more info on how Python's scoping
 rules work, read [this article](https://realpython.com/python-scope-legb-rule/).
 
+## `secrets`
+
+These checks are for the [secrets](https://docs.python.org/3/library/secrets.html)
+standard library module.
+
 ## `string`
 
 These checks deal with usage of [`str`](https://docs.python.org/3/library/stdtypes.html#string-methods)

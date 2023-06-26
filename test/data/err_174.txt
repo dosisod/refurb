@@ -1,0 +1,9 @@
+test/data/err_174.py:6:1 [FURB174]: Replace `token_bytes(32).hex()` with `token_hex(32)`
+test/data/err_174.py:7:1 [FURB174]: Replace `token_bytes(None).hex()` with `token_hex()`
+test/data/err_174.py:8:1 [FURB174]: Replace `token_bytes().hex()` with `token_hex()`
+test/data/err_174.py:9:1 [FURB174]: Replace `token_bytes().hex()` with `token_hex()`
+test/data/err_174.py:11:1 [FURB174]: Replace `token_bytes()[:8]` with `token_bytes(8)`
+test/data/err_174.py:12:1 [FURB174]: Replace `token_hex()[:8]` with `token_hex(4)`
+test/data/err_174.py:13:1 [FURB174]: Replace `token_bytes(None)[:8]` with `token_bytes(8)`
+test/data/err_174.py:14:1 [FURB174]: Replace `token_hex(None)[:8]` with `token_hex(4)`
+test/data/err_174.py:15:1 [FURB174]: Replace `token_bytes()[:8]` with `token_bytes(8)`

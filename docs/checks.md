@@ -1849,3 +1849,23 @@ Good:
 def add_defaults(settings: dict[str, str]) -> dict[str, str]:
     return {"color": "1"} | settings
 ```
+## FURB174: `simplify-token-function`
+
+Categories: `readability` `secrets`
+
+Depending on how you are using the `secrets` module there might be a more
+expressive ways of writing what it is you're trying to write.
+
+Bad:
+
+```python
+random_hex = token_bytes().hex()
+random_url = token_urlsafe()[:16]
+```
+
+Good:
+
+```python
+random_hex = token_hex()
+random_url = token_urlsafe(16)
+```
