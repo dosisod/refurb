@@ -38,6 +38,10 @@ These checks cover:
 * Usage of `dict` objects
 * In some cases, objects supporting the [Mapping](https://docs.python.org/3/library/collections.abc.html#collections.abc.Mapping) protocol
 
+## `fastapi`
+
+These are checks relating to the third-party [FastAPI](https://github.com/tiangolo/fastapi) library.
+
 ## `fstring`
 
 These checks relate to Python's [f-strings](https://fstring.help/).

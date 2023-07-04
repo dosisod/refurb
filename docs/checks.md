@@ -1869,3 +1869,25 @@ Good:
 random_hex = token_hex()
 random_url = token_urlsafe(16)
 ```
+## FURB175: `simplify-fastapi-query`
+
+Categories: `fastapi` `readability`
+
+FastAPI will automatically pass along query parameters to your function, so
+you only need to use `Query()` when you use params other than `default`.
+
+Bad:
+
+```python
+@app.get("/")
+def index(name: str = Query()) -> str:
+    return f"Your name is {name}"
+```
+
+Good:
+
+```python
+@app.get("/")
+def index(name: str) -> str:
+    return f"Your name is {name}"
+```
