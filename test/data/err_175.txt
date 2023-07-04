@@ -1,0 +1,5 @@
+test/data/err_175.py:8:5 [FURB175]: Replace `a: T = Query()` with `a: T = x`
+test/data/err_175.py:9:5 [FURB175]: Replace `b: T = Query(...)` with `b: T`
+test/data/err_175.py:10:5 [FURB175]: Replace `c: T = Query(x)` with `c: T = x`
+test/data/err_175.py:11:5 [FURB175]: Replace `d: T = Query(default=x)` with `d: T = x`
+test/data/err_175.py:12:5 [FURB175]: Replace `e = Query()` with `e = x`
