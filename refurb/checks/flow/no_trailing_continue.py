@@ -99,5 +99,6 @@ def check(node: ForStmt | WhileStmt, errors: list[Error]) -> None:
             if not prev and isinstance(stmt, ContinueStmt):
                 return
 
-            for continue_node in get_trailing_continue(stmt):
-                errors.append(ErrorInfo.from_node(continue_node))
+            errors.extend(
+                ErrorInfo.from_node(x) for x in get_trailing_continue(stmt)
+            )

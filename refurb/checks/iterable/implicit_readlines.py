@@ -62,6 +62,8 @@ def check(node: ForStmt | GeneratorExpr, errors: list[Error]) -> None:
             errors.append(ErrorInfo.from_node(f))
 
     else:
-        for expr in node.sequences:
-            if f := get_readline_file_object(expr):
-                errors.append(ErrorInfo.from_node(f))
+        errors.extend(
+            ErrorInfo.from_node(f)
+            for expr in node.sequences
+            if (f := get_readline_file_object(expr))
+        )

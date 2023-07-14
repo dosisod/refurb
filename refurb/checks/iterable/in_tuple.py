@@ -56,6 +56,8 @@ def check(
             errors.append(ErrorInfo.from_node(expr, error_msg("in")))
 
         case GeneratorExpr():
-            for expr in node.sequences:  # type: ignore
-                if isinstance(expr, ListExpr):
-                    errors.append(ErrorInfo.from_node(expr, error_msg("in")))
+            errors.extend(
+                ErrorInfo.from_node(expr, error_msg("in"))
+                for expr in node.sequences
+                if isinstance(expr, ListExpr)
+            )
