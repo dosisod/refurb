@@ -3,3 +3,6 @@ __pycache__
 .mypy_cache
 dist
 .coverage
+
+# Used for local plugin development:
+tmp.py
