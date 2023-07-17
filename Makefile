@@ -3,7 +3,7 @@
 all: ruff mypy black isort test refurb docs
 
 install:
-	pip install .
+	pip install -e .
 	pip install -r dev-requirements.txt
 
 install-local:
