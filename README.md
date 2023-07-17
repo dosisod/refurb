@@ -292,7 +292,6 @@ To setup locally, run:
 $ git clone https://github.com/dosisod/refurb
 $ cd refurb
 $ make install
-$ make install-local
 ```
 
 Tests can be ran all at once using `make`, or you can run each tool on its own using
