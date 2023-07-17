@@ -3,38 +3,33 @@
 all: ruff mypy black isort test refurb docs
 
 install:
-	pip install .
-	pip install -r dev-requirements.txt
-
-install-local:
-	pip install -e .
+	poetry install
 
 ruff:
-	ruff refurb test
+	poetry run ruff refurb test
 
 mypy:
-	mypy refurb
-	mypy test --exclude "test/data*"
+	poetry run mypy refurb test --exclude 'test.data*'
 
 black:
-	black refurb test
+	poetry run black refurb test
 
 isort:
-	isort . --diff --check
+	poetry run isort . --diff --check
 
 test:
-	pytest
+	poetry run pytest
 
-test-e2e: install-local
-	refurb test/e2e/dummy.py
+test-e2e: install
+	poetry run refurb test/e2e/dummy.py
 
 refurb:
-	refurb refurb test/*.py
+	poetry run refurb refurb test/*.py
 
 test/%.txt: test/%.py
-	refurb "$^" --enable-all --quiet > "$@" || true
+	poetry run refurb "$^" --enable-all --quiet > "$@" || true
 
 update-tests: $(patsubst %.py,%.txt,$(wildcard test/data*/*.py))
 
 docs:
-	python3 -m docs.gen_checks
+	poetry run python3 -m docs.gen_checks

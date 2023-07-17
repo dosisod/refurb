@@ -20,10 +20,15 @@ python = ">=3.10"
 mypy = ">=0.981"
 tomli = {version = "^2.0.1", python = "<3.11"}
 
-[tool.poetry.dev-dependencies]
-black = "^22.6.0"
-isort = "^5.10.1"
-pytest = "^7.1.2"
+[tool.poetry.group.test.dependencies]
+fastapi = "^0.100.0"
+
+black = "^23.7.0"
+isort = { version = "^5.12.0", extras = ["colors"] }
+pytest = "^7.4.0"
+pytest-cov = "^4.1.0"
+mypy = "^1.4.1"
+ruff = "^0.0.278"
 
 [tool.poetry.scripts]
 refurb = "refurb.__main__:main"
@@ -113,5 +118,5 @@ extend-exclude = ["test/data*"]
 "refurb/main.py" = ["E501"]
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
+requires = ["poetry-core>=1.6.0"]
 build-backend = "poetry.core.masonry.api"

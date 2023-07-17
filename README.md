@@ -286,13 +286,15 @@ Then, to load your new check, use `refurb file.py --load your.path.here`
 
 ## Developing
 
+We use `poetry` to manage dependencies,
+make sure it is [installed](https://python-poetry.org/docs/#installation).
+
 To setup locally, run:
 
 ```
 $ git clone https://github.com/dosisod/refurb
 $ cd refurb
 $ make install
-$ make install-local
 ```
 
 Tests can be ran all at once using `make`, or you can run each tool on its own using
