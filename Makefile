@@ -6,9 +6,6 @@ install:
 	pip install -e .
 	pip install -r dev-requirements.txt
 
-install-local:
-	pip install -e .
-
 ruff:
 	ruff refurb test
 
@@ -25,7 +22,7 @@ isort:
 test:
 	pytest
 
-test-e2e: install-local
+test-e2e: install
 	refurb test/e2e/dummy.py
 
 refurb:
