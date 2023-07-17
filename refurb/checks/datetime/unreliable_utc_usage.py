@@ -41,8 +41,8 @@ class ErrorInfo(Error):
 
 
 _replacements: Final = {
-    "utcnow": "now(tz=timezone.utc)",
-    "utcfromtimestamp": "fromtimestamp(..., tz=timezone.utc)",
+    "utcnow": ("()", "now(tz=timezone.utc)"),
+    "utcfromtimestamp": ("(...)", "fromtimestamp(..., tz=timezone.utc)"),
 }
 
 
@@ -51,11 +51,15 @@ def check(node: CallExpr, errors: list[Error], settings: Settings) -> None:
         case CallExpr(
             callee=MemberExpr(
                 expr=NameExpr(fullname="datetime.datetime"),
-            ),
-        ) if node.callee.name in {"utcnow", "utcfromtimestamp"}:
-            replacement = _replacements[node.callee.name]
+            ) as func,
+        ) if func.name in {
+            "utcnow",
+            "utcfromtimestamp",
+        }:
+            pars, replaced = _replacements[func.name]
             errors.append(
                 ErrorInfo.from_node(
-                    node, f"Replace `{node.callee.name}` with `{replacement}`"
+                    node,
+                    f"Replace `{func.name}{pars}` with `{replaced}`",
                 )
             )

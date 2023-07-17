@@ -1,2 +1,2 @@
-test/data/err_176.py:4:14 [FURB176]: Replace `utcnow` with `now(tz=timezone.utc)`
-test/data/err_176.py:5:12 [FURB176]: Replace `utcfromtimestamp` with `fromtimestamp(..., tz=timezone.utc)`
+test/data/err_176.py:4:14 [FURB176]: Replace `utcnow()` with `now(tz=timezone.utc)`
+test/data/err_176.py:5:12 [FURB176]: Replace `utcfromtimestamp(...)` with `fromtimestamp(..., tz=timezone.utc)`
