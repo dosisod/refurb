@@ -1,10 +1,9 @@
 from dataclasses import dataclass
 from typing import Final
 
-from mypy.nodes import CallExpr, MemberExpr, NameExpr
+from mypy.nodes import CallExpr, MemberExpr, RefExpr
 
 from refurb.error import Error
-from refurb.settings import Settings
 
 
 @dataclass
@@ -46,20 +45,17 @@ _replacements: Final = {
 }
 
 
-def check(node: CallExpr, errors: list[Error], settings: Settings) -> None:
+def check(node: CallExpr, errors: list[Error]) -> None:
     match node:
         case CallExpr(
             callee=MemberExpr(
-                expr=NameExpr(fullname="datetime.datetime"),
+                expr=RefExpr(fullname="datetime.datetime"),
             ) as func,
-        ) if func.name in {
-            "utcnow",
-            "utcfromtimestamp",
-        }:
-            pars, replaced = _replacements[func.name]
+        ) if replacements := _replacements.get(func.name):
+            parens, replaced = replacements
             errors.append(
                 ErrorInfo.from_node(
                     node,
-                    f"Replace `{func.name}{pars}` with `{replaced}`",
+                    f"Replace `{func.name}{parens}` with `{replaced}`",
                 )
             )
