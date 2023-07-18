@@ -1,3 +1,4 @@
+# Applied checks
 
 ## FURB100: `use-pathlib-with-suffix`
 
@@ -300,7 +301,7 @@ if not not value:
 Good:
 
 ```python
-if bool(value):
+if value:
     pass
 ```
 ## FURB115: `no-len-compare`
