@@ -1891,3 +1891,30 @@ Good:
 def index(name: str) -> str:
     return f"Your name is {name}"
 ```
+## FURB176: `unreliable-utc-usage`
+
+Categories: `datetime`
+
+Because naive `datetime` objects are treated by many `datetime` methods
+as local times, it is preferred to use aware datetimes to represent times
+in UTC.
+
+This check affects `datetime.utcnow` and `datetime.utcfromtimestamp`.
+
+Bad:
+
+```python
+from datetime import datetime
+
+now = datetime.utcnow()
+past_date = datetime.utcfromtimestamp(some_timestamp)
+```
+
+Good:
+
+```python
+from datetime import datetime, timezone
+
+datetime.now(timezone.utc)
+datetime.fromtimestamp(some_timestamp, tz=timezone.utc)
+```
