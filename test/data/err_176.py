@@ -1,5 +1,5 @@
-from datetime import datetime, timezone
 import datetime as dt
+from datetime import datetime, timezone
 
 # Should warn:
 start_date = datetime.utcnow()
