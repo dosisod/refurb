@@ -23,6 +23,8 @@ for module in get_modules([]):
 
 
 with (Path(__file__).parent / "checks.md").open("w+") as f:
+    f.write("# Available Checks\n")
+
     for k, v in sorted(docs.items()):
         f.write("\n")
         f.write(v)

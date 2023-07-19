@@ -20,14 +20,14 @@ class ErrorInfo(Error):
     Good:
 
     ```
-    if bool(value):
+    if value:
         pass
     ```
     """
 
     name = "no-double-not"
     code = 114
-    msg: str = "Replace `not not x` with `bool(x)`"
+    msg: str = "Replace `not not x` with `x`"
     categories = ("builtin", "readability", "truthy")
 
 

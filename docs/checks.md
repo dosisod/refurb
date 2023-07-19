@@ -1,4 +1,4 @@
-# Applied checks
+# Available Checks
 
 ## FURB100: `use-pathlib-with-suffix`
 
