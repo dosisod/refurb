@@ -32,6 +32,7 @@ refurb = "refurb.__main__:main"
 multi_line_output = 3
 include_trailing_comma = true
 color_output = true
+extend_skip = ["test/data"]
 
 [tool.mypy]
 allow_redefinition = true
