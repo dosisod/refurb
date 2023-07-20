@@ -27,7 +27,7 @@ class ErrorInfo(Error):
 
     name = "no-double-not"
     code = 114
-    msg: str = "Replace `not not x` with `x`"
+    msg: str = "Replace `not not x` with `bool(x)`"
     categories = ("builtin", "readability", "truthy")
 
 
