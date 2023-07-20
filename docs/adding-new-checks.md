@@ -374,6 +374,10 @@ code to the right place and we should be good to go:
 ```
 $ cp tmp.py test/data/err_132.py
 $ refurb test/data/err_132.py --quiet > test/data/err_132.txt
+
+# or
+
+$ make update-tests
 ```
 
 Now when we run `pytest`, all our tests should pass, and our coverage should be at 100%.
@@ -381,11 +385,32 @@ Now when we run `pytest`, all our tests should pass, and our coverage should be 
 The last step is running `make` which will run all of our linters, type-checkers,
 and so on.
 
-## Fin
+## Common Gotchas
 
-That's it for the most part! There are more complex features and techniques which I will be explaining
-later on, but this will work as a good starting ground for anyone wanting to get started developing on
-Refurb.
+### Detecting Alternate Imports
+
+When you are writing your checks, one thing to keep in mind is the difference between `NameExpr`s and
+`MemberExpr`s: A `NameExpr` is a single identifier such as `x`, whereas a `MemberExpr` is when you use
+`.` to access a member of another expression, such as `x.y`.
+
+To help better explain the difference, take the following examples:
+
+```python
+import sqlite3
+from sqlite3 import connect
+
+db1 = sqlite3.connect("db1")
+db2 = connect("db2")
+```
+
+In the above example:
+
+* `MemberExpr(fullname="sqlite3.connect")` will match the value assigned to db1
+* and `NameExpr(fullname="sqlite3.connect")` will match the value assigned to db2
+
+If you want to match both expressions you need to use `RefExpr` instead. `RefExpr` is the
+base class for both of these expressions, which means you can catch both examples instead of
+one or the other.
 
 [^1]: We could write it on one line, but your linter might complain, and it is better to be
 more explicit that "we do not want to use this value, please ignore".
