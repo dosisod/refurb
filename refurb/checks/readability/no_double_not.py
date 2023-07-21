@@ -20,7 +20,7 @@ class ErrorInfo(Error):
     Good:
 
     ```
-    if bool(value):
+    if value:
         pass
     ```
     """
