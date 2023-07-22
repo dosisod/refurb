@@ -18,6 +18,9 @@ with open("file.txt", errors="ignore") as f:
 with open("file.txt", errors="ignore", mode="rb") as f:
     x2 = f.read()
 
+with open("file.txt", mode="r") as f:  # noqa: FURB120
+    x = f.read()
+
 
 # these should not
 

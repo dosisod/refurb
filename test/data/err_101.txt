@@ -4,3 +4,4 @@ test/data/err_101.py:9:1 [FURB101]: Replace `with open(x, ...) as f: y = f.read(
 test/data/err_101.py:12:1 [FURB101]: Replace `with open(x, ...) as f: y = f.read()` with `y = Path(x).read_text(...)`
 test/data/err_101.py:15:1 [FURB101]: Replace `with open(x, ...) as f: y = f.read()` with `y = Path(x).read_text(...)`
 test/data/err_101.py:18:1 [FURB101]: Replace `with open(x, ...) as f: y = f.read()` with `y = Path(x).read_bytes(...)`
+test/data/err_101.py:21:1 [FURB101]: Replace `with open(x, ...) as f: y = f.read()` with `y = Path(x).read_text()`
