@@ -91,6 +91,7 @@ def check(node: OpExpr, errors: list[Error]) -> None:
                 "builtins.tuple" if str(ty).lower() == "tuple[]" else str(ty)
             )
 
+            # Must check fullname for compatibility with older Mypy versions
             if fullname and type_name.startswith(fullname):
                 errors.append(
                     ErrorInfo.from_node(

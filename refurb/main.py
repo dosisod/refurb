@@ -157,19 +157,22 @@ def run_refurb(settings: Settings) -> Sequence[Error | str]:
     errors: list[Error | str] = []
 
     for file in files:
-        if tree := result.graph[file.module].tree:
-            if settings.debug:
-                errors.append(str(tree))
+        tree = result.graph[file.module].tree
 
-            checks = load_checks(settings)
-            visitor = RefurbVisitor(checks, settings)
+        assert tree
 
-            tree.accept(visitor)
+        if settings.debug:
+            errors.append(str(tree))
 
-            for error in visitor.errors:
-                error.filename = file.path
+        checks = load_checks(settings)
+        visitor = RefurbVisitor(checks, settings)
 
-            errors += visitor.errors
+        tree.accept(visitor)
+
+        for error in visitor.errors:
+            error.filename = file.path
+
+        errors += visitor.errors
 
     return sorted(
         [

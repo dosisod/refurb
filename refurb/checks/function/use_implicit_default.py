@@ -182,8 +182,9 @@ def check_symbol(
         case TypeInfo():
             for func_name in ("__new__", "__init__"):
                 if new_symbol := symbol.names.get(func_name):
-                    if new_symbol.node:
-                        check_symbol(node, new_symbol.node, errors)
+                    assert new_symbol.node
+
+                    check_symbol(node, new_symbol.node, errors)
 
 
 def check(node: CallExpr, errors: list[Error]) -> None:
