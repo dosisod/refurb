@@ -17,7 +17,7 @@ class ErrorInfo(Error):
     ```
     temp = x
     x = y
-    y = tmp
+    y = temp
     ```
 
     Good:

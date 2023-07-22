@@ -24,7 +24,7 @@ class ErrorInfo(Error):
     Bad:
 
     ```
-    nums = set((123, 456))
+    nums = {123, 456}
 
     if 123 in nums:
         nums.remove(123)
@@ -33,7 +33,7 @@ class ErrorInfo(Error):
     Good:
 
     ```
-    nums = set((123, 456))
+    nums = {123, 456}
 
     nums.discard(123)
     ```

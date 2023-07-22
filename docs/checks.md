@@ -19,6 +19,7 @@ Good:
 ```python
 new_filepath = Path("file.txt").with_suffix(".md")
 ```
+
 ## FURB101: `use-pathlib-read-text-read-bytes`
 
 Categories: `pathlib`
@@ -39,6 +40,7 @@ Good:
 ```python
 contents = Path(filename).read_text()
 ```
+
 ## FURB102: `use-startswith-endswith-tuple`
 
 Categories: `string`
@@ -62,6 +64,7 @@ name = "bob"
 if name.startswith(("b", "B")):
     pass
 ```
+
 ## FURB103: `use-pathlib-write-text-write-bytes`
 
 Categories: `pathlib`
@@ -81,6 +84,7 @@ Good:
 ```python
 Path(filename).write_text("hello world")
 ```
+
 ## FURB104: `use-pathlib-cwd`
 
 Categories: `pathlib`
@@ -98,11 +102,13 @@ Good:
 ```python
 cwd = Path.cwd()
 ```
+
 ## FURB105: `simplify-print`
 
 Categories: `builtin` `readability`
 
 `print("")` can be simplified to just `print()`.
+
 ## FURB106: `use-expandtabs`
 
 Categories: `string`
@@ -125,6 +131,7 @@ Good:
 spaces_8 = "\thello world".expandtabs()
 spaces_4 = "\thello world".expandtabs(4)
 ```
+
 ## FURB107: `use-with-suppress`
 
 Categories: `contextlib` `readability`
@@ -150,6 +157,7 @@ Good:
 with suppress(FileNotFoundError):
     f()
 ```
+
 ## FURB108: `use-in-oper`
 
 Categories: `logical` `readability`
@@ -174,6 +182,7 @@ if x in ("abc", "def"):
 Note: This should not be used if the operands depend on boolean short
 circuiting, since the operands will be eagerly evaluated. This is primarily
 useful for comparing against a range of constant values.
+
 ## FURB109: `use-consistent-in-bracket`
 
 Categories: `iterable` `readability`
@@ -198,6 +207,7 @@ for x in (1, 2, 3):
 
 nums = [str(x) for x in (1, 2, 3)]
 ```
+
 ## FURB110: `use-or-oper`
 
 Categories: `logical` `readability`
@@ -218,6 +228,7 @@ z = x or y
 ```
 
 Note: if `x` depends on side-effects, then this check should be ignored.
+
 ## FURB111: `use-func-name`
 
 Categories: `readability`
@@ -240,6 +251,7 @@ predicate = bool
 
 some_func(print)
 ```
+
 ## FURB112: `use-literal`
 
 Categories: `pythonic` `readability`
@@ -260,6 +272,7 @@ Good:
 nums = []
 books = {}
 ```
+
 ## FURB113: `use-list-extend`
 
 Categories: `list`
@@ -285,6 +298,7 @@ nums = [1, 2, 3]
 
 nums.extend((4, 5, 6))
 ```
+
 ## FURB114: `no-double-not`
 
 Categories: `builtin` `readability` `truthy`
@@ -304,6 +318,7 @@ Good:
 if value:
     pass
 ```
+
 ## FURB115: `no-len-compare`
 
 Categories: `iterable` `truthy`
@@ -334,6 +349,7 @@ nums = [1, 2, 3]
 if nums:
     pass
 ```
+
 ## FURB116: `use-fstring-number-format`
 
 Categories: `builtin` `fstring`
@@ -354,6 +370,7 @@ Good:
 ```python
 print(f"{1337:b}")
 ```
+
 ## FURB117: `use-pathlib-open`
 
 Categories: `pathlib`
@@ -378,6 +395,7 @@ path = Path("filename")
 with path.open() as f:
     pass
 ```
+
 ## FURB118: `use-operator`
 
 Categories: `operator`
@@ -405,6 +423,7 @@ nums = [1, 2, 3]
 
 print(reduce(add, nums))  # 6
 ```
+
 ## FURB119: `use-fstring-format`
 
 Categories: `builtin` `fstring`
@@ -431,6 +450,7 @@ print(f"{input()!a}")
 
 print(f"{123}")
 ```
+
 ## FURB120: `use-implicit-default`
 
 Categories: 
@@ -458,6 +478,7 @@ greet()
 
 {}.get("some key")
 ```
+
 ## FURB121: `use-isinstance-issubclass-tuple`
 
 Categories: `python310` `readability`
@@ -487,6 +508,7 @@ these functions:
 if isinstance(num, float | int):
     pass
 ```
+
 ## FURB122: `use-writelines`
 
 Categories: `builtin` `readability`
@@ -519,6 +541,7 @@ need to use a list comprehension instead. For example:
 ```python
 f.writelines(f"{line}\n" for line in lines)
 ```
+
 ## FURB123: `no-redundant-cast`
 
 Categories: `readability`
@@ -552,6 +575,7 @@ num = 123
 ages = {"bob": 123}
 copy = ages.copy()
 ```
+
 ## FURB124: `use-comparison-chain`
 
 Categories: `logical` `readability`
@@ -584,6 +608,7 @@ if x is y is None:
 ```
 
 Note: if `x` depends on side-effects, then this check should be ignored.
+
 ## FURB125: `no-redundant-return`
 
 Categories: `control-flow` `readability`
@@ -622,6 +647,7 @@ def func2(x):
     else:
         print("x is not 1")
 ```
+
 ## FURB126: `simplify-return`
 
 Categories: `control-flow` `readability`
@@ -663,6 +689,7 @@ def is_on_axis(position: tuple[int, int]) -> bool:
 
     return False
 ```
+
 ## FURB127: `no-with-assign`
 
 Categories: `readability` `scoping`
@@ -687,6 +714,7 @@ Good:
 with open("file.txt") as f:
     x = f.read()
 ```
+
 ## FURB128: `use-tuple-unpack-swap`
 
 Categories: `readability`
@@ -699,7 +727,7 @@ Bad:
 ```python
 temp = x
 x = y
-y = tmp
+y = temp
 ```
 
 Good:
@@ -707,6 +735,7 @@ Good:
 ```python
 x, y = y, x
 ```
+
 ## FURB129: `simplify-readlines`
 
 Categories: `builtin` `readability`
@@ -730,6 +759,7 @@ with open("file.txt") as f:
     for line in f:
         ...
 ```
+
 ## FURB130: `no-in-dict-keys`
 
 Categories: `dict` `readability`
@@ -754,6 +784,7 @@ d = {"key": "value"}
 if "key" in d:
     ...
 ```
+
 ## FURB131: `no-del`
 
 Categories: `builtin` `readability`
@@ -782,6 +813,7 @@ nums = [1, 2, 3]
 names.clear()
 nums.clear()
 ```
+
 ## FURB132: `use-set-discard`
 
 Categories: `readability` `set`
@@ -792,7 +824,7 @@ not, use the `discard()` method instead of `remove()`:
 Bad:
 
 ```python
-nums = set((123, 456))
+nums = {123, 456}
 
 if 123 in nums:
     nums.remove(123)
@@ -801,10 +833,11 @@ if 123 in nums:
 Good:
 
 ```python
-nums = set((123, 456))
+nums = {123, 456}
 
 nums.discard(123)
 ```
+
 ## FURB133: `no-redundant-continue`
 
 Categories: `control-flow` `readability`
@@ -847,6 +880,7 @@ def func2(x):
         else:
             print("x is not 1")
 ```
+
 ## FURB134: `use-cache`
 
 Categories: `functools` `python39` `readability`
@@ -873,6 +907,7 @@ from functools import cache
 def f(x: int) -> int:
     return x + 1
 ```
+
 ## FURB135: `no-ignored-dict-items`
 
 Categories: `dict`
@@ -903,6 +938,7 @@ for author in books:
 for book in books.values():
     print(book)
 ```
+
 ## FURB136: `use-min-max`
 
 Categories: `builtin` `logical` `readability`
@@ -927,6 +963,7 @@ score2 = 99
 
 highest_score = max(score1, score2)
 ```
+
 ## FURB137: `simplify-comprehension`
 
 Categories: `builtin` `iterable` `readability`
@@ -955,6 +992,7 @@ nums_times_10 = [num * 10 for num in nums]
 unique_squares = {num ** 2 for num in nums}
 number_tuple = tuple(num ** 2 for num in nums)
 ```
+
 ## FURB138: `use-list-comprehension`
 
 Categories: `performance` `readability`
@@ -979,6 +1017,7 @@ Good:
 nums = [1, 2, 3, 4]
 odds = [num for num in nums if num % 2]
 ```
+
 ## FURB139: `no-multiline-strip`
 
 Categories: `readability`
@@ -1010,6 +1049,7 @@ This is some docstring
 This is another docstring\
 """
 ```
+
 ## FURB140: `use-starmap`
 
 Categories: `itertools` `performance`
@@ -1047,6 +1087,7 @@ def passed_test(score: int, passing_score: int) -> bool:
 
 passed_all_tests = all(starmap(passed_test, zip(scores, passing_scores)))
 ```
+
 ## FURB141: `use-pathlib-exists`
 
 Categories: `pathlib`
@@ -1071,6 +1112,7 @@ from pathlib import Path
 if Path("filename").exists():
     pass
 ```
+
 ## FURB142: `no-set-for-loop`
 
 Categories: `builtin`
@@ -1098,6 +1140,7 @@ letters = set(sentence)
 
 letters.difference_update(vowels)
 ```
+
 ## FURB143: `no-default-or`
 
 Categories: `logical` `readability`
@@ -1122,6 +1165,7 @@ Good:
 def is_markdown_header(line: str) -> bool:
     return line.startswith("#")
 ```
+
 ## FURB144: `use-pathlib-unlink`
 
 Categories: `pathlib`
@@ -1146,6 +1190,7 @@ from pathlib import Path
 
 Path("filename").unlink()
 ```
+
 ## FURB145: `no-slice-copy`
 
 Categories: `readability`
@@ -1166,6 +1211,7 @@ Good:
 nums = [3.1415, 1234]
 copy = nums.copy()
 ```
+
 ## FURB146: `use-pathlib-is-funcs`
 
 Categories: `pathlib`
@@ -1186,6 +1232,7 @@ Good:
 if Path("file.txt").is_file():
     pass
 ```
+
 ## FURB147: `no-path-join`
 
 Categories: `pathlib`
@@ -1223,6 +1270,7 @@ object, not a string, meaning that the Path object will propogate throught
 your code. This might be what you want, and might encourage you to use the
 pathlib module in more places, but since it is not a drop-in replacement it
 is disabled by default.
+
 ## FURB148: `no-ignored-enumerate-items`
 
 Categories: `builtin`
@@ -1253,6 +1301,7 @@ for index in range(len(books)):
 for book in books:
     print(book)
 ```
+
 ## FURB149: `no-bool-literal-compare`
 
 Categories: `logical` `readability` `truthy`
@@ -1277,6 +1326,7 @@ failed = True
 if failed:
     print("You failed")
 ```
+
 ## FURB150: `use-pathlib-mkdir`
 
 Categories: `pathlib`
@@ -1301,6 +1351,7 @@ from pathlib import Path
 
 Path("new_folder").mkdir()
 ```
+
 ## FURB151: `use-pathlib-touch`
 
 Categories: `pathlib`
@@ -1327,6 +1378,7 @@ This check is disabled by default because `touch()` will throw a
 sets different file permissions, meaning it is not a drop-in replacement.
 If you don't care about the file permissions or know that the file doesn't
 exist beforehand this check may be for you.
+
 ## FURB152: `use-math-constant`
 
 Categories: `math` `readability`
@@ -1349,6 +1401,7 @@ import math
 def area(r: float) -> float:
     return math.pi * r * r
 ```
+
 ## FURB153: `simplify-path-constructor`
 
 Categories: `pathlib` `readability`
@@ -1367,6 +1420,7 @@ Good:
 ```python
 file = Path()
 ```
+
 ## FURB154: `simplify-global-and-nonlocal`
 
 Categories: `builtin` `readability`
@@ -1392,6 +1446,7 @@ def some_func():
 
     print(x, y)
 ```
+
 ## FURB155: `use-pathlib-stat`
 
 Categories: `pathlib`
@@ -1412,6 +1467,7 @@ Good:
 if Path("file.txt").stat().st_size:
     pass
 ```
+
 ## FURB156: `use-string-charsets`
 
 Categories: `readability` `string`
@@ -1445,6 +1501,7 @@ if c in string.hexdigits:
 Note that when using a literal string, the corresponding `string.xyz` value
 must be exact, but when used in an `in` comparison, the characters can be
 out of order since `in` will compare every character in the string.
+
 ## FURB157: `simplify-decimal-ctor`
 
 Categories: `decimal`
@@ -1471,6 +1528,7 @@ if x == Decimal(0):
 if y == Decimal("Infinity"):
     pass
 ```
+
 ## FURB158: `simplify-as-pattern-with-builtin`
 
 Categories: `pattern-matching` `readability`
@@ -1494,6 +1552,7 @@ match x:
     case str(name):
         print(f"Hello {name}")
 ```
+
 ## FURB159: `simplify-strip`
 
 Categories: `readability` `string`
@@ -1520,6 +1579,7 @@ name = input().strip()
 
 num = "  -123".lstrip(" -")
 ```
+
 ## FURB160: `no-redundant-assignment`
 
 Categories: `readability`
@@ -1540,6 +1600,7 @@ Good:
 ```python
 name = input("What is your name? ")
 ```
+
 ## FURB161: `use-bit-count`
 
 Categories: `builtin` `performance` `python310` `readability`
@@ -1563,6 +1624,7 @@ x = 0b1010.bit_count()
 
 assert x == 2
 ```
+
 ## FURB162: `simplify-fromisoformat`
 
 Categories: `datetime` `python311` `readability`
@@ -1585,6 +1647,7 @@ date = "2023-02-21T02:23:15Z"
 
 start_date = datetime.fromisoformat(date)
 ```
+
 ## FURB163: `simplify-math-log`
 
 Categories: `math` `readability`
@@ -1604,6 +1667,7 @@ Good:
 ```python
 power = math.log10(x)
 ```
+
 ## FURB164: `no-from-float`
 
 Categories: `decimal` `fractions` `readability`
@@ -1625,6 +1689,7 @@ Good:
 ratio = Fraction(1.2)
 score = Decimal(98.0)
 ```
+
 ## FURB165: `no-temp-class-object`
 
 Categories: `readability`
@@ -1643,6 +1708,7 @@ Good:
 ```python
 cwd = Path.cwd()
 ```
+
 ## FURB166: `use-int-base-zero`
 
 Categories: `builtin` `readability`
@@ -1681,6 +1747,7 @@ This check is disabled by default because there is no way for Refurb to
 detect whether the prefixes that are being stripped are valid Python int
 prefixes (like `0x`) or some other prefix which would fail if parsed using
 this method.
+
 ## FURB167: `use-long-regex-flag`
 
 Categories: `readability` `regex`
@@ -1703,6 +1770,7 @@ Good:
 if re.match("^hello", "hello world", re.IGNORECASE):
     pass
 ```
+
 ## FURB168: `no-isinstance-type-none`
 
 Categories: `pythonic` `readability`
@@ -1727,6 +1795,7 @@ x = 123
 if x is None:
     pass
 ```
+
 ## FURB169: `no-is-type-none`
 
 Categories: `pythonic` `readability`
@@ -1751,6 +1820,7 @@ x = 123
 if x is None:
     pass
 ```
+
 ## FURB170: `use-regex-pattern-methods`
 
 Categories: `readability` `regex`
@@ -1778,6 +1848,7 @@ COMMENT = re.compile(".*(#.*)")
 
 found_comment = COMMENT.match("this is a # comment")
 ```
+
 ## FURB171: `no-single-item-in`
 
 Categories: `iterable` `readability`
@@ -1797,6 +1868,7 @@ Good:
 if name == "bob":
     pass
 ```
+
 ## FURB172: `use-suffix`
 
 Categories: `pathlib`
@@ -1826,6 +1898,7 @@ Note: The `suffix` field will only contain the last file extension, so
 don't use `suffix` if you are checking for an extension like `.tar.gz`.
 Refurb won't warn in those cases, but it is good to remember in case you
 plan to use this in other places.
+
 ## FURB173: `use-dict-union`
 
 Categories: `dict` `readability`
@@ -1850,6 +1923,7 @@ Good:
 def add_defaults(settings: dict[str, str]) -> dict[str, str]:
     return {"color": "1"} | settings
 ```
+
 ## FURB174: `simplify-token-function`
 
 Categories: `readability` `secrets`
@@ -1870,6 +1944,7 @@ Good:
 random_hex = token_hex()
 random_url = token_urlsafe(16)
 ```
+
 ## FURB175: `simplify-fastapi-query`
 
 Categories: `fastapi` `readability`
@@ -1892,6 +1967,7 @@ Good:
 def index(name: str) -> str:
     return f"Your name is {name}"
 ```
+
 ## FURB176: `unreliable-utc-usage`
 
 Categories: `datetime`
