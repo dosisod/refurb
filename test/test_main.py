@@ -245,3 +245,20 @@ def test_stub_files_dont_hide_errors() -> None:
 
     assert len(errors) == 1
     assert "FURB123" in str(errors[0])
+
+
+def test_verbose_flag_prints_all_enabled_checks() -> None:
+    with patch("builtins.print") as p:
+        main(["test/data/err_100.py", "--verbose", "--enable-all"])
+
+    # Current number of checks at time of writing. This number doesn't need to
+    # be kept updated, it is only set to a known value to verify that it is
+    # doing what it should.
+    current_check_count = 76
+
+    assert p.call_count > current_check_count
+
+    stdout = "\n".join(args[0][0] for args in p.call_args_list)
+
+    for error_id in range(100, 100 + current_check_count):
+        assert f"FURB{error_id}" in stdout

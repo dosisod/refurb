@@ -685,3 +685,7 @@ def test_generate_subcommand_is_ignored_if_other_files_are_passed() -> None:
     assert parse_args(["gen", "something"]) == Settings(
         files=["gen", "something"]
     )
+
+
+def test_parse_verbose_flag() -> None:
+    assert parse_args(["--verbose"]) == Settings(verbose=True)

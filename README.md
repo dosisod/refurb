@@ -104,6 +104,8 @@ Certain checks are disabled by default, and need to be enabled first. You can do
 check differs from an ignored check in that a disabled check will never be loaded, whereas an
 ignored check will be loaded, an error will be emitted, and the error will be suppressed.
 
+Use the `--verbose` flag to get a full list of enabled checks.
+
 The opposite of `--enable` is `--disable`, which will disable a check. When `--enable` and `--disable`
 are both specified via the command line, whichever one comes last will take precedence. When using
 `enable` and `disable` via the config file, `disable` will always take precedence.
