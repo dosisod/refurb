@@ -170,6 +170,7 @@ def extract_function_types(  # type: ignore
 
 def load_checks(settings: Settings) -> defaultdict[type[Node], list[Check]]:
     found: defaultdict[type[Node], list[Check]] = defaultdict(list)
+    enabled_errors: set[str] = set()
 
     for module in get_modules(settings.load):
         error = get_error_class(module)
@@ -178,5 +179,13 @@ def load_checks(settings: Settings) -> defaultdict[type[Node], list[Check]]:
             if func := getattr(module, "check", None):
                 for ty in extract_function_types(func):
                     found[ty].append(func)
+
+            enabled_errors.add(str(ErrorCode.from_error(error)))
+
+    if settings.verbose:
+        print("Enabled checks:")
+
+        for code in sorted(enabled_errors):
+            print(code)
 
     return found
