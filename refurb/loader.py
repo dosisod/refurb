@@ -183,9 +183,12 @@ def load_checks(settings: Settings) -> defaultdict[type[Node], list[Check]]:
             enabled_errors.add(str(ErrorCode.from_error(error)))
 
     if settings.verbose:
-        print("Enabled checks:")
+        msg = (
+            ", ".join(sorted(enabled_errors))
+            if enabled_errors
+            else "No checks enabled"
+        )
 
-        for code in sorted(enabled_errors):
-            print(code)
+        print(f"Enabled checks: {msg}\n")
 
     return found
