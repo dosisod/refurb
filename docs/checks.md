@@ -1995,3 +1995,22 @@ from datetime import datetime, timezone
 datetime.now(timezone.utc)
 datetime.fromtimestamp(some_timestamp, tz=timezone.utc)
 ```
+
+## FURB177: `no-implicit-cwd`
+
+Categories: `pathlib`
+
+If you want to get the current working directory don't call `resolve()` on
+an empty `Path()` object, use `Path.cwd()` instead.
+
+Bad:
+
+```python
+cwd = Path().resolve()
+```
+
+Good:
+
+```python
+cwd = Path.cwd()
+```

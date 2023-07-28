@@ -1,0 +1,4 @@
+test/data/err_177.py:6:5 [FURB177]: Replace `Path().resolve()` with `Path.cwd()`
+test/data/err_177.py:7:5 [FURB177]: Replace `Path("").resolve()` with `Path.cwd()`
+test/data/err_177.py:8:5 [FURB177]: Replace `Path(".").resolve()` with `Path.cwd()`
+test/data/err_177.py:9:5 [FURB177]: Replace `Path().resolve()` with `Path.cwd()`
