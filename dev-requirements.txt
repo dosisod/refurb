@@ -1,6 +1,6 @@
 attrs==23.1.0
 black==23.7.0
-click==8.1.5
+click==8.1.6
 colorama==0.4.6
 coverage==7.2.7
 exceptiongroup==1.1.2
@@ -10,11 +10,11 @@ isort==5.12.0
 mypy-extensions==1.0.0
 mypy==1.4.1
 packaging==23.1
-pathspec==0.11.1
-platformdirs==3.8.1
+pathspec==0.11.2
+platformdirs==3.9.1
 pluggy==1.2.0
 py==1.11.0
 pyparsing==3.1.0
 pytest-cov==4.1.0
 pytest==7.4.0
-ruff==0.0.278
+ruff==0.0.280
