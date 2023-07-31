@@ -162,8 +162,8 @@ with suppress(FileNotFoundError):
 
 Categories: `logical` `readability`
 
-When comparing a value to multiple possible options, don't use multiple
-`or` checks, use a single `in` expr:
+When comparing a value to multiple possible options, don't `or` multiple
+comparison checks, use a single `in` expr:
 
 Bad:
 
@@ -193,7 +193,7 @@ is best to pick one and stick with it.
 Bad:
 
 ```python
-for x in [1, 2, 3]:
+for x in (1, 2, 3):
     pass
 
 nums = [str(x) for x in [1, 2, 3]]
@@ -212,8 +212,8 @@ nums = [str(x) for x in (1, 2, 3)]
 
 Categories: `logical` `readability`
 
-Sometimes ternary (aka, inline if statements) can be simplified to a single
-`or` expression.
+Sometimes the ternary operator (aka, inline if statements) can be simplified to
+a single `or` expression.
 
 Bad:
 
@@ -357,7 +357,7 @@ Categories: `builtin` `fstring`
 The `bin()`, `oct()`, and `hex()` functions return the string
 representation of a number but with a prefix attached. If you don't want
 the prefix, you might be tempted to just slice it off, but using an
-f-string will give you more flexibility:
+f-string will give you more flexibility and let you work with negative numbers:
 
 Bad:
 
@@ -944,7 +944,7 @@ for book in books.values():
 Categories: `builtin` `logical` `readability`
 
 Certain ternary expressions can be written more succinctly using the
-builtin `max()` function:
+builtin `min`/`max` functions:
 
 Bad:
 
@@ -968,9 +968,9 @@ highest_score = max(score1, score2)
 
 Categories: `builtin` `iterable` `readability`
 
-Often times generator and comprehension expressions can be written more
-succinctly. For example, passing a list comprehension to a function when
-a generator expression would suffice, or using the shorthand notation
+Often times generator expressions and list/set/dict comprehensions can be
+written more succinctly. For example, passing a list comprehension to a function
+when a generator expression would suffice, or using the shorthand notation
 in the case of `list` and `set`. For example:
 
 Bad:
@@ -1873,7 +1873,7 @@ if name == "bob":
 
 Categories: `pathlib`
 
-When checking the file extension for a pathlib object don't call
+When checking the file extension for a Path object don't call
 `endswith()` on the `name` field, directly check against `suffix` instead.
 
 Bad:
