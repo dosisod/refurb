@@ -38,7 +38,7 @@ main.py:16:9 [FURB105]: Use `print() instead of `print("")`
 Before installing, it is recommended that you setup a [virtual environment](https://docs.python.org/3/tutorial/venv.html).
 
 ```
-$ pip3 install refurb
+$ pip install refurb
 $ refurb file.py folder/
 ```
 
@@ -253,7 +253,7 @@ let `pre-commit` find the most recent one for you).
 Installing plugins for Refurb is very easy:
 
 ```
-$ pip3 install refurb-plugin-example
+$ pip install refurb-plugin-example
 ```
 
 Where `refurb-plugin-example` is the name of the plugin. Refurb will automatically load
