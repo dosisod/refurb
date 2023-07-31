@@ -33,9 +33,9 @@ These should be opt-in, since they can be quite noisy.
   - Include `dict`, `set`, `frozenset`, `defaultdict`, etc
   - See `TypeApplication` Mypy node
 
-* Convert `Optional[x]` -> `x | None` (python 3.9+?)
+* Convert `Optional[x]` -> `x | None` (python 3.10+)
 
-* Convert `Union[x, y]` -> `x | y` (python 3.9+)
+* Convert `Union[x, y]` -> `x | y` (python 3.10+)
 
 ## Dataclasses
 
