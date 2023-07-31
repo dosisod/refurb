@@ -45,7 +45,7 @@ contents = Path(filename).read_text()
 
 Categories: `string`
 
-`startswith()` and `endswith()` both takes a tuple, so instead of calling
+`startswith()` and `endswith()` both take a tuple, so instead of calling
 `startswith()` multiple times on the same string, you can check them all
 at once:
 
@@ -1928,7 +1928,7 @@ def add_defaults(settings: dict[str, str]) -> dict[str, str]:
 
 Categories: `readability` `secrets`
 
-Depending on how you are using the `secrets` module there might be a more
+Depending on how you are using the `secrets` module, there might be more
 expressive ways of writing what it is you're trying to write.
 
 Bad:
