@@ -6,7 +6,7 @@ Categories: `pathlib`
 
 A common operation is changing the extension of a file. If you have an
 existing `Path` object, you don't need to convert it to a string, slice
-it, and append a new extension. Instead, use the `with_suffix()` function:
+it, and append a new extension. Instead, use the `with_suffix()` method:
 
 Bad:
 
@@ -70,7 +70,7 @@ if name.startswith(("b", "B")):
 Categories: `pathlib`
 
 When you just want to save some contents to a file, using a `with` block is
-a bit overkill. Instead you can use pathlib's `write_text()` function:
+a bit overkill. Instead you can use pathlib's `write_text()` method:
 
 Bad:
 
@@ -89,7 +89,7 @@ Path(filename).write_text("hello world")
 
 Categories: `pathlib`
 
-A modern alternative to `os.getcwd()` is the `Path.cwd()` function:
+A modern alternative to `os.getcwd()` is the `Path.cwd()` method:
 
 Bad:
 
@@ -139,7 +139,7 @@ Categories: `contextlib` `readability`
 Often times you want to handle an exception, and just ignore it. You can do
 this with a `try/except` block, using a single `pass` in the `except`
 block, but there is a simpler and more concise way using the `suppress()`
-method from `contextlib`:
+function from `contextlib`:
 
 Bad:
 
@@ -1331,7 +1331,7 @@ if failed:
 
 Categories: `pathlib`
 
-Use the `mkdir` function from the pathlib library instead of using the
+Use the `mkdir` method from the pathlib library instead of using the
 `mkdir` and `makedirs` functions from the `os` library: the pathlib library
 is more modern and provides better flexibility over the construction and
 manipulation of file paths.
@@ -1561,7 +1561,7 @@ In some situations the `.lstrip()`, `.rstrip()` and `.strip()` string
 methods can be written more succinctly: `strip()` is the same thing as
 calling both `lstrip()` and `rstrip()` together, and all the strip
 functions take an iterable argument of the characters to strip, meaning
-you don't need to call a strip function multiple times with different
+you don't need to call strip methods multiple times with different
 arguments, you can just concatenate them and call it once.
 
 Bad:
