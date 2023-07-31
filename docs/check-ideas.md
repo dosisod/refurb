@@ -70,14 +70,6 @@ class Person:
 
 Disable by default, will be noisy
 
-### Dont hard code charsets (ie, `string.digits` vs `"0123456789"`)
-
-Python has many built-in charsets in the [string](https://docs.python.org/3/library/string.html) library, and can be used instead of defining them yourself.
-
-We probably only want to check this in `in` expressions, since `x in "abc"` returns the same thing
-as `x in "cba"`, but `x == "abc"[0]` and `x == "cba"[0]` do not. Perhaps there should be a flag for
-detecting any strings which contains a (permutated) version of a built-in charset.
-
 ### Don't use `" ".join(x.capitalize() for x in s.split())`, use `string.capwords(x)`
 
 Notes:
