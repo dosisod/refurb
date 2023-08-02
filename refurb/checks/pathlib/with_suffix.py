@@ -19,7 +19,7 @@ class ErrorInfo(Error):
     """
     A common operation is changing the extension of a file. If you have an
     existing `Path` object, you don't need to convert it to a string, slice
-    it, and append a new extension. Instead, use the `with_suffix()` function:
+    it, and append a new extension. Instead, use the `with_suffix()` method:
 
     Bad:
 

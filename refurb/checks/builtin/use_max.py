@@ -10,7 +10,7 @@ from refurb.error import Error
 class ErrorInfo(Error):
     """
     Certain ternary expressions can be written more succinctly using the
-    builtin `max()` function:
+    builtin `min`/`max` functions:
 
     Bad:
 

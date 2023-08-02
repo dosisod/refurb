@@ -16,7 +16,7 @@ from refurb.error import Error
 @dataclass
 class ErrorInfo(Error):
     """
-    Depending on how you are using the `secrets` module there might be a more
+    Depending on how you are using the `secrets` module, there might be more
     expressive ways of writing what it is you're trying to write.
 
     Bad:

@@ -11,7 +11,7 @@ from .util import is_pathlike
 @dataclass
 class ErrorInfo(Error):
     """
-    Use the `mkdir` function from the pathlib library instead of using the
+    Use the `mkdir` method from the pathlib library instead of using the
     `mkdir` and `makedirs` functions from the `os` library: the pathlib library
     is more modern and provides better flexibility over the construction and
     manipulation of file paths.

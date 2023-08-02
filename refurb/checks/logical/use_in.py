@@ -9,8 +9,8 @@ from refurb.error import Error
 @dataclass
 class ErrorInfo(Error):
     """
-    When comparing a value to multiple possible options, don't use multiple
-    `or` checks, use a single `in` expr:
+    When comparing a value to multiple possible options, don't `or` multiple
+    comparison checks, use a single `in` expr:
 
     Bad:
 

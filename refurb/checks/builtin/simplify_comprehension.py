@@ -14,10 +14,10 @@ from refurb.error import Error
 @dataclass
 class ErrorInfo(Error):
     """
-    Often times generator and comprehension expressions can be written more
-    succinctly. For example, passing a list comprehension to a function when
-    a generator expression would suffice, or using the shorthand notation
-    in the case of `list` and `set`. For example:
+    Often times generator expressions and list/set/dict comprehensions can be
+    written more succinctly. For example, passing a list comprehension to a
+    function when a generator expression would suffice, or using the shorthand
+    notation in the case of `list` and `set`. For example:
 
     Bad:
 

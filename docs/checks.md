@@ -212,8 +212,8 @@ nums = [str(x) for x in (1, 2, 3)]
 
 Categories: `logical` `readability`
 
-Sometimes the ternary operator (aka, inline if statements) can be simplified to
-a single `or` expression.
+Sometimes the ternary operator (aka, inline if statements) can be
+simplified to a single `or` expression.
 
 Bad:
 
@@ -357,7 +357,8 @@ Categories: `builtin` `fstring`
 The `bin()`, `oct()`, and `hex()` functions return the string
 representation of a number but with a prefix attached. If you don't want
 the prefix, you might be tempted to just slice it off, but using an
-f-string will give you more flexibility and let you work with negative numbers:
+f-string will give you more flexibility and let you work with negative
+numbers:
 
 Bad:
 
@@ -969,9 +970,9 @@ highest_score = max(score1, score2)
 Categories: `builtin` `iterable` `readability`
 
 Often times generator expressions and list/set/dict comprehensions can be
-written more succinctly. For example, passing a list comprehension to a function
-when a generator expression would suffice, or using the shorthand notation
-in the case of `list` and `set`. For example:
+written more succinctly. For example, passing a list comprehension to a
+function when a generator expression would suffice, or using the shorthand
+notation in the case of `list` and `set`. For example:
 
 Bad:
 

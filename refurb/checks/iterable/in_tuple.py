@@ -14,7 +14,7 @@ class ErrorInfo(Error):
     Bad:
 
     ```
-    for x in [1, 2, 3]:
+    for x in (1, 2, 3):
         pass
 
     nums = [str(x) for x in [1, 2, 3]]
