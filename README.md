@@ -286,9 +286,11 @@ Then, to load your new check, use `refurb file.py --load your.path.here`
 > importing a normal python module. If `your.path.here` is a directory, all checks
 > in that directory will be loaded. If it is a file, only that file will be loaded.
 
-## Developing
+## Developing / Contributing
 
-To setup locally, run:
+### Setup
+
+To setup locally run:
 
 ```
 $ git clone https://github.com/dosisod/refurb
@@ -303,6 +305,17 @@ Unit tests can be ran with `pytest` or `make test`.
 
 > Since the end-to-end (e2e) tests are slow, they are not ran when running `make`.
 > You will need to run `make test-e2e` to run them.
+
+### Updating Documentation
+
+We encourage people to update the documentation when they see typos and other issues!
+
+With that in mind though, don't directly modify the `docs/checks.md` file. It is auto-generated
+and will be overridden when new checks are added. The documentation for checks can be updated
+by changing the docstrings of in the checks themselves. For example, to update `FURB100`,
+change the docstring of the `ErrorInfo` class in the `refurb/checks/pathlib/with_suffix.py` file.
+You can find the file for a given check by grep-ing for `code = XYZ`, where `XYZ` is the check
+you are looking for but with the `FURB` prefix removed.
 
 ## Why Does This Exist?
 
