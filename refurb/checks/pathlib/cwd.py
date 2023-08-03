@@ -8,7 +8,7 @@ from refurb.error import Error
 @dataclass
 class ErrorInfo(Error):
     """
-    A modern alternative to `os.getcwd()` is the `Path.cwd()` function:
+    A modern alternative to `os.getcwd()` is the `Path.cwd()` method:
 
     Bad:
 

@@ -10,7 +10,7 @@ from refurb.error import Error
 @dataclass
 class ErrorInfo(Error):
     """
-    When checking the file extension for a pathlib object don't call
+    When checking the file extension for a Path object don't call
     `endswith()` on the `name` field, directly check against `suffix` instead.
 
     Bad:

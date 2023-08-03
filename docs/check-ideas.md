@@ -5,7 +5,7 @@ be picked up by anyone looking to add new checks to Refurb!
 
 ## Pathlib
 
-### Dont use `+` for path traversal, use `/` operator
+### Don't use `+` for path traversal, use `/` operator
 
 Bad:
 
@@ -33,9 +33,9 @@ These should be opt-in, since they can be quite noisy.
   - Include `dict`, `set`, `frozenset`, `defaultdict`, etc
   - See `TypeApplication` Mypy node
 
-* Convert `Optional[x]` -> `x | None` (python 3.9+?)
+* Convert `Optional[x]` -> `x | None` (python 3.10+)
 
-* Convert `Union[x, y]` -> `x | y` (python 3.9+)
+* Convert `Union[x, y]` -> `x | y` (python 3.10+)
 
 ## Dataclasses
 
@@ -66,19 +66,11 @@ class Person:
 
 ## String
 
-### Use fstring instead of `+`
+### Use f-string instead of `+`
 
 Disable by default, will be noisy
 
-### Dont hard code charsets (ie, `string.digits` vs `"0123456789"`)
-
-Python has many built-in charsets in the [string](https://docs.python.org/3/library/string.html) library, and can be used instead of defining them yourself.
-
-We probably only want to check this in `in` expressions, since `x in "abc"` returns the same thing
-as `x in "cba"`, but `x == "abc"[0]` and `x == "cba"[0]` do not. Perhaps there should be a flag for
-detecting any strings which contains a (permutated) version of a built-in charset.
-
-### Dont use `" ".join(x.capitalize() for x in s.split())`, use `string.capwords(x)`
+### Don't use `" ".join(x.capitalize() for x in s.split())`, use `string.capwords(x)`
 
 Notes:
 
@@ -146,13 +138,13 @@ See https://docs.python.org/3/library/stdtypes.html
 See https://docs.python.org/3/library/io.html
 
 * Use `frozenset` when `set` is never appended to
-* Dont roll your own max/min/sum functions, use `max`/`min`/`sum` instead
+* Don't roll your own max/min/sum functions, use `max`/`min`/`sum` instead
 * `print(f"{x} {y}")` -> `print(x, y)`
-* Dont use `_` in expressions
+* Don't use `_` in expressions
 * Use `x ** y` instead of `pow(x, y)`
   * Unless the `mod` param of `pow` is being used
-* Dont call `print()` repeatedly, call `print()` once with multi line string
-* Dont call `sys.stderr.write("asdf\n")`, use `print("asdf", file=sys.stderr)`
+* Don't call `print()` repeatedly, call `print()` once with multi line string
+* Don't call `sys.stderr.write("asdf\n")`, use `print("asdf", file=sys.stderr)`
 
 ## Enum
 
@@ -197,4 +189,4 @@ for item in itertools.chain(list1, list2, list3):
 
 ## Iteration
 
-### Dont use `x = x[::-1]`, use `x.reverse()`
+### Don't use `x = x[::-1]`, use `x.reverse()`

@@ -12,7 +12,7 @@ Categories: `pathlib`
 
 A common operation is changing the extension of a file. If you have an
 existing `Path` object, you don't need to convert it to a string, slice
-it, and append a new extension. Instead, use the `with_suffix()` function:
+it, and append a new extension. Instead, use the `with_suffix()` method:
 
 Bad:
 
@@ -51,7 +51,7 @@ contents = Path(filename).read_text()
 
 Categories: `string`
 
-`startswith()` and `endswith()` both takes a tuple, so instead of calling
+`startswith()` and `endswith()` both take a tuple, so instead of calling
 `startswith()` multiple times on the same string, you can check them all
 at once:
 
@@ -76,7 +76,7 @@ if name.startswith(("b", "B")):
 Categories: `pathlib`
 
 When you just want to save some contents to a file, using a `with` block is
-a bit overkill. Instead you can use pathlib's `write_text()` function:
+a bit overkill. Instead you can use pathlib's `write_text()` method:
 
 Bad:
 
@@ -95,7 +95,7 @@ Path(filename).write_text("hello world")
 
 Categories: `pathlib`
 
-A modern alternative to `os.getcwd()` is the `Path.cwd()` function:
+A modern alternative to `os.getcwd()` is the `Path.cwd()` method:
 
 Bad:
 
@@ -145,7 +145,7 @@ Categories: `contextlib` `readability`
 Often times you want to handle an exception, and just ignore it. You can do
 this with a `try/except` block, using a single `pass` in the `except`
 block, but there is a simpler and more concise way using the `suppress()`
-method from `contextlib`:
+function from `contextlib`:
 
 Bad:
 
@@ -168,8 +168,8 @@ with suppress(FileNotFoundError):
 
 Categories: `logical` `readability`
 
-When comparing a value to multiple possible options, don't use multiple
-`or` checks, use a single `in` expr:
+When comparing a value to multiple possible options, don't `or` multiple
+comparison checks, use a single `in` expr:
 
 Bad:
 
@@ -199,7 +199,7 @@ is best to pick one and stick with it.
 Bad:
 
 ```python
-for x in [1, 2, 3]:
+for x in (1, 2, 3):
     pass
 
 nums = [str(x) for x in [1, 2, 3]]
@@ -218,8 +218,8 @@ nums = [str(x) for x in (1, 2, 3)]
 
 Categories: `logical` `readability`
 
-Sometimes ternary (aka, inline if statements) can be simplified to a single
-`or` expression.
+Sometimes the ternary operator (aka, inline if statements) can be
+simplified to a single `or` expression.
 
 Bad:
 
@@ -363,7 +363,8 @@ Categories: `builtin` `fstring`
 The `bin()`, `oct()`, and `hex()` functions return the string
 representation of a number but with a prefix attached. If you don't want
 the prefix, you might be tempted to just slice it off, but using an
-f-string will give you more flexibility:
+f-string will give you more flexibility and let you work with negative
+numbers:
 
 Bad:
 
@@ -950,7 +951,7 @@ for book in books.values():
 Categories: `builtin` `logical` `readability`
 
 Certain ternary expressions can be written more succinctly using the
-builtin `max()` function:
+builtin `min`/`max` functions:
 
 Bad:
 
@@ -974,10 +975,10 @@ highest_score = max(score1, score2)
 
 Categories: `builtin` `iterable` `readability`
 
-Often times generator and comprehension expressions can be written more
-succinctly. For example, passing a list comprehension to a function when
-a generator expression would suffice, or using the shorthand notation
-in the case of `list` and `set`. For example:
+Often times generator expressions and list/set/dict comprehensions can be
+written more succinctly. For example, passing a list comprehension to a
+function when a generator expression would suffice, or using the shorthand
+notation in the case of `list` and `set`. For example:
 
 Bad:
 
@@ -1337,7 +1338,7 @@ if failed:
 
 Categories: `pathlib`
 
-Use the `mkdir` function from the pathlib library instead of using the
+Use the `mkdir` method from the pathlib library instead of using the
 `mkdir` and `makedirs` functions from the `os` library: the pathlib library
 is more modern and provides better flexibility over the construction and
 manipulation of file paths.
@@ -1567,7 +1568,7 @@ In some situations the `.lstrip()`, `.rstrip()` and `.strip()` string
 methods can be written more succinctly: `strip()` is the same thing as
 calling both `lstrip()` and `rstrip()` together, and all the strip
 functions take an iterable argument of the characters to strip, meaning
-you don't need to call a strip function multiple times with different
+you don't need to call strip methods multiple times with different
 arguments, you can just concatenate them and call it once.
 
 Bad:
@@ -1879,7 +1880,7 @@ if name == "bob":
 
 Categories: `pathlib`
 
-When checking the file extension for a pathlib object don't call
+When checking the file extension for a Path object don't call
 `endswith()` on the `name` field, directly check against `suffix` instead.
 
 Bad:
@@ -1934,7 +1935,7 @@ def add_defaults(settings: dict[str, str]) -> dict[str, str]:
 
 Categories: `readability` `secrets`
 
-Depending on how you are using the `secrets` module there might be a more
+Depending on how you are using the `secrets` module, there might be more
 expressive ways of writing what it is you're trying to write.
 
 Bad:

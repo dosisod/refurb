@@ -11,7 +11,8 @@ class ErrorInfo(Error):
     The `bin()`, `oct()`, and `hex()` functions return the string
     representation of a number but with a prefix attached. If you don't want
     the prefix, you might be tempted to just slice it off, but using an
-    f-string will give you more flexibility:
+    f-string will give you more flexibility and let you work with negative
+    numbers:
 
     Bad:
 

@@ -9,7 +9,7 @@ from refurb.error import Error
 @dataclass
 class ErrorInfo(Error):
     """
-    `startswith()` and `endswith()` both takes a tuple, so instead of calling
+    `startswith()` and `endswith()` both take a tuple, so instead of calling
     `startswith()` multiple times on the same string, you can check them all
     at once:
 

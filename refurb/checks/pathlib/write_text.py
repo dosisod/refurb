@@ -17,7 +17,7 @@ from refurb.error import Error
 class ErrorInfo(Error):
     """
     When you just want to save some contents to a file, using a `with` block is
-    a bit overkill. Instead you can use pathlib's `write_text()` function:
+    a bit overkill. Instead you can use pathlib's `write_text()` method:
 
     Bad:
 

@@ -9,8 +9,8 @@ from refurb.error import Error
 @dataclass
 class ErrorInfo(Error):
     """
-    Sometimes ternary (aka, inline if statements) can be simplified to a single
-    `or` expression.
+    Sometimes the ternary operator (aka, inline if statements) can be
+    simplified to a single `or` expression.
 
     Bad:
 

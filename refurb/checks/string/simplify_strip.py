@@ -12,7 +12,7 @@ class ErrorInfo(Error):
     methods can be written more succinctly: `strip()` is the same thing as
     calling both `lstrip()` and `rstrip()` together, and all the strip
     functions take an iterable argument of the characters to strip, meaning
-    you don't need to call a strip function multiple times with different
+    you don't need to call strip methods multiple times with different
     arguments, you can just concatenate them and call it once.
 
     Bad:
