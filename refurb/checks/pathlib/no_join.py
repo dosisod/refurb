@@ -38,7 +38,7 @@ class ErrorInfo(Error):
     ```
 
     Note that this check is disabled by default because `Path()` returns a Path
-    object, not a string, meaning that the Path object will propogate throught
+    object, not a string, meaning that the Path object will propagate through
     your code. This might be what you want, and might encourage you to use the
     pathlib module in more places, but since it is not a drop-in replacement it
     is disabled by default.

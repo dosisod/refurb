@@ -1,6 +1,6 @@
 # See https://github.com/dosisod/refurb/issues/18 and https://github.com/dosisod/refurb/issues/53
 
-# This is a regression test to make sure this code doesnt cause an error
+# This is a regression test to make sure this code doesn't cause an error
 
 x = "abc"
 print(x)  # see below

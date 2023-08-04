@@ -1,4 +1,4 @@
-# `if` blocks are used to seperate test cases
+# `if` blocks are used to separate test cases
 x = 1
 y = 2
 

@@ -39,7 +39,7 @@ Command Line Options:
 --enable err          Load a check which is disabled by default.
 --disable err         Disable loading a check which is enabled by default.
 --config-file file    Load "file" instead of the default config file.
---explain err         Print the explaination/documentation from a given error code.
+--explain err         Print the explanation/documentation from a given error code.
 --disable-all         Disable all checks by default.
 --enable-all          Enable all checks by default.
 --python-version x.y  Version of the Python code being checked.

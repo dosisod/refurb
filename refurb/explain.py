@@ -13,7 +13,7 @@ def explain(lookup: ErrorCode, paths: list[str] | None = None) -> str:
             docstring = error.__doc__ or ""
 
             if docstring.startswith(f"{error.__name__}("):
-                return f'refurb: Explaination for "{lookup}" not found'
+                return f'refurb: Explanation for "{lookup}" not found'
 
             docstring = dedent(error.__doc__ or "").strip()
 
