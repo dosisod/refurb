@@ -35,14 +35,13 @@ main.py:16:9 [FURB105]: Use `print() instead of `print("")`
 
 ## Installing
 
-Before installing, it is recommended that you setup a [virtual environment](https://docs.python.org/3/tutorial/venv.html).
-
 ```
-$ pip install refurb
+$ pipx install refurb
 $ refurb file.py folder/
 ```
 
-> Note: Refurb only supports Python 3.10. It can check Python 3.6 code and up, but Refurb
+> **Note**
+> Refurb only supports Python 3.10. It can check Python 3.6 code and up, but Refurb
 > itself must be ran through Python 3.10.
 
 ## Explanations For Checks
