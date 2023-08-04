@@ -1,0 +1,8 @@
+test/data/err_178.py:9:5 [FURB178]: Replace `" ".join(shlex.quote(x) for x in y)` with `shlex.join(y)`
+test/data/err_178.py:10:5 [FURB178]: Replace `" ".join(shlex.quote(x) for x in y)` with `shlex.join(y)`
+test/data/err_178.py:11:5 [FURB178]: Replace `" ".join(shlex.quote(x) for x in y)` with `shlex.join(y)`
+test/data/err_178.py:12:5 [FURB178]: Replace `" ".join(quote(x) for x in y)` with `join(y)`
+test/data/err_178.py:13:5 [FURB178]: Replace `" ".join(shlex_quote(x) for x in y)` with `join(y)`
+test/data/err_178.py:15:5 [FURB178]: Replace `" ".join(shlex.quote(...) for x in y)` with `shlex.join(... for x in y)`
+test/data/err_178.py:16:5 [FURB178]: Replace `" ".join(shlex.quote(...) for x in y if ...)` with `shlex.join(... for x in y if ...)`
+test/data/err_178.py:17:5 [FURB178]: Replace `" ".join(shlex.quote(...) for x in y if ...)` with `shlex.join(... for x in y if ...)`

@@ -135,14 +135,19 @@ rules work, read [this article](https://realpython.com/python-scope-legb-rule/).
 These checks are for the [secrets](https://docs.python.org/3/library/secrets.html)
 standard library module.
 
-## `string`
-
-These checks deal with usage of [`str`](https://docs.python.org/3/library/stdtypes.html#string-methods)
-objects in Python.
-
 ## `set`
 
 These checks deal with usage of [`set`](https://docs.python.org/3/tutorial/datastructures.html#sets)
+objects in Python.
+
+## `shlex`
+
+These checks are for the [shlex](https://docs.python.org/3/library/shlex.html)
+standard library module.
+
+## `string`
+
+These checks deal with usage of [`str`](https://docs.python.org/3/library/stdtypes.html#string-methods)
 objects in Python.
 
 ## `truthy`
