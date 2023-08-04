@@ -2020,3 +2020,26 @@ Good:
 ```python
 cwd = Path.cwd()
 ```
+
+## FURB178: `use-shlex-join`
+
+Categories: `readability` `shlex`
+
+When using `shlex` to escape and join a bunch of strings consider using the
+`shlex.join` method instead.
+
+Bad:
+
+```python
+args = ["hello", "world!"]
+
+cmd = " ".join(shlex.quote(arg) for arg in args)
+```
+
+Good:
+
+```python
+args = ["hello", "world!"]
+
+cmd = shlex.join(args)
+```
