@@ -35,10 +35,8 @@ main.py:16:9 [FURB105]: Use `print() instead of `print("")`
 
 ## Installing
 
-Before installing, it is recommended that you setup a [virtual environment](https://docs.python.org/3/tutorial/venv.html).
-
 ```
-$ pip install refurb
+$ pipx install refurb
 $ refurb file.py folder/
 ```
 
