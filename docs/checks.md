@@ -1273,7 +1273,7 @@ Path("folder", "file").write_text("hello world!")
 ```
 
 Note that this check is disabled by default because `Path()` returns a Path
-object, not a string, meaning that the Path object will propogate throught
+object, not a string, meaning that the Path object will propagate through
 your code. This might be what you want, and might encourage you to use the
 pathlib module in more places, but since it is not a drop-in replacement it
 is disabled by default.
@@ -1680,7 +1680,7 @@ power = math.log10(x)
 Categories: `decimal` `fractions` `readability`
 
 When constructing a Fraction or Decimal using a float, don't use the
-`from_float()` or `from_decimal()` class methods: Just use the more consice
+`from_float()` or `from_decimal()` class methods: Just use the more concise
 `Fraction()` and `Decimal()` class constructors instead.
 
 Bad:

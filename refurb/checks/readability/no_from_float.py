@@ -9,7 +9,7 @@ from refurb.error import Error
 class ErrorInfo(Error):
     """
     When constructing a Fraction or Decimal using a float, don't use the
-    `from_float()` or `from_decimal()` class methods: Just use the more consice
+    `from_float()` or `from_decimal()` class methods: Just use the more concise
     `Fraction()` and `Decimal()` class constructors instead.
 
     Bad:
