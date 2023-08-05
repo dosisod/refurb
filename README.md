@@ -81,7 +81,7 @@ This flag can be repeated.
 
 You can also use inline comments to disable errors:
 
-```
+```python
 x = int(0)  # noqa: FURB123
 y = list()  # noqa
 ```
@@ -91,7 +91,7 @@ all errors on that line.
 
 You can also specify multiple errors to ignore by separating them with a comma/space:
 
-```
+```python
 x = not not int(0)  # noqa: FURB114, FURB123
 x = not not int(0)  # noqa: FURB114 FURB123
 ```
