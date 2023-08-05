@@ -11,10 +11,11 @@ mypy-extensions==1.0.0
 mypy==1.4.1
 packaging==23.1
 pathspec==0.11.2
-platformdirs==3.9.1
+platformdirs==3.10.0
 pluggy==1.2.0
 py==1.11.0
-pyparsing==3.1.0
+pyparsing==3.1.1
 pytest-cov==4.1.0
 pytest==7.4.0
-ruff==0.0.280
+ruff==0.0.282
+typos==1.16.2

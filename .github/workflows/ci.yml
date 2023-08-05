@@ -48,6 +48,9 @@ jobs:
       - name: Run isort
         run: make isort
 
+      - name: Run typos
+        run: make typos
+
       - name: Run unit tests
         run: make test
 

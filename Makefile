@@ -1,6 +1,6 @@
-.PHONY: install ruff mypy black isort test test-e2e refurb docs
+.PHONY: install ruff mypy black isort typos test test-e2e refurb docs
 
-all: ruff mypy black isort test refurb docs
+all: ruff mypy black isort typos test refurb docs
 
 install:
 	pip install -e .
@@ -19,6 +19,9 @@ black:
 isort:
 	isort . --diff --check
 
+typos:
+	typos --format brief
+
 test:
 	pytest
 
@@ -35,3 +38,6 @@ update-tests: $(patsubst %.py,%.txt,$(wildcard test/data*/*.py))
 
 docs:
 	python3 -m docs.gen_checks
+
+clean:
+	rm -rf .mypy_cache .ruff_cache .pytest_cache
