@@ -316,6 +316,17 @@ change the docstring of the `ErrorInfo` class in the `refurb/checks/pathlib/with
 You can find the file for a given check by grep-ing for `code = XYZ`, where `XYZ` is the check
 you are looking for but with the `FURB` prefix removed.
 
+Use the `--verbose` flag with `--explain` to find the filename for a given check. For example:
+
+```
+$ refurb --explain FURB123 --verbose
+Filename: refurb/checks/readability/no_unnecessary_cast.py
+
+FURB123: no-redundant-cast [readability]
+
+...
+```
+
 ## Why Does This Exist?
 
 I love doing code reviews: I like taking something and making it better, faster, more

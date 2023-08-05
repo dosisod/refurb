@@ -264,7 +264,7 @@ def main(args: list[str]) -> int:
         return 0
 
     if settings.explain:
-        print(explain(settings.explain, settings.load or []))
+        print(explain(settings))
 
         return 0
 
