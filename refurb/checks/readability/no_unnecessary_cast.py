@@ -25,7 +25,7 @@ class ErrorInfo(Error):
     usually is the result of not realizing a type is already the type you want,
     or artifacts of some debugging code. One example of where this might be
     intentional is when using container types like `dict` or `list`, which
-    will create a shadow copy. If that is the case, it might be preferable
+    will create a shallow copy. If that is the case, it might be preferable
     to use `.copy()` instead, since it makes it more explicit that a copy
     is taking place.
 
