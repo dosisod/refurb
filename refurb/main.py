@@ -155,6 +155,7 @@ def run_refurb(settings: Settings) -> Sequence[Error | str]:
         return [re.sub("^mypy: ", "refurb: ", msg) for msg in e.messages]
 
     errors: list[Error | str] = []
+    checks = load_checks(settings)
 
     for file in files:
         tree = result.graph[file.module].tree
@@ -163,8 +164,6 @@ def run_refurb(settings: Settings) -> Sequence[Error | str]:
 
         if settings.debug:
             errors.append(str(tree))
-
-        checks = load_checks(settings)
 
         visitor = RefurbVisitor(checks, settings)
 
