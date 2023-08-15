@@ -1,8 +1,11 @@
+import json
 import os
 from dataclasses import dataclass
 from functools import partial
 from importlib import metadata
 from locale import LC_ALL, setlocale
+from pathlib import Path
+from tempfile import NamedTemporaryFile
 from unittest.mock import patch
 
 import pytest
@@ -270,3 +273,34 @@ def test_verbose_flag_prints_message_when_all_checks_disabled() -> None:
 
     assert "FURB100" not in stdout
     assert "No checks enabled" in stdout
+
+
+def test_timing_stats_outputs_stats_file() -> None:
+    with NamedTemporaryFile(mode="r") as tmp:
+        main(["test/e2e/dummy.py", "--timing-stats", tmp.name])
+
+        stats_file = Path(tmp.name)
+
+        assert stats_file.exists()
+
+        data = json.loads(stats_file.read_text())
+
+        match data:
+            case {
+                "mypy_total_time_spent_in_ms": int(_),
+                "mypy_time_spent_parsing_modules_in_ms": dict(mypy_timing),
+                "refurb_time_spent_checking_file_in_ms": dict(refurb_timing),
+            }:
+                msg = "All values must be ints"
+
+                assert all(
+                    isinstance(v, int) for v in mypy_timing.values()
+                ), msg
+
+                assert all(
+                    isinstance(v, int) for v in refurb_timing.values()
+                ), msg
+
+                return
+
+        pytest.fail("Data is not in proper format")

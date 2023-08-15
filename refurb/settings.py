@@ -42,6 +42,7 @@ class Settings:
     format: Literal["text", "github", None] | None = None
     sort_by: Literal["filename", "error"] | None = None
     verbose: bool = False
+    timing_stats: Path | None = None
 
     def __post_init__(self) -> None:
         if self.enable_all and self.disable_all:
@@ -83,6 +84,7 @@ class Settings:
             format=new.format or old.format,
             sort_by=new.sort_by or old.sort_by,
             verbose=old.verbose or new.verbose,
+            timing_stats=old.timing_stats or new.timing_stats,
         )
 
     def get_python_version(self) -> tuple[int, int]:
@@ -321,6 +323,9 @@ def parse_command_line_args(args: list[str]) -> Settings:
 
         elif arg == "--verbose":
             settings.verbose = True
+
+        elif arg == "--timing-stats":
+            settings.timing_stats = Path(get_next_arg(arg, iargs))
 
         elif arg == "--":
             settings.mypy_args = list(iargs)

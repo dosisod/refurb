@@ -285,6 +285,23 @@ Then, to load your new check, use `refurb file.py --load your.path.here`
 > importing a normal python module. If `your.path.here` is a directory, all checks
 > in that directory will be loaded. If it is a file, only that file will be loaded.
 
+## Troubleshooting
+
+If Refurb is running slow, use the `--timing-stats` flag to diagnose why:
+
+```
+$ refurb file --timing-stats /tmp/stats.json
+```
+
+This will output a JSON file with the following information:
+
+* Total time Mypy took to parse the modules (a majority of the time usually).
+* Time Mypy spent parsing each module. Useful for finding very large/unused files.
+* Time Refurb spent checking each module. These numbers should be very small (less than 100ms).
+
+Larger files naturally take longer to check, but files that take way too long should be
+looked into, as an issue might only manifest themselves when a file reaches a certain size.
+
 ## Developing / Contributing
 
 ### Setup

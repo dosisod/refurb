@@ -689,3 +689,16 @@ def test_generate_subcommand_is_ignored_if_other_files_are_passed() -> None:
 
 def test_parse_verbose_flag() -> None:
     assert parse_args(["--verbose"]) == Settings(verbose=True)
+
+
+def test_parse_timing_stats_flag() -> None:
+    assert parse_args(["--timing-stats", "file"]) == Settings(
+        timing_stats=Path("file")
+    )
+
+
+def test_parse_timing_stats_flag_without_arg_is_an_error() -> None:
+    with pytest.raises(
+        ValueError, match='refurb: missing argument after "--timing-stats"'
+    ):
+        parse_args(["--timing-stats"])

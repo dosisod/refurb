@@ -1,9 +1,12 @@
+import json
 import re
+import time
 from collections.abc import Sequence
 from functools import cache, partial
 from importlib import metadata
 from io import StringIO
 from pathlib import Path
+from tempfile import mkstemp
 
 from mypy.build import build
 from mypy.errors import CompileError
@@ -148,14 +151,23 @@ def run_refurb(settings: Settings) -> Sequence[Error | str]:
     opt.local_partial_types = True
     opt.python_version = settings.get_python_version()
 
+    mypy_timing_stats = Path(mkstemp()[1]) if settings.timing_stats else None
+    opt.timing_stats = str(mypy_timing_stats) if mypy_timing_stats else None
+
     try:
+        start = time.time()
+
         result = build(files, options=opt)
+
+        mypy_build_time = time.time() - start
 
     except CompileError as e:
         return [re.sub("^mypy: ", "refurb: ", msg) for msg in e.messages]
 
     errors: list[Error | str] = []
     checks = load_checks(settings)
+
+    refurb_timing_stats_in_ms: dict[str, int] = {}
 
     for file in files:
         tree = result.graph[file.module].tree
@@ -165,14 +177,29 @@ def run_refurb(settings: Settings) -> Sequence[Error | str]:
         if settings.debug:
             errors.append(str(tree))
 
-        visitor = RefurbVisitor(checks, settings)
+        start = time.time()
 
+        visitor = RefurbVisitor(checks, settings)
         tree.accept(visitor)
+
+        elapsed = time.time() - start
+
+        refurb_timing_stats_in_ms[file.module] = int(elapsed * 1_000)
 
         for error in visitor.errors:
             error.filename = file.path
 
         errors += visitor.errors
+
+    output_timing_stats(
+        settings,
+        mypy_build_time,
+        mypy_timing_stats,
+        refurb_timing_stats_in_ms,
+    )
+
+    if mypy_timing_stats:
+        mypy_timing_stats.unlink()
 
     return sorted(
         [
@@ -237,6 +264,42 @@ def format_errors(errors: Sequence[Error | str], settings: Settings) -> str:
         done += "\n\nRun `refurb --explain ERR` to further explain an error. Use `--quiet` to silence this message"
 
     return done
+
+
+def output_timing_stats(
+    settings: Settings,
+    mypy_total_time_spent: float,
+    mypy_timing_stats: Path | None,
+    refurb_timing_stats_in_ms: dict[str, int],
+) -> None:
+    if not settings.timing_stats:
+        return
+
+    assert mypy_timing_stats
+
+    mypy_stats: dict[str, int] = {}
+    lines = mypy_timing_stats.read_text().splitlines()
+
+    for line in lines:
+        module, micro_seconds = line.split()
+
+        mypy_stats[module] = int(micro_seconds) // 1_000
+
+    data = {
+        "mypy_total_time_spent_in_ms": int(mypy_total_time_spent * 1_000),
+        "mypy_time_spent_parsing_modules_in_ms": dict(
+            sorted(mypy_stats.items(), key=lambda x: x[1], reverse=True)
+        ),
+        "refurb_time_spent_checking_file_in_ms": dict(
+            sorted(
+                refurb_timing_stats_in_ms.items(),
+                key=lambda x: x[1],
+                reverse=True,
+            )
+        ),
+    }
+
+    settings.timing_stats.write_text(json.dumps(data, separators=(",", ":")))
 
 
 def main(args: list[str]) -> int:
