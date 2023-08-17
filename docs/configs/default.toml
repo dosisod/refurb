@@ -1,0 +1,11 @@
+# This is a config file that emulates the default settings used by Refurb.
+
+ignore = []
+load = []
+disable = ["FURB106", "FURB120", "FURB137", "FURB147", "FURB151", "FURB166", "FURB172"]
+quiet = false
+enable_all = false
+disable_all = false
+python_version = ""  # uses current python version
+format = "text"
+sort_by = "filename"

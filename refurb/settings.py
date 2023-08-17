@@ -39,7 +39,7 @@ class Settings:
     config_file: str | None = None
     python_version: tuple[int, int] | None = None
     mypy_args: list[str] = field(default_factory=list)
-    format: Literal["text", "github", None] | None = None
+    format: Literal["text", "github"] | None = None
     sort_by: Literal["filename", "error"] | None = None
     verbose: bool = False
     timing_stats: Path | None = None

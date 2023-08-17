@@ -1,0 +1,37 @@
+# This is an example config file that shows all the available configuration
+# options in Refurb. You probably won't need most of them, but are here for
+# completion. Some of these configurations conflict with one another, so only
+# use this file as a reference!
+
+# The following error codes are identical
+ignore = ["FURB100", 100]
+
+# Enable FURB100
+enable = ["FURB100"]
+
+# Disable FURB100
+disable = ["FURB100"]
+
+# Enable all checks (good for new codebases)
+enable_all = true
+
+# Disable all checks (good for incrementally adopting Refurb)
+disable_all = true
+
+# Disable "use --explain" error message
+quiet = true
+
+# Specify a specific Python version to use
+python_version = "3.10"
+
+format = "github"  # or "text"
+sort_by = "filename"  # or "error"
+
+# Add custom path to look for potential Refurb plugins
+load = ["custom_module"]
+
+
+# Ignore certain checks for specific folders
+[[tool.refurb.amend]]
+path = "src"
+ignore = ["FURB123", "FURB120"]
