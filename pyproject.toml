@@ -109,6 +109,8 @@ extend-ignore = [
 
 extend-exclude = ["test/data*"]
 
+target-version = "py310"
+
 [tool.ruff.per-file-ignores]
 "test/*" = ["ANN201", "ARG001", "E501", "TCH001", "TCH002"]
 "refurb/main.py" = ["E501"]
