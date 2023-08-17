@@ -205,6 +205,8 @@ You can use the `--config-file` flag to tell Refurb to use a different config fi
 default `pyproject.toml` file. Note that it still must be in the same form as the normal
 `pyproject.toml` file.
 
+Click [here](./docs/configs/README.md) to see some example config files.
+
 ### Ignore Checks Per File/Folder
 
 If you have a large codebase you might want to ignore errors for certain files or folders,
