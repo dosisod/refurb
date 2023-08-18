@@ -29,17 +29,23 @@ def get_visit_methods(
     visitor: RefurbVisitor,
 ) -> Iterable[tuple[str, type[Node]]]:
     """
-    Find visitor methods in the instance's __dict__ (those that have been
-    generated in __init__) and in the class' __dict__ (the ones that are
-    overridden directly in the class).
+    Find visitor methods in the instance (those that have been generated in
+    __init__) and in the class' __dict__ (the ones that are overridden
+    directly in the class).
 
     Not using inspect.getmembers because that goes too deep into the parents
     and that would deafeat the purpose of this, which is testing that the
     methods are defined in the RefurbVisitor.
     """
     method_sources = itertools.chain(
-        visitor.__dict__.items(), visitor.__class__.__dict__.items()
+        [
+            (method_name, getattr(visitor, method_name))
+            for method_name in dir(visitor)
+            if hasattr(visitor, method_name)
+        ],
+        visitor.__class__.__dict__.items(),
     )
+
     for method_name, method in method_sources:
         if callable(method) and method_name.startswith("visit_"):
             yield method_name, method
