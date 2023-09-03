@@ -128,11 +128,10 @@ def test_help_flag_calls_print():
 
 
 def test_version_flag_calls_version_func():
-    for args in (["--version"], ["-v"]):
-        with patch("refurb.main.version") as p:
-            main(args)
+    with patch("refurb.main.version") as p:
+        main(["--version"])
 
-            p.assert_called_once()
+        p.assert_called_once()
 
 
 def test_explain_flag_mentioned_if_error_exists():

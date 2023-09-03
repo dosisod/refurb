@@ -49,7 +49,6 @@ def test_parse_help_args() -> None:
 
 def test_parse_version_args() -> None:
     assert parse_args(["--version"]) == Settings(version=True)
-    assert parse_args(["-v"]) == Settings(version=True)
 
 
 def test_parse_ignore() -> None:
@@ -667,11 +666,9 @@ def test_ignored_flags_cause_error() -> None:
         ["--help", "file.py"],
         ["--version", "file.py"],
         ["-h", "file.py"],
-        ["-v", "file.py"],
         ["file.py", "--help"],
         ["--version", "file.py"],
         ["file.py", "-h"],
-        ["file.py", "-v"],
     ]
 
     for test in tests:
@@ -689,6 +686,7 @@ def test_generate_subcommand_is_ignored_if_other_files_are_passed() -> None:
 
 def test_parse_verbose_flag() -> None:
     assert parse_args(["--verbose"]) == Settings(verbose=True)
+    assert parse_args(["-v"]) == Settings(verbose=True)
 
 
 def test_parse_timing_stats_flag() -> None:

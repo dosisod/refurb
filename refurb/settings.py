@@ -264,7 +264,7 @@ def parse_command_line_args(args: list[str]) -> Settings:
         elif arg in ("--help", "-h"):
             settings.help = True
 
-        elif arg in ("--version", "-v"):
+        elif arg == "--version":
             settings.version = True
 
         elif arg == "--quiet":
@@ -321,7 +321,7 @@ def parse_command_line_args(args: list[str]) -> Settings:
         elif arg == "--sort":
             settings.sort_by = validate_sort_by(get_next_arg(arg, iargs))
 
-        elif arg == "--verbose":
+        elif arg in ("--verbose", "-v"):
             settings.verbose = True
 
         elif arg == "--timing-stats":
