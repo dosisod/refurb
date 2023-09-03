@@ -24,17 +24,19 @@ def usage() -> None:
     print(
         """\
 usage: refurb [--ignore err] [--load path] [--debug] [--quiet] [--enable err]
-              [--disable err] [--disable-all] [--enable-all]
-              [--config-file path] [--python-version version] src [srcs...]
+              [--disable err] [--enable-all] [--disable-all]
+              [--config-file path] [--python-version version] [--verbose | -v]
+              [--format format] [--sort sort] [--timing-stats file]
+              SRC [SRCS...] [-- MYPY_ARGS]
        refurb [--help | -h]
-       refurb [--version | -v]
+       refurb [--version]
        refurb --explain err
        refurb gen
 
 Command Line Options:
 
 --help, -h            This help menu.
---version, -v         Print version information.
+--version             Print version information.
 --ignore err          Ignore an error. Can be repeated.
 --load module         Add a module to the list of paths to be searched when looking for checks. Can be repeated.
 --debug               Print the AST representation of all files that where checked.
@@ -46,13 +48,20 @@ Command Line Options:
 --disable-all         Disable all checks by default.
 --enable-all          Enable all checks by default.
 --python-version x.y  Version of the Python code being checked.
-src                   A file or folder.
+--verbose             Increase verbosity.
+--format format       Output errors in specified format. Can be "text" or "github".
+--sort sort           Sort errors by sort. Can be "filename" or "error".
+--timing-stats file   Export timing information (as JSON) to file.
+
+Positional Args:
+
+SRC                   A list of files or folders to check.
+MYPY_ARGS             Extra args to be passed directly to Mypy.
 
 
 Subcommands:
 
-gen              Generate boilerplate code for a new check, meant for
-                 developers.
+gen              Generate boilerplate code for a new check. Useful for developers.
 """
     )
 
