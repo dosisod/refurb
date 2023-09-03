@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from itertools import groupby
 
-from mypy.nodes import DictExpr
+from mypy.nodes import DictExpr, Expression, RefExpr, Var
 
 from refurb.error import Error
 from refurb.settings import Settings
@@ -37,6 +37,24 @@ class ErrorInfo(Error):
     categories = ("dict", "readability")
 
 
+MAPPING_TYPES = (
+    "builtins.dict[",
+    "collections.ChainMap[",
+    "collections.Counter[",
+    "collections.OrderedDict[",
+    "collections.defaultdict[",
+    "collections.UserDict[",
+)
+
+
+def is_builtin_mapping(expr: Expression) -> bool:
+    match expr:
+        case RefExpr(node=Var(type=ty)):
+            return str(ty).startswith(MAPPING_TYPES)
+
+    return False
+
+
 def check(node: DictExpr, errors: list[Error], settings: Settings) -> None:
     if settings.get_python_version() < (3, 9):
         return  # pragma: no cover
@@ -68,8 +86,13 @@ def check(node: DictExpr, errors: list[Error], settings: Settings) -> None:
             for group in groups:
                 is_star, pairs = group
 
-                for _ in pairs:
+                for pair in pairs:
                     if is_star:
+                        _, star_expr = pair
+
+                        if not is_builtin_mapping(star_expr):
+                            return
+
                         old.append(f"**x{index}")
                         new.append(f"x{index}")
 
