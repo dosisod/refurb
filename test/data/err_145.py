@@ -1,10 +1,12 @@
+nums = [1, 2, 3]
+t = (1, 2, 3)
+barray = bytearray((0xFF,))
+
 # these should match
 
-nums = [1, 2, 3]
-
 _ = nums[:]
-_ = [1, 2, 3][:]
-_ = (1, 2, 3)[:]
+_ = t[:]
+_ = barray[:]
 
 
 # these should not
@@ -20,4 +22,13 @@ class C:
     def __getitem__(self, key):
         return None
 
-C()[:,]
+_ = C()[:,]
+
+c = C()
+_ = c[:]
+
+s = "abc"
+_ = s[:]
+
+b = b"abc"
+_ = b[:]

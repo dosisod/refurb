@@ -1,6 +1,14 @@
 from dataclasses import dataclass
 
-from mypy.nodes import AssignmentStmt, DelStmt, IndexExpr, MypyFile, SliceExpr
+from mypy.nodes import (
+    AssignmentStmt,
+    DelStmt,
+    IndexExpr,
+    MypyFile,
+    RefExpr,
+    SliceExpr,
+    Var,
+)
 from mypy.traverser import TraverserVisitor
 
 from refurb.error import Error
@@ -33,6 +41,14 @@ class ErrorInfo(Error):
     categories = ("readability",)
 
 
+SEQUENCE_BUILTINS = (
+    "builtins.bytearray",
+    "builtins.list[",
+    "builtins.tuple[",
+    "tuple[",
+)
+
+
 class SliceExprVisitor(TraverserVisitor):
     errors: list[Error]
 
@@ -50,6 +66,14 @@ class SliceExprVisitor(TraverserVisitor):
 
     def visit_index_expr(self, node: IndexExpr) -> None:
         index = node.index
+
+        match node.base:
+            case RefExpr(node=Var(type=ty)):
+                if not str(ty).startswith(SEQUENCE_BUILTINS):
+                    return
+
+            case _:
+                return
 
         if (
             isinstance(index, SliceExpr)
