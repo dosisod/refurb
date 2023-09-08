@@ -1,3 +1,6 @@
 test/data/err_111.py:7:1 [FURB111]: Replace `lambda: print()` with `print`
 test/data/err_111.py:8:1 [FURB111]: Replace `lambda x: bool(x)` with `bool`
 test/data/err_111.py:9:1 [FURB111]: Replace `lambda x, y: f(x, y)` with `f`
+test/data/err_111.py:11:1 [FURB111]: Replace `lambda: []` with `list`
+test/data/err_111.py:12:1 [FURB111]: Replace `lambda: {}` with `dict`
+test/data/err_111.py:13:1 [FURB111]: Replace `lambda: ()` with `tuple`

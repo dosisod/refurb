@@ -5,10 +5,13 @@ from mypy.nodes import (
     Argument,
     Block,
     CallExpr,
+    DictExpr,
     Expression,
     LambdaExpr,
+    ListExpr,
     NameExpr,
     ReturnStmt,
+    TupleExpr,
 )
 
 from refurb.error import Error
@@ -74,5 +77,34 @@ def check(node: LambdaExpr, errors: list[Error]) -> None:
                 ErrorInfo.from_node(
                     node,
                     f"Replace `{_lambda}: {func_name}({arg_names})` with `{func_name}`",  # noqa: E501
+                )
+            )
+
+        case LambdaExpr(
+            arguments=[],
+            body=Block(
+                body=[
+                    ReturnStmt(
+                        expr=ListExpr(items=[])
+                        | DictExpr(items=[])
+                        | TupleExpr(items=[]) as expr,
+                    )
+                ],
+            ),
+        ):
+            if isinstance(expr, ListExpr):
+                old = "[]"
+                new = "list"
+            elif isinstance(expr, DictExpr):
+                old = "{}"
+                new = "dict"
+            else:
+                old = "()"
+                new = "tuple"
+
+            errors.append(
+                ErrorInfo.from_node(
+                    node,
+                    f"Replace `lambda: {old}` with `{new}`",
                 )
             )
