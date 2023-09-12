@@ -27,3 +27,5 @@ test/data/err_120.py:90:6 [FURB120]: Don't pass an argument if it is the same as
 test/data/err_120.py:91:6 [FURB120]: Don't pass an argument if it is the same as the default value
 test/data/err_120.py:93:9 [FURB120]: Don't pass an argument if it is the same as the default value
 test/data/err_120.py:94:9 [FURB120]: Don't pass an argument if it is the same as the default value
+test/data/err_120.py:96:6 [FURB120]: Don't pass an argument if it is the same as the default value
+test/data/err_120.py:97:3 [FURB120]: Don't pass an argument if it is the same as the default value

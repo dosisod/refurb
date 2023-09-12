@@ -135,6 +135,8 @@ def check_func(caller: CallExpr, func: FuncDef, errors: list[Error]) -> None:
         if arg[1].kind == ArgKind.ARG_STAR:
             caller_args = strip_caller_var_args(i, caller_args)  # type: ignore
 
+    temp_errors: list[Error] = []
+
     for i, (name, value, kind) in enumerate(caller_args):
         if i >= len(args):
             break
@@ -152,7 +154,16 @@ def check_func(caller: CallExpr, func: FuncDef, errors: list[Error]) -> None:
             return  # pragma: no cover
 
         if default and is_equivalent(value, default):
-            errors.append(ErrorInfo.from_node(value))
+            temp_errors.append(ErrorInfo.from_node(value))
+
+        elif kind == ArgKind.ARG_POS:
+            # Since this arg is not a default value and cannot be deleted,
+            # deleting previous default args would cause this arg to become
+            # misaligned. If this was a kwarg it wouldn't be an issue because
+            # the position would not be affected during deletion.
+            temp_errors = []
+
+    errors.extend(temp_errors)
 
 
 def check_symbol(

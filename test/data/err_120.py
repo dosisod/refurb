@@ -93,6 +93,9 @@ over(2)
 C2.over(1)
 C2.over(2)
 
+f(0, 2)
+f(1, b=3)
+
 
 # these should not
 
