@@ -2044,3 +2044,9 @@ args = ["hello", "world!"]
 
 cmd = shlex.join(args)
 ```
+
+## FURB179: `simplify-split`
+
+Categories: `string` `readability`
+
+`split(" ")` can be simplified to just `split()`.

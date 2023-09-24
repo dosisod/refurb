@@ -1,0 +1,2 @@
+test/data/err_179.py:5:1 [FURB179]: Replace `split(" ")` with `split()`
+test/data/err_179.py:6:1 [FURB179]: Replace `split(" ")` with `split()`
