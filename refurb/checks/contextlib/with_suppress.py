@@ -8,8 +8,8 @@ from refurb.error import Error
 @dataclass
 class ErrorInfo(Error):
     """
-    Often times you want to handle an exception, and just ignore it. You can do
-    this with a `try/except` block, using a single `pass` in the `except`
+    Often times you want to handle an exception and just ignore it. You can do
+    this with a `try`/`except` block with a single `pass` in the `except`
     block, but there is a simpler and more concise way using the `suppress()`
     function from `contextlib`:
 
@@ -29,6 +29,9 @@ class ErrorInfo(Error):
     with suppress(FileNotFoundError):
         f()
     ```
+
+    Note: `suppress()` is slower than using `try`/`except`, so for performance
+    critical code you might consider ignoring this check.
     """
 
     name = "use-with-suppress"

@@ -142,8 +142,8 @@ spaces_4 = "\thello world".expandtabs(4)
 
 Categories: `contextlib` `readability`
 
-Often times you want to handle an exception, and just ignore it. You can do
-this with a `try/except` block, using a single `pass` in the `except`
+Often times you want to handle an exception and just ignore it. You can do
+this with a `try`/`except` block with a single `pass` in the `except`
 block, but there is a simpler and more concise way using the `suppress()`
 function from `contextlib`:
 
@@ -163,6 +163,9 @@ Good:
 with suppress(FileNotFoundError):
     f()
 ```
+
+Note: `suppress()` is slower than using `try`/`except`, so for performance
+critical code you might consider ignoring this check.
 
 ## FURB108: `use-in-oper`
 
