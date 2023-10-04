@@ -2047,3 +2047,42 @@ args = ["hello", "world!"]
 
 cmd = shlex.join(args)
 ```
+
+## FURB179: `use-chain-from-iterable`
+
+Categories: `itertools` `performance` `readability`
+
+When flattening an list of lists, use the `chain.from_iterable` function
+from the `itertools` stdlib package. This function is faster than native
+list/generator comprehensions or using `sum()` with a list default.
+
+Bad:
+
+```python
+from itertools import chain
+
+rows = [[1, 2], [3, 4]]
+
+# using list comprehension
+flat = [col for row in rows for col in row]
+
+# using sum()
+flat = sum(rows, [])
+
+# using chain(*x)
+flat = chain(*rows)
+```
+
+Good:
+
+```python
+from itertools import chain
+
+rows = [[1, 2], [3, 4]]
+
+flat = chain.from_iterable(*rows)
+```
+
+Note: `chain(*x)` may be marginally faster/slower depending on the length
+of `x`. Since `*` might potentially expand to a lot of arguments, it is
+better to use `chain.from_iterable()` when you are unsure.
