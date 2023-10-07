@@ -1,0 +1,2 @@
+test/data/err_180.py:10:14 [FURB180]: Replace `metaclass=ABCMeta` with `ABC`
+test/data/err_180.py:15:16 [FURB180]: Replace `metaclass=abc.ABCMeta` with `abc.ABC`

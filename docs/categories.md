@@ -2,6 +2,10 @@
 
 Here is a list of the built-in categories in Refurb, and their meanings.
 
+## `abc`
+
+These check for code relating to [Abstract Base Classes](https://docs.python.org/3/library/abc.html).
+
 ## `builtin`
 
 Checks that have the `builtin` category cover a few different topics:

@@ -2086,3 +2086,24 @@ flat = chain.from_iterable(*rows)
 Note: `chain(*x)` may be marginally faster/slower depending on the length
 of `x`. Since `*` might potentially expand to a lot of arguments, it is
 better to use `chain.from_iterable()` when you are unsure.
+
+## FURB180: `use-abc-shorthand`
+
+Categories: `abc` `readability`
+
+Instead of setting `metaclass` directly, inherit from the `ABC` wrapper
+class. This is semantically the same thing, but more succinct.
+
+Bad:
+
+```python
+class C(metaclass=ABCMeta):
+    pass
+```
+
+Good:
+
+```python
+class C(ABC):
+    pass
+```
