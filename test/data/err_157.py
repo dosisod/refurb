@@ -18,6 +18,7 @@ _ = Decimal(float("-INF"))
 _ = Decimal(float("NaN"))
 _ = Decimal(float("nan"))
 _ = decimal.Decimal("0")
+_ = decimal.Decimal(float("nan"))
 
 
 # these should not

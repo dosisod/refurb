@@ -23,6 +23,17 @@ _ = n or False
 _ = i or 0
 
 
+class C:
+    x: int
+    def __init__(self) -> None:
+        # x could be anything here
+        self.x = 123
+
+c = C()
+
+_ = c.x or 0
+
+
 # these should not
 
 _ = s or set((1, 2, 3))

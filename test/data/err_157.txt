@@ -5,11 +5,12 @@ test/data/err_157.py:9:5 [FURB157]: Replace `Decimal("-1234")` with `Decimal(-12
 test/data/err_157.py:10:5 [FURB157]: Replace `Decimal("1234")` with `Decimal(1234)`
 test/data/err_157.py:11:5 [FURB157]: Replace `Decimal("01234")` with `Decimal(1234)`
 test/data/err_157.py:12:5 [FURB157]: Replace `Decimal("\r\n\r 1234")` with `Decimal(1234)`
-test/data/err_157.py:13:5 [FURB157]: Replace `Decimal(float("Infinity"))` with `Decimal("Infinity")
-test/data/err_157.py:14:5 [FURB157]: Replace `Decimal(float("-Infinity"))` with `Decimal("-Infinity")
-test/data/err_157.py:15:5 [FURB157]: Replace `Decimal(float("inf"))` with `Decimal("inf")
-test/data/err_157.py:16:5 [FURB157]: Replace `Decimal(float("-inf"))` with `Decimal("-inf")
-test/data/err_157.py:17:5 [FURB157]: Replace `Decimal(float("-INF"))` with `Decimal("-INF")
-test/data/err_157.py:18:5 [FURB157]: Replace `Decimal(float("NaN"))` with `Decimal("NaN")
-test/data/err_157.py:19:5 [FURB157]: Replace `Decimal(float("nan"))` with `Decimal("nan")
-test/data/err_157.py:20:5 [FURB157]: Replace `Decimal("0")` with `Decimal(0)`
+test/data/err_157.py:13:5 [FURB157]: Replace `Decimal(float("Infinity"))` with `Decimal("Infinity")`
+test/data/err_157.py:14:5 [FURB157]: Replace `Decimal(float("-Infinity"))` with `Decimal("-Infinity")`
+test/data/err_157.py:15:5 [FURB157]: Replace `Decimal(float("inf"))` with `Decimal("inf")`
+test/data/err_157.py:16:5 [FURB157]: Replace `Decimal(float("-inf"))` with `Decimal("-inf")`
+test/data/err_157.py:17:5 [FURB157]: Replace `Decimal(float("-INF"))` with `Decimal("-INF")`
+test/data/err_157.py:18:5 [FURB157]: Replace `Decimal(float("NaN"))` with `Decimal("NaN")`
+test/data/err_157.py:19:5 [FURB157]: Replace `Decimal(float("nan"))` with `Decimal("nan")`
+test/data/err_157.py:20:5 [FURB157]: Replace `decimal.Decimal("0")` with `decimal.Decimal(0)`
+test/data/err_157.py:21:5 [FURB157]: Replace `decimal.Decimal(float("nan"))` with `decimal.Decimal("nan")`

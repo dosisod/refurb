@@ -2,6 +2,7 @@ from dataclasses import dataclass
 
 from mypy.nodes import CallExpr, RefExpr, StrExpr
 
+from refurb.checks.common import stringify
 from refurb.error import Error
 
 
@@ -33,10 +34,12 @@ def check(node: CallExpr, errors: list[Error]) -> None:
     match node:
         case CallExpr(
             args=[StrExpr(value="." | "" as value)],
-            callee=RefExpr(fullname="pathlib.Path"),
+            callee=RefExpr(fullname="pathlib.Path") as ref,
         ):
+            func_name = stringify(ref)
+
             errors.append(
                 ErrorInfo.from_node(
-                    node, f'Replace `Path("{value}")` with `Path()`'
+                    node, f'Replace `{func_name}("{value}")` with `Path()`'
                 )
             )

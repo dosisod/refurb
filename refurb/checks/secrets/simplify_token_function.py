@@ -10,6 +10,7 @@ from mypy.nodes import (
     SliceExpr,
 )
 
+from refurb.checks.common import stringify
 from refurb.error import Error
 
 
@@ -45,13 +46,13 @@ def check(node: CallExpr | IndexExpr, errors: list[Error]) -> None:
         case CallExpr(
             callee=MemberExpr(
                 expr=CallExpr(
-                    callee=RefExpr(fullname=fullname),
+                    callee=RefExpr(fullname="secrets.token_bytes") as ref,
                     args=token_args,
                 ),
                 name="hex",
             ),
             args=[],
-        ) if fullname == "secrets.token_bytes":
+        ):
             match token_args:
                 case [IntExpr(value=value)]:
                     arg = str(value)
@@ -66,15 +67,21 @@ def check(node: CallExpr | IndexExpr, errors: list[Error]) -> None:
                     return
 
             new_arg = "" if arg == "None" else arg
+            prefix = "secrets." if isinstance(ref, MemberExpr) else ""
+            old = f"{prefix}token_bytes({arg}).hex()"
+            new = f"{prefix}token_hex({new_arg})"
 
-            msg = f"Replace `token_bytes({arg}).hex()` with `token_hex({new_arg})`"  # noqa: E501
+            msg = f"Replace `{old}` with `{new}`"
 
             errors.append(ErrorInfo.from_node(node, msg))
 
         # Detects `token_xyz()[:x]`
         case IndexExpr(
             base=CallExpr(
-                callee=RefExpr(fullname=fullname, name=name),  # type: ignore
+                callee=RefExpr(
+                    fullname=fullname,
+                    name=name,  # type: ignore[misc]
+                ) as ref,
                 args=[] | [NameExpr(fullname="builtins.None")] as args,
             ),
             index=SliceExpr(
@@ -84,8 +91,9 @@ def check(node: CallExpr | IndexExpr, errors: list[Error]) -> None:
             ),
         ) if fullname in ("secrets.token_hex", "secrets.token_bytes"):
             arg = "None" if args else ""
+            func_name = stringify(ref)
 
-            old = f"{name}({arg})[:{size}]"
+            old = f"{func_name}({arg})[:{size}]"
 
             # size must be multiple of 2 for hex functions since each hex digit
             # takes up 2 bytes.
@@ -95,7 +103,7 @@ def check(node: CallExpr | IndexExpr, errors: list[Error]) -> None:
 
                 size //= 2
 
-            new = f"{name}({size})"
+            new = f"{func_name}({size})"
 
             msg = f"Replace `{old}` with `{new}`"
 

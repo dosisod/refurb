@@ -281,3 +281,14 @@ def is_type_none_call(node: Expression) -> bool:
             return True
 
     return False
+
+
+def stringify(node: Node) -> str:
+    match node:
+        case MemberExpr(expr=expr, name=name):
+            return f"{stringify(expr)}.{name}"
+
+        case NameExpr(name=name):
+            return name
+
+    return str(node)  # pragma: no cover

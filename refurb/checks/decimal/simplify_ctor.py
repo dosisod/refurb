@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from mypy.nodes import CallExpr, NameExpr, RefExpr, StrExpr
+from mypy.nodes import CallExpr, MemberExpr, NameExpr, RefExpr, StrExpr
 
 from refurb.error import Error
 
@@ -43,7 +43,7 @@ FLOAT_LITERALS = ["inf", "-inf", "infinity", "-infinity", "nan"]
 def check(node: CallExpr, errors: list[Error]) -> None:
     match node:
         case CallExpr(
-            callee=RefExpr(fullname="_decimal.Decimal"),
+            callee=RefExpr(fullname="_decimal.Decimal") as ref,
             args=[arg],
         ):
             match arg:
@@ -59,7 +59,9 @@ def check(node: CallExpr, errors: list[Error]) -> None:
                     except ValueError:
                         return
 
-                    msg = f'Replace `Decimal("{old}")` with `Decimal({new})`'
+                    func_name = stringify_decimal_expr(ref)
+
+                    msg = f'Replace `{func_name}("{old}")` with `{func_name}({new})`'  # noqa: E501
 
                     errors.append(ErrorInfo.from_node(node, msg))
 
@@ -67,6 +69,12 @@ def check(node: CallExpr, errors: list[Error]) -> None:
                     callee=NameExpr(fullname="builtins.float"),
                     args=[StrExpr(value=value)],
                 ) if value.lower() in FLOAT_LITERALS:
-                    msg = f'Replace `Decimal(float("{value}"))` with `Decimal("{value}")'  # noqa: E501
+                    func_name = stringify_decimal_expr(ref)
+
+                    msg = f'Replace `{func_name}(float("{value}"))` with `{func_name}("{value}")`'  # noqa: E501
 
                     errors.append(ErrorInfo.from_node(node, msg))
+
+
+def stringify_decimal_expr(node: RefExpr) -> str:
+    return "decimal.Decimal" if isinstance(node, MemberExpr) else "Decimal"
