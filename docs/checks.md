@@ -1417,7 +1417,7 @@ def area(r: float) -> float:
 Categories: `pathlib` `readability`
 
 The Path() constructor defaults to the current directory, so don't pass the
-current directory (".") explicitly.
+current directory explicitly.
 
 Bad:
 
@@ -1430,6 +1430,9 @@ Good:
 ```python
 file = Path()
 ```
+
+Note: Lots of different values can trigger this check, including `"."`,
+`""`, `os.curdir`, and `os.path.curdir`.
 
 ## FURB154: `simplify-global-and-nonlocal`
 

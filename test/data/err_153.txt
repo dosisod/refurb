@@ -1,3 +1,8 @@
-test/data/err_153.py:6:5 [FURB153]: Replace `Path(".")` with `Path()`
-test/data/err_153.py:7:5 [FURB153]: Replace `Path("")` with `Path()`
-test/data/err_153.py:8:5 [FURB153]: Replace `pathlib.Path(".")` with `Path()`
+test/data/err_153.py:8:5 [FURB153]: Replace `Path(".")` with `Path()`
+test/data/err_153.py:9:5 [FURB153]: Replace `Path("")` with `Path()`
+test/data/err_153.py:10:5 [FURB153]: Replace `pathlib.Path(".")` with `Path()`
+test/data/err_153.py:11:5 [FURB153]: Replace `Path(os.curdir)` with `Path()`
+test/data/err_153.py:12:5 [FURB153]: Replace `Path(curdir)` with `Path()`
+test/data/err_153.py:13:5 [FURB153]: Replace `Path(os.path.curdir)` with `Path()`
+test/data/err_153.py:14:5 [FURB153]: Replace `Path(path.curdir)` with `Path()`
+test/data/err_153.py:15:5 [FURB153]: Replace `pathlib.Path(curdir)` with `Path()`
