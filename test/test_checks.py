@@ -93,7 +93,9 @@ def test_disabled_check_ran_if_explicitly_enabled() -> None:
         )
     )
 
-    expected = "test/e2e/dummy.py:1:1 [XYZ101]: This message is disabled by default"  # noqa: E501
+    expected = (
+        "test/e2e/dummy.py:1:1 [XYZ101]: This message is disabled by default"
+    )
 
     assert len(errors) == 1
     assert str(errors[0]) == expected
@@ -108,7 +110,9 @@ def test_disabled_check_ran_if_enable_all_is_set() -> None:
         )
     )
 
-    expected = "test/e2e/dummy.py:1:1 [XYZ101]: This message is disabled by default"  # noqa: E501
+    expected = (
+        "test/e2e/dummy.py:1:1 [XYZ101]: This message is disabled by default"
+    )
 
     assert len(errors) == 1
     assert str(errors[0]) == expected

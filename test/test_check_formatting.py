@@ -78,5 +78,5 @@ def test_checks_are_formatted_properly() -> None:
             assert_name_field_in_valid_format(error.name)
             assert_name_is_unique(error.name, error_names)
 
-        except AssertionError as ex:  # noqa: PERF203
+        except AssertionError as ex:
             raise ValueError(f"{module.__file__}: {ex}") from ex
