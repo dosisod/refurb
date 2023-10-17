@@ -88,7 +88,9 @@ def check(node: OpExpr, errors: list[Error]) -> None:
                     return
 
             type_name = (
-                "builtins.tuple" if str(ty).lower() == "tuple[]" else str(ty)
+                "builtins.tuple"
+                if str(ty).lower().startswith("tuple[")
+                else str(ty)
             )
 
             # Must check fullname for compatibility with older Mypy versions
