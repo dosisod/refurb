@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "refurb"
-version = "1.21.0"
+version = "1.22.0"
 description = "A tool for refurbish and modernize Python codebases"
 authors = ["dosisod"]
 license = "GPL-3.0-only"
@@ -75,6 +75,7 @@ testpaths = ["test"]
 
 [tool.ruff]
 line-length = 79
+preview = true
 
 select = ["ALL"]
 
@@ -105,6 +106,9 @@ extend-ignore = [
   "T201",
   "TD002", "TD003",
   "TRY003", "TRY004",
+
+  # Consider this
+  "CPY001",
 ]
 
 extend-exclude = ["test/data*"]
@@ -114,6 +118,7 @@ target-version = "py310"
 [tool.ruff.per-file-ignores]
 "test/*" = ["ANN201", "ARG001", "E501", "TCH001", "TCH002"]
 "refurb/main.py" = ["E501"]
+"test/e2e/gbk.py" = ["FURB105"]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
