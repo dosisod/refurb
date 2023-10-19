@@ -15,7 +15,7 @@ from refurb.error import Error
 @dataclass
 class ErrorInfo(Error):
     """
-    When flattening an list of lists, use the `chain.from_iterable` function
+    When flattening a list of lists, use the `chain.from_iterable()` function
     from the `itertools` stdlib package. This function is faster than native
     list/generator comprehensions or using `sum()` with a list default.
 
@@ -43,8 +43,12 @@ class ErrorInfo(Error):
 
     rows = [[1, 2], [3, 4]]
 
-    flat = chain.from_iterable(*rows)
+    flat = chain.from_iterable(rows)
     ```
+
+    Note: `chain.from_iterable()` returns an iterator, which means you might
+    need to wrap it in `list()` depending on your use case. Refurb cannot
+    detect this (yet), so this is something you will need to keep in mind.
 
     Note: `chain(*x)` may be marginally faster/slower depending on the length
     of `x`. Since `*` might potentially expand to a lot of arguments, it is
