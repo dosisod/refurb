@@ -15,10 +15,10 @@ VisitorMethod = Callable[["RefurbVisitor", Node], None]
 
 def build_visitor(name: str, ty: type[Node], checks: Checks) -> VisitorMethod:
     def inner(self: RefurbVisitor, o: Node) -> None:
-        getattr(TraverserVisitor, name)(self, o)
-
         for check in checks[ty]:
             self.run_check(o, check)
+
+        getattr(TraverserVisitor, name)(self, o)
 
     inner.__name__ = name
     inner.__annotations__["o"] = ty

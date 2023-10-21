@@ -1,3 +1,3 @@
-test/data/err_140.py:7:1 [FURB140]: Replace `f(...) for ... in x` with `starmap(f, x)`
+test/data/err_140.py:7:1 [FURB140]: Replace `[f(...) for ... in x]` with `list(starmap(f, x))`
 test/data/err_140.py:9:1 [FURB140]: Replace `f(...) for ... in x` with `starmap(f, x)`
-test/data/err_140.py:11:1 [FURB140]: Replace `f(...) for ... in x` with `starmap(f, x)`
+test/data/err_140.py:11:1 [FURB140]: Replace `{f(...) for ... in x}` with `set(starmap(f, x))`
