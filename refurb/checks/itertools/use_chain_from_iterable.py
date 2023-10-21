@@ -4,6 +4,7 @@ from mypy.nodes import (
     ArgKind,
     CallExpr,
     GeneratorExpr,
+    ListComprehension,
     ListExpr,
     NameExpr,
     RefExpr,
@@ -60,7 +61,7 @@ class ErrorInfo(Error):
     code = 179
 
 
-def check(node: GeneratorExpr | CallExpr, errors: list[Error]) -> None:
+def is_flatten_generator(node: GeneratorExpr) -> bool:
     match node:
         case GeneratorExpr(
             left_expr=RefExpr(fullname=expr),
@@ -69,6 +70,35 @@ def check(node: GeneratorExpr | CallExpr, errors: list[Error]) -> None:
             is_async=[False, False],
             condlists=[[], []],
         ) if expr == inner and inner_source == outer:
+            return True
+
+    return False
+
+
+# List of nodes we have already emitted errors for, since list comprehensions
+# and their inner generators will emit 2 errors.
+ignore = set[int]()
+
+
+def check(
+    node: ListComprehension | GeneratorExpr | CallExpr,
+    errors: list[Error],
+) -> None:
+    if id(node) in ignore:
+        return
+
+    match node:
+        case ListComprehension(generator=g) if is_flatten_generator(g):
+            old = "[... for ... in x for ... in ...]"
+            new = "list(chain.from_iterable(x))"
+
+            msg = f"Replace `{old}` with `{new}`"
+
+            errors.append(ErrorInfo.from_node(node, msg))
+
+            ignore.add(id(g))
+
+        case GeneratorExpr() if is_flatten_generator(node):
             old = "... for ... in x for ... in ..."
             new = "chain.from_iterable(x)"
 

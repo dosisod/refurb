@@ -1,6 +1,14 @@
 from dataclasses import dataclass
 
-from mypy.nodes import ArgKind, CallExpr, GeneratorExpr, NameExpr, TupleExpr
+from mypy.nodes import (
+    ArgKind,
+    CallExpr,
+    GeneratorExpr,
+    ListComprehension,
+    NameExpr,
+    SetComprehension,
+    TupleExpr,
+)
 
 from refurb.error import Error
 
@@ -49,7 +57,15 @@ class ErrorInfo(Error):
     categories = ("itertools", "performance")
 
 
-def check(node: GeneratorExpr, errors: list[Error]) -> None:
+ignore = set[int]()
+
+
+def check_generator(
+    node: GeneratorExpr,
+    errors: list[Error],
+    old_wrapper: str = "{}",
+    new_wrapper: str = "{}",
+) -> None:
     match node:
         case GeneratorExpr(
             left_expr=CallExpr(args=args, arg_kinds=arg_kinds),
@@ -67,4 +83,42 @@ def check(node: GeneratorExpr, errors: list[Error]) -> None:
                 ):
                     return
 
-            errors.append(ErrorInfo.from_node(node))
+            ignore.add(id(node))
+
+            old = "f(...) for ... in x"
+            old = old_wrapper.format(old)
+
+            new = "starmap(f, x)"
+            new = new_wrapper.format(new)
+
+            msg = f"Replace `{old}` with `{new}`"
+
+            errors.append(ErrorInfo.from_node(node, msg))
+
+
+def check(
+    node: GeneratorExpr | ListComprehension | SetComprehension,
+    errors: list[Error],
+) -> None:
+    if id(node) in ignore:
+        return
+
+    match node:
+        case GeneratorExpr():
+            check_generator(node, errors)
+
+        case ListComprehension(generator=g):
+            check_generator(
+                g,
+                errors,
+                old_wrapper="[{}]",
+                new_wrapper="list({})",
+            )
+
+        case SetComprehension(generator=g):
+            check_generator(
+                g,
+                errors,
+                old_wrapper="{{{}}}",
+                new_wrapper="set({})",
+            )
