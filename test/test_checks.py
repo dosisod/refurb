@@ -287,6 +287,8 @@ def run_checks_in_folder(
     got = "\n".join([str(error) for error in errors])
 
     files = sorted(folder.glob("*.txt"), key=lambda p: p.name)
-    expected = "\n".join(file.read_text()[:-1] for file in files)
+    expected = "\n".join(
+        txt for file in files if (txt := file.read_text()[:-1])
+    )
 
     assert got == expected
