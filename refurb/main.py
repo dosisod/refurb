@@ -2,6 +2,7 @@ import json
 import re
 import time
 from collections.abc import Sequence
+from contextlib import suppress
 from functools import cache, partial
 from importlib import metadata
 from io import StringIO
@@ -189,7 +190,10 @@ def run_refurb(settings: Settings) -> Sequence[Error | str]:
         start = time.time()
 
         visitor = RefurbVisitor(checks, settings)
-        tree.accept(visitor)
+
+        # See: https://github.com/dosisod/refurb/issues/302
+        with suppress(RecursionError):
+            tree.accept(visitor)
 
         elapsed = time.time() - start
 
