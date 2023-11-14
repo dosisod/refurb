@@ -41,7 +41,7 @@ $ refurb file.py folder/
 ```
 
 > **Note**
-> Refurb must be ran on Python 3.10+, though it can check Python 3.7+ code by setting the `--python-version` flag.
+> Refurb must be run on Python 3.10+, though it can check Python 3.7+ code by setting the `--python-version` flag.
 
 ## Explanations For Checks
 
