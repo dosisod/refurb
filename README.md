@@ -137,6 +137,9 @@ for this flag must be in the form `x.y`, for example, `3.10`.
 
 The syntax for using this in the config file is `python_version = "3.10"`.
 
+When the Python version is unspecified, Refurb uses whatever version your local Python installation uses.
+For example, if your `python --version` is `3.11.5`, Refurb uses `3.11`, dropping the `5` patch version.
+
 ## Changing Output Formats
 
 By default everything is outputted as plain text:
