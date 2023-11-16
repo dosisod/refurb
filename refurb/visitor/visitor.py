@@ -2,11 +2,11 @@ from collections import defaultdict
 from collections.abc import Callable
 
 from mypy.nodes import CallExpr, Node
-from mypy.traverser import TraverserVisitor
 
 from refurb.error import Error
 from refurb.settings import Settings
 from refurb.types import Check, Checks
+from refurb.visitor import TraverserVisitor
 
 from .mapping import METHOD_NODE_MAPPINGS
 
@@ -48,9 +48,9 @@ class RefurbVisitor(TraverserVisitor):
 
     def visit_call_expr(self, o: CallExpr) -> None:
         for arg in o.args:
-            arg.accept(self)
+            self.accept(arg)
 
-        o.callee.accept(self)
+        self.accept(o.callee)
 
         for check in self.checks[CallExpr]:
             self.run_check(o, check)

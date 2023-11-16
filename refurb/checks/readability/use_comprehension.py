@@ -91,7 +91,7 @@ def check_stmts(stmts: list[Statement], errors: list[Error]) -> None:
                     and not isinstance(if_expr, AssignmentExpr)
                 ):
                     name_visitor = ReadCountVisitor(name)
-                    stmt.accept(name_visitor)
+                    name_visitor.accept(stmt)
 
                     if name_visitor.read_count == 1:
                         errors.append(ErrorInfo.from_node(assign))
@@ -101,7 +101,7 @@ def check_stmts(stmts: list[Statement], errors: list[Error]) -> None:
                     and name.fullname == assign.fullname
                 ):
                     name_visitor = ReadCountVisitor(name)
-                    stmt.accept(name_visitor)
+                    name_visitor.accept(stmt)
 
                     if name_visitor.read_count == 1:
                         errors.append(ErrorInfo.from_node(assign))

@@ -193,7 +193,7 @@ def run_refurb(settings: Settings) -> Sequence[Error | str]:
 
         # See: https://github.com/dosisod/refurb/issues/302
         with suppress(RecursionError):
-            tree.accept(visitor)
+            visitor.accept(tree)
 
         elapsed = time.time() - start
 
