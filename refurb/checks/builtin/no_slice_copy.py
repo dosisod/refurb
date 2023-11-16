@@ -9,9 +9,9 @@ from mypy.nodes import (
     SliceExpr,
     Var,
 )
-from mypy.traverser import TraverserVisitor
 
 from refurb.error import Error
+from refurb.visitor import TraverserVisitor
 
 
 @dataclass
@@ -58,11 +58,11 @@ class SliceExprVisitor(TraverserVisitor):
         self.errors = errors
 
     def visit_assignment_stmt(self, node: AssignmentStmt) -> None:
-        node.rvalue.accept(self)
+        self.accept(node.rvalue)
 
     def visit_del_stmt(self, node: DelStmt) -> None:
         if not isinstance(node.expr, IndexExpr):
-            node.expr.accept(self)
+            self.accept(node.expr)
 
     def visit_index_expr(self, node: IndexExpr) -> None:
         index = node.index
@@ -83,4 +83,4 @@ class SliceExprVisitor(TraverserVisitor):
 
 
 def check(node: MypyFile, errors: list[Error]) -> None:
-    node.accept(SliceExprVisitor(errors))
+    SliceExprVisitor(errors).accept(node)

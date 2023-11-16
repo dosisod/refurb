@@ -22,10 +22,9 @@ from mypy.nodes import (
     Var,
     WhileStmt,
 )
-from mypy.traverser import TraverserVisitor
 
 from refurb.error import Error
-from refurb.visitor import METHOD_NODE_MAPPINGS
+from refurb.visitor import METHOD_NODE_MAPPINGS, TraverserVisitor
 
 
 @dataclass
@@ -204,12 +203,12 @@ def check_condition_like(
     match node:
         case IfStmt(expr=exprs):
             for expr in exprs:
-                expr.accept(visitor)
+                visitor.accept(expr)
 
         case MatchStmt(guards=guards) if guards:
             for guard in guards:
                 if guard:
-                    guard.accept(visitor)
+                    visitor.accept(guard)
 
         case (
             GeneratorExpr(condlists=conditions)
@@ -217,11 +216,11 @@ def check_condition_like(
         ):
             for condition in conditions:
                 for expr in condition:
-                    expr.accept(visitor)
+                    visitor.accept(expr)
 
         case (
             ConditionalExpr(cond=expr)
             | WhileStmt(expr=expr)
             | AssertStmt(expr=expr)
         ):
-            expr.accept(visitor)
+            visitor.accept(expr)

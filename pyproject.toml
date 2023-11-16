@@ -17,7 +17,7 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = ">=3.10"
-mypy = ">=0.981,<1.7.0"
+mypy = ">=0.981"
 tomli = {version = "^2.0.1", python = "<3.11"}
 
 [tool.poetry.dev-dependencies]
@@ -51,7 +51,8 @@ allow_untyped_defs = true
 [tool.coverage.run]
 omit = [
   "refurb/__main__.py",
-  "refurb/gen.py"
+  "refurb/gen.py",
+  "refurb/visitor/traverser.py"
 ]
 
 [tool.coverage.report]
@@ -118,6 +119,7 @@ target-version = "py310"
 [tool.ruff.per-file-ignores]
 "test/*" = ["ANN201", "ARG001", "E501", "TCH001", "TCH002"]
 "refurb/main.py" = ["E501"]
+"refurb/visitor/traverser.py" = ["ALL"]
 "test/e2e/gbk.py" = ["FURB105"]
 
 [build-system]

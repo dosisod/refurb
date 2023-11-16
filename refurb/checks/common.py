@@ -24,9 +24,9 @@ from mypy.nodes import (
     TupleExpr,
     UnaryExpr,
 )
-from mypy.traverser import TraverserVisitor
 
 from refurb.error import Error
+from refurb.visitor import TraverserVisitor
 
 
 def extract_binary_oper(
@@ -244,7 +244,7 @@ def is_name_unused_in_contexts(name: NameExpr, contexts: list[Node]) -> bool:
 
     for ctx in contexts:
         visitor = ReadCountVisitor(name)
-        ctx.accept(visitor)
+        visitor.accept(ctx)
 
         if visitor.was_read:
             return False
