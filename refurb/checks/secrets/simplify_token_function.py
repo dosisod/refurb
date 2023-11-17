@@ -89,7 +89,7 @@ def check(node: CallExpr | IndexExpr, errors: list[Error]) -> None:
                 end_index=IntExpr(value=size),
                 stride=None,
             ),
-        ) if fullname in ("secrets.token_hex", "secrets.token_bytes"):
+        ) if fullname in {"secrets.token_hex", "secrets.token_bytes"}:
             arg = "None" if args else ""
             func_name = stringify(ref)
 

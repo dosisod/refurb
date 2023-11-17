@@ -54,7 +54,7 @@ def is_bool_variable(expr: Expression) -> bool:
 def is_truthy(oper: str, name: str) -> bool:
     value = name == "True"
 
-    return not value if oper in ("is not", "!=") else value
+    return not value if oper in {"is not", "!="} else value
 
 
 def check(node: ComparisonExpr, errors: list[Error]) -> None:
@@ -74,6 +74,4 @@ def check(node: ComparisonExpr, errors: list[Error]) -> None:
             else:
                 return
 
-            errors.append(
-                ErrorInfo.from_node(node, f"Replace `{old}` with `{new}`")
-            )
+            errors.append(ErrorInfo.from_node(node, f"Replace `{old}` with `{new}`"))

@@ -46,11 +46,9 @@ class ErrorInfo(Error):
 def get_readline_file_object(expr: Expression) -> NameExpr | None:
     match expr:
         case CallExpr(
-            callee=MemberExpr(
-                expr=NameExpr(node=Var(type=ty)) as f, name="readlines"
-            ),
+            callee=MemberExpr(expr=NameExpr(node=Var(type=ty)) as f, name="readlines"),
             args=[],
-        ) if str(ty) in ("io.TextIOWrapper", "io.BufferedReader"):
+        ) if str(ty) in {"io.TextIOWrapper", "io.BufferedReader"}:
             return f
 
     return None

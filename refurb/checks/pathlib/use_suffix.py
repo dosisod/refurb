@@ -61,6 +61,4 @@ def check(node: CallExpr, errors: list[Error]) -> None:
             old = f'x.name.endswith("{suffix}")'
             new = f'x.suffix == "{suffix}"'
 
-            errors.append(
-                ErrorInfo.from_node(node, f"Replace `{old}` with `{new}`")
-            )
+            errors.append(ErrorInfo.from_node(node, f"Replace `{old}` with `{new}`"))

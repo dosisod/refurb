@@ -42,9 +42,9 @@ class ErrorInfo(Error):
 
 def check(node: DelStmt, errors: list[Error]) -> None:
     match node:
-        case DelStmt(
-            expr=IndexExpr(base=NameExpr(node=Var(type=ty)), index=index)
-        ) if str(ty).startswith(("builtins.dict[", "builtins.list[")):
+        case DelStmt(expr=IndexExpr(base=NameExpr(node=Var(type=ty)), index=index)) if str(
+            ty
+        ).startswith(("builtins.dict[", "builtins.list[")):
             match index:
                 case SliceExpr(begin_index=None, end_index=None):
                     errors.append(ErrorInfo.from_node(node))

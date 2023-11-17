@@ -29,9 +29,7 @@ from refurb.error import Error
 from refurb.visitor import TraverserVisitor
 
 
-def extract_binary_oper(
-    oper: str, node: OpExpr
-) -> tuple[Expression, Expression] | None:
+def extract_binary_oper(oper: str, node: OpExpr) -> tuple[Expression, Expression] | None:
     match node:
         case OpExpr(
             op=op,
@@ -118,9 +116,7 @@ def is_equivalent(lhs: Node | None, rhs: Node | None) -> bool:
             )
 
         case IndexExpr() as lhs, IndexExpr() as rhs:
-            return is_equivalent(lhs.base, rhs.base) and is_equivalent(
-                lhs.index, rhs.index
-            )
+            return is_equivalent(lhs.base, rhs.base) and is_equivalent(lhs.index, rhs.index)
 
         case CallExpr() as lhs, CallExpr() as rhs:
             return (
@@ -136,15 +132,12 @@ def is_equivalent(lhs: Node | None, rhs: Node | None) -> bool:
             | (SetExpr() as lhs, SetExpr() as rhs)
         ):
             return len(lhs.items) == len(rhs.items) and all(  # type: ignore
-                starmap(
-                    is_equivalent, zip(lhs.items, rhs.items)  # type: ignore
-                )
+                starmap(is_equivalent, zip(lhs.items, rhs.items))  # type: ignore
             )
 
         case DictExpr() as lhs, DictExpr() as rhs:
             return len(lhs.items) == len(rhs.items) and all(
-                is_equivalent(lhs_item[0], rhs_item[0])
-                and is_equivalent(lhs_item[1], rhs_item[1])
+                is_equivalent(lhs_item[0], rhs_item[0]) and is_equivalent(lhs_item[1], rhs_item[1])
                 for lhs_item, rhs_item in zip(lhs.items, rhs.items)
             )
 
@@ -209,8 +202,7 @@ def get_common_expr_in_comparison_chain(
             ComparisonExpr(operators=[lhs_oper], operands=[a, b]),
             ComparisonExpr(operators=[rhs_oper], operands=[c, d]),
         ) if (
-            lhs_oper == rhs_oper == cmp_oper
-            and (indices := get_common_expr_positions(a, b, c, d))
+            lhs_oper == rhs_oper == cmp_oper and (indices := get_common_expr_positions(a, b, c, d))
         ):
             return a, indices
 

@@ -65,9 +65,7 @@ skip_empty = true
 
 [tool.black]
 exclude = "test/data/*"
-line-length = 79
-check = true
-diff = true
+line-length = 99
 color = true
 
 [tool.pytest.ini_options]
@@ -75,7 +73,7 @@ addopts = "--cov=refurb --cov-report=html --cov-report=term-missing --cov-fail-u
 testpaths = ["test"]
 
 [tool.ruff]
-line-length = 79
+line-length = 99
 preview = true
 
 select = ["ALL"]
@@ -102,7 +100,7 @@ extend-ignore = [
   "PT012",
   "RUF100",
   "S101",
-  "SIM102",
+  "SIM102", "SIM108",
   "SLF001",
   "T201",
   "TD002", "TD003",

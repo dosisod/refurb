@@ -60,9 +60,7 @@ def check(node: CallExpr, errors: list[Error]) -> None:
 
             for arg in reversed(args):
                 if isinstance(arg, StrExpr | BytesExpr) and arg.value == "..":
-                    trailing_dot_dot_args.append(
-                        '".."' if isinstance(arg, StrExpr) else 'b".."'
-                    )
+                    trailing_dot_dot_args.append('".."' if isinstance(arg, StrExpr) else 'b".."')
 
                 else:
                     break
@@ -83,7 +81,5 @@ def check(node: CallExpr, errors: list[Error]) -> None:
                 new = "Path(...)"
 
             errors.append(
-                ErrorInfo.from_node(
-                    node, f"Replace `os.path.join({join_args})` with `{new}`"
-                )
+                ErrorInfo.from_node(node, f"Replace `os.path.join({join_args})` with `{new}`")
             )

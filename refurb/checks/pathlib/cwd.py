@@ -30,12 +30,8 @@ class ErrorInfo(Error):
 
 def check(node: CallExpr, errors: list[Error]) -> None:
     match node:
-        case CallExpr(callee=RefExpr(fullname=fullname)) if fullname in (
+        case CallExpr(callee=RefExpr(fullname=fullname)) if fullname in {
             "os.getcwd",
             "os.getcwdb",
-        ):
-            errors.append(
-                ErrorInfo.from_node(
-                    node, f"Replace `{fullname}()` with `Path.cwd()`"
-                )
-            )
+        }:
+            errors.append(ErrorInfo.from_node(node, f"Replace `{fullname}()` with `Path.cwd()`"))

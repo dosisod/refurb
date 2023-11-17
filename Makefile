@@ -14,7 +14,7 @@ mypy:
 	mypy test --exclude "test/data*"
 
 black:
-	black refurb test
+	black refurb test --check --diff
 
 isort:
 	isort . --diff --check
@@ -38,6 +38,11 @@ update-tests: $(patsubst %.py,%.txt,$(wildcard test/data*/*.py))
 
 docs:
 	python3 -m docs.gen_checks
+
+fmt:
+	ruff refurb test --fix
+	isort .
+	black refurb test
 
 clean:
 	rm -rf .mypy_cache .ruff_cache .pytest_cache

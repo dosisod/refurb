@@ -58,6 +58,4 @@ def check(node: OpExpr, errors: list[Error]) -> None:
         if data := get_common_expr_in_comparison_chain(node, "and", cmp_oper):
             expr, indices = data
 
-            errors.append(
-                ErrorInfo.from_node(expr, create_message(indices, cmp_oper))
-            )
+            errors.append(ErrorInfo.from_node(expr, create_message(indices, cmp_oper)))

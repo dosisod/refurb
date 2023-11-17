@@ -56,7 +56,5 @@ def check(node: CallExpr, errors: list[Error]) -> None:
             new = "x.touch()" if is_pathlike(arg) else "Path(x).touch()"
 
             errors.append(
-                ErrorInfo.from_node(
-                    node, f'Replace `open(x, "{mode}").close()` with `{new}`'
-                )
+                ErrorInfo.from_node(node, f'Replace `open(x, "{mode}").close()` with `{new}`')
             )

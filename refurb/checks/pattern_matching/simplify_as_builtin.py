@@ -60,8 +60,4 @@ def check(node: AsPattern, errors: list[Error]) -> None:
                 keyword_values=[],
             )
         ) if fullname in BUILTIN_PATTERN_CLASSES:
-            errors.append(
-                ErrorInfo.from_node(
-                    node, f"Replace `{name}() as x` with `{name}(x)`"
-                )
-            )
+            errors.append(ErrorInfo.from_node(node, f"Replace `{name}() as x` with `{name}(x)`"))

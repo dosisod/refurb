@@ -65,7 +65,7 @@ def prefer_pure_python_imports() -> Iterator[None]:
             if isinstance(finder, FileFinder):
                 # Move pure python file loaders to the front
                 finder._loaders.sort(  # type: ignore
-                    key=lambda pair: 0 if pair[0] in (".py", ".pyc") else 1
+                    key=lambda pair: 0 if pair[0] in {".py", ".pyc"} else 1
                 )
 
             return finder
@@ -113,11 +113,9 @@ def pure_python_mypy() -> Iterator[None]:
         # are their pure python versions.
         # - Pure python: methods are FunctionType
         # - Native: methods are MethodDescriptorType
-        from mypy.traverser import TraverserVisitor
+        from mypy.traverser import TraverserVisitor  # noqa: PLC0415
 
-        assert isinstance(
-            typing.cast(FunctionType, TraverserVisitor.visit_var), FunctionType
-        )
+        assert isinstance(typing.cast(FunctionType, TraverserVisitor.visit_var), FunctionType)
 
         # Give back control
         yield
@@ -152,7 +150,7 @@ def _make_mappings(globalns: Namespace) -> VisitorNodeTypeMap:
     and the type of its first (non-self) parameter.
     """
     visitor_method_map = {}
-    from mypy.traverser import TraverserVisitor
+    from mypy.traverser import TraverserVisitor  # noqa: PLC0415
 
     methods = inspect.getmembers(
         TraverserVisitor,

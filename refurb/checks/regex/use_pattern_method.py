@@ -74,9 +74,7 @@ def check(node: CallExpr, errors: list[Error]) -> None:
                 return
 
             match pattern:
-                case RefExpr(node=Var(type=ty)) if (
-                    str(ty).startswith("re.Pattern[")
-                ):
+                case RefExpr(node=Var(type=ty)) if (str(ty).startswith("re.Pattern[")):
                     pass
 
                 case _:

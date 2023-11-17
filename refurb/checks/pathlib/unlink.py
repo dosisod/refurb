@@ -41,11 +41,9 @@ def check(node: CallExpr, errors: list[Error]) -> None:
         case CallExpr(
             callee=(MemberExpr() | NameExpr()) as expr,
             args=[arg],
-        ) if expr.fullname in ("os.remove", "os.unlink"):
+        ) if expr.fullname in {"os.remove", "os.unlink"}:
             replace = "x.unlink()" if is_pathlike(arg) else "Path(x).unlink()"
 
             errors.append(
-                ErrorInfo.from_node(
-                    node, f"Replace `os.{expr.name}(x)` with `{replace}`"
-                )
+                ErrorInfo.from_node(node, f"Replace `os.{expr.name}(x)` with `{replace}`")
             )

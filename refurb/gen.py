@@ -97,11 +97,7 @@ NODES: dict[str, type] = {x.__name__: x for x in METHOD_NODE_MAPPINGS.values()}
 
 
 def node_type_prompt() -> list[str]:
-    return sorted(
-        fzf(
-            list(NODES.keys()), args=["--prompt", "type> ", "--multi"]
-        ).splitlines()
-    )
+    return sorted(fzf(list(NODES.keys()), args=["--prompt", "type> ", "--multi"]).splitlines())
 
 
 def filename_prompt() -> Path:
@@ -120,9 +116,7 @@ def filename_prompt() -> Path:
 
 
 def prefix_prompt() -> str:
-    return fzf(
-        [""], args=["--prompt", "prefix> ", "--print-query", "--query", "FURB"]
-    )
+    return fzf([""], args=["--prompt", "prefix> ", "--print-query", "--query", "FURB"])
 
 
 def build_imports(names: list[str]) -> str:

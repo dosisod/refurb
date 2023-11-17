@@ -49,17 +49,15 @@ def are_startswith_or_endswith_calls(
     match lhs, rhs:
         case (
             CallExpr(
-                callee=MemberExpr(
-                    expr=NameExpr(node=Var(type=ty)) as lhs, name=lhs_func
-                ),
+                callee=MemberExpr(expr=NameExpr(node=Var(type=ty)) as lhs, name=lhs_func),
                 args=args,
             ),
             CallExpr(callee=MemberExpr(expr=NameExpr() as rhs, name=rhs_func)),
         ) if (
             lhs.fullname == rhs.fullname
-            and str(ty) in ("builtins.str", "builtins.bytes")
+            and str(ty) in {"builtins.str", "builtins.bytes"}
             and lhs_func == rhs_func
-            and lhs_func in ("startswith", "endswith")
+            and lhs_func in {"startswith", "endswith"}
             and args
         ):
             return lhs_func, args[0]
@@ -75,9 +73,7 @@ def check(node: OpExpr, errors: list[Error]) -> None:
             old = f"x.{func}(y) or x.{func}(z)"
             new = f"x.{func}((y, z))"
 
-            errors.append(
-                ErrorInfo.from_node(arg, msg=f"Replace `{old}` with `{new}`")
-            )
+            errors.append(ErrorInfo.from_node(arg, msg=f"Replace `{old}` with `{new}`"))
 
     match extract_binary_oper("and", node):
         case (

@@ -24,25 +24,19 @@ def test_checks() -> None:
 def test_fatal_mypy_error_is_bubbled_up() -> None:
     errors = run_refurb(Settings(files=["something"]))
 
-    assert errors == [
-        "refurb: can't read file 'something': No such file or directory"
-    ]
+    assert errors == ["refurb: can't read file 'something': No such file or directory"]
 
 
 def test_mypy_error_is_bubbled_up() -> None:
     errors = run_refurb(Settings(files=["some_file.py"]))
 
-    assert errors == [
-        "refurb: can't read file 'some_file.py': No such file or directory"
-    ]
+    assert errors == ["refurb: can't read file 'some_file.py': No such file or directory"]
 
 
 def test_ignore_check_is_respected() -> None:
     test_file = str(TEST_DATA_PATH / "err_100.py")
 
-    errors = run_refurb(
-        Settings(files=[test_file], ignore={ErrorCode(100), ErrorCode(123)})
-    )
+    errors = run_refurb(Settings(files=[test_file], ignore={ErrorCode(100), ErrorCode(123)}))
 
     assert len(errors) == 0
 
@@ -68,18 +62,14 @@ def test_system_exit_is_caught() -> None:
 
     errors = run_refurb(Settings(files=[test_pkg]))
 
-    assert errors == [
-        "refurb: There are no .py[i] files in directory 'test/e2e/empty_package'"
-    ]
+    assert errors == ["refurb: There are no .py[i] files in directory 'test/e2e/empty_package'"]
 
 
 DISABLED_CHECK = "test.custom_checks.disabled_check"
 
 
 def test_disabled_check_is_not_ran_by_default() -> None:
-    errors = run_refurb(
-        Settings(files=["test/e2e/dummy.py"], load=[DISABLED_CHECK])
-    )
+    errors = run_refurb(Settings(files=["test/e2e/dummy.py"], load=[DISABLED_CHECK]))
 
     assert not errors
 
@@ -93,9 +83,7 @@ def test_disabled_check_ran_if_explicitly_enabled() -> None:
         )
     )
 
-    expected = (
-        "test/e2e/dummy.py:1:1 [XYZ101]: This message is disabled by default"
-    )
+    expected = "test/e2e/dummy.py:1:1 [XYZ101]: This message is disabled by default"
 
     assert len(errors) == 1
     assert str(errors[0]) == expected
@@ -110,9 +98,7 @@ def test_disabled_check_ran_if_enable_all_is_set() -> None:
         )
     )
 
-    expected = (
-        "test/e2e/dummy.py:1:1 [XYZ101]: This message is disabled by default"
-    )
+    expected = "test/e2e/dummy.py:1:1 [XYZ101]: This message is disabled by default"
 
     assert len(errors) == 1
     assert str(errors[0]) == expected
@@ -127,9 +113,7 @@ def test_disable_all_will_only_load_explicitly_enabled_checks() -> None:
         )
     )
 
-    assert all(
-        isinstance(error, Error) and error.code == 100 for error in errors
-    )
+    assert all(isinstance(error, Error) and error.code == 100 for error in errors)
 
 
 def test_disable_will_actually_disable_check_loading() -> None:
@@ -260,9 +244,7 @@ def test_error_ignored_if_path_applies() -> None:
 def test_error_ignored_if_category_matches() -> None:
     error = ErrorCategory("readability", path=Path("test/data/err_123.py"))
 
-    errors = run_refurb(
-        Settings(files=["test/data/err_123.py"], ignore={error})
-    )
+    errors = run_refurb(Settings(files=["test/data/err_123.py"], ignore={error}))
 
     assert not errors
 
@@ -275,9 +257,7 @@ def test_checks_with_python_version_dependant_error_msgs() -> None:
     run_checks_in_folder(Path("test/data_3.11"), version=(3, 11))
 
 
-def run_checks_in_folder(
-    folder: Path, *, version: tuple[int, int] | None = None
-) -> None:
+def run_checks_in_folder(folder: Path, *, version: tuple[int, int] | None = None) -> None:
     settings = Settings(files=[str(folder)], enable_all=True)
 
     if version:
@@ -287,8 +267,6 @@ def run_checks_in_folder(
     got = "\n".join([str(error) for error in errors])
 
     files = sorted(folder.glob("*.txt"), key=lambda p: p.name)
-    expected = "\n".join(
-        txt for file in files if (txt := file.read_text()[:-1])
-    )
+    expected = "\n".join(txt for file in files if (txt := file.read_text()[:-1]))
 
     assert got == expected

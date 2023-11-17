@@ -97,8 +97,4 @@ def check(node: CallExpr, errors: list[Error]) -> None:
             rhs = f"{rhs_func}({rhs_arg})"
             new = f"x.{'.'.join(exprs)}"
 
-            errors.append(
-                ErrorInfo.from_node(
-                    node, f"Replace `x.{lhs}.{rhs}` with `{new}`"
-                )
-            )
+            errors.append(ErrorInfo.from_node(node, f"Replace `x.{lhs}.{rhs}` with `{new}`"))

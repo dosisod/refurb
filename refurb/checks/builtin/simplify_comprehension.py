@@ -71,16 +71,9 @@ def check(node: CallExpr, errors: list[Error]) -> None:
     match node:
         case CallExpr(
             callee=NameExpr(name=name, fullname=fullname),
-            args=[
-                GeneratorExpr()
-                | ListComprehension()
-                | SetComprehension() as arg
-            ],
+            args=[GeneratorExpr() | ListComprehension() | SetComprehension() as arg],
         ) if fullname in FUNCTION_MAPPINGS:
-            if (
-                isinstance(arg, GeneratorExpr)
-                and name not in COMPREHENSION_SHORTHAND_TYPES
-            ):
+            if isinstance(arg, GeneratorExpr) and name not in COMPREHENSION_SHORTHAND_TYPES:
                 return
 
             if isinstance(arg, SetComprehension) and name not in SET_TYPES:
@@ -89,8 +82,4 @@ def check(node: CallExpr, errors: list[Error]) -> None:
             old = format_func_name(NODE_TYPE_TO_FUNC_NAME[type(arg)])
             new = format_func_name(fullname)
 
-            errors.append(
-                ErrorInfo.from_node(
-                    node, f"Replace `{name}({old})` with `{new}`"
-                )
-            )
+            errors.append(ErrorInfo.from_node(node, f"Replace `{name}({old})` with `{new}`"))

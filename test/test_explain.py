@@ -1,3 +1,4 @@
+from refurb.checks.pathlib.with_suffix import ErrorInfo as furb100
 from refurb.error import ErrorCode
 from refurb.explain import explain
 from refurb.settings import Settings
@@ -5,8 +6,6 @@ from refurb.settings import Settings
 
 def test_get_check_explanation_by_id() -> None:
     explanation = explain(Settings(explain=ErrorCode(100)))
-
-    from refurb.checks.pathlib.with_suffix import ErrorInfo as furb100
 
     assert "error" not in explanation.lower()
     assert furb100.name

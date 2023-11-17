@@ -58,11 +58,11 @@ def is_string(node: Expression) -> bool:
 
 
 def is_utc_timezone(timezone: str) -> bool:
-    return timezone.startswith(("+", "-")) and timezone.strip("+-") in (
+    return timezone.startswith(("+", "-")) and timezone.strip("+-") in {
         "00:00",
         "0000",
         "00",
-    )
+    }
 
 
 def check(node: CallExpr, errors: list[Error], settings: Settings) -> None:
@@ -103,9 +103,7 @@ def check(node: CallExpr, errors: list[Error], settings: Settings) -> None:
 
                 case OpExpr(
                     left=CallExpr(
-                        callee=MemberExpr(
-                            expr=date, name="strip" | "rstrip" as func_name
-                        ),
+                        callee=MemberExpr(expr=date, name="strip" | "rstrip" as func_name),
                         args=[StrExpr(value="Z")],
                     ),
                     op="+",
@@ -116,8 +114,4 @@ def check(node: CallExpr, errors: list[Error], settings: Settings) -> None:
                 case _:
                     return
 
-            errors.append(
-                ErrorInfo.from_node(
-                    node, f"Replace `{old}` with `fromisoformat(x)`"
-                )
-            )
+            errors.append(ErrorInfo.from_node(node, f"Replace `{old}` with `fromisoformat(x)`"))

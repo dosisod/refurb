@@ -49,8 +49,4 @@ def check(node: ComparisonExpr, errors: list[Error]) -> None:
                 ) as expr,
             ],
         ) if str(ty).startswith("builtins.dict"):
-            errors.append(
-                ErrorInfo.from_node(
-                    expr, f"Replace `{oper} d.keys()` with `{oper} d`"
-                )
-            )
+            errors.append(ErrorInfo.from_node(expr, f"Replace `{oper} d.keys()` with `{oper} d`"))

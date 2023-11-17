@@ -14,9 +14,7 @@ def test_check_must_have_valid_number_of_args() -> None:
     def check() -> None:
         pass
 
-    with pytest.raises(
-        TypeError, match="Check function must take 2-3 parameters"
-    ):
+    with pytest.raises(TypeError, match="Check function must take 2-3 parameters"):
         list(extract_function_types(check))
 
 
@@ -40,9 +38,7 @@ def test_invalid_error_types_are_ignored() -> None:
     def check(node: CallExpr, errors: list[int]) -> None:
         pass
 
-    with pytest.raises(
-        TypeError, match=r'"error" param must be of type list\[Error\]'
-    ):
+    with pytest.raises(TypeError, match=r'"error" param must be of type list\[Error\]'):
         list(extract_function_types(check))
 
 
@@ -50,9 +46,7 @@ def test_check_with_optional_settings_param() -> None:
     def check(node: CallExpr, errors: list[Error], settings: int) -> None:
         pass
 
-    with pytest.raises(
-        TypeError, match='"settings: int" is not a valid service'
-    ):
+    with pytest.raises(TypeError, match='"settings: int" is not a valid service'):
         list(extract_function_types(check))
 
 

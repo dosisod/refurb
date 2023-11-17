@@ -31,9 +31,7 @@ class RefurbVisitor(TraverserVisitor):
 
     _dont_build = ("visit_call_expr",)
 
-    def __init__(
-        self, checks: defaultdict[type[Node], list[Check]], settings: Settings
-    ) -> None:
+    def __init__(self, checks: defaultdict[type[Node], list[Check]], settings: Settings) -> None:
         self.errors = []
         self.checks = checks
         self.settings = settings

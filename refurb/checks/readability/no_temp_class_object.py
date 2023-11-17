@@ -55,9 +55,7 @@ def check(node: CallExpr, errors: list[Error]) -> None:
                 elif not isinstance(func, FuncDef):
                     continue
 
-                if func.name == func_name and (
-                    func.is_class or func.is_static
-                ):
+                if func.name == func_name and (func.is_class or func.is_static):
                     class_name = klass.defn.name
 
                     class_args = "..." if class_args else ""  # type: ignore
@@ -66,8 +64,4 @@ def check(node: CallExpr, errors: list[Error]) -> None:
                     old = f"{class_name}({class_args}).{func_name}({func_args})"  # noqa: E501
                     new = f"{class_name}.{func_name}({func_args})"
 
-                    errors.append(
-                        ErrorInfo.from_node(
-                            node, f"Replace `{old}` with `{new}`"
-                        )
-                    )
+                    errors.append(ErrorInfo.from_node(node, f"Replace `{old}` with `{new}`"))

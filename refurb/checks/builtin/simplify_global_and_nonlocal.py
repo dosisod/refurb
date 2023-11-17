@@ -36,9 +36,7 @@ class ErrorInfo(Error):
     categories = ("builtin", "readability")
 
 
-def emit_error_if_needed(
-    found: list[GlobalDecl | NonlocalDecl], errors: list[Error]
-) -> None:
+def emit_error_if_needed(found: list[GlobalDecl | NonlocalDecl], errors: list[Error]) -> None:
     if len(found) < 2:
         return
 
@@ -54,9 +52,7 @@ def emit_error_if_needed(
     replace = "; ".join(replace_lines)
     new = f"{name} {', '.join(new_args)}"
 
-    errors.append(
-        ErrorInfo.from_node(found[0], f"Replace `{replace}` with `{new}`")
-    )
+    errors.append(ErrorInfo.from_node(found[0], f"Replace `{replace}` with `{new}`"))
 
 
 def check(node: Block, errors: list[Error]) -> None:

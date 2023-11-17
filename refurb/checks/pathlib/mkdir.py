@@ -62,22 +62,14 @@ def create_error(node: CallExpr) -> list[Error]:
 
     new_args = ", ".join(new_args)
 
-    expr = (
-        f"x.mkdir({new_args})"
-        if is_pathlike(node.args[0])
-        else f"Path(x).mkdir({new_args})"
-    )
+    expr = f"x.mkdir({new_args})" if is_pathlike(node.args[0]) else f"Path(x).mkdir({new_args})"
 
     return [
-        ErrorInfo.from_node(
-            node, f"Replace `{fullname}({', '.join(old_args)})` with `{expr}`"
-        )
+        ErrorInfo.from_node(node, f"Replace `{fullname}({', '.join(old_args)})` with `{expr}`")
     ]
 
 
 def check(node: CallExpr, errors: list[Error]) -> None:
     match node:
-        case CallExpr(
-            callee=RefExpr(fullname="os.mkdir" | "os.makedirs"), args=args
-        ) if args:
+        case CallExpr(callee=RefExpr(fullname="os.mkdir" | "os.makedirs"), args=args) if args:
             errors.extend(create_error(node))

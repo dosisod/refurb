@@ -41,19 +41,13 @@ class ErrorInfo(Error):
 def check(node: WithStmt, errors: list[Error]) -> None:
     match node:
         case WithStmt(
-            expr=[
-                CallExpr(
-                    callee=NameExpr(name="open"), args=[_, StrExpr(value=mode)]
-                )
-            ],
+            expr=[CallExpr(callee=NameExpr(name="open"), args=[_, StrExpr(value=mode)])],
             target=[NameExpr(name=with_name)],
             body=Block(
                 body=[
                     ExpressionStmt(
                         expr=CallExpr(
-                            callee=MemberExpr(
-                                expr=NameExpr(name=write_name), name="write"
-                            )
+                            callee=MemberExpr(expr=NameExpr(name=write_name), name="write")
                         )
                     )
                 ]

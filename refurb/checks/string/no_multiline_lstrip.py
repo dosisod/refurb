@@ -80,8 +80,4 @@ def check(node: CallExpr, errors: list[Error]) -> None:
             old = "".join(parts)
             new = old.replace("n", "")
 
-            errors.append(
-                ErrorInfo.from_node(
-                    node, f"Replace `{old}.{func_expr}` with `{new}`"
-                )
-            )
+            errors.append(ErrorInfo.from_node(node, f"Replace `{old}.{func_expr}` with `{new}`"))

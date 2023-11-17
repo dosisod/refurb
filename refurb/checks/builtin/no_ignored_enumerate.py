@@ -80,22 +80,14 @@ def check_unused_index_or_value(
     index: NameExpr, value: NameExpr, contexts: list[Node], errors: list[Error]
 ) -> None:
     if is_placeholder(index) or is_name_unused_in_contexts(index, contexts):
-        errors.append(
-            ErrorInfo.from_node(
-                index, "Index is unused, use `for x in y` instead"
-            )
-        )
+        errors.append(ErrorInfo.from_node(index, "Index is unused, use `for x in y` instead"))
 
     if is_placeholder(value) or is_name_unused_in_contexts(value, contexts):
         errors.append(
-            ErrorInfo.from_node(
-                value, "Value is unused, use `for x in range(len(y))` instead"
-            )
+            ErrorInfo.from_node(value, "Value is unused, use `for x in range(len(y))` instead")
         )
 
 
 # TODO: allow for any type that supports the Sequence protocol
 def is_sequence_type(ty: str) -> bool:
-    return ty.startswith(
-        ("builtins.list[", "Tuple[", "builtins.tuple[", "tuple[")
-    )
+    return ty.startswith(("builtins.list[", "Tuple[", "builtins.tuple[", "tuple["))

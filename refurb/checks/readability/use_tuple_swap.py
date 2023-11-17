@@ -50,18 +50,10 @@ def check_stmts(stmts: list[Statement], errors: list[Error]) -> None:
         if len(assignments) == 3:
             match assignments:
                 case [
-                    AssignmentStmt(
-                        lvalues=[NameExpr() as a], rvalue=NameExpr() as b
-                    ),
-                    AssignmentStmt(
-                        lvalues=[NameExpr() as c], rvalue=NameExpr() as d
-                    ),
-                    AssignmentStmt(
-                        lvalues=[NameExpr() as e], rvalue=NameExpr() as f
-                    ),
-                ] if (
-                    a.name == f.name and b.name == c.name and d.name == e.name
-                ):
+                    AssignmentStmt(lvalues=[NameExpr() as a], rvalue=NameExpr() as b),
+                    AssignmentStmt(lvalues=[NameExpr() as c], rvalue=NameExpr() as d),
+                    AssignmentStmt(lvalues=[NameExpr() as e], rvalue=NameExpr() as f),
+                ] if (a.name == f.name and b.name == c.name and d.name == e.name):
                     errors.append(ErrorInfo.from_node(a))
 
                     assignments = []

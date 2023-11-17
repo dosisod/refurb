@@ -56,9 +56,7 @@ def check(node: TryStmt, errors: list[Error]) -> None:
                     if any(not isinstance(item, NameExpr) for item in items):
                         return
 
-                    inner = ", ".join(
-                        item.name for item in items  # type: ignore
-                    )
+                    inner = ", ".join(item.name for item in items)  # type: ignore
 
                     except_inner = f" ({inner})"
 

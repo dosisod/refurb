@@ -57,23 +57,17 @@ def check_stmts(body: list[Statement], errors: list[Error]) -> None:
         if assign:
             match stmt:
                 case WithStmt(
-                    body=Block(
-                        body=[AssignmentStmt(lvalues=[NameExpr() as name])]
-                    ),
+                    body=Block(body=[AssignmentStmt(lvalues=[NameExpr() as name])]),
                     expr=resources,
                 ) if (
-                    name.fullname
-                    and name.fullname
-                    == assign.lvalues[0].fullname  # type: ignore
+                    name.fullname and name.fullname == assign.lvalues[0].fullname  # type: ignore
                 ):
                     # Skip if suppress() is one of the resources
 
                     # see https://github.com/dosisod/refurb/issues/47
                     for resource in resources:
                         match resource:
-                            case CallExpr(
-                                callee=RefExpr(fullname="contextlib.suppress")
-                            ):
+                            case CallExpr(callee=RefExpr(fullname="contextlib.suppress")):
                                 break
 
                     else:

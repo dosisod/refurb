@@ -57,12 +57,8 @@ _CHARSETS = [
     "whitespace",
 ]
 
-CHARSETS_EXACT = {
-    f"string.{name}": getattr(string, name) for name in _CHARSETS
-}
-CHARSET_PERMUTATIONS = {
-    name: frozenset(value) for name, value in CHARSETS_EXACT.items()
-}
+CHARSETS_EXACT = {f"string.{name}": getattr(string, name) for name in _CHARSETS}
+CHARSET_PERMUTATIONS = {name: frozenset(value) for name, value in CHARSETS_EXACT.items()}
 
 
 def format_error(value: str, name: str) -> str:
@@ -74,20 +70,14 @@ def format_error(value: str, name: str) -> str:
 
 def check(node: ComparisonExpr | StrExpr, errors: list[Error]) -> None:
     match node:
-        case ComparisonExpr(
-            operators=["in"], operands=[_, StrExpr(value=value)]
-        ):
+        case ComparisonExpr(operators=["in"], operands=[_, StrExpr(value=value)]):
             value_set = set(value)
 
             for name, charset in CHARSET_PERMUTATIONS.items():
                 if value_set == charset:
-                    errors.append(
-                        ErrorInfo.from_node(node, format_error(value, name))
-                    )
+                    errors.append(ErrorInfo.from_node(node, format_error(value, name)))
 
         case StrExpr(value=value):
             for name, charset in CHARSETS_EXACT.items():
                 if value == charset:  # type: ignore
-                    errors.append(
-                        ErrorInfo.from_node(node, format_error(value, name))
-                    )
+                    errors.append(ErrorInfo.from_node(node, format_error(value, name)))

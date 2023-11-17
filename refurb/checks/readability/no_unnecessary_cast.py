@@ -72,10 +72,10 @@ FUNC_NAMES = {
 
 
 def is_boolean_literal(node: Expression) -> bool:
-    return isinstance(node, NameExpr) and node.fullname in (
+    return isinstance(node, NameExpr) and node.fullname in {
         "builtins.True",
         "builtins.False",
-    )
+    }
 
 
 def check(node: CallExpr, errors: list[Error]) -> None:
@@ -97,16 +97,11 @@ def check(node: CallExpr, errors: list[Error]) -> None:
                 match arg:
                     case NameExpr(node=Var(type=ty)) if (
                         str(ty).startswith(fullname)
-                        or (
-                            str(ty).lower().startswith("tuple[")
-                            and name == "tuple"
-                        )
+                        or (str(ty).lower().startswith("tuple[") and name == "tuple")
                     ):
                         pass
 
                     case _:
                         return
 
-            errors.append(
-                ErrorInfo.from_node(node, f"Replace `{name}(x)` with `{msg}`")
-            )
+            errors.append(ErrorInfo.from_node(node, f"Replace `{name}(x)` with `{msg}`"))

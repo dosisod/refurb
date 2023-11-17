@@ -61,11 +61,9 @@ def check(node: DictExpr, errors: list[Error], settings: Settings) -> None:
 
     match node:
         case DictExpr(items=items):
-            groups = [
-                (k, list(v)) for k, v in groupby(items, lambda x: x[0] is None)
-            ]
+            groups = [(k, list(v)) for k, v in groupby(items, lambda x: x[0] is None)]
 
-            if len(groups) not in (1, 2):
+            if len(groups) not in {1, 2}:
                 # Only allow groups of 1 and 2 because a group of 0 means the
                 # dict is empty, and 3 or more means that there are 3 or more
                 # alternations of star and non-star patterns in the dict,
@@ -73,9 +71,7 @@ def check(node: DictExpr, errors: list[Error], settings: Settings) -> None:
                 # to me this looks less readable. I might change this later.
                 return
 
-            if len(groups) == 1 and (
-                not groups[0][0] or len(groups[0][1]) == 1
-            ):
+            if len(groups) == 1 and (not groups[0][0] or len(groups[0][1]) == 1):
                 return
 
             old: list[str] = []

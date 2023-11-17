@@ -79,10 +79,7 @@ def get_full_type_name(node: CallExpr) -> str:
         case CallExpr(
             callee=MemberExpr(
                 expr=NameExpr(
-                    node=(
-                        Var(type=Instance(type=TypeInfo() as ty))
-                        | (TypeInfo() as ty)
-                    )
+                    node=(Var(type=Instance(type=TypeInfo() as ty)) | (TypeInfo() as ty))
                 ),
                 name=name,
             ),
@@ -104,9 +101,7 @@ def inject_stdlib_defaults(node: CallExpr, args: list[Argument]) -> None:
 ZippedArg = tuple[str | None, Expression, ArgKind]
 
 
-def strip_caller_var_args(
-    start: int, args: Iterator[ZippedArg]
-) -> Iterator[ZippedArg]:
+def strip_caller_var_args(start: int, args: Iterator[ZippedArg]) -> Iterator[ZippedArg]:
     for i, arg in enumerate(args):
         if i < start:
             continue
@@ -118,11 +113,7 @@ def strip_caller_var_args(
 def check_func(caller: CallExpr, func: FuncDef, errors: list[Error]) -> None:
     args = list(zip(func.arg_names, func.arguments))
 
-    if (
-        isinstance(caller.callee, MemberExpr)
-        and args
-        and func.arg_names[0] in ("self", "cls")
-    ):
+    if isinstance(caller.callee, MemberExpr) and args and func.arg_names[0] in {"self", "cls"}:
         args.pop(0)
 
     lookup = dict(args)
@@ -166,9 +157,7 @@ def check_func(caller: CallExpr, func: FuncDef, errors: list[Error]) -> None:
     errors.extend(temp_errors)
 
 
-def check_symbol(
-    node: CallExpr, symbol: SymbolNode | None, errors: list[Error]
-) -> None:
+def check_symbol(node: CallExpr, symbol: SymbolNode | None, errors: list[Error]) -> None:
     match symbol:
         case Decorator(func=FuncDef() as func) | (FuncDef() as func):
             check_func(node, func, errors)
@@ -207,18 +196,10 @@ def check(node: CallExpr, errors: list[Error]) -> None:
         case CallExpr(
             callee=MemberExpr(
                 expr=(
-                    NameExpr(
-                        node=(
-                            Var(type=Instance(type=TypeInfo() as ty))
-                            | (TypeInfo() as ty)
-                        )
-                    )
+                    NameExpr(node=(Var(type=Instance(type=TypeInfo() as ty)) | (TypeInfo() as ty)))
                     | CallExpr(
                         callee=NameExpr(
-                            node=(
-                                Var(type=Instance(type=TypeInfo() as ty))
-                                | (TypeInfo() as ty)
-                            )
+                            node=(Var(type=Instance(type=TypeInfo() as ty)) | (TypeInfo() as ty))
                         )
                     )
                 ),

@@ -89,8 +89,7 @@ def is_ignored_via_comment(error: Error) -> bool:
         error_codes = comment.group(1)
 
         return not error_codes or any(
-            error_code == ignore
-            for error_code in error_codes[2:].replace(",", " ").split(" ")
+            error_code == ignore for error_code in error_codes[2:].replace(",", " ").split(" ")
         )
 
     return False
@@ -101,9 +100,7 @@ def is_ignored_via_amend(error: Error, settings: Settings) -> bool:
 
     path = Path(error.filename).resolve()
     error_code = ErrorCode.from_error(type(error))
-    config_root = (
-        Path(settings.config_file).parent if settings.config_file else Path()
-    )
+    config_root = Path(settings.config_file).parent if settings.config_file else Path()
 
     for ignore in settings.ignore:
         if ignore.path:
@@ -215,18 +212,12 @@ def run_refurb(settings: Settings) -> Sequence[Error | str]:
         mypy_timing_stats.unlink()
 
     return sorted(
-        [
-            error
-            for error in errors
-            if not should_ignore_error(error, settings)
-        ],
+        [error for error in errors if not should_ignore_error(error, settings)],
         key=partial(sort_errors, settings=settings),
     )
 
 
-def sort_errors(
-    error: Error | str, settings: Settings
-) -> tuple[str | int, ...]:
+def sort_errors(error: Error | str, settings: Settings) -> tuple[str | int, ...]:
     if isinstance(error, str):
         return ("", error)
 
@@ -267,9 +258,7 @@ def format_as_github_annotation(error: Error | str) -> str:
 
 
 def format_errors(errors: Sequence[Error | str], settings: Settings) -> str:
-    formatter = (
-        format_as_github_annotation if settings.format == "github" else str
-    )
+    formatter = format_as_github_annotation if settings.format == "github" else str
 
     done = "\n".join(formatter(error) for error in errors)  # type: ignore
 

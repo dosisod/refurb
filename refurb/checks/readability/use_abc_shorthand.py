@@ -40,9 +40,7 @@ def check(node: ClassDef, errors: list[Error]) -> None:
             # HACK: attempt to calculate the start of the metaclass keyword
             # from the position of its argument
             column = metaclass.column - 10
-            column_end = (
-                metaclass.end_column - 10 if metaclass.end_column else None
-            )
+            column_end = metaclass.end_column - 10 if metaclass.end_column else None
 
             prefix = "" if isinstance(ref, NameExpr) else "abc."
 

@@ -122,9 +122,7 @@ def check(
             args=[_],
             arg_kinds=[ArgKind.ARG_STAR],
         ):
-            chain = (
-                "chain" if isinstance(callee, NameExpr) else "itertools.chain"
-            )
+            chain = "chain" if isinstance(callee, NameExpr) else "itertools.chain"
 
             old = f"{chain}(*x)"
             new = f"{chain}.from_iterable(x)"

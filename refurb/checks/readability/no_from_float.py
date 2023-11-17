@@ -56,8 +56,4 @@ def check(node: CallExpr, errors: list[Error]) -> None:
             if func not in KNOWN_FUNCS:
                 return
 
-            errors.append(
-                ErrorInfo.from_node(
-                    node, f"Replace `{func}(x)` with `{klass}(x)`"
-                )
-            )
+            errors.append(ErrorInfo.from_node(node, f"Replace `{func}(x)` with `{klass}(x)`"))

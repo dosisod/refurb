@@ -59,9 +59,7 @@ def check(node: LambdaExpr, errors: list[Error]) -> None:
             arguments=lambda_args,
             body=Block(
                 body=[
-                    ReturnStmt(
-                        expr=CallExpr(callee=NameExpr(name=func_name)) as func
-                    ),
+                    ReturnStmt(expr=CallExpr(callee=NameExpr(name=func_name)) as func),
                 ]
             ),
         ) if (
@@ -85,9 +83,7 @@ def check(node: LambdaExpr, errors: list[Error]) -> None:
             body=Block(
                 body=[
                     ReturnStmt(
-                        expr=ListExpr(items=[])
-                        | DictExpr(items=[])
-                        | TupleExpr(items=[]) as expr,
+                        expr=ListExpr(items=[]) | DictExpr(items=[]) | TupleExpr(items=[]) as expr,
                     )
                 ],
             ),

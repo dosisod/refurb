@@ -17,9 +17,7 @@ def assert_categories_are_sorted(error: type[Error]) -> None:
     assert tuple(sorted(error.categories)) == error.categories, error_msg
 
 
-def assert_categories_are_valid(
-    error: type[Error], categories: list[str]
-) -> None:
+def assert_categories_are_valid(error: type[Error], categories: list[str]) -> None:
     # By "valid" I mean that they are well-defined (in the documentation), and
     # are sorted. Basically, parse the documentation file for the categories,
     # which includes a list of all categories, and make sure each check only
@@ -52,9 +50,7 @@ def get_categories_from_docs() -> list[str]:
 
         for line in f:
             if line.startswith("## "):
-                categories.extend(
-                    [cat.strip().strip("`") for cat in line[3:].split(", ")]
-                )
+                categories.extend([cat.strip().strip("`") for cat in line[3:].split(", ")])
 
         return categories
 

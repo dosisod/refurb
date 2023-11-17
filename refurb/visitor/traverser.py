@@ -270,12 +270,8 @@ class TraverserVisitor:
     def visit_set_comprehension(self, o: SetComprehension) -> None:
         accept(o.generator, self)
 
-    def visit_dictionary_comprehension(
-        self, o: DictionaryComprehension
-    ) -> None:
-        for index, sequence, conditions in zip(
-            o.indices, o.sequences, o.condlists
-        ):
+    def visit_dictionary_comprehension(self, o: DictionaryComprehension) -> None:
+        for index, sequence, conditions in zip(o.indices, o.sequences, o.condlists):
             accept(sequence, self)
             accept(index, self)
             for cond in conditions:
@@ -284,9 +280,7 @@ class TraverserVisitor:
         accept(o.value, self)
 
     def visit_generator_expr(self, o: GeneratorExpr) -> None:
-        for index, sequence, conditions in zip(
-            o.indices, o.sequences, o.condlists
-        ):
+        for index, sequence, conditions in zip(o.indices, o.sequences, o.condlists):
             accept(sequence, self)
             accept(index, self)
             for cond in conditions:
@@ -415,9 +409,7 @@ class TraverserVisitor:
     def visit_expression_stmt(self, o: ExpressionStmt) -> None:
         accept(o.expr, self)
 
-    def visit_operator_assignment_stmt(
-        self, o: OperatorAssignmentStmt
-    ) -> None:
+    def visit_operator_assignment_stmt(self, o: OperatorAssignmentStmt) -> None:
         accept(o.rvalue, self)
         accept(o.lvalue, self)
 
@@ -526,9 +518,7 @@ class TraverserVisitor:
 
 @functools.singledispatch
 def accept(node: Context, visitor: TraverserVisitor) -> None:
-    raise NotImplementedError(
-        f"No `visit_*` overload available for `{type(node).__qualname__}`"
-    )
+    raise NotImplementedError(f"No `visit_*` overload available for `{type(node).__qualname__}`")
 
 
 @accept.register

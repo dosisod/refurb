@@ -275,7 +275,7 @@ def test_verbose_flag_prints_message_when_all_checks_disabled() -> None:
 
 
 def test_timing_stats_outputs_stats_file() -> None:
-    with NamedTemporaryFile(mode="r") as tmp:
+    with NamedTemporaryFile(mode="r", encoding="utf8") as tmp:
         main(["test/e2e/dummy.py", "--timing-stats", tmp.name])
 
         stats_file = Path(tmp.name)
@@ -292,13 +292,9 @@ def test_timing_stats_outputs_stats_file() -> None:
             }:
                 msg = "All values must be ints"
 
-                assert all(
-                    isinstance(v, int) for v in mypy_timing.values()
-                ), msg
+                assert all(isinstance(v, int) for v in mypy_timing.values()), msg
 
-                assert all(
-                    isinstance(v, int) for v in refurb_timing.values()
-                ), msg
+                assert all(isinstance(v, int) for v in refurb_timing.values()), msg
 
                 return
 

@@ -121,14 +121,14 @@ def parse_python_version(version: str) -> tuple[int, int]:
 
 
 def validate_format(format: str) -> Literal["github", "text"]:
-    if format in ("github", "text"):
+    if format in {"github", "text"}:
         return format  # type: ignore
 
     raise ValueError(f'refurb: "{format}" is not a valid format')
 
 
 def validate_sort_by(sort_by: str) -> Literal["filename", "error"]:
-    if sort_by in ("filename", "error"):
+    if sort_by in {"filename", "error"}:
         return sort_by  # type: ignore
 
     raise ValueError(f'refurb: cannot sort by "{sort_by}"')
@@ -140,40 +140,28 @@ def parse_amend_error(err: str, path: Path) -> ErrorClassifier:
     return replace(classifier, path=path)
 
 
-def parse_amendment(  # type: ignore
-    amendment: dict[str, Any]
-) -> set[ErrorClassifier]:
+def parse_amendment(amendment: dict[str, Any]) -> set[ErrorClassifier]:  # type: ignore
     match amendment:
         case {"path": str(path), "ignore": list(ignored), **extra}:
             if extra:
-                raise ValueError(
-                    'refurb: only "path" and "ignore" fields are supported'
-                )
+                raise ValueError('refurb: only "path" and "ignore" fields are supported')
 
-            return {
-                parse_amend_error(str(error), Path(path)) for error in ignored
-            }
+            return {parse_amend_error(str(error), Path(path)) for error in ignored}
 
-    raise ValueError(
-        'refurb: "path" or "ignore" fields are missing or malformed'
-    )
+    raise ValueError('refurb: "path" or "ignore" fields are missing or malformed')
 
 
 T = TypeVar("T")
 
 
-def pop_type(  # type: ignore[misc]
-    ty: type[T], type_name: str = ""
-) -> Callable[..., T]:
+def pop_type(ty: type[T], type_name: str = "") -> Callable[..., T]:  # type: ignore[misc]
     def inner(config: dict[str, Any], name: str) -> T:  # type: ignore[misc]
         x = config.pop(name, ty())
 
         if isinstance(x, ty):
             return x
 
-        raise ValueError(
-            f'refurb: "{name}" must be a {type_name or ty.__name__}'
-        )
+        raise ValueError(f'refurb: "{name}" must be a {type_name or ty.__name__}')
 
     return inner
 
@@ -233,9 +221,7 @@ def parse_config_file(contents: str) -> Settings:
         settings.ignore.update(parse_amendment(amendment))
 
     if config:
-        raise ValueError(
-            f"refurb: unknown field(s): {', '.join(config.keys())}"
-        )
+        raise ValueError(f"refurb: unknown field(s): {', '.join(config.keys())}")
 
     return settings
 
@@ -261,7 +247,7 @@ def parse_command_line_args(args: list[str]) -> Settings:
         if arg == "--debug":
             settings.debug = True
 
-        elif arg in ("--help", "-h"):
+        elif arg in {"--help", "-h"}:
             settings.help = True
 
         elif arg == "--version":
@@ -321,7 +307,7 @@ def parse_command_line_args(args: list[str]) -> Settings:
         elif arg == "--sort":
             settings.sort_by = validate_sort_by(get_next_arg(arg, iargs))
 
-        elif arg in ("--verbose", "-v"):
+        elif arg in {"--verbose", "-v"}:
             settings.verbose = True
 
         elif arg == "--timing-stats":

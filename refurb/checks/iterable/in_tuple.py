@@ -42,9 +42,7 @@ def error_msg(oper: str) -> str:
     return f"Replace `{oper} [x, y, z]` with `{oper} (x, y, z)`"
 
 
-def check(
-    node: ComparisonExpr | ForStmt | GeneratorExpr, errors: list[Error]
-) -> None:
+def check(node: ComparisonExpr | ForStmt | GeneratorExpr, errors: list[Error]) -> None:
     match node:
         case ComparisonExpr(
             operators=["in" | "not in" as oper],

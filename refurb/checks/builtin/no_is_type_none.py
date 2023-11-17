@@ -45,7 +45,7 @@ def check(node: ComparisonExpr, errors: list[Error]) -> None:
                 rhs,
             ],
         ) if is_type_none_call(rhs):
-            new = "is" if oper in ("is", "==") else "is not"
+            new = "is" if oper in {"is", "=="} else "is not"
 
             msg = f"Replace `type(x) {oper} type(None)` with `x {new} None`"
 

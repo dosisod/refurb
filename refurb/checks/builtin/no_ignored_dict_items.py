@@ -84,14 +84,8 @@ def check_unused_key_or_value(
 ) -> None:
     if is_placeholder(key) or is_name_unused_in_contexts(key, contexts):
         errors.append(
-            ErrorInfo.from_node(
-                key, "Key is unused, use `for value in d.values()` instead"
-            )
+            ErrorInfo.from_node(key, "Key is unused, use `for value in d.values()` instead")
         )
 
     if is_placeholder(value) or is_name_unused_in_contexts(value, contexts):
-        errors.append(
-            ErrorInfo.from_node(
-                value, "Value is unused, use `for key in d` instead"
-            )
-        )
+        errors.append(ErrorInfo.from_node(value, "Value is unused, use `for key in d` instead"))

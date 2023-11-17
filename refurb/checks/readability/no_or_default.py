@@ -51,9 +51,7 @@ def check(node: OpExpr, errors: list[Error]) -> None:
     match extract_binary_oper("or", node):
         case (NameExpr(node=Var(type=ty)), arg):
             match arg:
-                case CallExpr(
-                    callee=NameExpr(name=name, fullname=fullname), args=[]
-                ):
+                case CallExpr(callee=NameExpr(name=name, fullname=fullname), args=[]):
                     expr = f"{name}()"
 
                 case ListExpr(items=[]):
@@ -87,16 +85,8 @@ def check(node: OpExpr, errors: list[Error]) -> None:
                 case _:
                     return
 
-            type_name = (
-                "builtins.tuple"
-                if str(ty).lower().startswith("tuple[")
-                else str(ty)
-            )
+            type_name = "builtins.tuple" if str(ty).lower().startswith("tuple[") else str(ty)
 
             # Must check fullname for compatibility with older Mypy versions
             if fullname and type_name.startswith(fullname):
-                errors.append(
-                    ErrorInfo.from_node(
-                        node, f"Replace `x or {expr}` with `x`"
-                    )
-                )
+                errors.append(ErrorInfo.from_node(node, f"Replace `x or {expr}` with `x`"))
