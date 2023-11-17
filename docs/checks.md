@@ -2114,3 +2114,21 @@ Good:
 class C(ABC):
     pass
 ```
+
+## FURB181: `use-hexdigest-hashlib`
+
+Categories: `hashlib` `readability`
+
+Use `.hexdigest()` to get a hex digest from a hash.
+
+Bad:
+
+```python
+hashed = sha512(b"some data").digest().hex()
+```
+
+Good:
+
+```python
+hashed = sha512(b"some data").hexdigest()
+```

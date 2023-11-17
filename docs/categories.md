@@ -60,6 +60,11 @@ standard library module.
 These checks relate to the [functools](https://docs.python.org/3/library/functools.html)
 standard library module.
 
+## `hashlib`
+
+These checks relate to the [hashlib](https://docs.python.org/3/library/hashlib.html)
+standard library module.
+
 ## `iterable`
 
 These checks cover:

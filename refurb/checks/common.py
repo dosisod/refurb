@@ -3,6 +3,7 @@ from itertools import chain, combinations, starmap
 
 from mypy.nodes import (
     Block,
+    BytesExpr,
     CallExpr,
     ComparisonExpr,
     DictExpr,
@@ -11,6 +12,7 @@ from mypy.nodes import (
     ForStmt,
     GeneratorExpr,
     IndexExpr,
+    IntExpr,
     ListExpr,
     MemberExpr,
     MypyFile,
@@ -283,4 +285,19 @@ def stringify(node: Node) -> str:
         case NameExpr(name=name):
             return name
 
-    return str(node)  # pragma: no cover
+        case BytesExpr(value=value):
+            # TODO: use same formatting as source line
+            return repr(value.encode())
+
+        case IntExpr(value=value):
+            # TODO: use same formatting as source line
+            return str(value)
+
+        case CallExpr():
+            name = stringify(node.callee)
+
+            args = ", ".join(stringify(arg) for arg in node.args)
+
+            return f"{name}({args})"
+
+    return "x"  # pragma: no cover
