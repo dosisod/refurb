@@ -2124,11 +2124,39 @@ Use `.hexdigest()` to get a hex digest from a hash.
 Bad:
 
 ```python
+from hashlib import sha512
+
 hashed = sha512(b"some data").digest().hex()
 ```
 
 Good:
 
 ```python
+from hashlib import sha512
+
 hashed = sha512(b"some data").hexdigest()
+```
+
+## FURB182: `simplify-hashlib-ctor`
+
+Categories: `hashlib` `readability`
+
+You can pass data into `hashlib` constructors, so instead of creating a
+hash object and immediately updating it, pass the data directly.
+
+Bad:
+
+```python
+from hashlib import sha512
+
+h = sha512()
+h.update(b"data)
+```
+
+Good:
+
+```python
+from hashlib import sha512
+
+h = sha512(b"data")
 ```

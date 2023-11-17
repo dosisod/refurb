@@ -14,12 +14,16 @@ class ErrorInfo(Error):
     Bad:
 
     ```
+    from hashlib import sha512
+
     hashed = sha512(b"some data").digest().hex()
     ```
 
     Good:
 
     ```
+    from hashlib import sha512
+
     hashed = sha512(b"some data").hexdigest()
     ```
     """
