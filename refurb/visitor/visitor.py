@@ -45,13 +45,13 @@ class RefurbVisitor(TraverserVisitor):
                 setattr(self, name, func.__get__(self))
 
     def visit_call_expr(self, o: CallExpr) -> None:
+        for check in self.checks[CallExpr]:
+            self.run_check(o, check)
+
         for arg in o.args:
             self.accept(arg)
 
         self.accept(o.callee)
-
-        for check in self.checks[CallExpr]:
-            self.run_check(o, check)
 
     def run_check(self, node: Node, check: Check) -> None:
         # Hack: use the type annotations to check if the function takes 2 or

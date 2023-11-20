@@ -19,7 +19,7 @@ f"{format('hello world')}"
 
 # these will not
 
-f"{123}"
+f"{123}"  # noqa: FURB183
 
 f"{0b1010:b}"
 

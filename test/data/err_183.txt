@@ -1,0 +1,2 @@
+test/data/err_183.py:5:1 [FURB183]: Replace `f"{x}"` with `str(x)`
+test/data/err_183.py:6:1 [FURB183]: Replace `f"{123}"` with `str(123)`
