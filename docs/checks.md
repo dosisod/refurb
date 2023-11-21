@@ -2160,3 +2160,24 @@ from hashlib import sha512
 
 h = sha512(b"data")
 ```
+
+## FURB183: `use-str-func`
+
+Categories: `readability`
+
+If you want to stringify a single value without concatenating anything, use
+the `str()` function instead.
+
+Bad:
+
+```python
+nums = [123, 456]
+num = f"{num[0]}")
+```
+
+Good:
+
+```python
+nums = [123, 456]
+num = str(num[0])
+```

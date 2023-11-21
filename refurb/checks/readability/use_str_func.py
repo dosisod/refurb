@@ -3,8 +3,8 @@ from dataclasses import dataclass
 from mypy.nodes import CallExpr, ListExpr, MemberExpr, NameExpr, StrExpr
 
 from refurb.checks.common import stringify
-from refurb.error import Error
 from refurb.checks.string.use_fstring_fmt import CONVERSIONS as FURB_119_FUNCS
+from refurb.error import Error
 
 
 @dataclass
