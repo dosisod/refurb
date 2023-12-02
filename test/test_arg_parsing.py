@@ -1,4 +1,6 @@
+import os
 from pathlib import Path
+from unittest.mock import patch
 
 import pytest
 
@@ -125,6 +127,7 @@ ignore = [100, "FURB101"]
 enable = ["FURB111", "FURB222"]
 format = "github"
 sort_by = "error"
+color = false
 """
 
     config = parse_config_file(contents)
@@ -135,6 +138,7 @@ sort_by = "error"
         enable={ErrorCode(111), ErrorCode(222)},
         format="github",
         sort_by="error",
+        color=False,
     )
 
 
@@ -666,3 +670,14 @@ def test_parse_timing_stats_flag() -> None:
 def test_parse_timing_stats_flag_without_arg_is_an_error() -> None:
     with pytest.raises(ValueError, match='refurb: missing argument after "--timing-stats"'):
         parse_args(["--timing-stats"])
+
+
+def test_parse_no_color_flag() -> None:
+    assert parse_args(["--no-color"]) == Settings(color=False)
+
+
+def test_no_color_env_var_disables_color() -> None:
+    with patch.dict(os.environ, {"NO_COLOR": "1"}):
+        settings = Settings()
+
+        assert not settings.color

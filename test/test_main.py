@@ -299,3 +299,27 @@ def test_timing_stats_outputs_stats_file() -> None:
                 return
 
         pytest.fail("Data is not in proper format")
+
+
+def test_color_is_enabled_by_default():
+    with patch("builtins.print") as p:
+        main(["test/data/err_123.py"])
+
+        p.assert_called_once()
+        assert "\x1b" in p.call_args[0][0]
+
+
+def test_no_color_printed_when_disabled():
+    with patch("builtins.print") as p:
+        main(["test/data/err_123.py", "--no-color"])
+
+        p.assert_called_once()
+        assert "\x1b" not in p.call_args[0][0]
+
+
+def test_error_github_actions_formatting():
+    with patch("builtins.print") as p:
+        main(["test/data/err_123.py", "--format", "github"])
+
+        p.assert_called_once()
+        assert "::error" in p.call_args[0][0]

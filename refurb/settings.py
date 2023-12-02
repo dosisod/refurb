@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import re
 import sys
 from dataclasses import dataclass, field, replace
@@ -43,12 +44,16 @@ class Settings:
     sort_by: Literal["filename", "error"] | None = None
     verbose: bool = False
     timing_stats: Path | None = None
+    color: bool = True
 
     def __post_init__(self) -> None:
         if self.enable_all and self.disable_all:
             raise ValueError(
                 'refurb: "enable all" and "disable all" can\'t be used at the same time'  # noqa: E501
             )
+
+        if os.getenv("NO_COLOR"):
+            self.color = False
 
     @staticmethod
     def merge(old: Settings, new: Settings) -> Settings:
@@ -85,6 +90,7 @@ class Settings:
             sort_by=new.sort_by or old.sort_by,
             verbose=old.verbose or new.verbose,
             timing_stats=old.timing_stats or new.timing_stats,
+            color=old.color and new.color,
         )
 
     def get_python_version(self) -> tuple[int, int]:
@@ -155,8 +161,8 @@ T = TypeVar("T")
 
 
 def pop_type(ty: type[T], type_name: str = "") -> Callable[..., T]:  # type: ignore[misc]
-    def inner(config: dict[str, Any], name: str) -> T:  # type: ignore[misc]
-        x = config.pop(name, ty())
+    def inner(config: dict[str, Any], name: str, *, default: T | None = None) -> T:  # type: ignore[misc]
+        x = config.pop(name, default or ty())
 
         if isinstance(x, ty):
             return x
@@ -188,6 +194,7 @@ def parse_config_file(contents: str) -> Settings:
     settings.quiet = pop_bool(config, "quiet")
     settings.disable_all = pop_bool(config, "disable_all")
     settings.enable_all = pop_bool(config, "enable_all")
+    settings.color = pop_bool(config, "color", default=True)
 
     enable = pop_list(config, "enable")
     disable = pop_list(config, "disable")
@@ -312,6 +319,9 @@ def parse_command_line_args(args: list[str]) -> Settings:
 
         elif arg == "--timing-stats":
             settings.timing_stats = Path(get_next_arg(arg, iargs))
+
+        elif arg == "--no-color":
+            settings.color = False
 
         elif arg == "--":
             settings.mypy_args = list(iargs)

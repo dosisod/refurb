@@ -1,7 +1,7 @@
 import json
 import re
 import time
-from collections.abc import Sequence
+from collections.abc import Callable, Sequence
 from contextlib import suppress
 from functools import cache, partial
 from importlib import metadata
@@ -257,10 +257,53 @@ def format_as_github_annotation(error: Error | str) -> str:
     )
 
 
-def format_errors(errors: Sequence[Error | str], settings: Settings) -> str:
-    formatter = format_as_github_annotation if settings.format == "github" else str
+ERROR_DIFF_PATTERN = re.compile(r"`([^`]*)`([^`]*)`([^`]*)`")
 
-    done = "\n".join(formatter(error) for error in errors)  # type: ignore
+
+def format_with_color(error: Error | str) -> str:
+    if isinstance(error, str):
+        return error
+
+    blue = "\x1b[94m"
+    yellow = "\x1b[33m"
+    gray = "\x1b[90m"
+    green = "\x1b[92m"
+    red = "\x1b[91m"
+    reset = "\x1b[0m"
+
+    # Add red/green color for diffs, assuming the 2 pairs of backticks are in the form:
+    # Replace `old` with `new`
+    if error.msg.count("`") == 4:
+        parts = [
+            f"{gray}`{red}\\1{gray}`{reset}",
+            "\\2",
+            f"{gray}`{green}\\3{gray}`{reset}",
+        ]
+
+        error.msg = ERROR_DIFF_PATTERN.sub("".join(parts), error.msg)
+
+    parts = [
+        f"{blue}{error.filename}{reset}",
+        f"{gray}:{error.line}:{error.column + 1}{reset}",
+        " ",
+        f"{yellow}[{error.prefix}{error.code}]{reset}",
+        f"{gray}:{reset}",
+        " ",
+        error.msg,
+    ]
+
+    return "".join(parts)
+
+
+def format_errors(errors: Sequence[Error | str], settings: Settings) -> str:
+    if settings.format == "github":
+        formatter: Callable[[Error | str], str] = format_as_github_annotation
+    elif settings.color:
+        formatter = format_with_color
+    else:
+        formatter = str
+
+    done = "\n".join(formatter(error) for error in errors)
 
     if not settings.quiet and any(isinstance(err, Error) for err in errors):
         done += "\n\nRun `refurb --explain ERR` to further explain an error. Use `--quiet` to silence this message"

@@ -306,6 +306,16 @@ This will output a JSON file with the following information:
 Larger files naturally take longer to check, but files that take way too long should be
 looked into, as an issue might only manifest themselves when a file reaches a certain size.
 
+## Disable Color
+
+Color output is enabled by default in Refurb. To disable it, do one of the following:
+
+* Set the `NO_COLOR` env var.
+
+* Use the `--no-color` flag.
+
+* Set `color = false` in the config file.
+
 ## Developing / Contributing
 
 ### Setup
