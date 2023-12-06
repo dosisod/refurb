@@ -9,3 +9,5 @@ test/data/err_148.py:19:19 [FURB148]: Value is unused, use `for x in range(len(y
 test/data/err_148.py:21:25 [FURB148]: Index is unused, use `for x in y` instead
 test/data/err_148.py:21:32 [FURB148]: Value is unused, use `for x in range(len(y))` instead
 test/data/err_148.py:26:23 [FURB148]: Value is unused, use `for x in range(len(y))` instead
+test/data/err_148.py:28:5 [FURB148]: Index is unused, use `for x in y` instead
+test/data/err_148.py:28:12 [FURB148]: Value is unused, use `for x in range(len(y))` instead

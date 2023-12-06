@@ -8,3 +8,5 @@ test/data/err_135.py:26:15 [FURB135]: Value is unused, use `for key in d` instea
 test/data/err_135.py:27:12 [FURB135]: Key is unused, use `for value in d.values()` instead
 test/data/err_135.py:29:19 [FURB135]: Value is unused, use `for key in d` instead
 test/data/err_135.py:30:16 [FURB135]: Key is unused, use `for value in d.values()` instead
+test/data/err_135.py:39:9 [FURB135]: Key is unused, use `for value in d.values()` instead
+test/data/err_135.py:39:12 [FURB135]: Value is unused, use `for key in d` instead

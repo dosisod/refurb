@@ -71,7 +71,7 @@ def check_for_loop_like(
 ) -> None:
     match node:
         case ForStmt(index=index, expr=expr):
-            func(index, expr, [], errors)
+            func(index, expr, [node.body], errors)
 
         case GeneratorExpr(
             indices=[index],
@@ -228,14 +228,7 @@ class ReadCountVisitor(TraverserVisitor):
         return self.read_count > 0
 
 
-def is_placeholder(name: NameExpr) -> bool:
-    return unmangle_name(name.name) == "_"
-
-
 def is_name_unused_in_contexts(name: NameExpr, contexts: list[Node]) -> bool:
-    if not contexts:
-        return False
-
     for ctx in contexts:
         visitor = ReadCountVisitor(name)
         visitor.accept(ctx)
