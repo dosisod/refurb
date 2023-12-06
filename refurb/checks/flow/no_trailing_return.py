@@ -1,15 +1,7 @@
 from collections.abc import Generator
 from dataclasses import dataclass
 
-from mypy.nodes import (
-    Block,
-    FuncItem,
-    IfStmt,
-    MatchStmt,
-    ReturnStmt,
-    Statement,
-    WithStmt,
-)
+from mypy.nodes import Block, FuncItem, IfStmt, MatchStmt, ReturnStmt, Statement, WithStmt
 from mypy.patterns import AsPattern
 
 from refurb.error import Error

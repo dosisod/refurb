@@ -11,11 +11,7 @@ from mypy.nodes import (
     Var,
 )
 
-from refurb.checks.common import (
-    check_for_loop_like,
-    is_name_unused_in_contexts,
-    is_placeholder,
-)
+from refurb.checks.common import check_for_loop_like, is_name_unused_in_contexts, is_placeholder
 from refurb.error import Error
 
 

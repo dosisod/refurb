@@ -29,6 +29,7 @@ pytest = "^7.1.2"
 refurb = "refurb.__main__:main"
 
 [tool.isort]
+line_length = 99
 multi_line_output = 3
 include_trailing_comma = true
 color_output = true

@@ -1,12 +1,6 @@
 from dataclasses import dataclass
 
-from mypy.nodes import (
-    CallExpr,
-    GeneratorExpr,
-    ListComprehension,
-    NameExpr,
-    SetComprehension,
-)
+from mypy.nodes import CallExpr, GeneratorExpr, ListComprehension, NameExpr, SetComprehension
 
 from refurb.error import Error
 

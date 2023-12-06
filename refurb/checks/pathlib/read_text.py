@@ -1,14 +1,6 @@
 from dataclasses import dataclass
 
-from mypy.nodes import (
-    AssignmentStmt,
-    Block,
-    CallExpr,
-    MemberExpr,
-    NameExpr,
-    StrExpr,
-    WithStmt,
-)
+from mypy.nodes import AssignmentStmt, Block, CallExpr, MemberExpr, NameExpr, StrExpr, WithStmt
 
 from refurb.error import Error
 

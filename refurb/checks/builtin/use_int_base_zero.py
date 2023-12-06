@@ -1,13 +1,6 @@
 from dataclasses import dataclass
 
-from mypy.nodes import (
-    ArgKind,
-    CallExpr,
-    IndexExpr,
-    IntExpr,
-    RefExpr,
-    SliceExpr,
-)
+from mypy.nodes import ArgKind, CallExpr, IndexExpr, IntExpr, RefExpr, SliceExpr
 
 from refurb.error import Error
 

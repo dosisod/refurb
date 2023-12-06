@@ -1,14 +1,6 @@
 from dataclasses import dataclass
 
-from mypy.nodes import (
-    Block,
-    Expression,
-    FuncItem,
-    IfStmt,
-    MatchStmt,
-    ReturnStmt,
-    Statement,
-)
+from mypy.nodes import Block, Expression, FuncItem, IfStmt, MatchStmt, ReturnStmt, Statement
 from mypy.patterns import AsPattern
 
 from refurb.error import Error

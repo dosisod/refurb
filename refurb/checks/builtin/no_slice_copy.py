@@ -1,14 +1,6 @@
 from dataclasses import dataclass
 
-from mypy.nodes import (
-    AssignmentStmt,
-    DelStmt,
-    IndexExpr,
-    MypyFile,
-    RefExpr,
-    SliceExpr,
-    Var,
-)
+from mypy.nodes import AssignmentStmt, DelStmt, IndexExpr, MypyFile, RefExpr, SliceExpr, Var
 
 from refurb.error import Error
 from refurb.visitor import TraverserVisitor

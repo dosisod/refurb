@@ -1,14 +1,6 @@
 from dataclasses import dataclass
 
-from mypy.nodes import (
-    CallExpr,
-    Expression,
-    MemberExpr,
-    NameExpr,
-    OpExpr,
-    UnaryExpr,
-    Var,
-)
+from mypy.nodes import CallExpr, Expression, MemberExpr, NameExpr, OpExpr, UnaryExpr, Var
 
 from refurb.checks.common import extract_binary_oper
 from refurb.error import Error

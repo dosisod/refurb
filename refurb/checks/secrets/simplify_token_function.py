@@ -1,14 +1,6 @@
 from dataclasses import dataclass
 
-from mypy.nodes import (
-    CallExpr,
-    IndexExpr,
-    IntExpr,
-    MemberExpr,
-    NameExpr,
-    RefExpr,
-    SliceExpr,
-)
+from mypy.nodes import CallExpr, IndexExpr, IntExpr, MemberExpr, NameExpr, RefExpr, SliceExpr
 
 from refurb.checks.common import stringify
 from refurb.error import Error
