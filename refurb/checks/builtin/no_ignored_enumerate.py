@@ -11,7 +11,7 @@ from mypy.nodes import (
     Var,
 )
 
-from refurb.checks.common import check_for_loop_like, is_name_unused_in_contexts, is_placeholder
+from refurb.checks.common import check_for_loop_like, is_name_unused_in_contexts
 from refurb.error import Error
 
 
@@ -75,10 +75,10 @@ def check_enumerate_call(
 def check_unused_index_or_value(
     index: NameExpr, value: NameExpr, contexts: list[Node], errors: list[Error]
 ) -> None:
-    if is_placeholder(index) or is_name_unused_in_contexts(index, contexts):
+    if is_name_unused_in_contexts(index, contexts):
         errors.append(ErrorInfo.from_node(index, "Index is unused, use `for x in y` instead"))
 
-    if is_placeholder(value) or is_name_unused_in_contexts(value, contexts):
+    if is_name_unused_in_contexts(value, contexts):
         errors.append(
             ErrorInfo.from_node(value, "Value is unused, use `for x in range(len(y))` instead")
         )

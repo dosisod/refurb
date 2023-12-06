@@ -12,7 +12,7 @@ from mypy.nodes import (
     Var,
 )
 
-from refurb.checks.common import check_for_loop_like, is_name_unused_in_contexts, is_placeholder
+from refurb.checks.common import check_for_loop_like, is_name_unused_in_contexts
 from refurb.error import Error
 
 
@@ -78,10 +78,10 @@ def check_dict_items_call(
 def check_unused_key_or_value(
     key: NameExpr, value: NameExpr, contexts: list[Node], errors: list[Error]
 ) -> None:
-    if is_placeholder(key) or is_name_unused_in_contexts(key, contexts):
+    if is_name_unused_in_contexts(key, contexts):
         errors.append(
             ErrorInfo.from_node(key, "Key is unused, use `for value in d.values()` instead")
         )
 
-    if is_placeholder(value) or is_name_unused_in_contexts(value, contexts):
+    if is_name_unused_in_contexts(value, contexts):
         errors.append(ErrorInfo.from_node(value, "Value is unused, use `for key in d` instead"))

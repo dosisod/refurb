@@ -30,25 +30,7 @@ def f5():
     {v: "" for k, v in d.items()}  # "k" is unused, warn
 
 
-# these should not
-
 def f6():
-    for k, v in d.items():
-        print(k, v)
-
-
-class Shelf:
-    def items(self) -> list[tuple[str, int]]:
-        return [("bagels", 123)]
-
-def f7():
-    shelf = Shelf()
-
-    for name, count in shelf.items():
-        pass
-
-
-def f8():
     k=v=0
 
     # don't warn because we can't know if "k" or "v" are unused simply by
@@ -58,6 +40,25 @@ def f8():
         pass
 
     print(k, v)
+
+
+# these should not
+
+def f7():
+    for k, v in d.items():
+        print(k, v)
+
+
+class Shelf:
+    def items(self) -> list[tuple[str, int]]:
+        return [("bagels", 123)]
+
+def f8():
+    shelf = Shelf()
+
+    for name, count in shelf.items():
+        pass
+
 
 def f9():
     {k: "" for k, v in d.items() if v}
