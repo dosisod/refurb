@@ -114,6 +114,8 @@ def check_stmts(stmts: list[Statement], errors: list[Error]) -> None:
     for stmt in stmts:
         for visitor in visitors:
             visitor.accept(stmt)
+        # No need to track referenced variables anymore
+        visitors = [visitor for visitor in visitors if not visitor.referenced]
 
         match stmt:
             case AssignmentStmt(lvalues=[NameExpr(name=name)], rvalue=rvalue):
