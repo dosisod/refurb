@@ -47,6 +47,12 @@ class spark:
         def select(*args):
             return spark.DataFrame()
 
+class F:
+    @staticmethod
+    def lit(value):
+        return value
+
+
 # these will match
 def get_tensors(device: str) -> torch.Tensor:
     a = torch.ones(2, 1)
@@ -75,7 +81,36 @@ def projection(df_in: spark.DataFrame) -> spark.DataFrame:
     return df.withColumn("col2a", spark.functions.col("col2").cast("date"))
 
 
+def assign_multiple(df):
+    df = df.select("column")
+    result_df = df.select("another_column")
+    final_df = result_df.withColumn("column2", F.lit("abc"))
+    return final_df
+
+
+# not yet supported
+def assign_alternating(df, df2):
+    df = df.select("column")
+    df2 = df2.select("another_column")
+    df = df.withColumn("column2", F.lit("abc"))
+    return df, df2
+
+
 # these will not
+def assign_multiple_referenced(df, df2):
+    df = df.select("column")
+    result_df = df.select("another_column")
+    return df, result_df
+
+
+def invalid(df_in: spark.DataFrame, alternative_df: spark.DataFrame) -> spark.DataFrame:
+    df = (
+        df_in.select(["col1", "col2"])
+        .withColumnRenamed("col1", "col1a")
+    )
+    return alternative_df.withColumn("col2a", spark.functions.col("col2").cast("date"))
+
+
 def no_match():
     y = 10
     y = transform(y)
