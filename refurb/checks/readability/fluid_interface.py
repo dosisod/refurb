@@ -11,7 +11,7 @@ from mypy.nodes import (
     ReturnStmt,
 )
 
-from refurb.checks.common import check_block_like
+from refurb.checks.common import check_block_like, ReadCountVisitor
 from refurb.error import Error
 from refurb.visitor import TraverserVisitor
 
@@ -80,9 +80,17 @@ def check_call(node, name: str | None = None) -> bool:
     match node:
         # Single chain
         case CallExpr(callee=MemberExpr(expr=NameExpr(name=x), name=_)):
-            return name is None or name == x
+            if name is None or name == x:
+                # Exclude other references
+                x_expr = NameExpr(x)
+                x_expr.fullname = x
+                visitor = ReadCountVisitor(x_expr)
+                visitor.accept(node)
+                return visitor.read_count == 1
+            return False
+
         # Nested
-        case CallExpr(callee=MemberExpr(expr=call_node, name=_)):
+        case CallExpr(callee=MemberExpr(expr=call_node, name=y)):
             return check_call(call_node)
 
     return False
@@ -92,7 +100,7 @@ class NameReferenceVisitor(TraverserVisitor):
     name: NameExpr
     referenced: bool
 
-    def __init__(self, name: NameExpr, stmt: Statement) -> None:
+    def __init__(self, name: NameExpr, stmt: Statement | None = None) -> None:
         super().__init__()
         self.name = name
         self.stmt = stmt

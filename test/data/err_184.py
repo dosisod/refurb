@@ -97,6 +97,11 @@ def assign_alternating(df, df2):
 
 
 # these will not
+def _(x):
+    y = x.m()
+    return y.operation(*[v for v in y])
+
+
 def assign_multiple_referenced(df, df2):
     df = df.select("column")
     result_df = df.select("another_column")
