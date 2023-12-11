@@ -97,6 +97,11 @@ def assign_alternating(df, df2):
 
 
 # these will not
+def ignored(x):
+    _ = x.op1()
+    _ = _.op2()
+    return _
+
 def _(x):
     y = x.m()
     return y.operation(*[v for v in y])

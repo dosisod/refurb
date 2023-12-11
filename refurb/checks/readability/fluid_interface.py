@@ -91,7 +91,7 @@ def check_call(node, name: str | None = None) -> bool:
 
         # Nested
         case CallExpr(callee=MemberExpr(expr=call_node, name=y)):
-            return check_call(call_node)
+            return check_call(call_node, name=name)
 
     return False
 
@@ -141,7 +141,7 @@ def check_stmts(stmts: list[Statement], errors: list[Error]) -> None:
                         name_expr.fullname = last
                         visitors.append(NameReferenceVisitor(name_expr, stmt))
 
-                last = name
+                last = name if name != "_" else ""
             case ReturnStmt(expr=rvalue):
                 if last and check_call(rvalue, name=last):
                     errors.append(
