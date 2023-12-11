@@ -12,8 +12,10 @@ from mypy.nodes import (
     NameExpr,
     ReturnStmt,
     TupleExpr,
+    RefExpr,
 )
 
+from refurb.checks.common import stringify
 from refurb.error import Error
 
 
@@ -59,13 +61,14 @@ def check(node: LambdaExpr, errors: list[Error]) -> None:
             arguments=lambda_args,
             body=Block(
                 body=[
-                    ReturnStmt(expr=CallExpr(callee=NameExpr(name=func_name)) as func),
+                    ReturnStmt(expr=CallExpr(callee=RefExpr() as ref) as func),
                 ]
             ),
         ) if (
             get_lambda_arg_names(lambda_args) == get_func_arg_names(func.args)
             and all(kind == ArgKind.ARG_POS for kind in func.arg_kinds)
         ):
+            func_name = stringify(ref)
             arg_names = get_lambda_arg_names(lambda_args)
             arg_names = ", ".join(arg_names) if arg_names else ""
 

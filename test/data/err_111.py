@@ -3,6 +3,8 @@
 def f(x, y):
     pass
 
+mod = object
+
 
 lambda: print()
 lambda x: bool(x)
@@ -11,6 +13,8 @@ lambda x, y: f(x, y)
 lambda: []
 lambda: {}
 lambda: ()
+
+lambda x: mod.cast(x)
 
 
 # these will not
