@@ -5,6 +5,7 @@ from mypy.nodes import CallExpr, ListExpr, MemberExpr, NameExpr, StrExpr
 from refurb.checks.common import stringify
 from refurb.checks.string.use_fstring_fmt import CONVERSIONS as FURB_119_FUNCS
 from refurb.error import Error
+from refurb.visitor import TraverserVisitor
 
 
 @dataclass
@@ -36,6 +37,14 @@ class ErrorInfo(Error):
 ignore = set[int]()
 
 
+# TODO: add support for returning False from check to indicate it shouldnt prapogate
+class NestedFstringIgnorer(TraverserVisitor):
+    def visit_call_expr(self, o: CallExpr) -> None:
+        ignore.add(id(o))
+
+        super().visit_call_expr(o)
+
+
 def check(node: CallExpr, errors: list[Error]) -> None:
     if id(node) in ignore:
         return
@@ -48,7 +57,10 @@ def check(node: CallExpr, errors: list[Error]) -> None:
             ),
             args=[ListExpr(items=items)],
         ):
-            ignore.update(id(item) for item in items)
+            visitor = NestedFstringIgnorer()
+
+            for item in items:
+                visitor.accept(item)
 
         case CallExpr(
             callee=MemberExpr(
@@ -66,3 +78,12 @@ def check(node: CallExpr, errors: list[Error]) -> None:
             msg = f'Replace `f"{{{x}}}"` with `str({x})`'
 
             errors.append(ErrorInfo.from_node(node, msg))
+
+        case CallExpr(
+            callee=MemberExpr(
+                expr=StrExpr(value="{:{}}"),
+                name="format",
+            ),
+            args=[_, arg],
+        ):
+            NestedFstringIgnorer().accept(arg)

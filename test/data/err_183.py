@@ -10,3 +10,5 @@ f"{123}"
 
 f"hello{x}world"
 f"{x} {x}"
+
+f"{x:{x}}"
