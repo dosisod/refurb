@@ -2,11 +2,10 @@ from dataclasses import dataclass
 
 from mypy.nodes import (
     AssignmentStmt,
-    Block,
     CallExpr,
     Expression,
+    FuncDef,
     MemberExpr,
-    MypyFile,
     NameExpr,
     ReturnStmt,
     Statement,
@@ -74,8 +73,8 @@ class ErrorInfo(Error):
     categories = ("readability",)
 
 
-def check(node: Block | MypyFile, errors: list[Error]) -> None:
-    check_block_like(check_stmts, node, errors)
+def check(node: FuncDef, errors: list[Error]) -> None:
+    check_block_like(check_stmts, node.body, errors)
 
 
 def check_call(node: Expression, name: str | None = None) -> bool:

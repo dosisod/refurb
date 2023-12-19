@@ -134,3 +134,30 @@ def f(x):
     else:
         name = "bob"
     print(name)
+
+def g(x):
+    try:
+        name = "alice"
+        stripped = name.strip()
+        print(stripped)
+    except ValueError:
+        name = "bob"
+    print(name)
+
+def h(x):
+    for _ in (1, 2, 3):
+        name = "alice"
+        stripped = name.strip()
+        print(stripped)
+    else:
+        name = "bob"
+    print(name)
+
+def assign_multiple_try(df):
+    try:
+        df = df.select("column")
+        result_df = df.select("another_column")
+        final_df = result_df.withColumn("column2", F.lit("abc"))
+        return final_df
+    except ValueError:
+        return None
