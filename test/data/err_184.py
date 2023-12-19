@@ -125,3 +125,12 @@ def no_match():
     y = 10
     y = transform(y)
     return y
+
+def f(x):
+    if x:
+        name = "alice"
+        stripped = name.strip()
+        print(stripped)
+    else:
+        name = "bob"
+    print(name)
