@@ -4,6 +4,7 @@ from mypy.nodes import (
     AssignmentStmt,
     Block,
     CallExpr,
+    Expression,
     MemberExpr,
     MypyFile,
     NameExpr,
@@ -77,7 +78,7 @@ def check(node: Block | MypyFile, errors: list[Error]) -> None:
     check_block_like(check_stmts, node, errors)
 
 
-def check_call(node: CallExpr, name: str | None = None) -> bool:
+def check_call(node: Expression, name: str | None = None) -> bool:
     match node:
         # Single chain
         case CallExpr(callee=MemberExpr(expr=NameExpr(name=x), name=_)):
@@ -118,7 +119,7 @@ class NameReferenceVisitor(TraverserVisitor):
 
 def check_stmts(stmts: list[Statement], errors: list[Error]) -> None:
     last = ""
-    visitors = []
+    visitors: list[NameReferenceVisitor] = []
 
     for stmt in stmts:
         for visitor in visitors:
@@ -144,7 +145,7 @@ def check_stmts(stmts: list[Statement], errors: list[Error]) -> None:
 
                 last = name if name != "_" else ""
             case ReturnStmt(expr=rvalue):
-                if last and check_call(rvalue, name=last):
+                if last and rvalue is not None and check_call(rvalue, name=last):
                     errors.append(
                         ErrorInfo.from_node(
                             stmt,
@@ -162,6 +163,6 @@ def check_stmts(stmts: list[Statement], errors: list[Error]) -> None:
                 "Assignment statement should be chained",
             )
             for visitor in visitors
-            if not visitor.referenced
+            if not visitor.referenced and visitor.stmt is not None
         ]
     )
