@@ -106,8 +106,12 @@ def check(node: FuncItem, errors: list[Error]) -> None:
                     )
                 ]
             ),
-        ) if lhs_name == expr_lhs and rhs_name == expr_rhs:
-            if func_name := BINARY_OPERATORS.get(op):
+        ) if func_name := BINARY_OPERATORS.get(op):
+            if func_name == "contains":
+                # operator.contains has reversed parameters
+                expr_lhs, expr_rhs = expr_rhs, expr_lhs
+
+            if lhs_name == expr_lhs and rhs_name == expr_rhs:
                 errors.append(
                     ErrorInfo.from_node(
                         node,
