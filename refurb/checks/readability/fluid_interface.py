@@ -1,25 +1,26 @@
 from dataclasses import dataclass
 
 from mypy.nodes import (
-    Block,
-    Statement,
     AssignmentStmt,
-    MypyFile,
+    Block,
     CallExpr,
     MemberExpr,
+    MypyFile,
     NameExpr,
     ReturnStmt,
+    Statement,
 )
 
-from refurb.checks.common import check_block_like, ReadCountVisitor
+from refurb.checks.common import ReadCountVisitor, check_block_like
 from refurb.error import Error
 from refurb.visitor import TraverserVisitor
 
 
 @dataclass
 class ErrorInfo(Error):
-    r"""When an API has a Fluent Interface (the ability to chain multiple calls together), you should chain those calls
-    instead of repeatedly assigning and using the value.
+    r"""
+    When an API has a Fluent Interface (the ability to chain multiple calls together), you should
+    chain those calls instead of repeatedly assigning and using the value.
     Sometimes a return statement can be written more succinctly:
 
     Bad:
@@ -76,7 +77,7 @@ def check(node: Block | MypyFile, errors: list[Error]) -> None:
     check_block_like(check_stmts, node, errors)
 
 
-def check_call(node, name: str | None = None) -> bool:
+def check_call(node: CallExpr, name: str | None = None) -> bool:
     match node:
         # Single chain
         case CallExpr(callee=MemberExpr(expr=NameExpr(name=x), name=_)):
@@ -90,7 +91,7 @@ def check_call(node, name: str | None = None) -> bool:
             return False
 
         # Nested
-        case CallExpr(callee=MemberExpr(expr=call_node, name=y)):
+        case CallExpr(callee=MemberExpr(expr=call_node, name=_)):
             return check_call(call_node, name=name)
 
     return False
@@ -132,7 +133,7 @@ def check_stmts(stmts: list[Statement], errors: list[Error]) -> None:
                         errors.append(
                             ErrorInfo.from_node(
                                 stmt,
-                                f"Assignment statement should be chained",
+                                "Assignment statement should be chained",
                             )
                         )
                     else:
@@ -147,18 +148,20 @@ def check_stmts(stmts: list[Statement], errors: list[Error]) -> None:
                     errors.append(
                         ErrorInfo.from_node(
                             stmt,
-                            f"Return statement should be chained",
+                            "Return statement should be chained",
                         )
                     )
             case _:
                 last = ""
 
     # Ensure that variables are not referenced
-    for visitor in visitors:
-        if not visitor.referenced:
-            errors.append(
-                ErrorInfo.from_node(
-                    visitor.stmt,
-                    f"Assignment statement should be chained",
-                )
+    errors.extend(
+        [
+            ErrorInfo.from_node(
+                visitor.stmt,
+                "Assignment statement should be chained",
             )
+            for visitor in visitors
+            if not visitor.referenced
+        ]
+    )
