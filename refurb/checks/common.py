@@ -2,6 +2,7 @@ from collections.abc import Callable
 from itertools import chain, combinations, starmap
 
 from mypy.nodes import (
+    ArgKind,
     Block,
     BytesExpr,
     CallExpr,
@@ -13,12 +14,14 @@ from mypy.nodes import (
     GeneratorExpr,
     IndexExpr,
     IntExpr,
+    LambdaExpr,
     ListExpr,
     MemberExpr,
     MypyFile,
     NameExpr,
     Node,
     OpExpr,
+    ReturnStmt,
     SetExpr,
     SliceExpr,
     StarExpr,
@@ -271,9 +274,17 @@ def is_type_none_call(node: Expression) -> bool:
 
 
 def stringify(node: Node) -> str:
+    try:
+        return _stringify(node)
+
+    except ValueError:  # pragma: no cover
+        return "x"
+
+
+def _stringify(node: Node) -> str:
     match node:
         case MemberExpr(expr=expr, name=name):
-            return f"{stringify(expr)}.{name}"
+            return f"{_stringify(expr)}.{name}"
 
         case NameExpr(name=name):
             return name
@@ -287,10 +298,41 @@ def stringify(node: Node) -> str:
             return str(value)
 
         case CallExpr():
-            name = stringify(node.callee)
+            name = _stringify(node.callee)
 
-            args = ", ".join(stringify(arg) for arg in node.args)
+            args = ", ".join(_stringify(arg) for arg in node.args)
 
             return f"{name}({args})"
 
-    return "x"  # pragma: no cover
+        case OpExpr(left=left, op=op, right=right):
+            return f"{_stringify(left)} {op} {_stringify(right)}"
+
+        case ComparisonExpr():
+            parts: list[str] = []
+
+            for op, operand in zip(node.operators, node.operands):
+                parts.extend((_stringify(operand), op))
+
+            parts.append(_stringify(node.operands[-1]))
+
+            return " ".join(parts)
+
+        case UnaryExpr(op=op, expr=expr):
+            return f"{op} {_stringify(expr)}"
+
+        case LambdaExpr(
+            arg_names=arg_names,
+            arg_kinds=arg_kinds,
+            body=Block(body=[ReturnStmt(expr=Expression() as expr)]),
+        ) if (all(kind == ArgKind.ARG_POS for kind in arg_kinds) and all(arg_names)):
+            if arg_names:
+                args = " "
+                args += ", ".join(arg_names)  # type: ignore
+            else:
+                args = ""
+
+            body = _stringify(expr)
+
+            return f"lambda{args}: {body}"
+
+    raise ValueError
