@@ -1,28 +1,28 @@
-test/data/err_118.py:3:1 [FURB118]: Replace lambda with `operator.add`
-test/data/err_118.py:4:1 [FURB118]: Replace lambda with `operator.sub`
-test/data/err_118.py:5:1 [FURB118]: Replace lambda with `operator.truediv`
-test/data/err_118.py:6:1 [FURB118]: Replace lambda with `operator.floordiv`
-test/data/err_118.py:7:1 [FURB118]: Replace lambda with `operator.mul`
-test/data/err_118.py:8:1 [FURB118]: Replace lambda with `operator.matmul`
-test/data/err_118.py:9:1 [FURB118]: Replace lambda with `operator.pow`
-test/data/err_118.py:10:1 [FURB118]: Replace lambda with `operator.is_`
-test/data/err_118.py:11:1 [FURB118]: Replace lambda with `operator.is_not`
-test/data/err_118.py:12:1 [FURB118]: Replace lambda with `operator.contains`
-test/data/err_118.py:13:1 [FURB118]: Replace lambda with `operator.and_`
-test/data/err_118.py:14:1 [FURB118]: Replace lambda with `operator.or_`
-test/data/err_118.py:15:1 [FURB118]: Replace lambda with `operator.xor`
-test/data/err_118.py:16:1 [FURB118]: Replace lambda with `operator.lshift`
-test/data/err_118.py:17:1 [FURB118]: Replace lambda with `operator.rshift`
-test/data/err_118.py:18:1 [FURB118]: Replace lambda with `operator.mod`
-test/data/err_118.py:19:1 [FURB118]: Replace lambda with `operator.lt`
-test/data/err_118.py:20:1 [FURB118]: Replace lambda with `operator.le`
-test/data/err_118.py:21:1 [FURB118]: Replace lambda with `operator.eq`
-test/data/err_118.py:22:1 [FURB118]: Replace lambda with `operator.ne`
-test/data/err_118.py:23:1 [FURB118]: Replace lambda with `operator.ge`
-test/data/err_118.py:24:1 [FURB118]: Replace lambda with `operator.gt`
-test/data/err_118.py:26:1 [FURB118]: Replace lambda with `operator.invert`
-test/data/err_118.py:27:1 [FURB118]: Replace lambda with `operator.neg`
-test/data/err_118.py:28:1 [FURB118]: Replace lambda with `operator.not_`
-test/data/err_118.py:29:1 [FURB118]: Replace lambda with `operator.pos`
+test/data/err_118.py:3:1 [FURB118]: Replace `lambda x, y: x + y` with `operator.add`
+test/data/err_118.py:4:1 [FURB118]: Replace `lambda x, y: x - y` with `operator.sub`
+test/data/err_118.py:5:1 [FURB118]: Replace `lambda x, y: x / y` with `operator.truediv`
+test/data/err_118.py:6:1 [FURB118]: Replace `lambda x, y: x // y` with `operator.floordiv`
+test/data/err_118.py:7:1 [FURB118]: Replace `lambda x, y: x * y` with `operator.mul`
+test/data/err_118.py:8:1 [FURB118]: Replace `lambda x, y: x @ y` with `operator.matmul`
+test/data/err_118.py:9:1 [FURB118]: Replace `lambda x, y: x ** y` with `operator.pow`
+test/data/err_118.py:10:1 [FURB118]: Replace `lambda x, y: x is y` with `operator.is_`
+test/data/err_118.py:11:1 [FURB118]: Replace `lambda x, y: x is not y` with `operator.is_not`
+test/data/err_118.py:12:1 [FURB118]: Replace `lambda x, y: y in x` with `operator.contains`
+test/data/err_118.py:13:1 [FURB118]: Replace `lambda x, y: x & y` with `operator.and_`
+test/data/err_118.py:14:1 [FURB118]: Replace `lambda x, y: x | y` with `operator.or_`
+test/data/err_118.py:15:1 [FURB118]: Replace `lambda x, y: x ^ y` with `operator.xor`
+test/data/err_118.py:16:1 [FURB118]: Replace `lambda x, y: x << y` with `operator.lshift`
+test/data/err_118.py:17:1 [FURB118]: Replace `lambda x, y: x >> y` with `operator.rshift`
+test/data/err_118.py:18:1 [FURB118]: Replace `lambda x, y: x % y` with `operator.mod`
+test/data/err_118.py:19:1 [FURB118]: Replace `lambda x, y: x < y` with `operator.lt`
+test/data/err_118.py:20:1 [FURB118]: Replace `lambda x, y: x <= y` with `operator.le`
+test/data/err_118.py:21:1 [FURB118]: Replace `lambda x, y: x == y` with `operator.eq`
+test/data/err_118.py:22:1 [FURB118]: Replace `lambda x, y: x != y` with `operator.ne`
+test/data/err_118.py:23:1 [FURB118]: Replace `lambda x, y: x >= y` with `operator.ge`
+test/data/err_118.py:24:1 [FURB118]: Replace `lambda x, y: x > y` with `operator.gt`
+test/data/err_118.py:26:1 [FURB118]: Replace `lambda x: ~ x` with `operator.invert`
+test/data/err_118.py:27:1 [FURB118]: Replace `lambda x: - x` with `operator.neg`
+test/data/err_118.py:28:1 [FURB118]: Replace `lambda x: not x` with `operator.not_`
+test/data/err_118.py:29:1 [FURB118]: Replace `lambda x: + x` with `operator.pos`
 test/data/err_118.py:31:1 [FURB118]: Replace function with `operator.add`
 test/data/err_118.py:34:1 [FURB118]: Replace function with `operator.neg`

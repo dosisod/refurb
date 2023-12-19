@@ -12,6 +12,7 @@ from mypy.nodes import (
     UnaryExpr,
 )
 
+from refurb.checks.common import _stringify
 from refurb.error import Error
 
 
@@ -82,7 +83,7 @@ UNARY_OPERATORS = {
 
 
 def check(node: FuncItem, errors: list[Error]) -> None:
-    func_type = "lambda" if isinstance(node, LambdaExpr) else "function"
+    func_type = get_function_type(node)
 
     match node:
         case FuncItem(
@@ -106,8 +107,12 @@ def check(node: FuncItem, errors: list[Error]) -> None:
                     )
                 ]
             ),
-        ) if lhs_name == expr_lhs and rhs_name == expr_rhs:
-            if func_name := BINARY_OPERATORS.get(op):
+        ) if func_name := BINARY_OPERATORS.get(op):
+            if func_name == "contains":
+                # operator.contains has reversed parameters
+                expr_lhs, expr_rhs = expr_rhs, expr_lhs
+
+            if lhs_name == expr_lhs and rhs_name == expr_rhs:
                 errors.append(
                     ErrorInfo.from_node(
                         node,
@@ -136,3 +141,14 @@ def check(node: FuncItem, errors: list[Error]) -> None:
                         f"Replace {func_type} with `operator.{func_name}`",
                     )
                 )
+
+
+def get_function_type(node: FuncItem) -> str:
+    if isinstance(node, LambdaExpr):
+        try:
+            return f"`{_stringify(node)}`"
+
+        except ValueError:
+            return "lambda"
+
+    return "function"

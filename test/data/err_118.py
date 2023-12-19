@@ -9,7 +9,7 @@ lambda x, y: x @ y
 lambda x, y: x ** y
 lambda x, y: x is y
 lambda x, y: x is not y
-lambda x, y: x in y
+lambda x, y: y in x
 lambda x, y: x & y
 lambda x, y: x | y
 lambda x, y: x ^ y
