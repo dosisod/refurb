@@ -1,0 +1,7 @@
+test/data/err_184.py:59:5 [FURB184]: Assignment statement should be chained
+test/data/err_184.py:60:5 [FURB184]: Assignment statement should be chained
+test/data/err_184.py:67:5 [FURB184]: Assignment statement should be chained
+test/data/err_184.py:70:5 [FURB184]: Assignment statement should be chained
+test/data/err_184.py:81:5 [FURB184]: Return statement should be chained
+test/data/err_184.py:86:5 [FURB184]: Assignment statement should be chained
+test/data/err_184.py:87:5 [FURB184]: Assignment statement should be chained
