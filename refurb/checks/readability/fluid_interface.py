@@ -111,10 +111,6 @@ class NameReferenceVisitor(TraverserVisitor):
         if not self.referenced and node.fullname == self.name.fullname:
             self.referenced = True
 
-    @property
-    def was_referenced(self) -> bool:
-        return self.referenced
-
 
 def check_stmts(stmts: list[Statement], errors: list[Error]) -> None:
     last = ""

@@ -2181,3 +2181,55 @@ Good:
 nums = [123, 456]
 num = str(num[0])
 ```
+
+## FURB184: `use-fluid-interface`
+
+Categories: `readability`
+
+When an API has a Fluent Interface (the ability to chain multiple calls together), you should
+chain those calls instead of repeatedly assigning and using the value.
+Sometimes a return statement can be written more succinctly:
+
+Bad:
+
+```pythonpython
+def get_tensors(device: str) -> torch.Tensor:
+    t1 = torch.ones(2, 1)
+    t2 = t1.long()
+    t3 = t2.to(device)
+    return t3
+
+def process(file_name: str):
+    common_columns = ["col1_renamed", "col2_renamed", "custom_col"]
+    df = spark.read.parquet(file_name)
+    df = df \
+        .withColumnRenamed('col1', 'col1_renamed') \
+        .withColumnRenamed('col2', 'col2_renamed')
+    df = df \
+        .select(common_columns) \
+        .withColumn('service_type', F.lit('green'))
+    return df
+```
+
+Good:
+
+```pythonpython
+def get_tensors(device: str) -> torch.Tensor:
+    t3 = (
+        torch.ones(2, 1)
+        .long()
+        .to(device)
+    )
+    return t3
+
+def process(file_name: str):
+    common_columns = ["col1_renamed", "col2_renamed", "custom_col"]
+    df = (
+        spark.read.parquet(file_name)
+        .withColumnRenamed('col1', 'col1_renamed')
+        .withColumnRenamed('col2', 'col2_renamed')
+        .select(common_columns)
+        .withColumn('service_type', F.lit('green'))
+    )
+    return df
+```
