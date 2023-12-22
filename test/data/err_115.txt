@@ -34,3 +34,5 @@ test/data/err_115.py:67:8 [FURB115]: Replace `x == []` with `not x`
 test/data/err_115.py:68:8 [FURB115]: Replace `x != []` with `x`
 test/data/err_115.py:70:8 [FURB115]: Replace `x == {}` with `not x`
 test/data/err_115.py:71:8 [FURB115]: Replace `x != {}` with `x`
+test/data/err_115.py:73:8 [FURB115]: Replace `len(x)` with `x`
+test/data/err_115.py:74:8 [FURB115]: Replace `len(x)` with `x`

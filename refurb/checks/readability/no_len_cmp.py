@@ -134,6 +134,10 @@ class LenComparisonVisitor(TraverserVisitor):
 
             setattr(self, name, inner.__get__(self))
 
+    def visit_op_expr(self, o: OpExpr) -> None:
+        if o.op in {"and", "or"}:
+            super().visit_op_expr(o)
+
     def visit_comparison_expr(self, node: ComparisonExpr) -> None:
         match node:
             case ComparisonExpr(

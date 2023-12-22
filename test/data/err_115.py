@@ -70,6 +70,9 @@ assert nums != []
 assert authors == {}
 assert authors != {}
 
+assert len(nums) and True
+assert len(nums) or False
+
 
 # these should not
 
@@ -98,3 +101,5 @@ if (lambda: len(nums) == 0)(): ...
 assert nums == [1, 2, 3]
 assert authors == {"author": "book"}
 assert nums <= []
+
+assert len(nums) % 2
