@@ -10,9 +10,9 @@ from mypy.nodes import (
     LambdaExpr,
     ListExpr,
     NameExpr,
+    RefExpr,
     ReturnStmt,
     TupleExpr,
-    RefExpr,
 )
 
 from refurb.checks.common import stringify
