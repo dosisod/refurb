@@ -335,4 +335,9 @@ def _stringify(node: Node) -> str:
 
             return f"lambda{args}: {body}"
 
+        case ListExpr(items=items):
+            inner = ", ".join(stringify(x) for x in items)
+
+            return f"[{inner}]"
+
     raise ValueError

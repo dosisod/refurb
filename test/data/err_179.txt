@@ -1,7 +1,12 @@
-test/data/err_179.py:13:12 [FURB179]: Replace `... for ... in x for ... in ...` with `chain.from_iterable(x)`
-test/data/err_179.py:16:12 [FURB179]: Replace `[... for ... in x for ... in ...]` with `list(chain.from_iterable(x))`
-test/data/err_179.py:19:12 [FURB179]: Replace `... for ... in x for ... in ...` with `chain.from_iterable(x)`
-test/data/err_179.py:22:12 [FURB179]: Replace `... for ... in x for ... in ...` with `chain.from_iterable(x)`
-test/data/err_179.py:25:12 [FURB179]: Replace `sum(x, [])` with `chain.from_iterable(x)`
-test/data/err_179.py:28:12 [FURB179]: Replace `chain(*x)` with `chain.from_iterable(x)`
-test/data/err_179.py:31:12 [FURB179]: Replace `itertools.chain(*x)` with `itertools.chain.from_iterable(x)`
+test/data/err_179.py:17:12 [FURB179]: Replace `... for ... in x for ... in ...` with `chain.from_iterable(x)`
+test/data/err_179.py:20:12 [FURB179]: Replace `[... for ... in x for ... in ...]` with `list(chain.from_iterable(x))`
+test/data/err_179.py:23:12 [FURB179]: Replace `{... for ... in x for ... in ...}` with `set(chain.from_iterable(x))`
+test/data/err_179.py:26:12 [FURB179]: Replace `... for ... in x for ... in ...` with `chain.from_iterable(x)`
+test/data/err_179.py:29:12 [FURB179]: Replace `sum(rows, [])` with `chain.from_iterable(rows)`
+test/data/err_179.py:32:12 [FURB179]: Replace `chain(*rows)` with `chain.from_iterable(rows)`
+test/data/err_179.py:35:12 [FURB179]: Replace `itertools.chain(*rows)` with `itertools.chain.from_iterable(rows)`
+test/data/err_179.py:38:12 [FURB179]: Replace `reduce(add, rows)` with `chain.from_iterable(rows)`
+test/data/err_179.py:41:12 [FURB179]: Replace `reduce(add, rows, [])` with `chain.from_iterable(rows)`
+test/data/err_179.py:44:12 [FURB179]: Replace `reduce(concat, rows)` with `chain.from_iterable(rows)`
+test/data/err_179.py:47:12 [FURB179]: Replace `reduce(concat, rows, [])` with `chain.from_iterable(rows)`
+test/data/err_179.py:50:12 [FURB179]: Replace `functools.reduce(operator.add, rows)` with `chain.from_iterable(rows)`

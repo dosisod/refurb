@@ -1,5 +1,9 @@
+from functools import reduce
+from operator import add, concat, iadd
 from itertools import chain
+import functools
 import itertools
+import operator
 
 
 rows = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
@@ -29,6 +33,21 @@ def flatten_via_chain_splat(rows):
 
 def flatten_via_chain_splat_2(rows):
     return itertools.chain(*rows)
+
+def flatten_via_reduce_add(rows):
+    return reduce(add, rows)
+
+def flatten_via_reduce_add_with_default(rows):
+    return reduce(add, rows, [])
+
+def flatten_via_reduce_concat(rows):
+    return reduce(concat, rows)
+
+def flatten_via_reduce_concat_with_default(rows):
+    return reduce(concat, rows, [])
+
+def flatten_via_reduce_full_namespace(rows):
+    return functools.reduce(operator.add, rows)
 
 
 # these should not
@@ -68,3 +87,9 @@ def flatten_via_chain_without_splat(rows):
 
 def flatten_via_chain_from_iterable(rows):
     return chain.from_iterable(rows)
+
+def flatten_via_reduce_iadd(rows):
+    return reduce(iadd, rows, [])
+
+def flatten_via_reduce_non_empty_default(rows):
+    return reduce(add, rows, [1, 2, 3])

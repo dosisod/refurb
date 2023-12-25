@@ -8,8 +8,10 @@ from mypy.nodes import (
     ListExpr,
     NameExpr,
     RefExpr,
+    SetComprehension,
 )
 
+from refurb.checks.common import stringify
 from refurb.error import Error
 
 
@@ -81,7 +83,7 @@ ignore = set[int]()
 
 
 def check(
-    node: ListComprehension | GeneratorExpr | CallExpr,
+    node: ListComprehension | SetComprehension | GeneratorExpr | CallExpr,
     errors: list[Error],
 ) -> None:
     if id(node) in ignore:
@@ -92,9 +94,11 @@ def check(
             old = "[... for ... in x for ... in ...]"
             new = "list(chain.from_iterable(x))"
 
-            msg = f"Replace `{old}` with `{new}`"
+            ignore.add(id(g))
 
-            errors.append(ErrorInfo.from_node(node, msg))
+        case SetComprehension(generator=g) if is_flatten_generator(g):
+            old = "{... for ... in x for ... in ...}"
+            new = "set(chain.from_iterable(x))"
 
             ignore.add(id(g))
 
@@ -102,31 +106,39 @@ def check(
             old = "... for ... in x for ... in ..."
             new = "chain.from_iterable(x)"
 
-            msg = f"Replace `{old}` with `{new}`"
-
-            errors.append(ErrorInfo.from_node(node, msg))
-
         case CallExpr(
             callee=RefExpr(fullname="builtins.sum"),
-            args=[_, ListExpr(items=[])],
+            args=[arg, ListExpr(items=[])],
         ):
-            old = "sum(x, [])"
-            new = "chain.from_iterable(x)"
+            old = f"sum({stringify(arg)}, [])"
+            new = f"chain.from_iterable({stringify(arg)})"
 
-            msg = f"Replace `{old}` with `{new}`"
+        case CallExpr(
+            callee=RefExpr(fullname="functools.reduce"),
+            args=[op, arg] | [op, arg, ListExpr(items=[])],
+        ):
+            match op:
+                case RefExpr(fullname="_operator.add" | "_operator.concat"):
+                    pass
 
-            errors.append(ErrorInfo.from_node(node, msg))
+                case _:
+                    return
+
+            old = stringify(node)
+            new = f"chain.from_iterable({stringify(arg)})"
 
         case CallExpr(
             callee=RefExpr(fullname="itertools.chain") as callee,
-            args=[_],
+            args=[arg],
             arg_kinds=[ArgKind.ARG_STAR],
         ):
             chain = "chain" if isinstance(callee, NameExpr) else "itertools.chain"
 
-            old = f"{chain}(*x)"
-            new = f"{chain}.from_iterable(x)"
+            old = f"{chain}(*{stringify(arg)})"
+            new = f"{chain}.from_iterable({stringify(arg)})"
 
-            msg = f"Replace `{old}` with `{new}`"
+        case _:
+            return
 
-            errors.append(ErrorInfo.from_node(node, msg))
+    msg = f"Replace `{old}` with `{new}`"
+    errors.append(ErrorInfo.from_node(node, msg))
