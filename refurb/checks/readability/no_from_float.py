@@ -2,6 +2,7 @@ from dataclasses import dataclass
 
 from mypy.nodes import CallExpr, MemberExpr, RefExpr
 
+from refurb.checks.common import stringify
 from refurb.error import Error
 
 
@@ -33,9 +34,9 @@ class ErrorInfo(Error):
 
 
 KNOWN_FUNCS = {
-    "Decimal.from_float",
-    "Fraction.from_float",
-    "Fraction.from_decimal",
+    "_decimal.Decimal.from_float",
+    "fractions.Fraction.from_float",
+    "fractions.Fraction.from_decimal",
 }
 
 
@@ -43,17 +44,18 @@ def check(node: CallExpr, errors: list[Error]) -> None:
     match node:
         case CallExpr(
             callee=MemberExpr(
-                expr=RefExpr(
-                    fullname="_decimal.Decimal" | "fractions.Fraction",
-                    name=klass,  # type: ignore
-                ),
+                expr=RefExpr(fullname="_decimal.Decimal" | "fractions.Fraction") as ref,
                 name="from_float" | "from_decimal" as ctor,
             ),
-            args=[_],
+            args=[arg],
         ):
-            func = f"{klass}.{ctor}"
-
-            if func not in KNOWN_FUNCS:
+            if f"{ref.fullname}.{ctor}" not in KNOWN_FUNCS:
                 return
 
-            errors.append(ErrorInfo.from_node(node, f"Replace `{func}(x)` with `{klass}(x)`"))
+            base = stringify(ref)
+            arg = stringify(arg)  # type: ignore
+
+            old = f"{base}.{ctor}({arg})"
+            new = f"{base}({arg})"
+
+            errors.append(ErrorInfo.from_node(node, f"Replace `{old}` with `{new}`"))
