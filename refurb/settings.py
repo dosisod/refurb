@@ -52,7 +52,7 @@ class Settings:
                 'refurb: "enable all" and "disable all" can\'t be used at the same time'  # noqa: E501
             )
 
-        if os.getenv("NO_COLOR"):
+        if os.getenv("NO_COLOR") or not sys.stdout.isatty():
             self.color = False
 
     @staticmethod

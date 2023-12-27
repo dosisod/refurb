@@ -316,6 +316,8 @@ Color output is enabled by default in Refurb. To disable it, do one of the follo
 
 * Set `color = false` in the config file.
 
+* Pipe/redirect Refurb output to another program or file.
+
 ## Developing / Contributing
 
 ### Setup
