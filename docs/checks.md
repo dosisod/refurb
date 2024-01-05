@@ -2233,3 +2233,26 @@ def process(file_name: str):
     )
     return df
 ```
+
+## FURB185: `no-copy-with-merge`
+
+Categories: `readability`
+
+You don't need to call `.clone()` on a dict/set when using it in a union
+since the original dict/set is not modified.
+
+Bad:
+
+```python
+d = {"a": 1}
+
+merged = d.clone() | {"b": 2}
+```
+
+Good:
+
+```python
+d = {"a": 1}
+
+merged = d | {"b": 2}
+```

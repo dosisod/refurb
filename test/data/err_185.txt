@@ -1,0 +1,6 @@
+test/data/err_185.py:5:5 [FURB185]: Replace `x.clone()` with `x`
+test/data/err_185.py:6:10 [FURB185]: Replace `x.clone()` with `x`
+test/data/err_185.py:8:5 [FURB185]: Replace `y.clone()` with `y`
+test/data/err_185.py:9:13 [FURB185]: Replace `y.clone()` with `y`
+test/data/err_185.py:11:5 [FURB185]: Replace `x.clone()` with `x`
+test/data/err_185.py:11:21 [FURB185]: Replace `x.clone()` with `x`
