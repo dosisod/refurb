@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 
 from mypy.nodes import (
+    ArgKind,
     BytesExpr,
     CallExpr,
     ComplexExpr,
@@ -83,7 +84,8 @@ def check(node: CallExpr, errors: list[Error]) -> None:
         case CallExpr(
             callee=NameExpr(fullname=fullname, name=name),
             args=[arg],
-        ) if fullname in FUNC_NAMES:
+            arg_kinds=[arg_kind],
+        ) if arg_kind != ArgKind.ARG_STAR2 and fullname in FUNC_NAMES:
             node_type, msg = FUNC_NAMES[fullname]
 
             if type(arg) == node_type:

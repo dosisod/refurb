@@ -1,8 +1,9 @@
 from dataclasses import dataclass
 from itertools import groupby
 
-from mypy.nodes import DictExpr, Expression, RefExpr, Var
+from mypy.nodes import ArgKind, CallExpr, DictExpr, Expression, RefExpr, Var
 
+from refurb.checks.common import stringify
 from refurb.error import Error
 from refurb.settings import Settings
 
@@ -55,7 +56,7 @@ def is_builtin_mapping(expr: Expression) -> bool:
     return False
 
 
-def check(node: DictExpr, errors: list[Error], settings: Settings) -> None:
+def check(node: DictExpr | CallExpr, errors: list[Error], settings: Settings) -> None:
     if settings.get_python_version() < (3, 9):
         return  # pragma: no cover
 
@@ -105,5 +106,62 @@ def check(node: DictExpr, errors: list[Error], settings: Settings) -> None:
             new_msg = " | ".join(unique_unsorted(new))
 
             msg = f"Replace `{{{old_msg}}}` with `{new_msg}`"
+
+            errors.append(ErrorInfo.from_node(node, msg))
+
+        case CallExpr(callee=RefExpr(fullname="builtins.dict")):
+            old = []
+            args: list[str] = []
+            kwargs: dict[str, str] = {}
+
+            # ignore dict(x) since that is covered by FURB123
+            match node.arg_kinds:
+                case []:
+                    return
+
+                case [ArgKind.ARG_POS]:
+                    return
+
+            # TODO: move dict(a=1, b=2) to FURB112
+            if all(x == ArgKind.ARG_NAMED for x in node.arg_kinds):
+                return
+
+            for arg, name, kind in zip(node.args, node.arg_names, node.arg_kinds):
+                # ignore dict(*x)
+                if kind == ArgKind.ARG_STAR:
+                    return
+
+                if kind == ArgKind.ARG_STAR2:
+                    old.append(f"**{stringify(arg)}")
+
+                    stringified_arg = stringify(arg)
+
+                    if len(node.args) == 1:
+                        # TODO: dict(**x) can be replaced with x.copy() if we know x has a copy()
+                        # method.
+                        stringified_arg = f"{{**{stringified_arg}}}"
+
+                    args.append(stringified_arg)
+
+                elif name:
+                    old.append(f"{name}={stringify(arg)}")
+                    kwargs[name] = stringify(arg)
+
+                else:
+                    old.append(stringify(arg))
+                    args.append(stringify(arg))
+
+            inner = ", ".join(old)
+            old_msg = f"dict({inner})"
+
+            if kwargs:
+                kwargs2 = ", ".join(f'"{name}": {expr}' for name, expr in kwargs.items())
+                kwargs2 = f"{{{kwargs2}}}"
+
+                args.append(kwargs2)
+
+            new_msg = " | ".join(args)
+
+            msg = f"Replace `{old_msg}` with `{new_msg}`"
 
             errors.append(ErrorInfo.from_node(node, msg))

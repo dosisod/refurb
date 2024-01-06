@@ -34,6 +34,14 @@ userdict = UserDict()
 _ = {"k": "v", **userdict}
 
 
+_ = dict(**x)
+_ = dict(x, **y)
+_ = dict(**x, **y)
+_ = dict(x, a=1)
+_ = dict(**x, a=1, b=2)
+_ = dict(**x, **y, a=1, b=2)
+
+
 # these should not
 
 _ = {}
@@ -60,3 +68,9 @@ _ = {"k": "v", **c}
 
 # TODO: support more expr types
 _ = {"k": "v", **{}}
+
+
+_ = dict(x)  # noqa: FURB123
+_ = dict(*({},))
+_ = dict()  # noqa: FURB112
+_ = dict(a=1, b=2)

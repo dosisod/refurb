@@ -46,3 +46,4 @@ _ = list((1, 2, 3))
 _ = str(123)
 _ = tuple([1, 2, 3])
 _ = int("0xFF")
+_ = dict(**d)  # noqa: FURB173
