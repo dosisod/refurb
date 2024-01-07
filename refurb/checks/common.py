@@ -287,7 +287,7 @@ def _stringify(node: Node) -> str:
             return f"{_stringify(expr)}.{name}"
 
         case NameExpr(name=name):
-            return name
+            return unmangle_name(name)
 
         case BytesExpr(value=value):
             # TODO: use same formatting as source line

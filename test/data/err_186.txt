@@ -1,0 +1,4 @@
+test/data/err_186.py:5:1 [FURB186]: Replace `l = sorted(l)` with `l.sort()`
+test/data/err_186.py:6:1 [FURB186]: Replace `l = sorted(l, key=lambda x: x > 0)` with `l.sort(key=lambda x: x > 0)`
+test/data/err_186.py:7:1 [FURB186]: Replace `l = sorted(l, reverse=True)` with `l.sort(reverse=True)`
+test/data/err_186.py:8:1 [FURB186]: Replace `l = sorted(l, key=lambda x: x > 0, reverse=True)` with `l.sort(key=lambda x: x > 0, reverse=True)`
