@@ -2238,7 +2238,7 @@ def process(file_name: str):
 
 Categories: `readability`
 
-You don't need to call `.clone()` on a dict/set when using it in a union
+You don't need to call `.copy()` on a dict/set when using it in a union
 since the original dict/set is not modified.
 
 Bad:
@@ -2246,7 +2246,7 @@ Bad:
 ```python
 d = {"a": 1}
 
-merged = d.clone() | {"b": 2}
+merged = d.copy() | {"b": 2}
 ```
 
 Good:
@@ -2255,4 +2255,27 @@ Good:
 d = {"a": 1}
 
 merged = d | {"b": 2}
+```
+
+## FURB186: `use-sort`
+
+Categories: `performance` `readability`
+
+Don't use `sorted()` to sort a list and reassign it to itself, use the
+faster in-place `.sort()` method instead.
+
+Bad:
+
+```python
+names = ["Bob", "Alice", "Charlie"]
+
+names = sorted(names)
+```
+
+Good:
+
+```python
+names = ["Bob", "Alice", "Charlie"]
+
+names.sort()
 ```

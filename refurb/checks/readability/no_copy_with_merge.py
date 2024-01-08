@@ -9,7 +9,7 @@ from refurb.error import Error
 @dataclass
 class ErrorInfo(Error):
     """
-    You don't need to call `.clone()` on a dict/set when using it in a union
+    You don't need to call `.copy()` on a dict/set when using it in a union
     since the original dict/set is not modified.
 
     Bad:
@@ -17,7 +17,7 @@ class ErrorInfo(Error):
     ```
     d = {"a": 1}
 
-    merged = d.clone() | {"b": 2}
+    merged = d.copy() | {"b": 2}
     ```
 
     Good:
@@ -52,7 +52,7 @@ def check_expr(expr: Expression, errors: list[Error]) -> None:
             ),
             args=[],
         ) if str(ty).startswith(UNIONABLE_TYPES):
-            msg = f"Replace `{stringify(ref)}.clone()` with `{stringify(ref)}`"
+            msg = f"Replace `{stringify(ref)}.copy()` with `{stringify(ref)}`"
 
             errors.append(ErrorInfo.from_node(expr, msg))
 
