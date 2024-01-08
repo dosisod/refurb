@@ -90,8 +90,8 @@ def check(node: DictExpr | CallExpr, errors: list[Error], settings: Settings) ->
                         if not is_builtin_mapping(star_expr):
                             return
 
-                        old.append(f"**x{index}")
-                        new.append(f"x{index}")
+                        old.append(f"**{stringify(star_expr)}")
+                        new.append(stringify(star_expr))
 
                         index += 1
 
@@ -99,11 +99,8 @@ def check(node: DictExpr | CallExpr, errors: list[Error], settings: Settings) ->
                         old.append("...")
                         new.append("{...}")
 
-            # Hack to keep list sorted while removing neighboring duplicates
-            unique_unsorted = dict.fromkeys
-
-            old_msg = ", ".join(unique_unsorted(old))
-            new_msg = " | ".join(unique_unsorted(new))
+            old_msg = ", ".join(old)
+            new_msg = " | ".join(new)
 
             msg = f"Replace `{{{old_msg}}}` with `{new_msg}`"
 

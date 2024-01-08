@@ -1,19 +1,19 @@
-test/data/err_173.py:7:5 [FURB173]: Replace `{**x1, **x2}` with `x1 | x2`
-test/data/err_173.py:8:5 [FURB173]: Replace `{**x1, ...}` with `x1 | {...}`
-test/data/err_173.py:9:5 [FURB173]: Replace `{**x1, ...}` with `x1 | {...}`
-test/data/err_173.py:10:5 [FURB173]: Replace `{..., **x1}` with `{...} | x1`
-test/data/err_173.py:11:5 [FURB173]: Replace `{..., **x1}` with `{...} | x1`
-test/data/err_173.py:12:5 [FURB173]: Replace `{..., **x1, **x2}` with `{...} | x1 | x2`
-test/data/err_173.py:13:5 [FURB173]: Replace `{**x1, **x2, ...}` with `x1 | x2 | {...}`
-test/data/err_173.py:14:5 [FURB173]: Replace `{**x1, **x2, **x3}` with `x1 | x2 | x3`
-test/data/err_173.py:15:5 [FURB173]: Replace `{**x1, **x2, **x3, **x4}` with `x1 | x2 | x3 | x4`
-test/data/err_173.py:16:5 [FURB173]: Replace `{**x1, **x2, **x3, **x4, **x5}` with `x1 | x2 | x3 | x4 | x5`
-test/data/err_173.py:17:5 [FURB173]: Replace `{**x1, **x2, **x3, **x4, ...}` with `x1 | x2 | x3 | x4 | {...}`
-test/data/err_173.py:22:5 [FURB173]: Replace `{..., **x1}` with `{...} | x1`
-test/data/err_173.py:25:5 [FURB173]: Replace `{..., **x1}` with `{...} | x1`
-test/data/err_173.py:28:5 [FURB173]: Replace `{..., **x1}` with `{...} | x1`
-test/data/err_173.py:31:5 [FURB173]: Replace `{..., **x1}` with `{...} | x1`
-test/data/err_173.py:34:5 [FURB173]: Replace `{..., **x1}` with `{...} | x1`
+test/data/err_173.py:7:5 [FURB173]: Replace `{**x, **y}` with `x | y`
+test/data/err_173.py:8:5 [FURB173]: Replace `{**x, ...}` with `x | {...}`
+test/data/err_173.py:9:5 [FURB173]: Replace `{**x, ..., ...}` with `x | {...} | {...}`
+test/data/err_173.py:10:5 [FURB173]: Replace `{..., **x}` with `{...} | x`
+test/data/err_173.py:11:5 [FURB173]: Replace `{..., ..., **x}` with `{...} | {...} | x`
+test/data/err_173.py:12:5 [FURB173]: Replace `{..., **x, **y}` with `{...} | x | y`
+test/data/err_173.py:13:5 [FURB173]: Replace `{**x, **y, ...}` with `x | y | {...}`
+test/data/err_173.py:14:5 [FURB173]: Replace `{**x, **y, **z}` with `x | y | z`
+test/data/err_173.py:15:5 [FURB173]: Replace `{**x, **y, **z, **x}` with `x | y | z | x`
+test/data/err_173.py:16:5 [FURB173]: Replace `{**x, **y, **z, **x, **x}` with `x | y | z | x | x`
+test/data/err_173.py:17:5 [FURB173]: Replace `{**x, **y, **z, **x, ...}` with `x | y | z | x | {...}`
+test/data/err_173.py:22:5 [FURB173]: Replace `{..., **chainmap}` with `{...} | chainmap`
+test/data/err_173.py:25:5 [FURB173]: Replace `{..., **counter}` with `{...} | counter`
+test/data/err_173.py:28:5 [FURB173]: Replace `{..., **ordereddict}` with `{...} | ordereddict`
+test/data/err_173.py:31:5 [FURB173]: Replace `{..., **dd}` with `{...} | dd`
+test/data/err_173.py:34:5 [FURB173]: Replace `{..., **userdict}` with `{...} | userdict`
 test/data/err_173.py:37:5 [FURB173]: Replace `dict(**x)` with `{**x}`
 test/data/err_173.py:38:5 [FURB173]: Replace `dict(x, **y)` with `x | y`
 test/data/err_173.py:39:5 [FURB173]: Replace `dict(**x, **y)` with `x | y`
