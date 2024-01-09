@@ -601,7 +601,7 @@ if x == y and x == z:
 
 # and
 
-if x is None and y is None
+if x is None and y is None:
     pass
 ```
 
@@ -2150,7 +2150,7 @@ Bad:
 from hashlib import sha512
 
 h = sha512()
-h.update(b"data)
+h.update(b"data")
 ```
 
 Good:
@@ -2172,7 +2172,7 @@ Bad:
 
 ```python
 nums = [123, 456]
-num = f"{num[0]}")
+num = f"{num[0]}"
 ```
 
 Good:

@@ -20,7 +20,7 @@ class ErrorInfo(Error):
 
     # and
 
-    if x is None and y is None
+    if x is None and y is None:
         pass
     ```
 

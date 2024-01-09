@@ -18,7 +18,7 @@ class ErrorInfo(Error):
 
     ```
     nums = [123, 456]
-    num = f"{num[0]}")
+    num = f"{num[0]}"
     ```
 
     Good:

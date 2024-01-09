@@ -30,7 +30,7 @@ class ErrorInfo(Error):
     from hashlib import sha512
 
     h = sha512()
-    h.update(b"data)
+    h.update(b"data")
     ```
 
     Good:

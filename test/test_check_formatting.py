@@ -1,6 +1,10 @@
+import ast
 import re
 from functools import cache
 from pathlib import Path
+from textwrap import dedent
+
+import pytest
 
 import refurb
 from refurb.error import Error
@@ -55,6 +59,26 @@ def get_categories_from_docs() -> list[str]:
         return categories
 
 
+def assert_python_snippets_are_parseable(error: type[Error]) -> None:
+    # This check is simple enough that it doesn't need detailed docs
+    if error.code == 105:
+        return
+
+    docs = dedent(error(0, 0, "").__doc__ or "")
+
+    groups = re.findall(r"```([\S\s]*?)```", docs)
+    assert groups, "Missing docstring"
+
+    assert len(groups) >= 2, 'Expected at least 2 "good" and "bad" code examples in docstring'
+
+    try:
+        for code in groups:
+            ast.parse(code.strip())
+
+    except SyntaxError as ex:
+        pytest.fail(f"Python code in docs is invalid: {ex.msg}")
+
+
 def test_checks_are_formatted_properly() -> None:
     error_names: set[str] = set()
 
@@ -68,6 +92,7 @@ def test_checks_are_formatted_properly() -> None:
             assert_category_exists(error)
             assert_categories_are_sorted(error)
             assert_categories_are_valid(error, get_categories_from_docs())
+            assert_python_snippets_are_parseable(error)
 
             assert error.name, "name field missing for class"
 
