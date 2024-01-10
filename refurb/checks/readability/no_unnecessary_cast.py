@@ -16,6 +16,7 @@ from mypy.nodes import (
     Var,
 )
 
+from refurb.checks.common import stringify
 from refurb.error import Error
 
 
@@ -59,16 +60,16 @@ class ErrorInfo(Error):
 
 
 FUNC_NAMES = {
-    "builtins.bool": (None, "x"),
-    "builtins.bytes": (BytesExpr, "x"),
-    "builtins.complex": (ComplexExpr, "x"),
-    "builtins.dict": (DictExpr, "x.copy()"),
-    "builtins.float": (FloatExpr, "x"),
-    "builtins.int": (IntExpr, "x"),
-    "builtins.list": (ListExpr, "x.copy()"),
-    "builtins.str": (StrExpr, "x"),
-    "builtins.tuple": (TupleExpr, "x"),
-    "tuple[]": (TupleExpr, "x"),
+    "builtins.bool": (None, ""),
+    "builtins.bytes": (BytesExpr, ""),
+    "builtins.complex": (ComplexExpr, ""),
+    "builtins.dict": (DictExpr, ".copy()"),
+    "builtins.float": (FloatExpr, ""),
+    "builtins.int": (IntExpr, ""),
+    "builtins.list": (ListExpr, ".copy()"),
+    "builtins.str": (StrExpr, ""),
+    "builtins.tuple": (TupleExpr, ""),
+    "tuple[]": (TupleExpr, ""),
 }
 
 
@@ -86,13 +87,9 @@ def check(node: CallExpr, errors: list[Error]) -> None:
             args=[arg],
             arg_kinds=[arg_kind],
         ) if arg_kind != ArgKind.ARG_STAR2 and fullname in FUNC_NAMES:
-            node_type, msg = FUNC_NAMES[fullname]
+            node_type, suffix = FUNC_NAMES[fullname]
 
-            if type(arg) == node_type:
-                if isinstance(arg, DictExpr | ListExpr):
-                    msg = "x"
-
-            elif is_boolean_literal(arg) and name == "bool":
+            if (type(arg) == node_type) or (is_boolean_literal(arg) and name == "bool"):
                 pass
 
             else:
@@ -106,4 +103,8 @@ def check(node: CallExpr, errors: list[Error]) -> None:
                     case _:
                         return
 
-            errors.append(ErrorInfo.from_node(node, f"Replace `{name}(x)` with `{msg}`"))
+            expr = stringify(arg)
+
+            msg = f"Replace `{name}({stringify(arg)})` with `{expr}{suffix}`"
+
+            errors.append(ErrorInfo.from_node(node, msg))

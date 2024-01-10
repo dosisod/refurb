@@ -1,0 +1,1 @@
+test/data/stringify.py:2:5 [FURB123]: Replace `dict({**{}})` with `{**{}}.copy()`

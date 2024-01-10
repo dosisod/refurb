@@ -7,9 +7,11 @@ from mypy.nodes import (
     BytesExpr,
     CallExpr,
     ComparisonExpr,
+    ComplexExpr,
     DictExpr,
     DictionaryComprehension,
     Expression,
+    FloatExpr,
     ForStmt,
     GeneratorExpr,
     IndexExpr,
@@ -26,6 +28,7 @@ from mypy.nodes import (
     SliceExpr,
     StarExpr,
     Statement,
+    StrExpr,
     TupleExpr,
     UnaryExpr,
 )
@@ -291,11 +294,42 @@ def _stringify(node: Node) -> str:
 
         case BytesExpr(value=value):
             # TODO: use same formatting as source line
-            return repr(value.encode())
+            value = value.replace('"', r"\"")
+
+            return f'b"{value}"'
 
         case IntExpr(value=value):
             # TODO: use same formatting as source line
             return str(value)
+
+        case ComplexExpr(value=value):
+            # TODO: use same formatting as source line
+            return str(value)
+
+        case FloatExpr(value=value):
+            return str(value)
+
+        case StrExpr(value=value):
+            value = value.replace('"', r"\"")
+
+            return f'"{value}"'
+
+        case DictExpr(items=items):
+            parts: list[str] = []
+
+            for k, v in items:
+                if k:
+                    parts.append(f"{stringify(k)}: {stringify(v)}")
+
+                else:
+                    parts.append(f"**{stringify(v)}")
+
+            return f"{{{', '.join(parts)}}}"
+
+        case TupleExpr(items=items):
+            inner = ", ".join(stringify(x) for x in items)
+
+            return f"({inner})"
 
         case CallExpr():
             name = _stringify(node.callee)
@@ -308,7 +342,7 @@ def _stringify(node: Node) -> str:
             return f"{_stringify(left)} {op} {_stringify(right)}"
 
         case ComparisonExpr():
-            parts: list[str] = []
+            parts = []
 
             for op, operand in zip(node.operators, node.operands):
                 parts.extend((_stringify(operand), op))

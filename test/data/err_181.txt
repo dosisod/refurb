@@ -13,6 +13,6 @@ test/data/err_181.py:30:1 [FURB181]: Replace `sha512().digest().hex()` with `sha
 test/data/err_181.py:31:1 [FURB181]: Replace `shake_128().digest(10).hex()` with `shake_128().hexdigest(10)`
 test/data/err_181.py:32:1 [FURB181]: Replace `shake_256().digest(10).hex()` with `shake_256().hexdigest(10)`
 test/data/err_181.py:34:1 [FURB181]: Replace `hashlib.sha256().digest().hex()` with `hashlib.sha256().hexdigest()`
-test/data/err_181.py:36:1 [FURB181]: Replace `sha256(b'text').digest().hex()` with `sha256(b'text').hexdigest()`
+test/data/err_181.py:36:1 [FURB181]: Replace `sha256(b"text").digest().hex()` with `sha256(b"text").hexdigest()`
 test/data/err_181.py:38:1 [FURB181]: Replace `hash_algo().digest().hex()` with `hash_algo().hexdigest()`
 test/data/err_181.py:41:1 [FURB181]: Replace `h.digest().hex()` with `h.hexdigest()`

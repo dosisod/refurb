@@ -1,17 +1,17 @@
-test/data/err_123.py:3:5 [FURB123]: Replace `bool(x)` with `x`
-test/data/err_123.py:4:5 [FURB123]: Replace `bytes(x)` with `x`
-test/data/err_123.py:5:5 [FURB123]: Replace `complex(x)` with `x`
-test/data/err_123.py:6:5 [FURB123]: Replace `dict(x)` with `x`
-test/data/err_123.py:7:5 [FURB123]: Replace `float(x)` with `x`
-test/data/err_123.py:8:5 [FURB123]: Replace `list(x)` with `x`
-test/data/err_123.py:9:5 [FURB123]: Replace `str(x)` with `x`
-test/data/err_123.py:10:5 [FURB123]: Replace `tuple(x)` with `x`
-test/data/err_123.py:11:5 [FURB123]: Replace `int(x)` with `x`
-test/data/err_123.py:14:5 [FURB123]: Replace `bool(x)` with `x`
-test/data/err_123.py:17:5 [FURB123]: Replace `bytes(x)` with `x`
-test/data/err_123.py:20:5 [FURB123]: Replace `complex(x)` with `x`
-test/data/err_123.py:23:5 [FURB123]: Replace `dict(x)` with `x.copy()`
-test/data/err_123.py:26:5 [FURB123]: Replace `float(x)` with `x`
-test/data/err_123.py:29:5 [FURB123]: Replace `list(x)` with `x.copy()`
-test/data/err_123.py:32:5 [FURB123]: Replace `str(x)` with `x`
-test/data/err_123.py:35:5 [FURB123]: Replace `tuple(x)` with `x`
+test/data/err_123.py:3:5 [FURB123]: Replace `bool(True)` with `True`
+test/data/err_123.py:4:5 [FURB123]: Replace `bytes(b"hello world")` with `b"hello world"`
+test/data/err_123.py:5:5 [FURB123]: Replace `complex(1j)` with `1j`
+test/data/err_123.py:6:5 [FURB123]: Replace `dict({"a": 1})` with `{"a": 1}.copy()`
+test/data/err_123.py:7:5 [FURB123]: Replace `float(123.456)` with `123.456`
+test/data/err_123.py:8:5 [FURB123]: Replace `list([1, 2, 3])` with `[1, 2, 3].copy()`
+test/data/err_123.py:9:5 [FURB123]: Replace `str("hello world")` with `"hello world"`
+test/data/err_123.py:10:5 [FURB123]: Replace `tuple((1, 2, 3))` with `(1, 2, 3)`
+test/data/err_123.py:11:5 [FURB123]: Replace `int(123)` with `123`
+test/data/err_123.py:14:5 [FURB123]: Replace `bool(a)` with `a`
+test/data/err_123.py:17:5 [FURB123]: Replace `bytes(b)` with `b`
+test/data/err_123.py:20:5 [FURB123]: Replace `complex(c)` with `c`
+test/data/err_123.py:23:5 [FURB123]: Replace `dict(d)` with `d.copy()`
+test/data/err_123.py:26:5 [FURB123]: Replace `float(e)` with `e`
+test/data/err_123.py:29:5 [FURB123]: Replace `list(f)` with `f.copy()`
+test/data/err_123.py:32:5 [FURB123]: Replace `str(g)` with `g`
+test/data/err_123.py:35:5 [FURB123]: Replace `tuple(t)` with `t`

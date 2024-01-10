@@ -1,1 +1,1 @@
-test/data/bug_cast.py:7:11 [FURB123]: Replace `int(x)` with `x`
+test/data/bug_cast.py:7:11 [FURB123]: Replace `int(0)` with `0`

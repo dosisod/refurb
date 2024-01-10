@@ -1,1 +1,1 @@
-test/data/bug_type_reassignment.py:18:6 [FURB123]: Replace `str(x)` with `x`
+test/data/bug_type_reassignment.py:18:6 [FURB123]: Replace `str(x2)` with `x2`
