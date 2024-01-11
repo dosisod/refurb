@@ -1,1 +1,6 @@
 test/data/stringify.py:2:5 [FURB123]: Replace `dict({**{}})` with `{**{}}.copy()`
+test/data/stringify.py:5:5 [FURB123]: Replace `list([""[0]])` with `[""[0]].copy()`
+test/data/stringify.py:6:5 [FURB123]: Replace `list([""[1:]])` with `[""[1:]].copy()`
+test/data/stringify.py:7:5 [FURB123]: Replace `list([""[1:2]])` with `[""[1:2]].copy()`
+test/data/stringify.py:8:5 [FURB123]: Replace `list([""[1:2:-1]])` with `[""[1:2:-1]].copy()`
+test/data/stringify.py:9:5 [FURB123]: Replace `list([""[::-1]])` with `[""[::-1]].copy()`

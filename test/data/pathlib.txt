@@ -1,2 +1,2 @@
-test/data/pathlib.py:7:6 [FURB117]: Replace `open(x)` with `x.open()`
-test/data/pathlib.py:10:6 [FURB117]: Replace `open(x)` with `x.open()`
+test/data/pathlib.py:7:6 [FURB117]: Replace `open(folder / "file.txt")` with `folder / "file.txt".open()`
+test/data/pathlib.py:10:6 [FURB117]: Replace `open(folder / "another_folder" / "file.txt")` with `folder / "another_folder" / "file.txt".open()`

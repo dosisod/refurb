@@ -1,7 +1,7 @@
-test/data/err_117.py:7:6 [FURB117]: Replace `open(str(x))` with `x.open()`
-test/data/err_117.py:10:6 [FURB117]: Replace `open(str(x))` with `x.open()`
-test/data/err_117.py:13:6 [FURB117]: Replace `open(x)` with `x.open()`
-test/data/err_117.py:16:6 [FURB117]: Replace `open(x)` with `x.open()`
-test/data/err_117.py:19:6 [FURB117]: Replace `open(str(x), "rb")` with `x.open("rb")`
-test/data/err_117.py:22:6 [FURB117]: Replace `open(x, "rb")` with `x.open("rb")`
-test/data/err_117.py:25:5 [FURB117]: Replace `open(str(x))` with `x.open()`
+test/data/err_117.py:7:6 [FURB117]: Replace `open(str(path))` with `path.open()`
+test/data/err_117.py:10:6 [FURB117]: Replace `open(str(Path("filename")))` with `Path("filename").open()`
+test/data/err_117.py:13:6 [FURB117]: Replace `open(Path("filename"))` with `Path("filename").open()`
+test/data/err_117.py:16:6 [FURB117]: Replace `open(path)` with `path.open()`
+test/data/err_117.py:19:6 [FURB117]: Replace `open(str(path), "rb")` with `path.open("rb")`
+test/data/err_117.py:22:6 [FURB117]: Replace `open(path, "rb")` with `path.open("rb")`
+test/data/err_117.py:25:5 [FURB117]: Replace `open(str(path))` with `path.open()`

@@ -23,10 +23,10 @@ lambda x, y: x != y
 lambda x, y: x >= y
 lambda x, y: x > y
 
-lambda x: ~ x
-lambda x: - x
+lambda x: ~x
+lambda x: -x
 lambda x: not x
-lambda x: + x
+lambda x: +x
 
 def f(x, y):
     return x + y

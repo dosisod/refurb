@@ -2,6 +2,7 @@ from dataclasses import dataclass
 
 from mypy.nodes import CallExpr, NameExpr, StrExpr
 
+from refurb.checks.common import stringify
 from refurb.checks.pathlib.util import is_pathlike
 from refurb.error import Error
 
@@ -56,11 +57,9 @@ def check(node: CallExpr, errors: list[Error]) -> None:
                     mode = f'"{value}"'
                     args = f", {mode}"
 
-            expr = "x" if arg == node.args[0] else "str(x)"
+            inner = stringify(arg)
+            expr = inner if arg == node.args[0] else f"str({inner})"
 
-            errors.append(
-                ErrorInfo.from_node(
-                    open_node,
-                    f"Replace `open({expr}{args})` with `x.open({mode})`",
-                )
-            )
+            msg = f"Replace `open({expr}{args})` with `{inner}.open({mode})`"
+
+            errors.append(ErrorInfo.from_node(open_node, msg))

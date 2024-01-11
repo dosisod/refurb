@@ -338,6 +338,16 @@ def _stringify(node: Node) -> str:
 
             return f"{name}({args})"
 
+        case IndexExpr(base=base, index=index):
+            return f"{stringify(base)}[{stringify(index)}]"
+
+        case SliceExpr(begin_index=begin_index, end_index=end_index, stride=stride):
+            begin = stringify(begin_index) if begin_index else ""
+            end = stringify(end_index) if end_index else ""
+            stride = f":{stringify(stride)}" if stride else ""  # type: ignore[assignment]
+
+            return f"{begin}:{end}{stride}"
+
         case OpExpr(left=left, op=op, right=right):
             return f"{_stringify(left)} {op} {_stringify(right)}"
 
@@ -352,7 +362,10 @@ def _stringify(node: Node) -> str:
             return " ".join(parts)
 
         case UnaryExpr(op=op, expr=expr):
-            return f"{op} {_stringify(expr)}"
+            if op not in "+-~":
+                op += " "
+
+            return f"{op}{_stringify(expr)}"
 
         case LambdaExpr(
             arg_names=arg_names,

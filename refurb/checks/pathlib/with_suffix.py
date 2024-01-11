@@ -2,6 +2,7 @@ from dataclasses import dataclass
 
 from mypy.nodes import CallExpr, IndexExpr, NameExpr, OpExpr, SliceExpr, StrExpr
 
+from refurb.checks.common import stringify
 from refurb.error import Error
 
 from .util import is_pathlike
@@ -29,7 +30,6 @@ class ErrorInfo(Error):
 
     name = "use-pathlib-with-suffix"
     code = 100
-    msg: str = "Use `Path(x).with_suffix(y)` instead of slice and concat"
     categories = ("pathlib",)
 
 
@@ -44,6 +44,11 @@ def check(node: OpExpr, errors: list[Error]) -> None:
                 ),
                 index=SliceExpr(begin_index=None),
             ),
-            right=StrExpr(),
+            right=StrExpr() as suffix,
         ) if is_pathlike(arg):
-            errors.append(ErrorInfo.from_node(arg))
+            old = stringify(node)
+            new = f"Path({stringify(arg)}).with_suffix({suffix})"
+
+            msg = f"Replace `{old}` with `{new}`"
+
+            errors.append(ErrorInfo.from_node(arg, msg))

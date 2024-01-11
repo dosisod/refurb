@@ -20,9 +20,9 @@ test/data/err_118.py:21:1 [FURB118]: Replace `lambda x, y: x == y` with `operato
 test/data/err_118.py:22:1 [FURB118]: Replace `lambda x, y: x != y` with `operator.ne`
 test/data/err_118.py:23:1 [FURB118]: Replace `lambda x, y: x >= y` with `operator.ge`
 test/data/err_118.py:24:1 [FURB118]: Replace `lambda x, y: x > y` with `operator.gt`
-test/data/err_118.py:26:1 [FURB118]: Replace `lambda x: ~ x` with `operator.invert`
-test/data/err_118.py:27:1 [FURB118]: Replace `lambda x: - x` with `operator.neg`
+test/data/err_118.py:26:1 [FURB118]: Replace `lambda x: ~x` with `operator.invert`
+test/data/err_118.py:27:1 [FURB118]: Replace `lambda x: -x` with `operator.neg`
 test/data/err_118.py:28:1 [FURB118]: Replace `lambda x: not x` with `operator.not_`
-test/data/err_118.py:29:1 [FURB118]: Replace `lambda x: + x` with `operator.pos`
+test/data/err_118.py:29:1 [FURB118]: Replace `lambda x: +x` with `operator.pos`
 test/data/err_118.py:31:1 [FURB118]: Replace function with `operator.add`
 test/data/err_118.py:34:1 [FURB118]: Replace function with `operator.neg`
