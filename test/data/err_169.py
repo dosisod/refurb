@@ -11,3 +11,4 @@ _ = type(123) != type(None)
 _ = type(123) is type(456)
 _ = type(123) is int
 _ = int is type(None)
+_ = type() is type(None)  # type: ignore

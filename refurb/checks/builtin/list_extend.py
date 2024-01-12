@@ -43,7 +43,6 @@ class ErrorInfo(Error):
 
     name = "use-list-extend"
     code = 113
-    msg: str = "Use `x.extend(...)` instead of repeatedly calling `x.append()`"
     categories = ("list",)
 
 
@@ -73,7 +72,12 @@ def check_stmts(stmts: list[Statement], errors: list[Error]) -> None:
                 )
             ) if str(ty).startswith("builtins.list["):
                 if not last.did_error and name == last.name:
-                    errors.append(ErrorInfo(last.line, last.column))
+                    old = f"{name}.append(...); {name}.append(...)"
+                    new = f"{name}.extend((..., ...))"
+                    msg = f"Replace `{old}` with `{new}`"
+
+                    errors.append(ErrorInfo(last.line, last.column, msg))
+
                     last.did_error = True
 
                 last.name = name

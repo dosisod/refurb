@@ -1,5 +1,5 @@
-test/data/err_166.py:3:5 [FURB166]: Replace `int(x[2:], 2)` with `int(x, 0)`
-test/data/err_166.py:4:5 [FURB166]: Replace `int(x[2:], 8)` with `int(x, 0)`
-test/data/err_166.py:5:5 [FURB166]: Replace `int(x[2:], 16)` with `int(x, 0)`
-test/data/err_166.py:8:5 [FURB166]: Replace `int(x[2:], 2)` with `int(x, 0)`
-test/data/err_166.py:10:5 [FURB166]: Replace `int(x[2:], base=16)` with `int(x, base=0)`
+test/data/err_166.py:3:5 [FURB166]: Replace `int("0b1010"[2:], 2)` with `int("0b1010", 0)`
+test/data/err_166.py:4:5 [FURB166]: Replace `int("0o777"[2:], 8)` with `int("0o777", 0)`
+test/data/err_166.py:5:5 [FURB166]: Replace `int("0xFFFF"[2:], 16)` with `int("0xFFFF", 0)`
+test/data/err_166.py:8:5 [FURB166]: Replace `int(b[2:], 2)` with `int(b, 0)`
+test/data/err_166.py:10:5 [FURB166]: Replace `int("0xFFFF"[2:], base=16)` with `int("0xFFFF", base=0)`

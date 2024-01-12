@@ -13,7 +13,7 @@ from mypy.nodes import (
     Var,
 )
 
-from refurb.checks.common import extract_binary_oper
+from refurb.checks.common import extract_binary_oper, stringify
 from refurb.error import Error
 
 
@@ -49,38 +49,31 @@ class ErrorInfo(Error):
 
 def check(node: OpExpr, errors: list[Error]) -> None:
     match extract_binary_oper("or", node):
-        case (NameExpr(node=Var(type=ty)), arg):
+        case (NameExpr(node=Var(type=ty)) as lhs, arg):
             match arg:
-                case CallExpr(callee=NameExpr(name=name, fullname=fullname), args=[]):
-                    expr = f"{name}()"
+                case CallExpr(callee=NameExpr(fullname=fullname), args=[]):
+                    pass
 
                 case ListExpr(items=[]):
                     fullname = "builtins.list"
-                    expr = "[]"
 
                 case DictExpr(items=[]):
                     fullname = "builtins.dict"
-                    expr = "{}"
 
                 case TupleExpr(items=[]):
                     fullname = "builtins.tuple"
-                    expr = "()"
 
                 case StrExpr(value=""):
                     fullname = "builtins.str"
-                    expr = '""'
 
                 case BytesExpr(value=""):
                     fullname = "builtins.bytes"
-                    expr = 'b""'
 
                 case IntExpr(value=0):
                     fullname = "builtins.int"
-                    expr = "0"
 
                 case NameExpr(fullname="builtins.False"):
                     fullname = "builtins.bool"
-                    expr = "False"
 
                 case _:
                     return
@@ -89,4 +82,9 @@ def check(node: OpExpr, errors: list[Error]) -> None:
 
             # Must check fullname for compatibility with older Mypy versions
             if fullname and type_name.startswith(fullname):
-                errors.append(ErrorInfo.from_node(node, f"Replace `x or {expr}` with `x`"))
+                lhs_expr = stringify(lhs)
+                rhs_expr = stringify(arg)
+
+                msg = f"Replace `{lhs_expr} or {rhs_expr}` with `{lhs_expr}`"
+
+                errors.append(ErrorInfo.from_node(node, msg))

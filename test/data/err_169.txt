@@ -1,4 +1,4 @@
-test/data/err_169.py:3:5 [FURB169]: Replace `type(x) is type(None)` with `x is None`
-test/data/err_169.py:4:5 [FURB169]: Replace `type(x) == type(None)` with `x is None`
-test/data/err_169.py:5:5 [FURB169]: Replace `type(x) is not type(None)` with `x is not None`
-test/data/err_169.py:6:5 [FURB169]: Replace `type(x) != type(None)` with `x is not None`
+test/data/err_169.py:3:5 [FURB169]: Replace `type(123) is type(None)` with `123 is None`
+test/data/err_169.py:4:5 [FURB169]: Replace `type(123) == type(None)` with `123 is None`
+test/data/err_169.py:5:5 [FURB169]: Replace `type(123) is not type(None)` with `123 is not None`
+test/data/err_169.py:6:5 [FURB169]: Replace `type(123) != type(None)` with `123 is not None`

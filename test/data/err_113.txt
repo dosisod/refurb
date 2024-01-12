@@ -1,6 +1,6 @@
-test/data/err_113.py:6:1 [FURB113]: Use `x.extend(...)` instead of repeatedly calling `x.append()`
-test/data/err_113.py:13:1 [FURB113]: Use `x.extend(...)` instead of repeatedly calling `x.append()`
-test/data/err_113.py:18:1 [FURB113]: Use `x.extend(...)` instead of repeatedly calling `x.append()`
-test/data/err_113.py:24:5 [FURB113]: Use `x.extend(...)` instead of repeatedly calling `x.append()`
-test/data/err_113.py:29:5 [FURB113]: Use `x.extend(...)` instead of repeatedly calling `x.append()`
-test/data/err_113.py:37:5 [FURB113]: Use `x.extend(...)` instead of repeatedly calling `x.append()`
+test/data/err_113.py:6:1 [FURB113]: Replace `nums.append(...); nums.append(...)` with `nums.extend((..., ...))`
+test/data/err_113.py:13:1 [FURB113]: Replace `nums.append(...); nums.append(...)` with `nums.extend((..., ...))`
+test/data/err_113.py:18:1 [FURB113]: Replace `nums.append(...); nums.append(...)` with `nums.extend((..., ...))`
+test/data/err_113.py:24:5 [FURB113]: Replace `nums.append(...); nums.append(...)` with `nums.extend((..., ...))`
+test/data/err_113.py:29:5 [FURB113]: Replace `nums.append(...); nums.append(...)` with `nums.extend((..., ...))`
+test/data/err_113.py:37:5 [FURB113]: Replace `nums.append(...); nums.append(...)` with `nums.extend((..., ...))`

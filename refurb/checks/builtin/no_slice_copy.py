@@ -2,6 +2,7 @@ from dataclasses import dataclass
 
 from mypy.nodes import AssignmentStmt, DelStmt, IndexExpr, MypyFile, RefExpr, SliceExpr, Var
 
+from refurb.checks.common import stringify
 from refurb.error import Error
 from refurb.visitor import TraverserVisitor
 
@@ -29,7 +30,6 @@ class ErrorInfo(Error):
 
     name = "no-slice-copy"
     code = 145
-    msg: str = "Replace `x[:]` with `x.copy()`"
     categories = ("readability",)
 
 
@@ -57,8 +57,6 @@ class SliceExprVisitor(TraverserVisitor):
             self.accept(node.expr)
 
     def visit_index_expr(self, node: IndexExpr) -> None:
-        index = node.index
-
         match node.base:
             case RefExpr(node=Var(type=ty)):
                 if not str(ty).startswith(SEQUENCE_BUILTINS):
@@ -67,11 +65,12 @@ class SliceExprVisitor(TraverserVisitor):
             case _:
                 return
 
-        if (
-            isinstance(index, SliceExpr)
-            and index.begin_index is index.end_index is index.stride is None
-        ):
-            self.errors.append(ErrorInfo.from_node(node))
+        match node.index:
+            case SliceExpr(begin_index=None, end_index=None, stride=None):
+                base = stringify(node.base)
+                msg = f"Replace `{base}[:]` with `{base}.copy()`"
+
+                self.errors.append(ErrorInfo.from_node(node, msg))
 
 
 def check(node: MypyFile, errors: list[Error]) -> None:
