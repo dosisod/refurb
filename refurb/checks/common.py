@@ -388,3 +388,15 @@ def _stringify(node: Node) -> str:
             return f"[{inner}]"
 
     raise ValueError
+
+
+def slice_expr_to_slice_call(expr: SliceExpr) -> str:
+    args = [
+        stringify(expr.begin_index) if expr.begin_index else "None",
+        stringify(expr.end_index) if expr.end_index else "None",
+    ]
+
+    if expr.stride:
+        args.append(stringify(expr.stride))
+
+    return f"slice({', '.join(args)})"

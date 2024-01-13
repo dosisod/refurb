@@ -2,6 +2,7 @@ import os
 import sys
 from collections import defaultdict
 from contextlib import suppress
+from operator import itemgetter
 from pathlib import Path
 from subprocess import PIPE, run
 
@@ -127,7 +128,7 @@ def build_imports(names: list[str]) -> str:
 
     return "\n".join(
         f"from {module} import {', '.join(names)}"
-        for module, names in sorted(modules.items(), key=lambda x: x[0])
+        for module, names in sorted(modules.items(), key=itemgetter(0))
     )
 
 

@@ -434,6 +434,28 @@ nums = [1, 2, 3]
 print(reduce(add, nums))  # 6
 ```
 
+In addition, the `operator.itemgetter()` function can be used to get one or
+more items from an object, removing the need to create a lambda just to
+extract values from an object:
+
+Bad:
+
+```python
+row = (1, "Some text", True)
+
+transform = lambda x: (x[2], x[0])
+```
+
+Good:
+
+```python
+from operator import itemgetter
+
+row = (1, "Some text", True)
+
+transform = itemgetter(2, 0)
+```
+
 ## FURB119: `use-fstring-format`
 
 Categories: `builtin` `fstring`
