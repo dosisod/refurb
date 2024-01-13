@@ -6,6 +6,7 @@ from contextlib import suppress
 from functools import cache, partial
 from importlib import metadata
 from io import StringIO
+from operator import itemgetter
 from pathlib import Path
 from tempfile import mkstemp
 
@@ -333,12 +334,12 @@ def output_timing_stats(
     data = {
         "mypy_total_time_spent_in_ms": int(mypy_total_time_spent * 1_000),
         "mypy_time_spent_parsing_modules_in_ms": dict(
-            sorted(mypy_stats.items(), key=lambda x: x[1], reverse=True)
+            sorted(mypy_stats.items(), key=itemgetter(1), reverse=True)
         ),
         "refurb_time_spent_checking_file_in_ms": dict(
             sorted(
                 refurb_timing_stats_in_ms.items(),
-                key=lambda x: x[1],
+                key=itemgetter(1),
                 reverse=True,
             )
         ),
