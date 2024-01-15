@@ -100,7 +100,7 @@ extend-ignore = [
   "PLR0911", "PLR0912", "PLR0914", "PLR0915", "PLR2004",
   "PT012",
   "RUF100",
-  "S101",
+  "S101", "S404",
   "SIM102", "SIM108",
   "SLF001",
   "T201",
@@ -109,6 +109,9 @@ extend-ignore = [
 
   # Consider this
   "CPY001",
+
+  # False positive
+  "PLC2801",
 ]
 
 extend-exclude = ["test/data*"]
