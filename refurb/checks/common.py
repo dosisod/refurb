@@ -329,6 +329,10 @@ def _stringify(node: Node) -> str:
         case TupleExpr(items=items):
             inner = ", ".join(stringify(x) for x in items)
 
+            if len(items) == 1:
+                # single element tuples need a trailing comma
+                inner += ","
+
             return f"({inner})"
 
         case CallExpr():
@@ -386,6 +390,11 @@ def _stringify(node: Node) -> str:
             inner = ", ".join(stringify(x) for x in items)
 
             return f"[{inner}]"
+
+        case SetExpr(items=items):
+            inner = ", ".join(stringify(x) for x in items)
+
+            return f"{{{inner}}}"
 
     raise ValueError
 

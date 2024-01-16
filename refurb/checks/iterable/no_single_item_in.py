@@ -1,7 +1,8 @@
 from dataclasses import dataclass
 
-from mypy.nodes import ComparisonExpr, ListExpr, TupleExpr
+from mypy.nodes import ComparisonExpr, ListExpr, SetExpr, TupleExpr
 
+from refurb.checks.common import stringify
 from refurb.error import Error
 
 
@@ -34,13 +35,12 @@ def check(node: ComparisonExpr, errors: list[Error]) -> None:
     match node:
         case ComparisonExpr(
             operators=["in" | "not in" as oper],
-            operands=[_, ListExpr() | TupleExpr() as expr],
+            operands=[lhs, ListExpr() | TupleExpr() | SetExpr() as expr],
         ) if len(expr.items) == 1:
             new_oper = "==" if oper == "in" else "!="
 
-            if isinstance(expr, ListExpr):
-                msg = f"Replace `x {oper} [y]` with `x {new_oper} y`"
-            else:
-                msg = f"Replace `x {oper} (y,)` with `x {new_oper} y`"
+            new = f"{stringify(lhs)} {new_oper} {stringify(expr.items[0])}"
+
+            msg = f"Replace `{stringify(node)}` with `{new}`"
 
             errors.append(ErrorInfo.from_node(node, msg))

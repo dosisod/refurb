@@ -2,8 +2,10 @@
 
 _ = 1 in (1,)
 _ = 1 in [1]  # noqa: FURB109
+_ = 1 in {1}
 _ = 1 not in (1,)
 _ = 1 not in [1]  # noqa: FURB109
+_ = 1 not in {1}  # noqa: FURB109
 
 
 # these should not
