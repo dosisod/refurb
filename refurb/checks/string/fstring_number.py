@@ -2,6 +2,7 @@ from dataclasses import dataclass
 
 from mypy.nodes import CallExpr, IndexExpr, IntExpr, NameExpr, SliceExpr
 
+from refurb.checks.common import stringify
 from refurb.error import Error
 
 
@@ -42,15 +43,14 @@ FUNC_CONVERSIONS = {
 def check(node: IndexExpr, errors: list[Error]) -> None:
     match node:
         case IndexExpr(
-            base=CallExpr(callee=NameExpr() as name_node),
+            base=CallExpr(callee=NameExpr() as name_node, args=[arg]),
             index=SliceExpr(begin_index=IntExpr(value=2), end_index=None),
         ) if name_node.fullname in FUNC_CONVERSIONS:
-            format = FUNC_CONVERSIONS[name_node.fullname or ""]
-            fstring = f'f"{{num:{format}}}"'
+            arg = stringify(arg)  # type: ignore
 
-            errors.append(
-                ErrorInfo.from_node(
-                    node,
-                    f"Replace `{name_node.name}(num)[2:]` with `{fstring}`",
-                )
-            )
+            format = FUNC_CONVERSIONS[name_node.fullname or ""]
+            fstring = f'f"{{{arg}:{format}}}"'
+
+            msg = f"Replace `{stringify(node)}` with `{fstring}`"
+
+            errors.append(ErrorInfo.from_node(node, msg))

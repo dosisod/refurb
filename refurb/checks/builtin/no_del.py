@@ -2,6 +2,7 @@ from dataclasses import dataclass
 
 from mypy.nodes import DelStmt, IndexExpr, NameExpr, SliceExpr, Var
 
+from refurb.checks.common import stringify
 from refurb.error import Error
 
 
@@ -37,14 +38,17 @@ class ErrorInfo(Error):
     name = "no-del"
     code = 131
     categories = ("builtin", "readability")
-    msg: str = "Replace `del x[:]` with `x.clear()`"
 
 
 def check(node: DelStmt, errors: list[Error]) -> None:
     match node:
-        case DelStmt(expr=IndexExpr(base=NameExpr(node=Var(type=ty)), index=index)) if str(
+        case DelStmt(expr=IndexExpr(base=NameExpr(node=Var(type=ty)) as expr, index=index)) if str(
             ty
         ).startswith(("builtins.dict[", "builtins.list[")):
             match index:
                 case SliceExpr(begin_index=None, end_index=None):
-                    errors.append(ErrorInfo.from_node(node))
+                    expr = stringify(expr)  # type: ignore
+
+                    msg = f"Replace `del {expr}[:]` with `{expr}.clear()`"
+
+                    errors.append(ErrorInfo.from_node(node, msg))

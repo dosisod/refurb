@@ -2,6 +2,7 @@ from dataclasses import dataclass
 
 from mypy.nodes import CallExpr, Expression, ForStmt, GeneratorExpr, MemberExpr, NameExpr, Var
 
+from refurb.checks.common import stringify
 from refurb.error import Error
 
 
@@ -31,29 +32,28 @@ class ErrorInfo(Error):
 
     name = "simplify-readlines"
     code = 129
-    msg: str = "Replace `f.readlines()` with `f`"
     categories = ("builtin", "readability")
 
 
-def get_readline_file_object(expr: Expression) -> NameExpr | None:
+def check_for_readline_object(expr: Expression, errors: list[Error]) -> NameExpr | None:
     match expr:
         case CallExpr(
             callee=MemberExpr(expr=NameExpr(node=Var(type=ty)) as f, name="readlines"),
             args=[],
         ) if str(ty) in {"io.TextIOWrapper", "io.BufferedReader"}:
-            return f
+            f_name = stringify(f)
+
+            msg = f"Replace `{f_name}.readlines()` with `{f_name}`"
+
+            errors.append(ErrorInfo.from_node(f, msg))
 
     return None
 
 
 def check(node: ForStmt | GeneratorExpr, errors: list[Error]) -> None:
     if isinstance(node, ForStmt):
-        if f := get_readline_file_object(node.expr):
-            errors.append(ErrorInfo.from_node(f))
+        check_for_readline_object(node.expr, errors)
 
     else:
-        errors.extend(
-            ErrorInfo.from_node(f)
-            for expr in node.sequences
-            if (f := get_readline_file_object(expr))
-        )
+        for expr in node.sequences:
+            check_for_readline_object(expr, errors)

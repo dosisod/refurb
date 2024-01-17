@@ -12,7 +12,7 @@ from mypy.nodes import (
     Var,
 )
 
-from refurb.checks.common import check_for_loop_like, is_name_unused_in_contexts
+from refurb.checks.common import check_for_loop_like, is_name_unused_in_contexts, stringify
 from refurb.error import Error
 
 
@@ -67,21 +67,27 @@ def check_dict_items_call(
             TupleExpr(items=[NameExpr() as key, NameExpr() as value]),
             CallExpr(
                 callee=MemberExpr(
-                    expr=NameExpr(node=Var(type=ty)),
+                    expr=NameExpr(node=Var(type=ty)) as dict_expr,
                     name="items",
                 )
             ),
         ) if str(ty).startswith("builtins.dict["):
-            check_unused_key_or_value(key, value, contexts, errors)
+            check_unused_key_or_value(key, value, contexts, errors, dict_expr)
 
 
 def check_unused_key_or_value(
-    key: NameExpr, value: NameExpr, contexts: list[Node], errors: list[Error]
+    key: NameExpr,
+    value: NameExpr,
+    contexts: list[Node],
+    errors: list[Error],
+    dict_expr: NameExpr,
 ) -> None:
     if is_name_unused_in_contexts(key, contexts):
-        errors.append(
-            ErrorInfo.from_node(key, "Key is unused, use `for value in d.values()` instead")
-        )
+        msg = f"Key is unused, use `for {stringify(value)} in {stringify(dict_expr)}.values()` instead"  # noqa: E501
+
+        errors.append(ErrorInfo.from_node(key, msg))
 
     if is_name_unused_in_contexts(value, contexts):
-        errors.append(ErrorInfo.from_node(value, "Value is unused, use `for key in d` instead"))
+        msg = f"Value is unused, use `for {stringify(key)} in {stringify(dict_expr)}` instead"
+
+        errors.append(ErrorInfo.from_node(value, msg))

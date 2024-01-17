@@ -2,6 +2,7 @@ from dataclasses import dataclass
 
 from mypy.nodes import CallExpr, MemberExpr, NameExpr, StrExpr
 
+from refurb.checks.common import stringify
 from refurb.error import Error
 
 
@@ -38,14 +39,14 @@ class ErrorInfo(Error):
 
 
 CONVERSIONS = {
-    "builtins.str": "x",
-    "builtins.repr": "x!r",
-    "builtins.ascii": "x!a",
-    "builtins.bin": "x:#b",
-    "builtins.oct": "x:#o",
-    "builtins.hex": "x:#x",
-    "builtins.chr": "x:c",
-    "builtins.format": "x",
+    "builtins.str": "",
+    "builtins.repr": "!r",
+    "builtins.ascii": "!a",
+    "builtins.bin": ":#b",
+    "builtins.oct": ":#o",
+    "builtins.hex": ":#x",
+    "builtins.chr": ":c",
+    "builtins.format": "",
 }
 
 
@@ -58,10 +59,12 @@ def check(node: CallExpr, errors: list[Error]) -> None:
             match inner:
                 case CallExpr(
                     callee=NameExpr(fullname=fullname) as func,
-                    args=[_],
+                    args=[arg],
                 ) if fullname in CONVERSIONS:
-                    func_name = f"{{{func.name}(x)}}"
-                    conversion = f"{{{CONVERSIONS[fullname or '']}}}"  # noqa: FURB143, E501
+                    arg = stringify(arg)  # type: ignore
+
+                    func_name = f"{{{func.name}({arg})}}"
+                    conversion = f"{{{arg}{CONVERSIONS[fullname or '']}}}"  # noqa: FURB143
 
                     errors.append(
                         ErrorInfo.from_node(node, f"Replace `{func_name}` with `{conversion}`")

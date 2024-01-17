@@ -1,8 +1,8 @@
-test/data/err_119.py:3:1 [FURB119]: Replace `{str(x)}` with `{x}`
-test/data/err_119.py:5:1 [FURB119]: Replace `{repr(x)}` with `{x!r}`
-test/data/err_119.py:7:1 [FURB119]: Replace `{ascii(x)}` with `{x!a}`
-test/data/err_119.py:9:1 [FURB119]: Replace `{bin(x)}` with `{x:#b}`
-test/data/err_119.py:11:1 [FURB119]: Replace `{oct(x)}` with `{x:#o}`
-test/data/err_119.py:13:1 [FURB119]: Replace `{hex(x)}` with `{x:#x}`
-test/data/err_119.py:15:1 [FURB119]: Replace `{chr(x)}` with `{x:c}`
-test/data/err_119.py:17:1 [FURB119]: Replace `{format(x)}` with `{x}`
+test/data/err_119.py:3:1 [FURB119]: Replace `{str("hello world")}` with `{"hello world"}`
+test/data/err_119.py:5:1 [FURB119]: Replace `{repr(123)}` with `{123!r}`
+test/data/err_119.py:7:1 [FURB119]: Replace `{ascii("hello world")}` with `{"hello world"!a}`
+test/data/err_119.py:9:1 [FURB119]: Replace `{bin(12)}` with `{12:#b}`
+test/data/err_119.py:11:1 [FURB119]: Replace `{oct(511)}` with `{511:#o}`
+test/data/err_119.py:13:1 [FURB119]: Replace `{hex(255)}` with `{255:#x}`
+test/data/err_119.py:15:1 [FURB119]: Replace `{chr(65)}` with `{65:c}`
+test/data/err_119.py:17:1 [FURB119]: Replace `{format("hello world")}` with `{"hello world"}`

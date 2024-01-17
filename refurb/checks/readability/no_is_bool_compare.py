@@ -2,6 +2,7 @@ from dataclasses import dataclass
 
 from mypy.nodes import ComparisonExpr, Expression, NameExpr, Var
 
+from refurb.checks.common import stringify
 from refurb.error import Error
 
 
@@ -64,12 +65,16 @@ def check(node: ComparisonExpr, errors: list[Error]) -> None:
             operands=[NameExpr() as lhs, NameExpr() as rhs],
         ):
             if is_bool_literal(lhs) and is_bool_variable(rhs):
-                old = f"{lhs.name} {oper} x"
-                new = "x" if is_truthy(oper, lhs.name) else "not x"
+                expr = stringify(rhs)
+
+                old = f"{lhs.name} {oper} {expr}"
+                new = expr if is_truthy(oper, lhs.name) else f"not {expr}"
 
             elif is_bool_variable(lhs) and is_bool_literal(rhs):
-                old = f"x {oper} {rhs.name}"
-                new = "x" if is_truthy(oper, rhs.name) else "not x"
+                expr = stringify(lhs)
+
+                old = f"{expr} {oper} {rhs.name}"
+                new = expr if is_truthy(oper, rhs.name) else f"not {expr}"
 
             else:
                 return

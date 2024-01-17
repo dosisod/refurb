@@ -1,12 +1,12 @@
-test/data/bug_equivalent_nodes.py:21:5 [FURB110]: Replace `x if x else y` with `x or y`
-test/data/bug_equivalent_nodes.py:30:5 [FURB110]: Replace `x if x else y` with `x or y`
-test/data/bug_equivalent_nodes.py:42:5 [FURB110]: Replace `x if x else y` with `x or y`
-test/data/bug_equivalent_nodes.py:49:5 [FURB110]: Replace `x if x else y` with `x or y`
-test/data/bug_equivalent_nodes.py:56:5 [FURB110]: Replace `x if x else y` with `x or y`
-test/data/bug_equivalent_nodes.py:63:5 [FURB110]: Replace `x if x else y` with `x or y`
-test/data/bug_equivalent_nodes.py:70:5 [FURB110]: Replace `x if x else y` with `x or y`
-test/data/bug_equivalent_nodes.py:77:5 [FURB110]: Replace `x if x else y` with `x or y`
-test/data/bug_equivalent_nodes.py:84:5 [FURB110]: Replace `x if x else y` with `x or y`
-test/data/bug_equivalent_nodes.py:91:5 [FURB110]: Replace `x if x else y` with `x or y`
-test/data/bug_equivalent_nodes.py:98:5 [FURB110]: Replace `x if x else y` with `x or y`
-test/data/bug_equivalent_nodes.py:105:5 [FURB110]: Replace `x if x else y` with `x or y`
+test/data/bug_equivalent_nodes.py:21:5 [FURB110]: Replace `bob.name if bob.name else "alice"` with `bob.name or "alice"`
+test/data/bug_equivalent_nodes.py:30:5 [FURB110]: Replace `nums[0] if nums[0] else 123` with `nums[0] or 123`
+test/data/bug_equivalent_nodes.py:42:5 [FURB110]: Replace `f(1) if f(1) else 2` with `f(1) or 2`
+test/data/bug_equivalent_nodes.py:49:5 [FURB110]: Replace `[1, 2, 3] if [1, 2, 3] else []` with `[1, 2, 3] or []`
+test/data/bug_equivalent_nodes.py:56:5 [FURB110]: Replace `[x, 4, 5, 6] if [x, 4, 5, 6] else []` with `[x, 4, 5, 6] or []`
+test/data/bug_equivalent_nodes.py:63:5 [FURB110]: Replace `not False if not False else False` with `not False or False`
+test/data/bug_equivalent_nodes.py:70:5 [FURB110]: Replace `1 + 2 if 1 + 2 else 3` with `1 + 2 or 3`
+test/data/bug_equivalent_nodes.py:77:5 [FURB110]: Replace `1 < 2 if 1 < 2 else 3` with `1 < 2 or 3`
+test/data/bug_equivalent_nodes.py:84:5 [FURB110]: Replace `nums[1:] if nums[1:] else nums` with `nums[1:] or nums`
+test/data/bug_equivalent_nodes.py:91:5 [FURB110]: Replace `{"k": "v"} if {"k": "v"} else {}` with `{"k": "v"} or {}`
+test/data/bug_equivalent_nodes.py:98:5 [FURB110]: Replace `(1, 2, 3) if (1, 2, 3) else ()` with `(1, 2, 3) or ()`
+test/data/bug_equivalent_nodes.py:105:5 [FURB110]: Replace `{1, 2, 3} if {1, 2, 3} else set()` with `{1, 2, 3} or set()`

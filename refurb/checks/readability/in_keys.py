@@ -2,6 +2,7 @@ from dataclasses import dataclass
 
 from mypy.nodes import CallExpr, ComparisonExpr, MemberExpr, NameExpr, Var
 
+from refurb.checks.common import stringify
 from refurb.error import Error
 
 
@@ -43,10 +44,14 @@ def check(node: ComparisonExpr, errors: list[Error]) -> None:
                 _,
                 CallExpr(
                     callee=MemberExpr(
-                        expr=NameExpr(node=Var(type=ty)),
+                        expr=NameExpr(node=Var(type=ty)) as obj,
                         name="keys",
                     ),
                 ) as expr,
             ],
         ) if str(ty).startswith("builtins.dict"):
-            errors.append(ErrorInfo.from_node(expr, f"Replace `{oper} d.keys()` with `{oper} d`"))
+            obj_name = stringify(obj)
+
+            msg = f"Replace `{oper} {obj_name}.keys()` with `{oper} {obj_name}`"
+
+            errors.append(ErrorInfo.from_node(expr, msg))

@@ -1,12 +1,12 @@
-test/data/err_149.py:5:5 [FURB149]: Replace `x is True` with `x`
-test/data/err_149.py:6:5 [FURB149]: Replace `x is False` with `not x`
-test/data/err_149.py:7:5 [FURB149]: Replace `x is not True` with `not x`
-test/data/err_149.py:8:5 [FURB149]: Replace `x is not False` with `x`
-test/data/err_149.py:9:5 [FURB149]: Replace `True is x` with `x`
-test/data/err_149.py:10:5 [FURB149]: Replace `False is x` with `not x`
-test/data/err_149.py:12:5 [FURB149]: Replace `x == True` with `x`
-test/data/err_149.py:13:5 [FURB149]: Replace `x == False` with `not x`
-test/data/err_149.py:14:5 [FURB149]: Replace `x != True` with `not x`
-test/data/err_149.py:15:5 [FURB149]: Replace `x != False` with `x`
-test/data/err_149.py:16:5 [FURB149]: Replace `True == x` with `x`
-test/data/err_149.py:17:5 [FURB149]: Replace `False == x` with `not x`
+test/data/err_149.py:5:5 [FURB149]: Replace `b is True` with `b`
+test/data/err_149.py:6:5 [FURB149]: Replace `b is False` with `not b`
+test/data/err_149.py:7:5 [FURB149]: Replace `b is not True` with `not b`
+test/data/err_149.py:8:5 [FURB149]: Replace `b is not False` with `b`
+test/data/err_149.py:9:5 [FURB149]: Replace `True is b` with `b`
+test/data/err_149.py:10:5 [FURB149]: Replace `False is b` with `not b`
+test/data/err_149.py:12:5 [FURB149]: Replace `b == True` with `b`
+test/data/err_149.py:13:5 [FURB149]: Replace `b == False` with `not b`
+test/data/err_149.py:14:5 [FURB149]: Replace `b != True` with `not b`
+test/data/err_149.py:15:5 [FURB149]: Replace `b != False` with `b`
+test/data/err_149.py:16:5 [FURB149]: Replace `True == b` with `b`
+test/data/err_149.py:17:5 [FURB149]: Replace `False == b` with `not b`

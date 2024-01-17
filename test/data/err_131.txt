@@ -1,1 +1,1 @@
-test/data/err_131.py:6:1 [FURB131]: Replace `del x[:]` with `x.clear()`
+test/data/err_131.py:6:1 [FURB131]: Replace `del nums[:]` with `nums.clear()`
