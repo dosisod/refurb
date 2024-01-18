@@ -1,0 +1,3 @@
+test/data/err_187.py:6:5 [FURB187]: Replace `l = reversed(l)` with `l.reverse()`
+test/data/err_187.py:10:5 [FURB187]: Replace `l = list(reversed(l))` with `l.reverse()`
+test/data/err_187.py:14:5 [FURB187]: Replace `l = l[::-1]` with `l.reverse()`

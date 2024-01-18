@@ -2301,3 +2301,30 @@ names = ["Bob", "Alice", "Charlie"]
 
 names.sort()
 ```
+
+## FURB187: `use-reverse`
+
+Categories: `performance` `readability`
+
+Don't use `x[::-1]` or `reversed(x)` to reverse a list and reassign it to
+itself, use the faster in-place `.reverse()` method instead.
+
+Bad:
+
+```python
+names = ["Bob", "Alice", "Charlie"]
+
+names = reverse(names)
+# or
+names = list(reverse(names))
+# or
+names = names[::-1]
+```
+
+Good:
+
+```python
+names = ["Bob", "Alice", "Charlie"]
+
+names.reverse()
+```

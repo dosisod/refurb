@@ -3,6 +3,7 @@ from itertools import chain, combinations, starmap
 
 from mypy.nodes import (
     ArgKind,
+    AssignmentStmt,
     Block,
     BytesExpr,
     CallExpr,
@@ -105,7 +106,7 @@ def check_for_loop_like(
 
 
 def unmangle_name(name: str | None) -> str:
-    return (name or "").replace("'", "")
+    return (name or "").rstrip("'*")
 
 
 def is_equivalent(lhs: Node | None, rhs: Node | None) -> bool:
@@ -395,6 +396,10 @@ def _stringify(node: Node) -> str:
             inner = ", ".join(stringify(x) for x in items)
 
             return f"{{{inner}}}"
+
+        # TODO: support multiple lvalues
+        case AssignmentStmt(lvalues=[lhs], rvalue=rhs):
+            return f"{stringify(lhs)} = {stringify(rhs)}"
 
     raise ValueError
 
