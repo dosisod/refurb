@@ -336,12 +336,23 @@ def _stringify(node: Node) -> str:
 
             return f"({inner})"
 
-        case CallExpr():
-            name = _stringify(node.callee)
+        case CallExpr(arg_names=arg_names, arg_kinds=arg_kinds, args=args):
+            call_args: list[str] = []
 
-            args = ", ".join(_stringify(arg) for arg in node.args)
+            for arg_name, kind, arg in zip(arg_names, arg_kinds, args):
+                if kind == ArgKind.ARG_NAMED:
+                    call_args.append(f"{arg_name}={_stringify(arg)}")
 
-            return f"{name}({args})"
+                elif kind == ArgKind.ARG_STAR:
+                    call_args.append(f"*{_stringify(arg)}")
+
+                elif kind == ArgKind.ARG_STAR2:
+                    call_args.append(f"**{_stringify(arg)}")
+
+                else:
+                    call_args.append(_stringify(arg))
+
+            return f"{_stringify(node.callee)}({', '.join(call_args)})"
 
         case IndexExpr(base=base, index=index):
             return f"{stringify(base)}[{stringify(index)}]"
@@ -378,10 +389,10 @@ def _stringify(node: Node) -> str:
             body=Block(body=[ReturnStmt(expr=Expression() as expr)]),
         ) if (all(kind == ArgKind.ARG_POS for kind in arg_kinds) and all(arg_names)):
             if arg_names:
-                args = " "
+                args = " "  # type: ignore
                 args += ", ".join(arg_names)  # type: ignore
             else:
-                args = ""
+                args = ""  # type: ignore
 
             body = _stringify(expr)
 

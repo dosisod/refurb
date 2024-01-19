@@ -6,7 +6,6 @@ from mypy.nodes import (
     GeneratorExpr,
     ListComprehension,
     ListExpr,
-    NameExpr,
     RefExpr,
     SetComprehension,
 )
@@ -110,7 +109,7 @@ def check(
             callee=RefExpr(fullname="builtins.sum"),
             args=[arg, ListExpr(items=[])],
         ):
-            old = f"sum({stringify(arg)}, [])"
+            old = stringify(node)
             new = f"chain.from_iterable({stringify(arg)})"
 
         case CallExpr(
@@ -132,10 +131,8 @@ def check(
             args=[arg],
             arg_kinds=[ArgKind.ARG_STAR],
         ):
-            chain = "chain" if isinstance(callee, NameExpr) else "itertools.chain"
-
-            old = f"{chain}(*{stringify(arg)})"
-            new = f"{chain}.from_iterable({stringify(arg)})"
+            old = stringify(node)
+            new = f"{stringify(callee)}.from_iterable({stringify(arg)})"
 
         case _:
             return

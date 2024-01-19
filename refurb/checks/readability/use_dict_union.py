@@ -107,16 +107,12 @@ def check(node: DictExpr | CallExpr, errors: list[Error], settings: Settings) ->
             errors.append(ErrorInfo.from_node(node, msg))
 
         case CallExpr(callee=RefExpr(fullname="builtins.dict")):
-            old = []
             args: list[str] = []
             kwargs: dict[str, str] = {}
 
-            # ignore dict(x) since that is covered by FURB123
+            # ignore dict(x) and dict() since that is covered by FURB123
             match node.arg_kinds:
-                case []:
-                    return
-
-                case [ArgKind.ARG_POS]:
+                case [] | [ArgKind.ARG_POS]:
                     return
 
             # TODO: move dict(a=1, b=2) to FURB112
@@ -129,8 +125,6 @@ def check(node: DictExpr | CallExpr, errors: list[Error], settings: Settings) ->
                     return
 
                 if kind == ArgKind.ARG_STAR2:
-                    old.append(f"**{stringify(arg)}")
-
                     stringified_arg = stringify(arg)
 
                     if len(node.args) == 1:
@@ -141,15 +135,12 @@ def check(node: DictExpr | CallExpr, errors: list[Error], settings: Settings) ->
                     args.append(stringified_arg)
 
                 elif name:
-                    old.append(f"{name}={stringify(arg)}")
                     kwargs[name] = stringify(arg)
 
                 else:
-                    old.append(stringify(arg))
                     args.append(stringify(arg))
 
-            inner = ", ".join(old)
-            old_msg = f"dict({inner})"
+            old_msg = stringify(node)
 
             if kwargs:
                 kwargs2 = ", ".join(f'"{name}": {expr}' for name, expr in kwargs.items())

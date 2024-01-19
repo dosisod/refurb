@@ -52,21 +52,17 @@ def check(node: AssignmentStmt, errors: list[Error]) -> None:
             and str(ty).startswith("builtins.list[")
             and all(arg_kind == ArgKind.ARG_NAMED for arg_kind in arg_kinds)
         ):
-            old_args: list[str] = []
             new_args: list[str] = []
 
             name = stringify(assign_ref)
-
-            old_args.append(name)
 
             if rest:
                 for arg_name, expr in zip(arg_names, rest):
                     arg = f"{arg_name}={stringify(expr)}"
 
-                    old_args.append(arg)
                     new_args.append(arg)
 
-            old = f"{name} = sorted({', '.join(old_args)})"
+            old = stringify(node)
             new = f"{name}.sort({', '.join(new_args)})"
 
             msg = f"Replace `{old}` with `{new}`"
