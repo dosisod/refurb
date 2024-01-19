@@ -240,10 +240,9 @@ Note: if `x` depends on side-effects, then this check should be ignored.
 
 ## FURB111: `use-func-name`
 
-Categories: `readability`
+Categories: `performance` `readability`
 
-Don't use a lambda if it is just forwarding its arguments to a
-function verbatim:
+Don't use a lambda if its only forwarding its arguments to a function.
 
 Bad:
 
@@ -259,6 +258,23 @@ Good:
 predicate = bool
 
 some_func(print)
+```
+
+In addition, don't use lambdas when you want a default value for a literal
+type:
+
+Bad:
+
+```python
+counter = defaultdict(lambda: 0)
+multimap = defaultdict(lambda: [])
+```
+
+Good:
+
+```python
+counter = defaultdict(int)
+multimap = defaultdict(list)
 ```
 
 ## FURB112: `use-literal`

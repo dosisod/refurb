@@ -5,3 +5,9 @@ test/data/err_111.py:13:1 [FURB111]: Replace `lambda: []` with `list`
 test/data/err_111.py:14:1 [FURB111]: Replace `lambda: {}` with `dict`
 test/data/err_111.py:15:1 [FURB111]: Replace `lambda: ()` with `tuple`
 test/data/err_111.py:17:1 [FURB111]: Replace `lambda x: mod.cast(x)` with `mod.cast`
+test/data/err_111.py:19:5 [FURB111]: Replace `lambda: 0` with `int`
+test/data/err_111.py:20:5 [FURB111]: Replace `lambda: 0.0` with `float`
+test/data/err_111.py:21:5 [FURB111]: Replace `lambda: 0j` with `complex`
+test/data/err_111.py:22:5 [FURB111]: Replace `lambda: False` with `bool`
+test/data/err_111.py:23:5 [FURB111]: Replace `lambda: ""` with `str`
+test/data/err_111.py:24:5 [FURB111]: Replace `lambda: b""` with `bytes`

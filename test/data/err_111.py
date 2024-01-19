@@ -16,6 +16,13 @@ lambda: ()
 
 lambda x: mod.cast(x)
 
+_ = lambda: 0
+_ = lambda: 0.0
+_ = lambda: 0j
+_ = lambda: False
+_ = lambda: ""
+_ = lambda: b""
+
 
 # these will not
 
@@ -31,3 +38,13 @@ lambda: True
 lambda: [1, 2, 3]
 lambda: {"k": "v"}
 lambda: (1, 2, 3)
+
+lambda: None
+lambda: 1
+lambda: 1.2
+lambda: True
+lambda: "abc"
+lambda: b"abc"
+lambda: 1j
+lambda: set()  # noqa: FURB111
+lambda: {"x"}
