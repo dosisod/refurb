@@ -1,0 +1,6 @@
+test/data/err_188.py:4:5 [FURB188]: Replace `if filename.endswith(".txt"): filename = filename[:-4]` with `filename = filename.removesuffix(".txt")`
+test/data/err_188.py:11:5 [FURB188]: Replace `if filename.endswith(extension): filename = filename[:-len(extension)]` with `filename = filename.removesuffix(extension)`
+test/data/err_188.py:18:12 [FURB188]: Replace `filename[:-4] if filename.endswith(".txt") else filename` with `filename.removesuffix(".txt")`
+test/data/err_188.py:22:12 [FURB188]: Replace `filename[:-len(extension)] if filename.endswith(extension) else filename` with `filename.removesuffix(extension)`
+test/data/err_188.py:26:12 [FURB188]: Replace `filename[4:] if filename.startswith("abc-") else filename` with `filename.removeprefix("abc-")`
+test/data/err_188.py:30:12 [FURB188]: Replace `filename[len(prefix):] if filename.startswith(prefix) else filename` with `filename.removeprefix(prefix)`

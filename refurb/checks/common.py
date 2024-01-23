@@ -9,12 +9,14 @@ from mypy.nodes import (
     CallExpr,
     ComparisonExpr,
     ComplexExpr,
+    ConditionalExpr,
     DictExpr,
     DictionaryComprehension,
     Expression,
     FloatExpr,
     ForStmt,
     GeneratorExpr,
+    IfStmt,
     IndexExpr,
     IntExpr,
     LambdaExpr,
@@ -411,6 +413,12 @@ def _stringify(node: Node) -> str:
         # TODO: support multiple lvalues
         case AssignmentStmt(lvalues=[lhs], rvalue=rhs):
             return f"{stringify(lhs)} = {stringify(rhs)}"
+
+        case IfStmt(expr=[expr], body=[Block(body=[body])], else_body=None):
+            return f"if {_stringify(expr)}: {_stringify(body)}"
+
+        case ConditionalExpr(if_expr=if_true, cond=cond, else_expr=if_false):
+            return f"{_stringify(if_true)} if {_stringify(cond)} else {_stringify(if_false)}"
 
     raise ValueError
 

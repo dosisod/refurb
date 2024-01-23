@@ -2344,3 +2344,24 @@ names = ["Bob", "Alice", "Charlie"]
 
 names.reverse()
 ```
+
+## FURB188: `remove-prefix-or-suffix`
+
+Categories: `performance` `readability` `string`
+
+Don't explicitly check a string prefix/suffix if you're only going to
+remove it, use `.removeprefix()` or `.removesuffix()` instead.
+
+Bad:
+
+```python
+def strip_txt_extension(filename: str) -> str:
+    return filename[:-4] if filename.endswith(".txt") else filename
+```
+
+Good:
+
+```python
+def strip_txt_extension(filename: str) -> str:
+    return filename.removesuffix(".txt")
+```
