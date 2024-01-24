@@ -26,9 +26,9 @@ class ErrorInfo(Error):
     ```
     names = ["Bob", "Alice", "Charlie"]
 
-    names = reverse(names)
+    names = reversed(names)
     # or
-    names = list(reverse(names))
+    names = list(reversed(names))
     # or
     names = names[::-1]
     ```
