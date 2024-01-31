@@ -14,6 +14,11 @@ Checks that have the `builtin` category cover a few different topics:
 * Statements such as `del`
 * File system related operations such as `open()` and `readlines()`
 
+## `collections`
+
+These checks are for the [collections](https://docs.python.org/3/library/collections.html)
+standard library module.
+
 ## `control-flow`
 
 These checks deal with the control flow of a program, such as optimizing usage

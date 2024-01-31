@@ -2365,3 +2365,36 @@ Good:
 def strip_txt_extension(filename: str) -> str:
     return filename.removesuffix(".txt")
 ```
+
+## FURB189: `no-subclass-builtin`
+
+Categories: `collections`
+
+Subclassing `dict`, `list`, or `str` objects can be error prone, use the
+`UserDict`, `UserList`, and `UserStr` objects from the `collections` module
+instead.
+
+Bad:
+
+```python
+class CaseInsensitiveDict(dict):
+    ...
+```
+
+Good:
+
+```python
+from collections import UserDict
+
+class CaseInsensitiveDict(UserDict):
+    ...
+```
+
+Note: `isinstance()` checks for `dict`, `list`, and `str` types will fail
+when using the corresponding User class. If you need to pass custom `dict`
+or `list` objects to code you don't control, ignore this check. If you do
+control the code, consider using the following type checks instead:
+
+* `dict` -> `collections.abc.MutableMapping`
+* `list` -> `collections.abc.MutableSequence`
+* `str` -> No such conversion exists
