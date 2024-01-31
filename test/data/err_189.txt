@@ -1,0 +1,3 @@
+test/data/err_189.py:3:1 [FURB189]: Replace `class D(dict):` with `class D(UserDict):`
+test/data/err_189.py:6:1 [FURB189]: Replace `class L(list):` with `class L(UserList):`
+test/data/err_189.py:9:1 [FURB189]: Replace `class S(str):` with `class S(UserStr):`
