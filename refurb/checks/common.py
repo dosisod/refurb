@@ -10,6 +10,7 @@ from mypy.nodes import (
     ComparisonExpr,
     ComplexExpr,
     ConditionalExpr,
+    DelStmt,
     DictExpr,
     DictionaryComprehension,
     Expression,
@@ -419,6 +420,9 @@ def _stringify(node: Node) -> str:
 
         case ConditionalExpr(if_expr=if_true, cond=cond, else_expr=if_false):
             return f"{_stringify(if_true)} if {_stringify(cond)} else {_stringify(if_false)}"
+
+        case DelStmt(expr=expr):
+            return f"del {stringify(expr)}"
 
     raise ValueError
 

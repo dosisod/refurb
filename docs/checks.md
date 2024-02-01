@@ -833,32 +833,30 @@ if "key" in d:
     ...
 ```
 
-## FURB131: `no-del`
+## FURB131: `use-clear`
 
 Categories: `builtin` `readability`
 
-The `del` statement is commonly used for popping single elements from dicts
-and lists, though a slice can be used to remove a range of elements
-instead. When removing all elements via a slice, use the faster and more
-succinct `.clear()` method instead.
+Slice expressions can be used to replace part a list without reassigning
+it. If you want to clear all the elements out of a list while maintaining
+the same reference, don't use `del x[:]` or `x[:] = []`, use the faster
+`x.clear()` method instead.
 
 Bad:
 
 ```python
-names = {"key": "value"}
 nums = [1, 2, 3]
 
-del names[:]
 del nums[:]
+# or
+nums[:] = []
 ```
 
 Good:
 
 ```python
-names = {"key": "value"}
 nums = [1, 2, 3]
 
-names.clear()
 nums.clear()
 ```
 
