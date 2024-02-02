@@ -81,7 +81,7 @@ def get_trailing_continue(node: Statement) -> Generator[Statement, None, None]:
 
                 yield from get_trailing_continue(body.body[-1])
 
-        case (IfStmt(else_body=Block(body=[*_, stmt])) | WithStmt(body=Block(body=[*_, stmt]))):
+        case IfStmt(else_body=Block(body=[*_, stmt])) | WithStmt(body=Block(body=[*_, stmt])):
             yield from get_trailing_continue(stmt)
 
     return None
@@ -89,7 +89,7 @@ def get_trailing_continue(node: Statement) -> Generator[Statement, None, None]:
 
 def check(node: ForStmt | WhileStmt, errors: list[Error]) -> None:
     match node:
-        case (ForStmt(body=Block(body=[*prev, stmt])) | WhileStmt(body=Block(body=[*prev, stmt]))):
+        case ForStmt(body=Block(body=[*prev, stmt])) | WhileStmt(body=Block(body=[*prev, stmt])):
             if not prev and isinstance(stmt, ContinueStmt):
                 return
 

@@ -206,10 +206,10 @@ def check_condition_like(
                 if guard:
                     visitor.accept(guard)
 
-        case (GeneratorExpr(condlists=conditions) | DictionaryComprehension(condlists=conditions)):
+        case GeneratorExpr(condlists=conditions) | DictionaryComprehension(condlists=conditions):
             for condition in conditions:
                 for expr in condition:
                     visitor.accept(expr)
 
-        case (ConditionalExpr(cond=expr) | WhileStmt(expr=expr) | AssertStmt(expr=expr)):
+        case ConditionalExpr(cond=expr) | WhileStmt(expr=expr) | AssertStmt(expr=expr):
             visitor.accept(expr)

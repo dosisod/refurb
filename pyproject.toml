@@ -78,10 +78,10 @@ testpaths = ["test"]
 line-length = 99
 preview = true
 
-select = ["ALL"]
+lint.select = ["ALL"]
 
 # TODO: fix RUF100 not playing well with refurb
-extend-ignore = [
+lint.extend-ignore = [
   "A001", "A002", "A003",
   "ANN101", "ANN102", "ANN401", "ARG001",
   "B905",
@@ -89,7 +89,7 @@ extend-ignore = [
   "COM812",
   "D100", "D101", "D102", "D103", "D104", "D105", "D107", "D200", "D202", "D203",
   "D205", "D212", "D214", "D400", "D401", "D404", "D405", "D406", "D407", "D412",
-  "D415", "D416",
+  "D413", "D415", "D416",
   "EM101", "EM102",
   "F821",
   "FBT001",
@@ -119,7 +119,7 @@ extend-exclude = ["test/data*"]
 
 target-version = "py310"
 
-[tool.ruff.per-file-ignores]
+[tool.ruff.lint.per-file-ignores]
 "test/*" = ["ANN201", "ARG001", "E501", "TCH001", "TCH002"]
 "refurb/*" = ["PT"]
 "refurb/main.py" = ["E501"]
