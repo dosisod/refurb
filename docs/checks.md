@@ -2396,3 +2396,29 @@ control the code, consider using the following type checks instead:
 * `dict` -> `collections.abc.MutableMapping`
 * `list` -> `collections.abc.MutableSequence`
 * `str` -> No such conversion exists
+
+## FURB190: `use-str-method`
+
+Categories: `performance` `readability`
+
+Don't use a lambda function to call a no-arg method on a string, use the
+name of the string method directly. It is faster, and often times improves
+readability.
+
+Bad:
+
+```python
+def normalize_phone_number(phone_number: str) -> int:
+    digits = filter(lambda x: x.isdigit(), phone_number)
+
+    return int("".join(digits))
+```
+
+Good:
+
+```python
+def normalize_phone_number(phone_number: str) -> int:
+    digits = filter(str.isdigit, phone_number)
+
+    return int("".join(digits))
+```
