@@ -11,7 +11,7 @@ from mypy.nodes import (
     Var,
 )
 
-from refurb.checks.common import is_equivalent
+from refurb.checks.common import is_equivalent, is_same_type
 from refurb.error import Error
 
 
@@ -64,9 +64,5 @@ def check(node: IfStmt, errors: list[Error]) -> None:
                     ]
                 )
             ],
-        ) if (
-            is_equivalent(lhs, arg)
-            and is_equivalent(rhs, expr)
-            and str(ty).startswith("builtins.set[")
-        ):
+        ) if is_equivalent(lhs, arg) and is_equivalent(rhs, expr) and is_same_type(ty, set):
             errors.append(ErrorInfo.from_node(node))

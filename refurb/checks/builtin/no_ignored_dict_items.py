@@ -12,7 +12,12 @@ from mypy.nodes import (
     Var,
 )
 
-from refurb.checks.common import check_for_loop_like, is_name_unused_in_contexts, stringify
+from refurb.checks.common import (
+    check_for_loop_like,
+    is_name_unused_in_contexts,
+    is_same_type,
+    stringify,
+)
 from refurb.error import Error
 
 
@@ -71,7 +76,7 @@ def check_dict_items_call(
                     name="items",
                 )
             ),
-        ) if str(ty).startswith("builtins.dict["):
+        ) if is_same_type(ty, dict):
             check_unused_key_or_value(key, value, contexts, errors, dict_expr)
 
 

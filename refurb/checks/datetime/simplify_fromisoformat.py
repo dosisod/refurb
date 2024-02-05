@@ -14,6 +14,7 @@ from mypy.nodes import (
     Var,
 )
 
+from refurb.checks.common import is_same_type
 from refurb.error import Error
 from refurb.settings import Settings
 
@@ -51,7 +52,7 @@ def is_string(node: Expression) -> bool:
         case StrExpr():
             return True
 
-        case NameExpr(node=Var(type=ty)) if str(ty) == "builtins.str":
+        case NameExpr(node=Var(type=ty)) if is_same_type(ty, str):
             return True
 
     return False

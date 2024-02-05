@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from mypy.nodes import CallExpr, Expression, MemberExpr, NameExpr, RefExpr, Var
 
-from refurb.checks.common import stringify
+from refurb.checks.common import is_same_type, stringify
 from refurb.error import Error
 
 
@@ -57,7 +57,7 @@ def is_hashlib_algo(expr: Expression) -> bool:
         case CallExpr(callee=RefExpr(fullname=fn)) if fn in HASHLIB_ALGOS:
             return True
 
-        case NameExpr(node=Var(type=ty)) if str(ty) in HASHLIB_ALGOS:
+        case NameExpr(node=Var(type=ty)) if is_same_type(ty, *HASHLIB_ALGOS):
             return True
 
     return False

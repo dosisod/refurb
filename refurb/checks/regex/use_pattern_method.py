@@ -2,6 +2,7 @@ from dataclasses import dataclass
 
 from mypy.nodes import CallExpr, RefExpr, Var
 
+from refurb.checks.common import is_same_type
 from refurb.error import Error
 
 
@@ -74,7 +75,7 @@ def check(node: CallExpr, errors: list[Error]) -> None:
                 return
 
             match pattern:
-                case RefExpr(node=Var(type=ty)) if (str(ty).startswith("re.Pattern[")):
+                case RefExpr(node=Var(type=ty)) if is_same_type(ty, "re.Pattern"):
                     pass
 
                 case _:

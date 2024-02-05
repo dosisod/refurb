@@ -13,7 +13,7 @@ from mypy.nodes import (
     Var,
 )
 
-from refurb.checks.common import extract_binary_oper, stringify
+from refurb.checks.common import extract_binary_oper, is_same_type, stringify
 from refurb.error import Error
 
 
@@ -78,7 +78,7 @@ def check(node: OpExpr, errors: list[Error]) -> None:
                 case _:
                     return
 
-            type_name = "builtins.tuple" if str(ty).lower().startswith("tuple[") else str(ty)
+            type_name = "builtins.tuple" if is_same_type(ty, tuple) else str(ty)
 
             # Must check fullname for compatibility with older Mypy versions
             if fullname and type_name.startswith(fullname):

@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from mypy.nodes import ArgKind, AssignmentStmt, CallExpr, NameExpr, Var
 
-from refurb.checks.common import stringify, unmangle_name
+from refurb.checks.common import is_same_type, stringify, unmangle_name
 from refurb.error import Error
 
 
@@ -49,7 +49,7 @@ def check(node: AssignmentStmt, errors: list[Error]) -> None:
             ),
         ) if (
             unmangle_name(assign_name) == unmangle_name(sort_name)
-            and str(ty).startswith("builtins.list[")
+            and is_same_type(ty, list)
             and all(arg_kind == ArgKind.ARG_NAMED for arg_kind in arg_kinds)
         ):
             new_args: list[str] = []

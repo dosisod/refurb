@@ -2,6 +2,7 @@ from dataclasses import dataclass
 
 from mypy.nodes import CallExpr, MemberExpr, NameExpr, StrExpr, Var
 
+from refurb.checks.common import is_same_type
 from refurb.error import Error
 
 
@@ -56,7 +57,7 @@ def check(node: CallExpr, errors: list[Error]) -> None:
                 case StrExpr():
                     pass
 
-                case NameExpr(node=Var(type=ty)) if str(ty) == "builtins.str":
+                case NameExpr(node=Var(type=ty)) if is_same_type(ty, str):
                     pass
 
                 case _:

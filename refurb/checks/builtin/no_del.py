@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from mypy.nodes import AssignmentStmt, DelStmt, IndexExpr, ListExpr, RefExpr, SliceExpr, Var
 
-from refurb.checks.common import stringify
+from refurb.checks.common import is_same_type, stringify
 from refurb.error import Error
 
 
@@ -45,7 +45,7 @@ def check(node: DelStmt | AssignmentStmt, errors: list[Error]) -> None:
                 base=RefExpr(node=Var(type=ty)) as name,
                 index=SliceExpr(begin_index=None, end_index=None, stride=None),
             ),
-        ) if str(ty).startswith("builtins.list["):
+        ) if is_same_type(ty, list):
             pass
 
         case AssignmentStmt(
@@ -56,7 +56,7 @@ def check(node: DelStmt | AssignmentStmt, errors: list[Error]) -> None:
                 ),
             ],
             rvalue=ListExpr(items=[]),
-        ) if str(ty).startswith("builtins.list["):
+        ) if is_same_type(ty, list):
             pass
 
         case _:

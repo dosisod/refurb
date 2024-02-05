@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from mypy.nodes import BytesExpr, CallExpr, NameExpr, RefExpr, StrExpr, Var
 
-from refurb.checks.common import normalize_os_path
+from refurb.checks.common import is_same_type, normalize_os_path
 from refurb.checks.pathlib.util import is_pathlike
 from refurb.error import Error
 
@@ -59,9 +59,7 @@ def check(node: CallExpr, errors: list[Error]) -> None:
                     case BytesExpr() | StrExpr():
                         pass
 
-                    case NameExpr(node=Var(type=ty)) if (
-                        str(ty) in {"builtins.str", "builtins.bytes"}
-                    ):
+                    case NameExpr(node=Var(type=ty)) if is_same_type(ty, str, bytes):
                         pass
 
                     case _:

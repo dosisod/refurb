@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from mypy.nodes import CallExpr, ComparisonExpr, MemberExpr, NameExpr, Var
 
-from refurb.checks.common import stringify
+from refurb.checks.common import is_same_type, stringify
 from refurb.error import Error
 
 
@@ -49,7 +49,7 @@ def check(node: ComparisonExpr, errors: list[Error]) -> None:
                     ),
                 ) as expr,
             ],
-        ) if str(ty).startswith("builtins.dict"):
+        ) if is_same_type(ty, dict):
             obj_name = stringify(obj)
 
             msg = f"Replace `{oper} {obj_name}.keys()` with `{oper} {obj_name}`"

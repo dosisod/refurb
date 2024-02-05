@@ -3,7 +3,7 @@ from itertools import groupby
 
 from mypy.nodes import ArgKind, CallExpr, DictExpr, Expression, RefExpr, Var
 
-from refurb.checks.common import stringify
+from refurb.checks.common import is_same_type, stringify
 from refurb.error import Error
 from refurb.settings import Settings
 
@@ -39,19 +39,19 @@ class ErrorInfo(Error):
 
 
 MAPPING_TYPES = (
-    "builtins.dict[",
-    "collections.ChainMap[",
-    "collections.Counter[",
-    "collections.OrderedDict[",
-    "collections.defaultdict[",
-    "collections.UserDict[",
+    dict,
+    "collections.ChainMap",
+    "collections.Counter",
+    "collections.OrderedDict",
+    "collections.defaultdict",
+    "collections.UserDict",
 )
 
 
 def is_builtin_mapping(expr: Expression) -> bool:
     match expr:
         case RefExpr(node=Var(type=ty)):
-            return str(ty).startswith(MAPPING_TYPES)
+            return is_same_type(ty, *MAPPING_TYPES)
 
     return False
 

@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from mypy.nodes import Block, CallExpr, ExpressionStmt, ForStmt, MemberExpr, NameExpr, Var
 
-from refurb.checks.common import unmangle_name
+from refurb.checks.common import is_same_type, unmangle_name
 from refurb.error import Error
 
 
@@ -56,7 +56,7 @@ def check(node: ForStmt, errors: list[Error]) -> None:
                     )
                 ]
             ),
-        ) if str(ty).startswith("builtins.set[") and set_name.name != for_name:
+        ) if is_same_type(ty, set) and set_name.name != for_name:
             new_func = "update" if name == "add" else "difference_update"
 
             if isinstance(arg, NameExpr):

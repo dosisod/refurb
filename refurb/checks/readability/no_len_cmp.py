@@ -18,11 +18,14 @@ from mypy.nodes import (
     OpExpr,
     StrExpr,
     TupleExpr,
+    TypeInfo,
     UnaryExpr,
     Var,
     WhileStmt,
 )
+from mypy.types import Type
 
+from refurb.checks.common import is_same_type
 from refurb.error import Error
 from refurb.visitor import METHOD_NODE_MAPPINGS, TraverserVisitor
 
@@ -63,32 +66,16 @@ class ErrorInfo(Error):
     categories = ("iterable", "truthy")
 
 
-CONTAINER_TYPES = {
-    "builtins.list",
-    "builtins.tuple",
-    "tuple[",
-    "builtins.dict",
-    "builtins.set",
-    "builtins.frozenset",
-    "builtins.str",
-    "Tuple",
-}
-
-
-def is_builtin_container_type(ty: str | None) -> bool:
-    # Kept for compatibility with older Mypy versions
-    if not ty:
-        return False  # pragma: no cover
-
-    return any(ty.startswith(x) for x in CONTAINER_TYPES)
+def is_builtin_container_type(ty: Type | TypeInfo) -> bool:
+    return is_same_type(ty, list, tuple, dict, set, frozenset, str)
 
 
 def is_builtin_container_like(node: Expression) -> bool:
     match node:
-        case NameExpr(node=Var(type=ty)) if is_builtin_container_type(str(ty)):
+        case NameExpr(node=Var(type=ty)) if ty and is_builtin_container_type(ty):
             return True
 
-        case CallExpr(callee=NameExpr(fullname=name)) if is_builtin_container_type(name):
+        case CallExpr(callee=NameExpr(node=TypeInfo() as ty)) if is_builtin_container_type(ty):
             return True
 
         case DictExpr() | ListExpr() | StrExpr() | TupleExpr():

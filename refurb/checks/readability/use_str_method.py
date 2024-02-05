@@ -1,8 +1,9 @@
 from dataclasses import dataclass
+from typing import Any
 
 from mypy.nodes import ArgKind, Block, CallExpr, LambdaExpr, MemberExpr, NameExpr, ReturnStmt, Var
 
-from refurb.checks.common import stringify
+from refurb.checks.common import is_same_type, stringify
 from refurb.error import Error
 
 
@@ -88,7 +89,7 @@ def check(node: LambdaExpr, errors: list[Error]) -> None:
         ) if (
             arg_name == member_base_name
             and str_func_name in STR_FUNCS
-            and str(ty) in {"Any", "None", "builtins.str"}
+            and is_same_type(ty, str, None, Any)
         ):
             msg = f"Replace `{stringify(node)}` with `str.{str_func_name}`"
 

@@ -11,7 +11,12 @@ from mypy.nodes import (
     Var,
 )
 
-from refurb.checks.common import check_for_loop_like, is_name_unused_in_contexts, stringify
+from refurb.checks.common import (
+    check_for_loop_like,
+    is_name_unused_in_contexts,
+    is_same_type,
+    stringify,
+)
 from refurb.error import Error
 
 
@@ -68,7 +73,7 @@ def check_enumerate_call(
                 callee=NameExpr(fullname="builtins.enumerate"),
                 args=[NameExpr(node=Var(type=ty)) as enumerate_arg],
             ),
-        ) if is_sequence_type(str(ty)):
+        ) if is_same_type(ty, list, tuple):
             check_unused_index_or_value(index, value, contexts, errors, enumerate_arg)
 
 
@@ -88,8 +93,3 @@ def check_unused_index_or_value(
         msg = f"Value is unused, use `for {stringify(index)} in range(len({stringify(enumerate_arg)}))` instead"  # noqa: E501
 
         errors.append(ErrorInfo.from_node(value, msg))
-
-
-# TODO: allow for any type that supports the Sequence protocol
-def is_sequence_type(ty: str) -> bool:
-    return ty.startswith(("builtins.list[", "Tuple[", "builtins.tuple[", "tuple["))

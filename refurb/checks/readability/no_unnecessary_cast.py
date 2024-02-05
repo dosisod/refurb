@@ -16,7 +16,7 @@ from mypy.nodes import (
     Var,
 )
 
-from refurb.checks.common import stringify
+from refurb.checks.common import is_same_type, stringify
 from refurb.error import Error
 
 
@@ -95,8 +95,7 @@ def check(node: CallExpr, errors: list[Error]) -> None:
             else:
                 match arg:
                     case NameExpr(node=Var(type=ty)) if (
-                        str(ty).startswith(fullname)
-                        or (str(ty).lower().startswith("tuple[") and name == "tuple")
+                        str(ty).startswith(fullname) or is_same_type(ty, tuple)
                     ):
                         pass
 

@@ -11,7 +11,7 @@ from mypy.nodes import (
     Var,
 )
 
-from refurb.checks.common import stringify, unmangle_name
+from refurb.checks.common import is_same_type, stringify, unmangle_name
 from refurb.error import Error
 
 
@@ -55,10 +55,7 @@ def check(node: AssignmentStmt, errors: list[Error]) -> None:
                 callee=NameExpr(fullname="builtins.reversed"),
                 args=[NameExpr(fullname=reverse_name, node=Var(type=ty))],
             ),
-        ) if (
-            unmangle_name(assign_name) == unmangle_name(reverse_name)
-            and str(ty).startswith("builtins.list[")
-        ):
+        ) if unmangle_name(assign_name) == unmangle_name(reverse_name) and is_same_type(ty, list):
             pass
 
         case AssignmentStmt(
@@ -72,10 +69,7 @@ def check(node: AssignmentStmt, errors: list[Error]) -> None:
                     ),
                 ],
             ),
-        ) if (
-            unmangle_name(assign_name) == unmangle_name(reverse_name)
-            and str(ty).startswith("builtins.list[")
-        ):
+        ) if unmangle_name(assign_name) == unmangle_name(reverse_name) and is_same_type(ty, list):
             pass
 
         case AssignmentStmt(
@@ -88,10 +82,7 @@ def check(node: AssignmentStmt, errors: list[Error]) -> None:
                     stride=UnaryExpr(op="-", expr=IntExpr(value=1)),
                 ),
             ),
-        ) if (
-            unmangle_name(assign_name) == unmangle_name(reverse_name)
-            and str(ty).startswith("builtins.list[")
-        ):
+        ) if unmangle_name(assign_name) == unmangle_name(reverse_name) and is_same_type(ty, list):
             pass
 
         case _:

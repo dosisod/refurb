@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from mypy.nodes import ComparisonExpr, Expression, NameExpr, Var
 
-from refurb.checks.common import stringify
+from refurb.checks.common import is_same_type, stringify
 from refurb.error import Error
 
 
@@ -46,7 +46,7 @@ def is_bool_literal(expr: Expression) -> bool:
 
 def is_bool_variable(expr: Expression) -> bool:
     match expr:
-        case NameExpr(node=Var(type=ty)) if str(ty) == "builtins.bool":
+        case NameExpr(node=Var(type=ty)) if is_same_type(ty, bool):
             return True
 
     return False

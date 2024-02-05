@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from mypy.nodes import CallExpr, Expression, MemberExpr, OpExpr, RefExpr, Var
 
-from refurb.checks.common import stringify
+from refurb.checks.common import is_same_type, stringify
 from refurb.error import Error
 
 
@@ -34,9 +34,6 @@ class ErrorInfo(Error):
     code = 185
 
 
-UNIONABLE_TYPES = ("builtins.dict[", "builtins.set[")
-
-
 ignored_nodes = set[int]()
 
 
@@ -51,7 +48,7 @@ def check_expr(expr: Expression, errors: list[Error]) -> None:
                 name="copy",
             ),
             args=[],
-        ) if str(ty).startswith(UNIONABLE_TYPES):
+        ) if is_same_type(ty, dict, set):
             msg = f"Replace `{stringify(ref)}.copy()` with `{stringify(ref)}`"
 
             errors.append(ErrorInfo.from_node(expr, msg))

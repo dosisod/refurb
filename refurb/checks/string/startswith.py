@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from mypy.nodes import CallExpr, Expression, MemberExpr, NameExpr, OpExpr, UnaryExpr, Var
 
-from refurb.checks.common import extract_binary_oper
+from refurb.checks.common import extract_binary_oper, is_same_type
 from refurb.error import Error
 
 
@@ -47,7 +47,7 @@ def are_startswith_or_endswith_calls(
             CallExpr(callee=MemberExpr(expr=NameExpr() as rhs, name=rhs_func)),
         ) if (
             lhs.fullname == rhs.fullname
-            and str(ty) in {"builtins.str", "builtins.bytes"}
+            and is_same_type(ty, str, bytes)
             and lhs_func == rhs_func
             and lhs_func in {"startswith", "endswith"}
             and args

@@ -1,5 +1,6 @@
 from collections.abc import Callable
 from itertools import chain, combinations, starmap
+from typing import Any
 
 from mypy.nodes import (
     ArgKind,
@@ -34,8 +35,10 @@ from mypy.nodes import (
     Statement,
     StrExpr,
     TupleExpr,
+    TypeInfo,
     UnaryExpr,
 )
+from mypy.types import AnyType, Instance, TupleType, Type
 
 from refurb.error import Error
 from refurb.visitor import TraverserVisitor
@@ -437,3 +440,61 @@ def slice_expr_to_slice_call(expr: SliceExpr) -> str:
         args.append(stringify(expr.stride))
 
     return f"slice({', '.join(args)})"
+
+
+TypeLike = type | str | None | object
+
+
+def is_same_type(ty: Type | TypeInfo | None, *expected: TypeLike) -> bool:
+    """
+    Check if the type `ty` matches any of the `expected` types. `ty` must be a Mypy type object,
+    but the expected types can be any of the following:
+
+    * Built in type like `str`, `bool`, etc.
+    * Fully-qualified type name (ie, `pathlib.Path`) as a `str`
+    * `None`
+    * `typing.Any`
+
+    When `typing.Any` is used it will not match all types, instead it will only matches explicit
+    `Any` types.
+    """
+
+    return any(_is_same_type(ty, t) for t in expected)
+
+
+SIMPLE_TYPES = {
+    "Any": Any,
+    "None": None,
+    "builtins.bool": bool,
+    "builtins.bytearray": bytearray,
+    "builtins.bytes": bytes,
+    "builtins.dict": dict,
+    "builtins.frozenset": frozenset,
+    "builtins.int": int,
+    "builtins.list": list,
+    "builtins.set": set,
+    "builtins.str": str,
+    "builtins.tuple": tuple,
+}
+
+
+def _is_same_type(ty: Type | TypeInfo | None, expected: TypeLike) -> bool:
+    if ty is expected is None:
+        return True
+
+    if isinstance(ty, TupleType) and expected is tuple:
+        return True
+
+    if isinstance(ty, AnyType) and expected is Any:
+        return True
+
+    if isinstance(ty, Instance | TypeInfo):
+        str_type = ty.type.fullname if isinstance(ty, Instance) else ty.fullname
+
+        if str_type in SIMPLE_TYPES and SIMPLE_TYPES[str_type] is expected:
+            return True
+
+        if isinstance(expected, str) and str_type == expected:
+            return True
+
+    return False

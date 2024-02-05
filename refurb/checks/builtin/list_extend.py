@@ -11,7 +11,7 @@ from mypy.nodes import (
     Var,
 )
 
-from refurb.checks.common import check_block_like
+from refurb.checks.common import check_block_like, is_same_type
 from refurb.error import Error
 
 
@@ -70,7 +70,7 @@ def check_stmts(stmts: list[Statement], errors: list[Error]) -> None:
                         name="append",
                     ),
                 )
-            ) if str(ty).startswith("builtins.list["):
+            ) if is_same_type(ty, list):
                 if not last.did_error and name == last.name:
                     old = f"{name}.append(...); {name}.append(...)"
                     new = f"{name}.extend((..., ...))"
