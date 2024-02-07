@@ -32,3 +32,7 @@ _ = s[:]
 
 b = b"abc"
 _ = b[:]
+
+
+# special case that conflicts with FURB118, ignore
+map(lambda x: x[:], [[]])  # noqa: FURB118

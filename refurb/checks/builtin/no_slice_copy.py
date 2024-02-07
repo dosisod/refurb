@@ -1,6 +1,15 @@
 from dataclasses import dataclass
 
-from mypy.nodes import AssignmentStmt, DelStmt, IndexExpr, MypyFile, RefExpr, SliceExpr, Var
+from mypy.nodes import (
+    AssignmentStmt,
+    DelStmt,
+    IndexExpr,
+    LambdaExpr,
+    MypyFile,
+    RefExpr,
+    SliceExpr,
+    Var,
+)
 
 from refurb.checks.common import is_same_type, stringify
 from refurb.error import Error
@@ -43,6 +52,9 @@ class SliceExprVisitor(TraverserVisitor):
 
     def visit_assignment_stmt(self, node: AssignmentStmt) -> None:
         self.accept(node.rvalue)
+
+    def visit_lambda_expr(self, node: LambdaExpr) -> None:  # noqa: PLR6301, ARG002
+        return
 
     def visit_del_stmt(self, node: DelStmt) -> None:
         if not isinstance(node.expr, IndexExpr):

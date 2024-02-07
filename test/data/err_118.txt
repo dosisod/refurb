@@ -29,3 +29,5 @@ test/data/err_118.py:34:1 [FURB118]: Replace function with `operator.neg`
 test/data/err_118.py:37:1 [FURB118]: Replace `lambda x: x[0]` with `operator.itemgetter(0)`
 test/data/err_118.py:39:1 [FURB118]: Replace `lambda x: (x[0], x[1], x[2])` with `operator.itemgetter(0, 1, 2)`
 test/data/err_118.py:40:1 [FURB118]: Replace `lambda x: (x[1:], x[2])` with `operator.itemgetter(slice(1, None), 2)`
+test/data/err_118.py:43:5 [FURB118]: Replace `lambda x: x[:]` with `list.copy`
+test/data/err_118.py:46:1 [FURB118]: Replace `lambda x: x[:]` with `operator.itemgetter(slice(None, None))`

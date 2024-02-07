@@ -39,6 +39,11 @@ lambda x: x[0]
 lambda x: (x[0], x[1], x[2])
 lambda x: (x[1:], x[2])
 
+# map() is needed for mypy to be able to deduce type of arg x
+map(lambda x: x[:], [[]])
+
+# since we cannot deduce the type of x we can't safely use list.copy, default to itemgetter
+lambda x: x[:]
 
 # these will not
 
