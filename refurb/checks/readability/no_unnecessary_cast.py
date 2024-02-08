@@ -59,25 +59,21 @@ class ErrorInfo(Error):
     categories = ("readability",)
 
 
-FUNC_NAMES = {
-    "builtins.bool": (None, ""),
-    "builtins.bytes": (BytesExpr, ""),
-    "builtins.complex": (ComplexExpr, ""),
-    "builtins.dict": (DictExpr, ".copy()"),
-    "builtins.float": (FloatExpr, ""),
-    "builtins.int": (IntExpr, ""),
-    "builtins.list": (ListExpr, ".copy()"),
-    "builtins.str": (StrExpr, ""),
-    "builtins.tuple": (TupleExpr, ""),
-    "tuple[]": (TupleExpr, ""),
+FUNC_NAME_MAPPING = {
+    "builtins.bool": (bool, None, ""),
+    "builtins.bytes": (bytes, BytesExpr, ""),
+    "builtins.complex": (complex, ComplexExpr, ""),
+    "builtins.dict": (dict, DictExpr, ".copy()"),
+    "builtins.float": (float, FloatExpr, ""),
+    "builtins.int": (int, IntExpr, ""),
+    "builtins.list": (list, ListExpr, ".copy()"),
+    "builtins.str": (str, StrExpr, ""),
+    "builtins.tuple": (tuple, TupleExpr, ""),
 }
 
 
 def is_boolean_literal(node: Expression) -> bool:
-    return isinstance(node, NameExpr) and node.fullname in {
-        "builtins.True",
-        "builtins.False",
-    }
+    return isinstance(node, NameExpr) and node.fullname in {"builtins.True", "builtins.False"}
 
 
 def check(node: CallExpr, errors: list[Error]) -> None:
@@ -85,18 +81,16 @@ def check(node: CallExpr, errors: list[Error]) -> None:
         case CallExpr(
             callee=NameExpr(fullname=fullname, name=name),
             args=[arg],
-            arg_kinds=[arg_kind],
-        ) if arg_kind != ArgKind.ARG_STAR2 and fullname in FUNC_NAMES:
-            node_type, suffix = FUNC_NAMES[fullname]
+            arg_kinds=[ArgKind.ARG_POS],
+        ) if found := FUNC_NAME_MAPPING.get(fullname):
+            expected_type, node_type, suffix = found
 
             if (type(arg) == node_type) or (is_boolean_literal(arg) and name == "bool"):
                 pass
 
             else:
                 match arg:
-                    case NameExpr(node=Var(type=ty)) if (
-                        str(ty).startswith(fullname) or is_same_type(ty, tuple)
-                    ):
+                    case NameExpr(node=Var(type=ty)) if is_same_type(ty, expected_type):
                         pass
 
                     case _:

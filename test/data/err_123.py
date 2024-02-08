@@ -47,3 +47,5 @@ _ = str(123)
 _ = tuple([1, 2, 3])
 _ = int("0xFF")
 _ = dict(**d)  # noqa: FURB173
+_ = int(t)  # type: ignore
+_ = int(*123)  # type: ignore

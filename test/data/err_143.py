@@ -46,3 +46,4 @@ _ = r or "abc"
 _ = b or b"abc"
 _ = n or True
 _ = i or 123
+_ = i or print()

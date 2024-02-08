@@ -52,36 +52,40 @@ def check(node: OpExpr, errors: list[Error]) -> None:
         case (NameExpr(node=Var(type=ty)) as lhs, arg):
             match arg:
                 case CallExpr(callee=NameExpr(fullname=fullname), args=[]):
-                    pass
+                    if fullname == "builtins.set":
+                        expected_type: type = set
+
+                    elif fullname == "builtins.frozenset":
+                        expected_type = frozenset
+
+                    else:
+                        return
 
                 case ListExpr(items=[]):
-                    fullname = "builtins.list"
+                    expected_type = list
 
                 case DictExpr(items=[]):
-                    fullname = "builtins.dict"
+                    expected_type = dict
 
                 case TupleExpr(items=[]):
-                    fullname = "builtins.tuple"
+                    expected_type = tuple
 
                 case StrExpr(value=""):
-                    fullname = "builtins.str"
+                    expected_type = str
 
                 case BytesExpr(value=""):
-                    fullname = "builtins.bytes"
+                    expected_type = bytes
 
                 case IntExpr(value=0):
-                    fullname = "builtins.int"
+                    expected_type = int
 
                 case NameExpr(fullname="builtins.False"):
-                    fullname = "builtins.bool"
+                    expected_type = bool
 
                 case _:
                     return
 
-            type_name = "builtins.tuple" if is_same_type(ty, tuple) else str(ty)
-
-            # Must check fullname for compatibility with older Mypy versions
-            if fullname and type_name.startswith(fullname):
+            if is_same_type(ty, expected_type):
                 lhs_expr = stringify(lhs)
                 rhs_expr = stringify(arg)
 
