@@ -14,6 +14,7 @@ from mypy.build import build
 from mypy.errors import CompileError
 from mypy.main import process_options
 
+from . import types
 from .error import Error, ErrorCode
 from .explain import explain
 from .gen import main as generate
@@ -176,6 +177,14 @@ def run_refurb(settings: Settings) -> Sequence[Error | str]:
     checks = load_checks(settings)
 
     refurb_timing_stats_in_ms: dict[str, int] = {}
+
+    builtins_file = result.graph["builtins"].tree
+    assert builtins_file
+
+    # Store the builtins module AST node as a global variable so we can access it later to create
+    # certain type nodes. This isn't the most elegant solution, but is more lightweight compared to
+    # creating a new type checker instance.
+    types.BUILTINS_MYPY_FILE = builtins_file
 
     for file in files:
         tree = result.graph[file.module].tree

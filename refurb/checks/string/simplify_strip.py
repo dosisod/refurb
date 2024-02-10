@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 
-from mypy.nodes import CallExpr, MemberExpr, NameExpr, StrExpr, Var
+from mypy.nodes import CallExpr, MemberExpr, StrExpr
 
-from refurb.checks.common import is_same_type
+from refurb.checks.common import get_mypy_type, is_same_type, stringify
 from refurb.error import Error
 
 
@@ -53,15 +53,8 @@ def check(node: CallExpr, errors: list[Error]) -> None:
             ),
             args=rhs_args,
         ) if rhs_func in STRIP_FUNCS and lhs_func in STRIP_FUNCS:
-            match expr:
-                case StrExpr():
-                    pass
-
-                case NameExpr(node=Var(type=ty)) if is_same_type(ty, str):
-                    pass
-
-                case _:
-                    return
+            if not is_same_type(get_mypy_type(expr), str):
+                return
 
             exprs: list[str]
 
@@ -94,8 +87,7 @@ def check(node: CallExpr, errors: list[Error]) -> None:
                 case _:
                     return
 
-            lhs = f"{lhs_func}({lhs_arg})"
-            rhs = f"{rhs_func}({rhs_arg})"
-            new = f"x.{'.'.join(exprs)}"
+            old = stringify(node)
+            new = f"{stringify(expr)}.{'.'.join(exprs)}"
 
-            errors.append(ErrorInfo.from_node(node, f"Replace `x.{lhs}.{rhs}` with `{new}`"))
+            errors.append(ErrorInfo.from_node(node, f"Replace `{old}` with `{new}`"))

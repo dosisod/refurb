@@ -19,6 +19,12 @@ _ = "abc".strip("x").strip("y")
 s = "hello world"
 _ = s.lstrip().rstrip()
 
+class Wrapper:
+    s: str
+
+w = Wrapper()
+w.s.lstrip().rstrip()
+
 
 # these (maybe) should match
 _ = "abc".lstrip("x").rstrip("xy")

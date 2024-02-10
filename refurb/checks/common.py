@@ -44,6 +44,7 @@ from mypy.nodes import (
 )
 from mypy.types import AnyType, CallableType, Instance, TupleType, Type
 
+from refurb import types
 from refurb.error import Error
 from refurb.visitor import TraverserVisitor
 
@@ -506,8 +507,18 @@ def _is_same_type(ty: Type | TypeInfo | None, expected: TypeLike) -> bool:
     return False
 
 
+def _get_builtin_mypy_type(name: str) -> Type | None:
+    if (sym := types.BUILTINS_MYPY_FILE.names.get(name)) and isinstance(sym.node, TypeInfo):
+        return Instance(sym.node, [])
+
+    return None  # pragma: no cover
+
+
 def get_mypy_type(node: Node) -> Type | None:
     match node:
+        case StrExpr():
+            return _get_builtin_mypy_type("str")
+
         case Var(type=ty):
             return ty
 
