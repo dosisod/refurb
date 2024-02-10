@@ -9,6 +9,7 @@ from hashlib import (
     sha3_384,
     sha3_512,
     sha224,
+    _Hash,
 )
 from hashlib import sha256
 from hashlib import sha256 as hash_algo
@@ -39,6 +40,23 @@ hash_algo().digest().hex()
 
 h = sha256()
 h.digest().hex()
+
+b = blake2b()
+b.digest().hex()
+
+s = shake_128()
+s.digest(10).hex()
+
+class C:
+    h: _Hash
+    b: blake2b
+
+c = C()
+c.h.digest().hex()
+c.b.digest().hex()
+
+# TODO: support this as well
+C().h.digest().hex()
 
 
 # these will not

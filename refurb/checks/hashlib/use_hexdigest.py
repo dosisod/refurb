@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 
-from mypy.nodes import CallExpr, Expression, MemberExpr, NameExpr, RefExpr, Var
+from mypy.nodes import CallExpr, Expression, MemberExpr
 
-from refurb.checks.common import is_same_type, stringify
+from refurb.checks.common import get_mypy_type, is_same_type, stringify
 from refurb.error import Error
 
 
@@ -49,18 +49,13 @@ HASHLIB_ALGOS = {
     "hashlib.shake_128",
     "hashlib.shake_256",
     "hashlib._Hash",
+    "hashlib._BlakeHash",
+    "hashlib._VarLenHash",
 }
 
 
 def is_hashlib_algo(expr: Expression) -> bool:
-    match expr:
-        case CallExpr(callee=RefExpr(fullname=fn)) if fn in HASHLIB_ALGOS:
-            return True
-
-        case NameExpr(node=Var(type=ty)) if is_same_type(ty, *HASHLIB_ALGOS):
-            return True
-
-    return False
+    return is_same_type(get_mypy_type(expr), *HASHLIB_ALGOS)
 
 
 def check(node: CallExpr, errors: list[Error]) -> None:

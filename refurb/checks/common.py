@@ -17,6 +17,7 @@ from mypy.nodes import (
     Expression,
     FloatExpr,
     ForStmt,
+    FuncDef,
     GeneratorExpr,
     IfStmt,
     IndexExpr,
@@ -34,11 +35,14 @@ from mypy.nodes import (
     StarExpr,
     Statement,
     StrExpr,
+    SymbolTableNode,
     TupleExpr,
+    TypeAlias,
     TypeInfo,
     UnaryExpr,
+    Var,
 )
-from mypy.types import AnyType, Instance, TupleType, Type
+from mypy.types import AnyType, CallableType, Instance, TupleType, Type
 
 from refurb.error import Error
 from refurb.visitor import TraverserVisitor
@@ -500,3 +504,41 @@ def _is_same_type(ty: Type | TypeInfo | None, expected: TypeLike) -> bool:
             return True
 
     return False
+
+
+def get_mypy_type(node: Node) -> Type | None:
+    match node:
+        case Var(type=ty):
+            return ty
+
+        case NameExpr(node=sym):
+            match sym:
+                case Var(type=ty) | Instance(type=ty):  # type: ignore
+                    return ty
+
+                case TypeAlias(target=ty):
+                    return ty
+
+                case FuncDef(type=CallableType(ret_type=ty)):
+                    return ty
+
+        case MemberExpr(expr=lhs, name=name):
+            # TODO: don't special case this
+            match lhs:
+                case NameExpr(node=MypyFile(names=names)):
+                    match names.get(name):
+                        case SymbolTableNode(node=FuncDef(type=CallableType(ret_type=ty))):
+                            return ty
+
+            lhs_type = get_mypy_type(lhs)
+
+            if isinstance(lhs_type, Instance):
+                sym = lhs_type.type.get(name)  # type: ignore
+
+                if sym and sym.node:  # type: ignore
+                    return get_mypy_type(sym.node)  # type: ignore
+
+        case CallExpr(callee=callee):
+            return get_mypy_type(callee)
+
+    return None
