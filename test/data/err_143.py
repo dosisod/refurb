@@ -22,16 +22,17 @@ _ = b or b""
 _ = n or False
 _ = i or 0
 
+fl = 0.0
+_ = fl or 0.0
+
 
 class C:
     x: int
-    def __init__(self) -> None:
-        # x could be anything here
-        self.x = 123
 
 c = C()
 
 _ = c.x or 0
+_ = C().x or 0
 
 
 # these should not

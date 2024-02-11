@@ -8,3 +8,6 @@ test/data/err_143.py:20:5 [FURB143]: Replace `r or ""` with `r`
 test/data/err_143.py:21:5 [FURB143]: Replace `b or b""` with `b`
 test/data/err_143.py:22:5 [FURB143]: Replace `n or False` with `n`
 test/data/err_143.py:23:5 [FURB143]: Replace `i or 0` with `i`
+test/data/err_143.py:26:5 [FURB143]: Replace `fl or 0.0` with `fl`
+test/data/err_143.py:34:5 [FURB143]: Replace `c.x or 0` with `c.x`
+test/data/err_143.py:35:5 [FURB143]: Replace `C().x or 0` with `C().x`

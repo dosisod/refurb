@@ -471,7 +471,7 @@ def is_same_type(ty: Type | TypeInfo | None, *expected: TypeLike) -> bool:
     return any(_is_same_type(ty, t) for t in expected)
 
 
-SIMPLE_TYPES = {
+SIMPLE_TYPES: dict[str, type | object | None] = {
     "Any": Any,
     "None": None,
     "builtins.bool": bool,
@@ -523,6 +523,24 @@ def get_mypy_type(node: Node) -> Type | None:
         case StrExpr():
             return _get_builtin_mypy_type("str")
 
+        case BytesExpr():
+            return _get_builtin_mypy_type("bytes")
+
+        case IntExpr():
+            return _get_builtin_mypy_type("int")
+
+        case FloatExpr():
+            return _get_builtin_mypy_type("float")
+
+        case DictExpr():
+            return _get_builtin_mypy_type("dict")
+
+        case ListExpr():
+            return _get_builtin_mypy_type("list")
+
+        case TupleExpr():
+            return _get_builtin_mypy_type("tuple")
+
         case Var(type=ty):
             return ty
 
@@ -566,3 +584,12 @@ def get_mypy_type(node: Node) -> Type | None:
             return ty
 
     return None
+
+
+def mypy_type_to_python_type(ty: Type | None) -> type | None:
+    match ty:
+        # TODO: return annotated types if instance has args (ie, `list[int]`)
+        case Instance(type=TypeInfo(fullname=fullname)):
+            return SIMPLE_TYPES.get(fullname)  # type: ignore
+
+    return None  # pragma: no cover
