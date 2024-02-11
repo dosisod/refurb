@@ -55,7 +55,6 @@ c = C()
 c.h.digest().hex()
 c.b.digest().hex()
 
-# TODO: support this as well
 C().h.digest().hex()
 
 

@@ -537,6 +537,9 @@ def get_mypy_type(node: Node) -> Type | None:
                 case FuncDef(type=CallableType(ret_type=ty)):
                     return ty
 
+                case TypeInfo():
+                    return Instance(sym, [])
+
         case MemberExpr(expr=lhs, name=name):
             # TODO: don't special case this
             match lhs:
@@ -544,6 +547,9 @@ def get_mypy_type(node: Node) -> Type | None:
                     match names.get(name):
                         case SymbolTableNode(node=FuncDef(type=CallableType(ret_type=ty))):
                             return ty
+
+                        case SymbolTableNode(node=TypeInfo() as ty):  # type: ignore
+                            return Instance(ty, [])  # type: ignore
 
             lhs_type = get_mypy_type(lhs)
 
@@ -555,5 +561,8 @@ def get_mypy_type(node: Node) -> Type | None:
 
         case CallExpr(callee=callee):
             return get_mypy_type(callee)
+
+        case OpExpr(method_type=CallableType(ret_type=ty)):
+            return ty
 
     return None

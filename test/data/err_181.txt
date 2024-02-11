@@ -20,3 +20,4 @@ test/data/err_181.py:45:1 [FURB181]: Replace `b.digest().hex()` with `b.hexdiges
 test/data/err_181.py:48:1 [FURB181]: Replace `s.digest(10).hex()` with `s.hexdigest(10)`
 test/data/err_181.py:55:1 [FURB181]: Replace `c.h.digest().hex()` with `c.h.hexdigest()`
 test/data/err_181.py:56:1 [FURB181]: Replace `c.b.digest().hex()` with `c.b.hexdigest()`
+test/data/err_181.py:58:1 [FURB181]: Replace `C().h.digest().hex()` with `C().h.hexdigest()`
