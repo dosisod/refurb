@@ -6,6 +6,16 @@ del nums[:]
 
 nums[:] = []
 
+class C:
+    nums: list[int]
+
+del C().nums[:]
+
+c = C()
+del c.nums[:]
+
+c.nums[:] = []
+
 
 # these should not
 

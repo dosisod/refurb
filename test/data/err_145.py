@@ -9,6 +9,13 @@ _ = t[:]
 _ = barray[:]
 
 
+class Wrapper:
+    l: list[int]
+
+w = Wrapper()
+_ = w.l[:]
+
+
 # these should not
 
 _ = nums.copy()

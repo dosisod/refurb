@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 
-from mypy.nodes import AssignmentStmt, DelStmt, IndexExpr, ListExpr, RefExpr, SliceExpr, Var
+from mypy.nodes import AssignmentStmt, DelStmt, IndexExpr, ListExpr, SliceExpr
 
-from refurb.checks.common import is_same_type, stringify
+from refurb.checks.common import get_mypy_type, is_same_type, stringify
 from refurb.error import Error
 
 
@@ -42,26 +42,27 @@ def check(node: DelStmt | AssignmentStmt, errors: list[Error]) -> None:
     match node:
         case DelStmt(
             expr=IndexExpr(
-                base=RefExpr(node=Var(type=ty)) as name,
+                base=base,
                 index=SliceExpr(begin_index=None, end_index=None, stride=None),
             ),
-        ) if is_same_type(ty, list):
+        ):
             pass
 
         case AssignmentStmt(
             lvalues=[
                 IndexExpr(
-                    base=RefExpr(node=Var(type=ty)) as name,
+                    base=base,
                     index=SliceExpr(begin_index=None, end_index=None, stride=None),
                 ),
             ],
             rvalue=ListExpr(items=[]),
-        ) if is_same_type(ty, list):
+        ):
             pass
 
         case _:
             return
 
-    msg = f"Replace `{stringify(node)}` with `{stringify(name)}.clear()`"
+    if is_same_type(get_mypy_type(base), list):
+        msg = f"Replace `{stringify(node)}` with `{stringify(base)}.clear()`"
 
-    errors.append(ErrorInfo.from_node(node, msg))
+        errors.append(ErrorInfo.from_node(node, msg))

@@ -1,3 +1,4 @@
 test/data/err_145.py:7:5 [FURB145]: Replace `nums[:]` with `nums.copy()`
 test/data/err_145.py:8:5 [FURB145]: Replace `t[:]` with `t.copy()`
 test/data/err_145.py:9:5 [FURB145]: Replace `barray[:]` with `barray.copy()`
+test/data/err_145.py:16:5 [FURB145]: Replace `w.l[:]` with `w.l.copy()`

@@ -1,2 +1,5 @@
 test/data/err_131.py:5:1 [FURB131]: Replace `del nums[:]` with `nums.clear()`
 test/data/err_131.py:7:1 [FURB131]: Replace `nums[:] = []` with `nums.clear()`
+test/data/err_131.py:12:1 [FURB131]: Replace `del C().nums[:]` with `C().nums.clear()`
+test/data/err_131.py:15:1 [FURB131]: Replace `del c.nums[:]` with `c.nums.clear()`
+test/data/err_131.py:17:1 [FURB131]: Replace `c.nums[:] = []` with `c.nums.clear()`

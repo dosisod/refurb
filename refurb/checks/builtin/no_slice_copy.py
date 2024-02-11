@@ -1,17 +1,8 @@
 from dataclasses import dataclass
 
-from mypy.nodes import (
-    AssignmentStmt,
-    DelStmt,
-    IndexExpr,
-    LambdaExpr,
-    MypyFile,
-    RefExpr,
-    SliceExpr,
-    Var,
-)
+from mypy.nodes import AssignmentStmt, DelStmt, IndexExpr, LambdaExpr, MypyFile, SliceExpr
 
-from refurb.checks.common import is_same_type, stringify
+from refurb.checks.common import get_mypy_type, is_same_type, stringify
 from refurb.error import Error
 from refurb.visitor import TraverserVisitor
 
@@ -61,13 +52,8 @@ class SliceExprVisitor(TraverserVisitor):
             self.accept(node.expr)
 
     def visit_index_expr(self, node: IndexExpr) -> None:
-        match node.base:
-            case RefExpr(node=Var(type=ty)):
-                if not is_same_type(ty, bytearray, list, tuple):
-                    return
-
-            case _:
-                return
+        if not is_same_type(get_mypy_type(node.base), bytearray, list, tuple):
+            return
 
         match node.index:
             case SliceExpr(begin_index=None, end_index=None, stride=None):
