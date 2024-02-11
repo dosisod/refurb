@@ -1,1 +1,2 @@
-test/data/err_132.py:5:1 [FURB132]: Replace `if x in s: s.remove(x)` with `s.discard(x)`
+test/data/err_132.py:5:1 [FURB132]: Replace `if "x" in s: s.remove("x")` with `s.discard("x")`
+test/data/err_132.py:14:1 [FURB132]: Replace `if 0 in w.s: w.s.remove(0)` with `w.s.discard(0)`

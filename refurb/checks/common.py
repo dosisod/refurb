@@ -15,6 +15,7 @@ from mypy.nodes import (
     DictExpr,
     DictionaryComprehension,
     Expression,
+    ExpressionStmt,
     FloatExpr,
     ForStmt,
     FuncDef,
@@ -423,14 +424,17 @@ def _stringify(node: Node) -> str:
         case AssignmentStmt(lvalues=[lhs], rvalue=rhs):
             return f"{stringify(lhs)} = {stringify(rhs)}"
 
-        case IfStmt(expr=[expr], body=[Block(body=[body])], else_body=None):
-            return f"if {_stringify(expr)}: {_stringify(body)}"
+        case IfStmt(expr=[expr], body=[Block(body=[stmt])], else_body=None):
+            return f"if {_stringify(expr)}: {_stringify(stmt)}"
 
         case ConditionalExpr(if_expr=if_true, cond=cond, else_expr=if_false):
             return f"{_stringify(if_true)} if {_stringify(cond)} else {_stringify(if_false)}"
 
         case DelStmt(expr=expr):
-            return f"del {stringify(expr)}"
+            return f"del {_stringify(expr)}"
+
+        case ExpressionStmt(expr=expr):
+            return _stringify(expr)
 
     raise ValueError
 

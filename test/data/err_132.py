@@ -5,6 +5,15 @@ s = set()
 if "x" in s:
     s.remove("x")
 
+
+class Wrapper:
+    s: set[int]
+
+w = Wrapper()
+
+if 0 in w.s:
+    w.s.remove(0)
+
 # these should not
 
 if "x" in s:
@@ -32,3 +41,8 @@ c = Container()
 
 if "x" in c:
     c.remove("x")
+
+if "x" in s:
+    s.remove("x")
+else:
+    pass

@@ -1,17 +1,8 @@
 from dataclasses import dataclass
 
-from mypy.nodes import (
-    Block,
-    CallExpr,
-    ComparisonExpr,
-    ExpressionStmt,
-    IfStmt,
-    MemberExpr,
-    NameExpr,
-    Var,
-)
+from mypy.nodes import Block, CallExpr, ComparisonExpr, ExpressionStmt, IfStmt, MemberExpr
 
-from refurb.checks.common import is_equivalent, is_same_type
+from refurb.checks.common import get_mypy_type, is_equivalent, is_same_type, stringify
 from refurb.error import Error
 
 
@@ -41,7 +32,6 @@ class ErrorInfo(Error):
 
     name = "use-set-discard"
     code = 132
-    msg: str = "Replace `if x in s: s.remove(x)` with `s.discard(x)`"
     categories = ("readability", "set")
 
 
@@ -54,15 +44,22 @@ def check(node: IfStmt, errors: list[Error]) -> None:
                     body=[
                         ExpressionStmt(
                             expr=CallExpr(
-                                callee=MemberExpr(
-                                    expr=NameExpr(node=Var(type=ty)) as expr,
-                                    name="remove",
-                                ),
+                                callee=MemberExpr(expr=expr, name="remove"),
                                 args=[arg],
                             )
                         )
                     ]
                 )
             ],
-        ) if is_equivalent(lhs, arg) and is_equivalent(rhs, expr) and is_same_type(ty, set):
-            errors.append(ErrorInfo.from_node(node))
+            else_body=None,
+        ) if (
+            is_equivalent(lhs, arg)
+            and is_equivalent(rhs, expr)
+            and is_same_type(get_mypy_type(expr), set)
+        ):
+            old = stringify(node)
+            new = f"{stringify(expr)}.discard({stringify(arg)})"
+
+            msg = f"Replace `{old}` with `{new}`"
+
+            errors.append(ErrorInfo.from_node(node, msg))
