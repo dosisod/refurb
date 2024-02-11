@@ -13,6 +13,14 @@ def c():
     l = []
     l = l[::-1]
 
+def c2():
+    class Wrapper():
+        l: list[int]
+
+    w = Wrapper()
+    w.l = list(reversed(w.l))
+    w.l = w.l[::-1]
+    w.l = reversed(w.l)
 
 # these should not
 

@@ -7,6 +7,12 @@ l = sorted(l, key=lambda x: x > 0)
 l = sorted(l, reverse=True)
 l = sorted(l, key=lambda x: x > 0, reverse=True)
 
+class C:
+    l: list[int]
+
+c = C()
+c.l = sorted(c.l)
+
 
 # these should not
 

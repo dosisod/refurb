@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 
-from mypy.nodes import ArgKind, AssignmentStmt, CallExpr, NameExpr, Var
+from mypy.nodes import ArgKind, AssignmentStmt, CallExpr, NameExpr
 
-from refurb.checks.common import is_same_type, stringify, unmangle_name
+from refurb.checks.common import get_mypy_type, is_equivalent, is_same_type, stringify
 from refurb.error import Error
 
 
@@ -37,19 +37,16 @@ class ErrorInfo(Error):
 def check(node: AssignmentStmt, errors: list[Error]) -> None:
     match node:
         case AssignmentStmt(
-            lvalues=[NameExpr(fullname=assign_name) as assign_ref],
+            lvalues=[assign_ref],
             rvalue=CallExpr(
                 callee=NameExpr(fullname="builtins.sorted"),
-                args=[
-                    NameExpr(fullname=sort_name, node=Var(type=ty)),
-                    *rest,
-                ],
+                args=[sorted_arg, *rest],
                 arg_names=[_, *arg_names],
                 arg_kinds=[_, *arg_kinds],
             ),
         ) if (
-            unmangle_name(assign_name) == unmangle_name(sort_name)
-            and is_same_type(ty, list)
+            is_equivalent(assign_ref, sorted_arg)
+            and is_same_type(get_mypy_type(sorted_arg), list)
             and all(arg_kind == ArgKind.ARG_NAMED for arg_kind in arg_kinds)
         ):
             new_args: list[str] = []
