@@ -13,10 +13,15 @@ from mypy.nodes import (
     SliceExpr,
     TupleExpr,
     UnaryExpr,
-    Var,
 )
 
-from refurb.checks.common import _stringify, is_same_type, slice_expr_to_slice_call, stringify
+from refurb.checks.common import (
+    _stringify,
+    get_mypy_type,
+    is_same_type,
+    slice_expr_to_slice_call,
+    stringify,
+)
 from refurb.error import Error
 
 
@@ -163,16 +168,13 @@ def check(node: FuncItem, errors: list[Error]) -> None:
                         )
                     )
 
-                case IndexExpr(
-                    base=NameExpr(name=item_name, node=Var(type=ty)),
-                    index=index,
-                ) if item_name == name:
+                case IndexExpr(base=NameExpr() as base, index=index) if base.name == name:
                     match index:
                         case SliceExpr(
                             begin_index=None,
                             end_index=None,
                             stride=None,
-                        ) if is_same_type(ty, list):
+                        ) if is_same_type(get_mypy_type(base), list):
                             new = "list.copy"
 
                         case SliceExpr():
