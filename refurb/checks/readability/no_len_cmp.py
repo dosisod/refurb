@@ -16,16 +16,11 @@ from mypy.nodes import (
     NameExpr,
     Node,
     OpExpr,
-    StrExpr,
-    TupleExpr,
-    TypeInfo,
     UnaryExpr,
-    Var,
     WhileStmt,
 )
-from mypy.types import Type
 
-from refurb.checks.common import is_same_type
+from refurb.checks.common import get_mypy_type, is_same_type, stringify
 from refurb.error import Error
 from refurb.visitor import METHOD_NODE_MAPPINGS, TraverserVisitor
 
@@ -66,22 +61,8 @@ class ErrorInfo(Error):
     categories = ("iterable", "truthy")
 
 
-def is_builtin_container_type(ty: Type | TypeInfo) -> bool:
-    return is_same_type(ty, list, tuple, dict, set, frozenset, str)
-
-
 def is_builtin_container_like(node: Expression) -> bool:
-    match node:
-        case NameExpr(node=Var(type=ty)) if ty and is_builtin_container_type(ty):
-            return True
-
-        case CallExpr(callee=NameExpr(node=TypeInfo() as ty)) if is_builtin_container_type(ty):
-            return True
-
-        case DictExpr() | ListExpr() | StrExpr() | TupleExpr():
-            return True
-
-    return False
+    return is_same_type(get_mypy_type(node), list, tuple, dict, set, frozenset, str)
 
 
 def is_len_call(node: CallExpr) -> bool:
@@ -129,39 +110,42 @@ class LenComparisonVisitor(TraverserVisitor):
         match node:
             case ComparisonExpr(
                 operators=[oper],
-                operands=[CallExpr() as call, IntExpr(value=num)],
+                operands=[CallExpr(args=[arg]) as call, IntExpr(value=num)],
             ) if is_len_call(call):
                 is_truthy = IS_INT_COMPARISON_TRUTHY.get((oper, num))
 
                 if is_truthy is None:
                     return
 
-                expr = "x" if is_truthy else "not x"
+                old = stringify(node)
+                new = stringify(arg)
 
-                self.errors.append(
-                    ErrorInfo.from_node(node, f"Replace `len(x) {oper} {num}` with `{expr}`")
-                )
+                if not is_truthy:
+                    new = f"not {new}"
+
+                msg = f"Replace `{old}` with `{new}`"
+
+                self.errors.append(ErrorInfo.from_node(node, msg))
 
             case ComparisonExpr(
                 operators=["==" | "!=" as oper],
-                operands=[
-                    NameExpr() as name,
-                    (ListExpr() | DictExpr()) as expr,
-                ],
-            ) if is_builtin_container_like(name):
-                if expr.items:  # type: ignore
-                    return
+                operands=[lhs, (ListExpr(items=[]) | DictExpr(items=[]))],
+            ) if is_builtin_container_like(lhs):
+                old = stringify(node)
+                new = stringify(lhs)
 
-                old_expr = "[]" if isinstance(expr, ListExpr) else "{}"
-                expr = "not x" if oper == "==" else "x"
+                if oper == "==":
+                    new = f"not {new}"
 
-                self.errors.append(
-                    ErrorInfo.from_node(node, f"Replace `x {oper} {old_expr}` with `{expr}`")
-                )
+                msg = f"Replace `{old}` with `{new}`"
+
+                self.errors.append(ErrorInfo.from_node(node, msg))
 
     def visit_call_expr(self, node: CallExpr) -> None:
         if is_len_call(node):
-            self.errors.append(ErrorInfo.from_node(node, "Replace `len(x)` with `x`"))
+            msg = f"Replace `{stringify(node)}` with `{stringify(node.args[0])}`"
+
+            self.errors.append(ErrorInfo.from_node(node, msg))
 
 
 ConditionLikeNode = (

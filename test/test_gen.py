@@ -6,7 +6,7 @@ from refurb.gen import folders_needing_init_file
 
 def test_folder_not_in_cwd_is_ignored():
     with patch("pathlib.Path.cwd", lambda: Path("/some/random/path")):
-        assert folders_needing_init_file(Path("./some/path")) == []
+        assert not folders_needing_init_file(Path("./some/path"))
 
 
 def test_relative_path_works():

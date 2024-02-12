@@ -74,6 +74,15 @@ assert len(nums) and True
 assert len(nums) or False
 
 
+class C:
+    l: list[int]
+
+assert C().l == []
+
+c = C()
+assert c.l == []
+
+
 # these should not
 
 if len(nums) == 1: ...
