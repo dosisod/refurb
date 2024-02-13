@@ -126,6 +126,9 @@ target-version = "py310"
 "refurb/visitor/traverser.py" = ["ALL"]
 "test/e2e/gbk.py" = ["FURB105"]
 
+[tool.typos.default.extend-words]
+nd = "nd"
+
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"

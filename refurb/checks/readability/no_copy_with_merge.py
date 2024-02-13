@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 
-from mypy.nodes import CallExpr, Expression, MemberExpr, OpExpr, RefExpr, Var
+from mypy.nodes import CallExpr, Expression, MemberExpr, OpExpr
 
-from refurb.checks.common import is_same_type, stringify
+from refurb.checks.common import get_mypy_type, is_same_type, stringify
 from refurb.error import Error
 
 
@@ -43,13 +43,10 @@ def check_expr(expr: Expression, errors: list[Error]) -> None:
 
     match expr:
         case CallExpr(
-            callee=MemberExpr(
-                expr=RefExpr(node=Var(type=ty)) as ref,
-                name="copy",
-            ),
+            callee=MemberExpr(expr=lhs, name="copy"),
             args=[],
-        ) if is_same_type(ty, dict, set):
-            msg = f"Replace `{stringify(ref)}.copy()` with `{stringify(ref)}`"
+        ) if is_same_type(get_mypy_type(lhs), dict, set):
+            msg = f"Replace `{stringify(lhs)}.copy()` with `{stringify(lhs)}`"
 
             errors.append(ErrorInfo.from_node(expr, msg))
 

@@ -1,9 +1,9 @@
 from dataclasses import dataclass
 from itertools import groupby
 
-from mypy.nodes import ArgKind, CallExpr, DictExpr, Expression, RefExpr, Var
+from mypy.nodes import ArgKind, CallExpr, DictExpr, Expression, RefExpr
 
-from refurb.checks.common import is_same_type, stringify
+from refurb.checks.common import get_mypy_type, is_same_type, stringify
 from refurb.error import Error
 from refurb.settings import Settings
 
@@ -49,11 +49,7 @@ MAPPING_TYPES = (
 
 
 def is_builtin_mapping(expr: Expression) -> bool:
-    match expr:
-        case RefExpr(node=Var(type=ty)):
-            return is_same_type(ty, *MAPPING_TYPES)
-
-    return False
+    return is_same_type(get_mypy_type(expr), *MAPPING_TYPES)
 
 
 def check(node: DictExpr | CallExpr, errors: list[Error], settings: Settings) -> None:
@@ -125,6 +121,9 @@ def check(node: DictExpr | CallExpr, errors: list[Error], settings: Settings) ->
                     return
 
                 if kind == ArgKind.ARG_STAR2:
+                    if not is_builtin_mapping(arg):
+                        return
+
                     stringified_arg = stringify(arg)
 
                     if len(node.args) == 1:

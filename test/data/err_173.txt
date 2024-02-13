@@ -20,3 +20,5 @@ test/data/err_173.py:39:5 [FURB173]: Replace `dict(**x, **y)` with `x | y`
 test/data/err_173.py:40:5 [FURB173]: Replace `dict(x, a=1)` with `x | {"a": 1}`
 test/data/err_173.py:41:5 [FURB173]: Replace `dict(**x, a=1, b=2)` with `x | {"a": 1, "b": 2}`
 test/data/err_173.py:42:5 [FURB173]: Replace `dict(**x, **y, a=1, b=2)` with `x | y | {"a": 1, "b": 2}`
+test/data/err_173.py:43:5 [FURB173]: Replace `dict(**x, **{})` with `x | {}`
+test/data/err_173.py:48:5 [FURB173]: Replace `{**Wrapper().d, **x}` with `Wrapper().d | x`

@@ -40,6 +40,12 @@ _ = dict(**x, **y)
 _ = dict(x, a=1)
 _ = dict(**x, a=1, b=2)
 _ = dict(**x, **y, a=1, b=2)
+_ = dict(**x, **{})
+
+class Wrapper:
+    d: dict
+
+_ = {**Wrapper().d, **x}
 
 
 # these should not
@@ -66,11 +72,9 @@ c = C()
 
 _ = {"k": "v", **c}
 
-# TODO: support more expr types
-_ = {"k": "v", **{}}
-
-
 _ = dict(x)  # noqa: FURB123
 _ = dict(*({},))
 _ = dict()  # noqa: FURB112
 _ = dict(a=1, b=2)
+
+_ = dict(**x, **[])  # type: ignore
