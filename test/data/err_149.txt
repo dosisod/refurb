@@ -10,3 +10,4 @@ test/data/err_149.py:14:5 [FURB149]: Replace `b != True` with `not b`
 test/data/err_149.py:15:5 [FURB149]: Replace `b != False` with `b`
 test/data/err_149.py:16:5 [FURB149]: Replace `True == b` with `b`
 test/data/err_149.py:17:5 [FURB149]: Replace `False == b` with `not b`
+test/data/err_149.py:22:5 [FURB149]: Replace `Wrapper().b == True` with `Wrapper().b`

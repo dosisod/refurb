@@ -1,9 +1,9 @@
 from dataclasses import dataclass
 from typing import Any
 
-from mypy.nodes import ArgKind, Block, CallExpr, LambdaExpr, MemberExpr, NameExpr, ReturnStmt, Var
+from mypy.nodes import ArgKind, Block, CallExpr, LambdaExpr, MemberExpr, NameExpr, ReturnStmt
 
-from refurb.checks.common import is_same_type, stringify
+from refurb.checks.common import get_mypy_type, is_same_type, stringify
 from refurb.error import Error
 
 
@@ -78,7 +78,7 @@ def check(node: LambdaExpr, errors: list[Error]) -> None:
                     ReturnStmt(
                         expr=CallExpr(
                             callee=MemberExpr(
-                                expr=NameExpr(name=member_base_name, node=Var(type=ty)),
+                                expr=NameExpr(name=member_base_name) as member_base,
                                 name=str_func_name,
                             ),
                             args=[],
@@ -89,7 +89,7 @@ def check(node: LambdaExpr, errors: list[Error]) -> None:
         ) if (
             arg_name == member_base_name
             and str_func_name in STR_FUNCS
-            and is_same_type(ty, str, None, Any)
+            and is_same_type(get_mypy_type(member_base), str, None, Any)
         ):
             msg = f"Replace `{stringify(node)}` with `str.{str_func_name}`"
 

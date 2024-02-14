@@ -16,6 +16,11 @@ _ = b != False
 _ = True == b
 _ = False == b
 
+class Wrapper:
+    b: bool
+
+_ = Wrapper().b == True
+
 
 # these should not
 

@@ -1,8 +1,9 @@
 from dataclasses import dataclass
+from typing import TypeGuard
 
-from mypy.nodes import ComparisonExpr, Expression, NameExpr, Var
+from mypy.nodes import ComparisonExpr, Expression, NameExpr
 
-from refurb.checks.common import is_same_type, stringify
+from refurb.checks.common import get_mypy_type, is_same_type, stringify
 from refurb.error import Error
 
 
@@ -36,7 +37,7 @@ class ErrorInfo(Error):
     categories = ("logical", "readability", "truthy")
 
 
-def is_bool_literal(expr: Expression) -> bool:
+def is_bool_literal(expr: Expression) -> TypeGuard[NameExpr]:
     match expr:
         case NameExpr(fullname="builtins.True" | "builtins.False"):
             return True
@@ -45,11 +46,7 @@ def is_bool_literal(expr: Expression) -> bool:
 
 
 def is_bool_variable(expr: Expression) -> bool:
-    match expr:
-        case NameExpr(node=Var(type=ty)) if is_same_type(ty, bool):
-            return True
-
-    return False
+    return is_same_type(get_mypy_type(expr), bool)
 
 
 def is_truthy(oper: str, name: str) -> bool:
@@ -62,7 +59,7 @@ def check(node: ComparisonExpr, errors: list[Error]) -> None:
     match node:
         case ComparisonExpr(
             operators=["is" | "is not" | "==" | "!=" as oper],
-            operands=[NameExpr() as lhs, NameExpr() as rhs],
+            operands=[lhs, rhs],
         ):
             if is_bool_literal(lhs) and is_bool_variable(rhs):
                 expr = stringify(rhs)

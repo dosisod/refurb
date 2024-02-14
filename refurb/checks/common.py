@@ -532,6 +532,9 @@ def get_mypy_type(node: Node) -> Type | None:
         case FloatExpr():
             return _get_builtin_mypy_type("float")
 
+        case NameExpr(fullname="builtins.True" | "builtins.False"):
+            return _get_builtin_mypy_type("bool")
+
         case DictExpr():
             return _get_builtin_mypy_type("dict")
 
