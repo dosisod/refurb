@@ -12,3 +12,4 @@ test/data/err_170.py:18:5 [FURB170]: Replace `re.sub(x, ..., ..., count=...)` wi
 test/data/err_170.py:19:5 [FURB170]: Replace `re.subn(x, ..., ...)` with `x.subn(..., ...)`
 test/data/err_170.py:20:5 [FURB170]: Replace `re.subn(x, ..., ..., count=...)` with `x.subn(..., ..., count=...)`
 test/data/err_170.py:22:5 [FURB170]: Replace `re.search(x, ...)` with `x.search(...)`
+test/data/err_170.py:27:5 [FURB170]: Replace `re.sub(x, ..., ...)` with `x.sub(..., ...)`

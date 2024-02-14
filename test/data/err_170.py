@@ -21,6 +21,11 @@ _ = re.subn(PATTERN, "hello world", "goodbye world", count=1)
 
 _ = search(PATTERN, "hello world")
 
+class C:
+    p: re.Pattern
+
+_ = re.sub(C().p, "hello world", "goodbye world")
+
 
 # these should not
 

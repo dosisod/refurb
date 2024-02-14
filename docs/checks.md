@@ -1872,7 +1872,7 @@ if x is None:
 
 ## FURB170: `use-regex-pattern-methods`
 
-Categories: `readability` `regex`
+Categories: `performance` `readability` `regex`
 
 If you are passing a compiled regular expression to a regex function,
 consider calling the regex method on the pattern itself: It is faster, and

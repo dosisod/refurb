@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 
-from mypy.nodes import CallExpr, RefExpr, Var
+from mypy.nodes import CallExpr, RefExpr
 
-from refurb.checks.common import is_same_type
+from refurb.checks.common import get_mypy_type, is_same_type
 from refurb.error import Error
 
 
@@ -36,7 +36,7 @@ class ErrorInfo(Error):
 
     name = "use-regex-pattern-methods"
     code = 170
-    categories = ("readability", "regex")
+    categories = ("performance", "readability", "regex")
 
 
 # This table represents the function calls that we will emit errors for. The
@@ -74,12 +74,8 @@ def check(node: CallExpr, errors: list[Error]) -> None:
             if not arg_format:
                 return
 
-            match pattern:
-                case RefExpr(node=Var(type=ty)) if is_same_type(ty, "re.Pattern"):
-                    pass
-
-                case _:
-                    return
+            if not is_same_type(get_mypy_type(pattern), "re.Pattern"):
+                return
 
             min_len = len([arg for arg in arg_format if arg is ...])
 
