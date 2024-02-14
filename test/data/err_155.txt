@@ -15,3 +15,4 @@ test/data/err_155.py:23:1 [FURB155]: Replace `os.path.getsize(x)` with `Path(x).
 test/data/err_155.py:24:1 [FURB155]: Replace `os.path.getsize(x)` with `x.stat().st_size`
 test/data/err_155.py:25:1 [FURB155]: Replace `os.path.getsize(x)` with `Path(x).stat().st_size`
 test/data/err_155.py:26:1 [FURB155]: Replace `os.path.getsize(x)` with `Path(x).stat().st_size`
+test/data/err_155.py:31:1 [FURB155]: Replace `os.path.getsize(x)` with `Path(x).stat().st_size`

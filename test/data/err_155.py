@@ -25,5 +25,11 @@ os.path.getsize(Path("filename"))
 os.path.getsize(__file__)
 getsize("filename")
 
+class C:
+    s: str
+
+getsize(C().s)
+
+
 # this should not match
 os.path.getsize(1)

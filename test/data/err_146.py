@@ -38,6 +38,12 @@ isdir("filename")
 isfile("filename")
 islink("filename")
 
+class C:
+    p: str
+
+isfile(C().p)
+
+
 # these should not
 
 os.path.ismount("somefile")

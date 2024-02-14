@@ -22,3 +22,4 @@ test/data/err_146.py:36:1 [FURB146]: Replace `os.path.isabs(x)` with `Path(x).is
 test/data/err_146.py:37:1 [FURB146]: Replace `os.path.isdir(x)` with `Path(x).is_dir()`
 test/data/err_146.py:38:1 [FURB146]: Replace `os.path.isfile(x)` with `Path(x).is_file()`
 test/data/err_146.py:39:1 [FURB146]: Replace `os.path.islink(x)` with `Path(x).is_symlink()`
+test/data/err_146.py:44:1 [FURB146]: Replace `os.path.isfile(x)` with `Path(x).is_file()`
