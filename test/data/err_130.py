@@ -12,10 +12,19 @@ x = "key"
 if x in d.keys():
     pass
 
+class C:
+    d: dict[str, str]
+
+if x in C().d.keys():
+    pass
+
 
 # these should not
 
 if "key" in d:
+    pass
+
+if "key" in d.keys(1):  # type: ignore
     pass
 
 if "key" not in d:

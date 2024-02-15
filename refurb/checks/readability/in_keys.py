@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 
-from mypy.nodes import CallExpr, ComparisonExpr, MemberExpr, NameExpr, Var
+from mypy.nodes import CallExpr, ComparisonExpr, MemberExpr
 
-from refurb.checks.common import is_same_type, stringify
+from refurb.checks.common import get_mypy_type, is_same_type, stringify
 from refurb.error import Error
 
 
@@ -43,15 +43,13 @@ def check(node: ComparisonExpr, errors: list[Error]) -> None:
             operands=[
                 _,
                 CallExpr(
-                    callee=MemberExpr(
-                        expr=NameExpr(node=Var(type=ty)) as obj,
-                        name="keys",
-                    ),
+                    callee=MemberExpr(expr=dict_expr, name="keys"),
+                    args=[],
                 ) as expr,
             ],
-        ) if is_same_type(ty, dict):
-            obj_name = stringify(obj)
+        ) if is_same_type(get_mypy_type(dict_expr), dict):
+            dict_expr = stringify(dict_expr)  # type: ignore
 
-            msg = f"Replace `{oper} {obj_name}.keys()` with `{oper} {obj_name}`"
+            msg = f"Replace `{oper} {stringify(expr)}` with `{oper} {dict_expr}`"
 
             errors.append(ErrorInfo.from_node(expr, msg))

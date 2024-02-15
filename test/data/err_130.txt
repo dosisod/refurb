@@ -1,3 +1,4 @@
 test/data/err_130.py:5:13 [FURB130]: Replace `in d.keys()` with `in d`
 test/data/err_130.py:8:17 [FURB130]: Replace `not in d.keys()` with `not in d`
 test/data/err_130.py:12:9 [FURB130]: Replace `in d.keys()` with `in d`
+test/data/err_130.py:18:9 [FURB130]: Replace `in C().d.keys()` with `in C().d`
