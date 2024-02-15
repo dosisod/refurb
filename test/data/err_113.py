@@ -38,6 +38,15 @@ if True:
     nums.append(3)
 
 
+class Wrapper:
+    l: list[int]
+
+if True:
+    w = Wrapper()
+    w.l.append(1)
+    w.l.append(2)
+
+
 # these will not
 
 nums.append(1)
@@ -49,6 +58,16 @@ if True:
     nums.append(1)
     pass
     nums.append(2)
+
+
+if True:
+    nums.append()  # type: ignore
+    nums.append()  # type: ignore
+
+
+if True:
+    nums.append(1, 2)  # type: ignore
+    nums.append(3, 4)  # type: ignore
 
 
 nums.append(1)

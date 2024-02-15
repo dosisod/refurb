@@ -4,3 +4,4 @@ test/data/err_113.py:18:1 [FURB113]: Replace `nums.append(...); nums.append(...)
 test/data/err_113.py:24:5 [FURB113]: Replace `nums.append(...); nums.append(...)` with `nums.extend((..., ...))`
 test/data/err_113.py:29:5 [FURB113]: Replace `nums.append(...); nums.append(...)` with `nums.extend((..., ...))`
 test/data/err_113.py:37:5 [FURB113]: Replace `nums.append(...); nums.append(...)` with `nums.extend((..., ...))`
+test/data/err_113.py:46:5 [FURB113]: Replace `w.l.append(...); w.l.append(...)` with `w.l.extend((..., ...))`

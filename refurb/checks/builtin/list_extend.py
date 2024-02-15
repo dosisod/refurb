@@ -1,17 +1,14 @@
 from dataclasses import dataclass
 
-from mypy.nodes import (
-    Block,
-    CallExpr,
-    ExpressionStmt,
-    MemberExpr,
-    MypyFile,
-    NameExpr,
-    Statement,
-    Var,
-)
+from mypy.nodes import Block, CallExpr, Expression, ExpressionStmt, MemberExpr, MypyFile, Statement
 
-from refurb.checks.common import check_block_like, is_same_type
+from refurb.checks.common import (
+    check_block_like,
+    get_mypy_type,
+    is_equivalent,
+    is_same_type,
+    stringify,
+)
 from refurb.error import Error
 
 
@@ -48,7 +45,7 @@ class ErrorInfo(Error):
 
 @dataclass
 class Last:
-    name: str = ""
+    expr: Expression | None = None
     line: int = 0
     column: int = 0
     did_error: bool = False
@@ -64,23 +61,20 @@ def check_stmts(stmts: list[Statement], errors: list[Error]) -> None:
     for stmt in stmts:
         match stmt:
             case ExpressionStmt(
-                expr=CallExpr(
-                    callee=MemberExpr(
-                        expr=NameExpr(name=name, node=Var(type=ty)),
-                        name="append",
-                    ),
-                )
-            ) if is_same_type(ty, list):
-                if not last.did_error and name == last.name:
-                    old = f"{name}.append(...); {name}.append(...)"
-                    new = f"{name}.extend((..., ...))"
+                expr=CallExpr(callee=MemberExpr(expr=expr, name="append"), args=[_]),
+            ) if is_same_type(get_mypy_type(expr), list):
+                if not last.did_error and is_equivalent(expr, last.expr):
+                    lhs = stringify(expr)
+                    old = f"{lhs}.append(...); {lhs}.append(...)"
+                    new = f"{lhs}.extend((..., ...))"
+
                     msg = f"Replace `{old}` with `{new}`"
 
                     errors.append(ErrorInfo(last.line, last.column, msg))
 
                     last.did_error = True
 
-                last.name = name
+                last.expr = expr
                 last.line = stmt.line
                 last.column = stmt.column
 
