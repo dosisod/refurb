@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 
-from mypy.nodes import Block, CallExpr, ExpressionStmt, ForStmt, MemberExpr, NameExpr, Var
+from mypy.nodes import Block, CallExpr, ExpressionStmt, ForStmt, MemberExpr, NameExpr
 
-from refurb.checks.common import is_same_type, unmangle_name
+from refurb.checks.common import get_mypy_type, is_equivalent, is_same_type, stringify
 from refurb.error import Error
 
 
@@ -42,37 +42,39 @@ class ErrorInfo(Error):
 def check(node: ForStmt, errors: list[Error]) -> None:
     match node:
         case ForStmt(
-            index=NameExpr(name=for_name),
+            index=NameExpr() as index,
+            expr=source,
             body=Block(
                 body=[
                     ExpressionStmt(
                         expr=CallExpr(
-                            callee=MemberExpr(
-                                expr=NameExpr(node=Var(type=ty)) as set_name,
-                                name=("add" | "discard") as name,
-                            ),
+                            callee=MemberExpr(expr=set_expr, name=("add" | "discard") as name),
                             args=[arg],
                         )
-                    )
+                    ),
                 ]
             ),
-        ) if is_same_type(ty, set) and set_name.name != for_name:
+            else_body=None,
+            is_async=False,
+        ) if is_same_type(get_mypy_type(set_expr), set) and not is_equivalent(set_expr, index):
             new_func = "update" if name == "add" else "difference_update"
 
-            if isinstance(arg, NameExpr):
-                expr = unmangle_name(arg.name)
-                new_expr = "y"
+            source = stringify(source)  # type: ignore
+            set_expr = stringify(set_expr)  # type: ignore
 
-                if unmangle_name(for_name) != expr:
+            if isinstance(arg, NameExpr):
+                if not is_equivalent(index, arg):
                     return
 
-            else:
-                expr = "..."
-                new_expr = "... for x in y"
+                old = stringify(node)
+                new = f"{set_expr}.{new_func}({source})"
 
-            errors.append(
-                ErrorInfo.from_node(
-                    node,
-                    f"Replace `for x in y: s.{name}({expr})` with `s.{new_func}({new_expr})`",  # noqa: E501
-                )
-            )
+            else:
+                index = stringify(index)  # type: ignore
+
+                old = f"for {index} in {source}: {set_expr}.{name}(...)"
+                new = f"{set_expr}.{new_func}(... for {index} in {source})"
+
+            msg = f"Replace `{old}` with `{new}`"
+
+            errors.append(ErrorInfo.from_node(node, msg))

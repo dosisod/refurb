@@ -1,3 +1,4 @@
-test/data/err_142.py:5:1 [FURB142]: Replace `for x in y: s.add(x)` with `s.update(y)`
-test/data/err_142.py:8:1 [FURB142]: Replace `for x in y: s.discard(x)` with `s.difference_update(y)`
-test/data/err_142.py:11:1 [FURB142]: Replace `for x in y: s.add(...)` with `s.update(... for x in y)`
+test/data/err_142.py:5:1 [FURB142]: Replace `for x in (1, 2, 3): s.add(x)` with `s.update((1, 2, 3))`
+test/data/err_142.py:8:1 [FURB142]: Replace `for x in (1, 2, 3): s.discard(x)` with `s.difference_update((1, 2, 3))`
+test/data/err_142.py:11:1 [FURB142]: Replace `for x in (1, 2, 3): s.add(...)` with `s.update(... for x in (1, 2, 3))`
+test/data/err_142.py:19:1 [FURB142]: Replace `for x in (1, 2, 3): c.s.add(x)` with `c.s.update((1, 2, 3))`

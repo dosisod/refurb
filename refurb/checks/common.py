@@ -427,6 +427,15 @@ def _stringify(node: Node) -> str:
         case IfStmt(expr=[expr], body=[Block(body=[stmt])], else_body=None):
             return f"if {_stringify(expr)}: {_stringify(stmt)}"
 
+        case ForStmt(
+            index=index,
+            expr=expr,
+            body=Block(body=[stmt]),
+            else_body=None,
+            is_async=False,
+        ):
+            return f"for {_stringify(index)} in {_stringify(expr)}: {_stringify(stmt)}"
+
         case ConditionalExpr(if_expr=if_true, cond=cond, else_expr=if_false):
             return f"{_stringify(if_true)} if {_stringify(cond)} else {_stringify(if_false)}"
 
