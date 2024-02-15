@@ -3,16 +3,17 @@ from dataclasses import dataclass
 from mypy.nodes import (
     CallExpr,
     DictionaryComprehension,
+    Expression,
     ForStmt,
     GeneratorExpr,
     NameExpr,
     Node,
     TupleExpr,
-    Var,
 )
 
 from refurb.checks.common import (
     check_for_loop_like,
+    get_mypy_type,
     is_name_unused_in_contexts,
     is_same_type,
     stringify,
@@ -71,9 +72,10 @@ def check_enumerate_call(
             TupleExpr(items=[NameExpr() as index, NameExpr() as value]),
             CallExpr(
                 callee=NameExpr(fullname="builtins.enumerate"),
-                args=[NameExpr(node=Var(type=ty)) as enumerate_arg],
+                args=[enumerate_arg],
             ),
-        ) if is_same_type(ty, list, tuple):
+        ) if is_same_type(get_mypy_type(enumerate_arg), list, tuple):
+            # TODO: support more sequence types
             check_unused_index_or_value(index, value, contexts, errors, enumerate_arg)
 
 
@@ -82,7 +84,7 @@ def check_unused_index_or_value(
     value: NameExpr,
     contexts: list[Node],
     errors: list[Error],
-    enumerate_arg: NameExpr,
+    enumerate_arg: Expression,
 ) -> None:
     if is_name_unused_in_contexts(index, contexts):
         msg = f"Index is unused, use `for {stringify(value)} in {stringify(enumerate_arg)}` instead"  # noqa: E501

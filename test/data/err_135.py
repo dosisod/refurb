@@ -30,6 +30,16 @@ def f5():
     {v: "" for k, v in d.items()}  # "k" is unused, warn
 
 
+class C:
+    d: dict[str, str]
+
+def f5b():
+    c = C()
+
+    (k for k, v in c.d.items())  # "v" is unused, warn
+    (v for k, v in c.d.items())  # "k" is unused, warn
+
+
 def f6():
     k=v=0
 
@@ -66,3 +76,11 @@ def f9():
 
     (k for k, v in d.items() if v)
     (v for k, v in d.items() if k)
+
+
+def f10():
+    for k, v in d.items(1):  # type: ignore
+        pass
+
+    for k, v in d.items(1, 2):  # type: ignore
+        pass

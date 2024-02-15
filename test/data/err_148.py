@@ -28,6 +28,12 @@ _ = (index for index, _ in enumerate(nums3))
 for index, num in enumerate(nums):
     pass
 
+class C:
+    l: list[int]
+
+for index, num in enumerate(C().l):
+    pass
+
 # these should not
 
 # "count" is an infinite generator. In general, we only want to warn on
