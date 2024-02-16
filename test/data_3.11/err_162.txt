@@ -1,10 +1,12 @@
-test/data_3.11/err_162.py:5:1 [FURB162]: Replace `fromisoformat(x.replace("Z", "+00:00"))` with `fromisoformat(x)`
-test/data_3.11/err_162.py:6:1 [FURB162]: Replace `fromisoformat(x.replace("Z", "-00:00"))` with `fromisoformat(x)`
-test/data_3.11/err_162.py:7:1 [FURB162]: Replace `fromisoformat(x.replace("Z", "+0000"))` with `fromisoformat(x)`
-test/data_3.11/err_162.py:8:1 [FURB162]: Replace `fromisoformat(x.replace("Z", "-0000"))` with `fromisoformat(x)`
-test/data_3.11/err_162.py:9:1 [FURB162]: Replace `fromisoformat(x.replace("Z", "+00"))` with `fromisoformat(x)`
-test/data_3.11/err_162.py:10:1 [FURB162]: Replace `fromisoformat(x.replace("Z", "-00"))` with `fromisoformat(x)`
-test/data_3.11/err_162.py:13:1 [FURB162]: Replace `fromisoformat(x.replace("Z", "+00:00"))` with `fromisoformat(x)`
-test/data_3.11/err_162.py:15:1 [FURB162]: Replace `fromisoformat(x[:-1] + "+00:00")` with `fromisoformat(x)`
-test/data_3.11/err_162.py:16:1 [FURB162]: Replace `fromisoformat(x.strip("Z") + "+00:00")` with `fromisoformat(x)`
-test/data_3.11/err_162.py:17:1 [FURB162]: Replace `fromisoformat(x.rstrip("Z") + "+00:00")` with `fromisoformat(x)`
+test/data_3.11/err_162.py:5:1 [FURB162]: Replace `datetime.fromisoformat(x.replace("Z", "+00:00"))` with `datetime.fromisoformat(x)`
+test/data_3.11/err_162.py:6:1 [FURB162]: Replace `datetime.fromisoformat(x.replace("Z", "-00:00"))` with `datetime.fromisoformat(x)`
+test/data_3.11/err_162.py:7:1 [FURB162]: Replace `datetime.fromisoformat(x.replace("Z", "+0000"))` with `datetime.fromisoformat(x)`
+test/data_3.11/err_162.py:8:1 [FURB162]: Replace `datetime.fromisoformat(x.replace("Z", "-0000"))` with `datetime.fromisoformat(x)`
+test/data_3.11/err_162.py:9:1 [FURB162]: Replace `datetime.fromisoformat(x.replace("Z", "+00"))` with `datetime.fromisoformat(x)`
+test/data_3.11/err_162.py:10:1 [FURB162]: Replace `datetime.fromisoformat(x.replace("Z", "-00"))` with `datetime.fromisoformat(x)`
+test/data_3.11/err_162.py:13:1 [FURB162]: Replace `datetime.fromisoformat(x.replace("Z", "+00:00"))` with `datetime.fromisoformat(x)`
+test/data_3.11/err_162.py:15:1 [FURB162]: Replace `datetime.fromisoformat(x[:-1] + "+00:00")` with `datetime.fromisoformat(x)`
+test/data_3.11/err_162.py:16:1 [FURB162]: Replace `datetime.fromisoformat(x.strip("Z") + "+00:00")` with `datetime.fromisoformat(x)`
+test/data_3.11/err_162.py:17:1 [FURB162]: Replace `datetime.fromisoformat(x.rstrip("Z") + "+00:00")` with `datetime.fromisoformat(x)`
+test/data_3.11/err_162.py:22:1 [FURB162]: Replace `datetime.fromisoformat(x.rstrip("Z") + "+00:00")` with `datetime.fromisoformat(x)`
+test/data_3.11/err_162.py:26:5 [FURB162]: Replace `dt.datetime.fromisoformat(x.rstrip("Z") + "+00:00")` with `dt.datetime.fromisoformat(x)`

@@ -6,15 +6,14 @@ from mypy.nodes import (
     IndexExpr,
     IntExpr,
     MemberExpr,
-    NameExpr,
     OpExpr,
+    RefExpr,
     SliceExpr,
     StrExpr,
     UnaryExpr,
-    Var,
 )
 
-from refurb.checks.common import is_same_type
+from refurb.checks.common import get_mypy_type, is_same_type, stringify
 from refurb.error import Error
 from refurb.settings import Settings
 
@@ -48,22 +47,11 @@ class ErrorInfo(Error):
 
 
 def is_string(node: Expression) -> bool:
-    match node:
-        case StrExpr():
-            return True
-
-        case NameExpr(node=Var(type=ty)) if is_same_type(ty, str):
-            return True
-
-    return False
+    return is_same_type(get_mypy_type(node), str)
 
 
-def is_utc_timezone(timezone: str) -> bool:
-    return timezone.startswith(("+", "-")) and timezone.strip("+-") in {
-        "00:00",
-        "0000",
-        "00",
-    }
+def is_zero_offset_timezone(timezone: str) -> bool:
+    return timezone.startswith(("+", "-")) and timezone.strip("+-") in {"00:00", "0000", "00"}
 
 
 def check(node: CallExpr, errors: list[Error], settings: Settings) -> None:
@@ -72,12 +60,11 @@ def check(node: CallExpr, errors: list[Error], settings: Settings) -> None:
 
     match node:
         case CallExpr(
-            callee=MemberExpr(
-                expr=NameExpr(fullname="datetime.datetime"),
-                name="fromisoformat",
-            ),
+            callee=MemberExpr(expr=RefExpr(fullname="datetime.datetime"), name="fromisoformat"),
             args=[arg],
         ):
+            func_name = stringify(node.callee)
+
             match arg:
                 case CallExpr(
                     callee=MemberExpr(expr=date, name="replace"),
@@ -85,8 +72,8 @@ def check(node: CallExpr, errors: list[Error], settings: Settings) -> None:
                         StrExpr(value="Z"),
                         StrExpr(value=timezone),
                     ],
-                ) if is_string(date) and is_utc_timezone(timezone):
-                    old = f'fromisoformat(x.replace("Z", "{timezone}"))'
+                ) if is_string(date) and is_zero_offset_timezone(timezone):
+                    old = f'{func_name}(x.replace("Z", "{timezone}"))'
 
                 case OpExpr(
                     left=IndexExpr(
@@ -99,20 +86,21 @@ def check(node: CallExpr, errors: list[Error], settings: Settings) -> None:
                     ),
                     op="+",
                     right=StrExpr(value=timezone),
-                ) if is_string(date) and is_utc_timezone(timezone):
-                    old = f'fromisoformat(x[:-1] + "{timezone}")'
+                ) if is_string(date) and is_zero_offset_timezone(timezone):
+                    old = f'{func_name}(x[:-1] + "{timezone}")'
 
                 case OpExpr(
                     left=CallExpr(
-                        callee=MemberExpr(expr=date, name="strip" | "rstrip" as func_name),
+                        callee=MemberExpr(expr=date, name="strip" | "rstrip" as str_func_name),
                         args=[StrExpr(value="Z")],
                     ),
                     op="+",
                     right=StrExpr(value=timezone),
-                ) if is_string(date) and is_utc_timezone(timezone):
-                    old = f'fromisoformat(x.{func_name}("Z") + "{timezone}")'
+                ) if is_string(date) and is_zero_offset_timezone(timezone):
+                    old = f'{func_name}(x.{str_func_name}("Z") + "{timezone}")'
 
                 case _:
                     return
 
-            errors.append(ErrorInfo.from_node(node, f"Replace `{old}` with `fromisoformat(x)`"))
+            if is_string(date) and is_zero_offset_timezone(timezone):
+                errors.append(ErrorInfo.from_node(node, f"Replace `{old}` with `{func_name}(x)`"))
