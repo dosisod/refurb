@@ -1,22 +1,8 @@
 from dataclasses import dataclass
 
-from mypy.nodes import (
-    ArgKind,
-    BytesExpr,
-    CallExpr,
-    ComplexExpr,
-    DictExpr,
-    Expression,
-    FloatExpr,
-    IntExpr,
-    ListExpr,
-    NameExpr,
-    StrExpr,
-    TupleExpr,
-    Var,
-)
+from mypy.nodes import ArgKind, CallExpr, NameExpr
 
-from refurb.checks.common import is_same_type, stringify
+from refurb.checks.common import get_mypy_type, is_same_type, stringify
 from refurb.error import Error
 
 
@@ -60,20 +46,16 @@ class ErrorInfo(Error):
 
 
 FUNC_NAME_MAPPING = {
-    "builtins.bool": (bool, None, ""),
-    "builtins.bytes": (bytes, BytesExpr, ""),
-    "builtins.complex": (complex, ComplexExpr, ""),
-    "builtins.dict": (dict, DictExpr, ".copy()"),
-    "builtins.float": (float, FloatExpr, ""),
-    "builtins.int": (int, IntExpr, ""),
-    "builtins.list": (list, ListExpr, ".copy()"),
-    "builtins.str": (str, StrExpr, ""),
-    "builtins.tuple": (tuple, TupleExpr, ""),
+    "builtins.bool": (bool, ""),
+    "builtins.bytes": (bytes, ""),
+    "builtins.complex": (complex, ""),
+    "builtins.dict": (dict, ".copy()"),
+    "builtins.float": (float, ""),
+    "builtins.int": (int, ""),
+    "builtins.list": (list, ".copy()"),
+    "builtins.str": (str, ""),
+    "builtins.tuple": (tuple, ""),
 }
-
-
-def is_boolean_literal(node: Expression) -> bool:
-    return isinstance(node, NameExpr) and node.fullname in {"builtins.True", "builtins.False"}
 
 
 def check(node: CallExpr, errors: list[Error]) -> None:
@@ -83,18 +65,10 @@ def check(node: CallExpr, errors: list[Error]) -> None:
             args=[arg],
             arg_kinds=[ArgKind.ARG_POS],
         ) if found := FUNC_NAME_MAPPING.get(fullname):
-            expected_type, node_type, suffix = found
+            expected_type, suffix = found
 
-            if (type(arg) == node_type) or (is_boolean_literal(arg) and name == "bool"):
-                pass
-
-            else:
-                match arg:
-                    case NameExpr(node=Var(type=ty)) if is_same_type(ty, expected_type):
-                        pass
-
-                    case _:
-                        return
+            if not is_same_type(get_mypy_type(arg), expected_type):
+                return
 
             expr = stringify(arg)
 

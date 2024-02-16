@@ -15,3 +15,4 @@ test/data/err_123.py:26:5 [FURB123]: Replace `float(e)` with `e`
 test/data/err_123.py:29:5 [FURB123]: Replace `list(f)` with `f.copy()`
 test/data/err_123.py:32:5 [FURB123]: Replace `str(g)` with `g`
 test/data/err_123.py:35:5 [FURB123]: Replace `tuple(t)` with `t`
+test/data/err_123.py:40:5 [FURB123]: Replace `bool(func())` with `func()`

@@ -34,6 +34,11 @@ _ = str(g)
 t = (1, 2, 3)
 _ = tuple(t)
 
+def func() -> bool:
+    return True
+
+_ = bool(func())
+
 
 # these will not
 
