@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 
-from mypy.nodes import CallExpr, Expression, ForStmt, GeneratorExpr, MemberExpr, NameExpr, Var
+from mypy.nodes import CallExpr, Expression, ForStmt, GeneratorExpr, MemberExpr
 
-from refurb.checks.common import is_same_type, stringify
+from refurb.checks.common import get_mypy_type, is_same_type, stringify
 from refurb.error import Error
 
 
@@ -35,25 +35,23 @@ class ErrorInfo(Error):
     categories = ("builtin", "readability")
 
 
-def check_for_readline_object(expr: Expression, errors: list[Error]) -> NameExpr | None:
+def check_readline_expr(expr: Expression, errors: list[Error]) -> None:
     match expr:
         case CallExpr(
-            callee=MemberExpr(expr=NameExpr(node=Var(type=ty)) as f, name="readlines"),
+            callee=MemberExpr(expr=f, name="readlines"),
             args=[],
-        ) if is_same_type(ty, "io.TextIOWrapper", "io.BufferedReader"):
-            f_name = stringify(f)
+        ) if is_same_type(get_mypy_type(f), "io.TextIOWrapper", "io.BufferedReader"):
+            tmp = stringify(f)
 
-            msg = f"Replace `{f_name}.readlines()` with `{f_name}`"
+            msg = f"Replace `{tmp}.readlines()` with `{tmp}`"
 
             errors.append(ErrorInfo.from_node(f, msg))
-
-    return None
 
 
 def check(node: ForStmt | GeneratorExpr, errors: list[Error]) -> None:
     if isinstance(node, ForStmt):
-        check_for_readline_object(node.expr, errors)
+        check_readline_expr(node.expr, errors)
 
     else:
         for expr in node.sequences:
-            check_for_readline_object(expr, errors)
+            check_readline_expr(expr, errors)

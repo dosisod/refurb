@@ -22,6 +22,15 @@ for line in f.readlines():
     pass
 
 
+import io
+
+class C:
+    f: io.TextIOWrapper
+
+for line in C().f.readlines():
+    pass
+
+
 # these will not
 
 with open("file.txt") as f:
