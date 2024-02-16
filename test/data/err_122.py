@@ -31,3 +31,16 @@ with open("x") as f:
         pass
 
         f.write(line)
+
+
+with open("file") as f:
+    for line in lines:
+        f.write(line)
+    else:
+        pass
+
+
+async def func():
+    with open("file") as f:
+        async for line in lines:  # type: ignore
+            f.write(line)

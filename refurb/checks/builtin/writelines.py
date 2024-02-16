@@ -1,16 +1,8 @@
 from dataclasses import dataclass
 
-from mypy.nodes import (
-    Block,
-    CallExpr,
-    ExpressionStmt,
-    ForStmt,
-    MemberExpr,
-    NameExpr,
-    Var,
-    WithStmt,
-)
+from mypy.nodes import Block, CallExpr, ExpressionStmt, ForStmt, MemberExpr, NameExpr, WithStmt
 
+from refurb.checks.common import get_mypy_type, is_equivalent, is_same_type, stringify
 from refurb.error import Error
 
 
@@ -49,32 +41,42 @@ class ErrorInfo(Error):
 
     name = "use-writelines"
     code = 122
-    msg: str = "Replace `for line in lines: f.write(line)` with `f.writelines(lines)`"
     categories = ("builtin", "readability")
 
 
 def check(node: WithStmt, errors: list[Error]) -> None:
     match node:
         case WithStmt(
-            target=[NameExpr(node=Var(type=ty)) as resource],
+            target=[NameExpr() as f],
             body=Block(
                 body=[
                     ForStmt(
                         index=NameExpr(),
+                        expr=source,
                         body=Block(
                             body=[
                                 ExpressionStmt(
                                     expr=CallExpr(
                                         callee=MemberExpr(
-                                            expr=NameExpr() as file,
+                                            expr=NameExpr() as write_base,
                                             name="write",
                                         )
                                     )
                                 )
                             ]
                         ),
+                        is_async=False,
+                        else_body=None,
                     ) as for_stmt
                 ]
             ),
-        ) if str(ty).startswith("io.") and resource.fullname == file.fullname:
-            errors.append(ErrorInfo.from_node(for_stmt))
+        ) if (
+            is_same_type(get_mypy_type(f), "io.TextIOWrapper", "io.BufferedWriter")
+            and is_equivalent(f, write_base)
+        ):
+            old = stringify(for_stmt)
+            new = f"{stringify(f)}.writelines({stringify(source)})"
+
+            msg = f"Replace `{old}` with `{new}`"
+
+            errors.append(ErrorInfo.from_node(for_stmt, msg))
