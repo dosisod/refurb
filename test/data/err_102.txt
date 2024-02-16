@@ -3,3 +3,5 @@ test/data/err_102.py:6:19 [FURB102]: Replace `x.endswith(y) or x.endswith(z)` wi
 test/data/err_102.py:7:26 [FURB102]: Replace `x.startswith(y) or x.startswith(z)` with `x.startswith((y, z))`
 test/data/err_102.py:8:21 [FURB102]: Replace `x.startswith(y) or x.startswith(z)` with `x.startswith((y, z))`
 test/data/err_102.py:10:25 [FURB102]: Replace `not x.startswith(y) and not x.startswith(z)` with `not x.startswith((y, z))`
+test/data/err_102.py:17:20 [FURB102]: Replace `x.startswith(y) or x.startswith(z)` with `x.startswith((y, z))`
+test/data/err_102.py:20:22 [FURB102]: Replace `x.startswith(y) or x.startswith(z)` with `x.startswith((y, z))`

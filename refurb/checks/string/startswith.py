@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 
-from mypy.nodes import CallExpr, Expression, MemberExpr, NameExpr, OpExpr, UnaryExpr, Var
+from mypy.nodes import CallExpr, Expression, MemberExpr, OpExpr, UnaryExpr
 
-from refurb.checks.common import extract_binary_oper, is_same_type
+from refurb.checks.common import extract_binary_oper, get_mypy_type, is_equivalent, is_same_type
 from refurb.error import Error
 
 
@@ -40,19 +40,15 @@ def are_startswith_or_endswith_calls(
 ) -> tuple[str, Expression] | None:
     match lhs, rhs:
         case (
-            CallExpr(
-                callee=MemberExpr(expr=NameExpr(node=Var(type=ty)) as lhs, name=lhs_func),
-                args=args,
-            ),
-            CallExpr(callee=MemberExpr(expr=NameExpr() as rhs, name=rhs_func)),
+            CallExpr(callee=MemberExpr(expr=lhs, name=lhs_func), args=[first_arg]),
+            CallExpr(callee=MemberExpr(expr=rhs, name=rhs_func), args=[_]),
         ) if (
-            lhs.fullname == rhs.fullname
-            and is_same_type(ty, str, bytes)
+            is_equivalent(lhs, rhs)
+            and is_same_type(get_mypy_type(lhs), str, bytes)
             and lhs_func == rhs_func
             and lhs_func in {"startswith", "endswith"}
-            and args
         ):
-            return lhs_func, args[0]
+            return lhs_func, first_arg
 
     return None
 
@@ -77,9 +73,4 @@ def check(node: OpExpr, errors: list[Error]) -> None:
             old = f"not x.{func}(y) and not x.{func}(z)"
             new = f"not x.{func}((y, z))"
 
-            errors.append(
-                ErrorInfo.from_node(
-                    arg,
-                    msg=f"Replace `{old}` with `{new}`",
-                )
-            )
+            errors.append(ErrorInfo.from_node(arg, msg=f"Replace `{old}` with `{new}`"))
