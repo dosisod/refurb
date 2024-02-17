@@ -39,6 +39,10 @@ def func() -> bool:
 
 _ = bool(func())
 
+s = {1}
+_ = set(s)
+_ = set({1})
+
 
 # these will not
 

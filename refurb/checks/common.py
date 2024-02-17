@@ -4,10 +4,13 @@ from typing import Any
 
 from mypy.nodes import (
     ArgKind,
+    AssignmentExpr,
     AssignmentStmt,
+    AwaitExpr,
     Block,
     BytesExpr,
     CallExpr,
+    CastExpr,
     ComparisonExpr,
     ComplexExpr,
     ConditionalExpr,
@@ -36,7 +39,7 @@ from mypy.nodes import (
     StarExpr,
     Statement,
     StrExpr,
-    SymbolTableNode,
+    SymbolNode,
     TupleExpr,
     TypeAlias,
     TypeInfo,
@@ -445,6 +448,12 @@ def _stringify(node: Node) -> str:
         case ExpressionStmt(expr=expr):
             return _stringify(expr)
 
+        case AwaitExpr(expr=expr):
+            return f"await {_stringify(expr)}"
+
+        case AssignmentExpr(target=lhs, value=rhs):
+            return f"{_stringify(lhs)} := {_stringify(rhs)}"
+
     raise ValueError
 
 
@@ -463,7 +472,7 @@ def slice_expr_to_slice_call(expr: SliceExpr) -> str:
 TypeLike = type | str | None | object
 
 
-def is_same_type(ty: Type | TypeInfo | None, *expected: TypeLike) -> bool:
+def is_same_type(ty: Type | SymbolNode | None, *expected: TypeLike) -> bool:
     """
     Check if the type `ty` matches any of the `expected` types. `ty` must be a Mypy type object,
     but the expected types can be any of the following:
@@ -498,7 +507,7 @@ SIMPLE_TYPES: dict[str, type | object | None] = {
 }
 
 
-def _is_same_type(ty: Type | TypeInfo | None, expected: TypeLike) -> bool:
+def _is_same_type(ty: Type | SymbolNode | None, expected: TypeLike) -> bool:
     if ty is expected is None:
         return True
 
@@ -520,14 +529,17 @@ def _is_same_type(ty: Type | TypeInfo | None, expected: TypeLike) -> bool:
     return False
 
 
-def _get_builtin_mypy_type(name: str) -> Type | None:
+def _get_builtin_mypy_type(name: str) -> Instance | None:
     if (sym := types.BUILTINS_MYPY_FILE.names.get(name)) and isinstance(sym.node, TypeInfo):
         return Instance(sym.node, [])
 
     return None  # pragma: no cover
 
 
-def get_mypy_type(node: Node) -> Type | None:
+def get_mypy_type(node: Node) -> Type | SymbolNode | None:
+    # forward declaration to make Mypy happy
+    ty: Type | SymbolNode | None
+
     match node:
         case StrExpr():
             return _get_builtin_mypy_type("str")
@@ -556,52 +568,86 @@ def get_mypy_type(node: Node) -> Type | None:
         case TupleExpr():
             return _get_builtin_mypy_type("tuple")
 
-        case Var(type=ty):
+        case SetExpr():
+            return _get_builtin_mypy_type("set")
+
+        case Var(type=ty) | FuncDef(type=ty):
             return ty
 
-        case NameExpr(node=sym):
-            match sym:
-                case Var(type=ty) | Instance(type=ty):  # type: ignore
+        case TypeInfo() | TypeAlias() | MypyFile():
+            return node
+
+        case NameExpr(node=sym) if sym:
+            return get_mypy_type(sym)
+
+        case MemberExpr(expr=lhs, name=name):
+            ty = get_mypy_type(lhs)
+
+            if (
+                isinstance(ty, MypyFile | TypeInfo)
+                and (member := ty.names.get(name))
+                and member.node
+            ):
+                return get_mypy_type(member.node)
+
+            if isinstance(ty, Instance) and (member := ty.type.get(name)) and member.node:
+                return get_mypy_type(member.node)
+
+        case CallExpr(analyzed=CastExpr(type=ty)):
+            return ty
+
+        case CallExpr(callee=callee):
+            match get_mypy_type(callee):
+                case CallableType(ret_type=ty):
                     return ty
 
                 case TypeAlias(target=ty):
                     return ty
 
-                case FuncDef(type=CallableType(ret_type=ty)):
-                    return ty
-
-                case TypeInfo():
+                case TypeInfo() as sym:
                     return Instance(sym, [])
 
-        case MemberExpr(expr=lhs, name=name):
-            # TODO: don't special case this
-            match lhs:
-                case NameExpr(node=MypyFile(names=names)):
-                    match names.get(name):
-                        case SymbolTableNode(node=FuncDef(type=CallableType(ret_type=ty))):
-                            return ty
+        case UnaryExpr(op="not"):
+            return _get_builtin_mypy_type("bool")
 
-                        case SymbolTableNode(node=TypeInfo() as ty):  # type: ignore
-                            return Instance(ty, [])  # type: ignore
-
-            lhs_type = get_mypy_type(lhs)
-
-            if isinstance(lhs_type, Instance):
-                sym = lhs_type.type.get(name)  # type: ignore
-
-                if sym and sym.node:  # type: ignore
-                    return get_mypy_type(sym.node)  # type: ignore
-
-        case CallExpr(callee=callee):
-            return get_mypy_type(callee)
+        case UnaryExpr(method_type=CallableType(ret_type=ty)):
+            return ty
 
         case OpExpr(method_type=CallableType(ret_type=ty)):
             return ty
 
+        case IndexExpr(method_type=CallableType(ret_type=ty)):
+            return ty
+
+        case AwaitExpr(expr=expr):
+            ty = get_mypy_type(expr)
+
+            # TODO: allow for any Awaitable[T] type
+            match ty:
+                case Instance(type=TypeInfo(fullname="typing.Coroutine"), args=[_, _, rtype]):
+                    return rtype
+
+                case Instance(type=TypeInfo(fullname="asyncio.tasks.Task"), args=[rtype]):
+                    return rtype
+
+        case LambdaExpr(body=Block(body=[ReturnStmt(expr=expr)])) if expr:
+            if (ty := get_mypy_type(expr)) and isinstance(ty, Type):
+                return _build_placeholder_callable(ty)
+
+        case AssignmentExpr(target=expr):
+            return get_mypy_type(expr)
+
     return None
 
 
-def mypy_type_to_python_type(ty: Type | None) -> type | None:
+def _build_placeholder_callable(rtype: Type) -> Type | None:
+    if function := _get_builtin_mypy_type("function"):
+        return CallableType([], [], [], ret_type=rtype, fallback=function)
+
+    return None  # pragma: no cover
+
+
+def mypy_type_to_python_type(ty: Type | SymbolNode | None) -> type | None:
     match ty:
         # TODO: return annotated types if instance has args (ie, `list[int]`)
         case Instance(type=TypeInfo(fullname=fullname)):
