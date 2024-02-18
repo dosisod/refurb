@@ -1,4 +1,4 @@
-black==24.1.1
+black==24.2.0
 click==8.1.7
 colorama==0.4.6
 coverage==7.4.1
@@ -12,6 +12,6 @@ pathspec==0.12.1
 platformdirs==4.2.0
 pluggy==1.4.0
 pytest-cov==4.1.0
-pytest==8.0.0
-ruff==0.2.0
-typos==1.18.0
+pytest==8.0.1
+ruff==0.2.2
+typos==1.18.2

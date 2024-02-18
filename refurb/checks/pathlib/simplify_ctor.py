@@ -49,7 +49,7 @@ def check(node: CallExpr, errors: list[Error]) -> None:
         case CallExpr(
             args=[RefExpr(fullname=arg) as arg_ref],
             callee=RefExpr(fullname="pathlib.Path") as func_ref,
-        ) if ((arg := normalize_os_path(arg)) in {"os.curdir", "os.path.curdir"}):
+        ) if (arg := normalize_os_path(arg)) in {"os.curdir", "os.path.curdir"}:
             func_name = stringify(func_ref)
             arg_name = stringify(arg_ref)
 

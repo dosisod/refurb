@@ -1,6 +1,15 @@
 from dataclasses import dataclass
 
-from mypy.nodes import Block, CallExpr, ExpressionStmt, ForStmt, MemberExpr, NameExpr, WithStmt
+from mypy.nodes import (
+    Block,
+    CallExpr,
+    Expression,
+    ExpressionStmt,
+    ForStmt,
+    MemberExpr,
+    NameExpr,
+    WithStmt,
+)
 
 from refurb.checks.common import get_mypy_type, is_equivalent, is_same_type, stringify
 from refurb.error import Error
@@ -44,6 +53,11 @@ class ErrorInfo(Error):
     categories = ("builtin", "readability")
 
 
+def is_file_object(f: Expression) -> bool:
+    # TODO: support more file-like types
+    return is_same_type(get_mypy_type(f), "io.TextIOWrapper", "io.BufferedWriter")
+
+
 def check(node: WithStmt, errors: list[Error]) -> None:
     match node:
         case WithStmt(
@@ -70,10 +84,7 @@ def check(node: WithStmt, errors: list[Error]) -> None:
                     ) as for_stmt
                 ]
             ),
-        ) if (
-            is_same_type(get_mypy_type(f), "io.TextIOWrapper", "io.BufferedWriter")
-            and is_equivalent(f, write_base)
-        ):
+        ) if is_file_object(f) and is_equivalent(f, write_base):
             old = stringify(for_stmt)
             new = f"{stringify(f)}.writelines({stringify(source)})"
 

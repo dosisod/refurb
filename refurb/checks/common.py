@@ -225,8 +225,8 @@ def get_common_expr_in_comparison_chain(
         case (
             ComparisonExpr(operators=[lhs_oper], operands=[a, b]),
             ComparisonExpr(operators=[rhs_oper], operands=[c, d]),
-        ) if (
-            lhs_oper == rhs_oper == cmp_oper and (indices := get_common_expr_positions(a, b, c, d))
+        ) if lhs_oper == rhs_oper == cmp_oper and (
+            indices := get_common_expr_positions(a, b, c, d)
         ):
             return a, indices
 
@@ -402,7 +402,7 @@ def _stringify(node: Node) -> str:
             arg_names=arg_names,
             arg_kinds=arg_kinds,
             body=Block(body=[ReturnStmt(expr=Expression() as expr)]),
-        ) if (all(kind == ArgKind.ARG_POS for kind in arg_kinds) and all(arg_names)):
+        ) if all(kind == ArgKind.ARG_POS for kind in arg_kinds) and all(arg_names):
             if arg_names:
                 args = " "  # type: ignore
                 args += ", ".join(arg_names)  # type: ignore

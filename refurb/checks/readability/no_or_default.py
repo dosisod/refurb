@@ -68,9 +68,8 @@ def check(node: OpExpr, errors: list[Error]) -> None:
                 | FloatExpr(value=0.0)
                 | NameExpr(fullname="builtins.False")
             ) as rhs,
-        ) if (
-            (expected_type := mypy_type_to_python_type(get_mypy_type(rhs)))
-            and is_same_type(get_mypy_type(lhs), expected_type)
+        ) if (expected_type := mypy_type_to_python_type(get_mypy_type(rhs))) and is_same_type(
+            get_mypy_type(lhs), expected_type
         ):
             lhs_expr = stringify(lhs)
 

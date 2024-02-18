@@ -97,9 +97,8 @@ def check_stmts(stmts: list[Statement], errors: list[Error]) -> None:
                         errors.append(ErrorInfo.from_node(assign))
 
                 case ForStmt(body=Block(body=[stmt])) if (
-                    (name := get_append_func_callee_name(stmt))
-                    and name.fullname == assign.fullname
-                ):
+                    name := get_append_func_callee_name(stmt)
+                ) and name.fullname == assign.fullname:
                     name_visitor = ReadCountVisitor(name)
                     name_visitor.accept(stmt)
 

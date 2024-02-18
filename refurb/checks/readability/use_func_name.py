@@ -83,9 +83,8 @@ def check(node: LambdaExpr, errors: list[Error]) -> None:
             body=Block(
                 body=[ReturnStmt(expr=CallExpr(callee=RefExpr() as ref) as func)],
             ),
-        ) if (
-            get_lambda_arg_names(lambda_args) == get_func_arg_names(func.args)
-            and all(kind == ArgKind.ARG_POS for kind in func.arg_kinds)
+        ) if get_lambda_arg_names(lambda_args) == get_func_arg_names(func.args) and all(
+            kind == ArgKind.ARG_POS for kind in func.arg_kinds
         ):
             func_name = stringify(ref)
 
