@@ -46,16 +46,16 @@ class ErrorInfo(Error):
 
 
 FUNC_NAME_MAPPING = {
-    "builtins.bool": (bool, ""),
-    "builtins.bytes": (bytes, ""),
-    "builtins.complex": (complex, ""),
-    "builtins.dict": (dict, ".copy()"),
-    "builtins.float": (float, ""),
-    "builtins.int": (int, ""),
-    "builtins.list": (list, ".copy()"),
-    "builtins.set": (set, ".copy()"),
-    "builtins.str": (str, ""),
-    "builtins.tuple": (tuple, ""),
+    "builtins.bool": ("", bool),
+    "builtins.bytes": ("", bytes),
+    "builtins.complex": ("", complex),
+    "builtins.dict": (".copy()", dict, "os._Environ"),
+    "builtins.float": ("", float),
+    "builtins.int": ("", int),
+    "builtins.list": (".copy()", list),
+    "builtins.set": (".copy()", set),
+    "builtins.str": ("", str),
+    "builtins.tuple": ("", tuple),
 }
 
 
@@ -66,9 +66,9 @@ def check(node: CallExpr, errors: list[Error]) -> None:
             args=[arg],
             arg_kinds=[ArgKind.ARG_POS],
         ) if found := FUNC_NAME_MAPPING.get(fullname):
-            expected_type, suffix = found
+            suffix, *expected_types = found
 
-            if not is_same_type(get_mypy_type(arg), expected_type):
+            if not is_same_type(get_mypy_type(arg), *expected_types):
                 return
 
             expr = stringify(arg)

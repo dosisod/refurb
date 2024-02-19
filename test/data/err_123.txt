@@ -18,3 +18,4 @@ test/data/err_123.py:35:5 [FURB123]: Replace `tuple(t)` with `t`
 test/data/err_123.py:40:5 [FURB123]: Replace `bool(func())` with `func()`
 test/data/err_123.py:43:5 [FURB123]: Replace `set(s)` with `s.copy()`
 test/data/err_123.py:44:5 [FURB123]: Replace `set({1})` with `{1}.copy()`
+test/data/err_123.py:48:5 [FURB123]: Replace `dict(os.environ)` with `os.environ.copy()`

@@ -43,6 +43,10 @@ s = {1}
 _ = set(s)
 _ = set({1})
 
+import os
+
+_ = dict(os.environ)
+
 
 # these will not
 
