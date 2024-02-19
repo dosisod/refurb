@@ -53,7 +53,7 @@ FUNC_NAME_MAPPING = {
     "builtins.float": (float, ""),
     "builtins.int": (int, ""),
     "builtins.list": (list, ".copy()"),
-    "builtins.set": (set, ""),
+    "builtins.set": (set, ".copy()"),
     "builtins.str": (str, ""),
     "builtins.tuple": (tuple, ""),
 }
