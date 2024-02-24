@@ -292,6 +292,49 @@ def is_type_none_call(node: Expression) -> bool:
     return False
 
 
+def get_fstring_parts(expr: Expression) -> list[tuple[bool, Expression, str]]:
+    match expr:
+        case CallExpr(
+            callee=MemberExpr(
+                expr=StrExpr(value="{:{}}"),
+                name="format",
+            ),
+            args=[arg, StrExpr(value=format_arg)],
+            arg_kinds=[ArgKind.ARG_POS, ArgKind.ARG_POS],
+        ):
+            return [(True, arg, format_arg)]
+
+        case CallExpr(
+            callee=MemberExpr(
+                expr=StrExpr(value=""),
+                name="join",
+            ),
+            args=[ListExpr(items=items)],
+            arg_kinds=[ArgKind.ARG_POS],
+        ):
+            exprs: list[tuple[bool, Expression, str]] = []
+
+            had_at_least_one_fstring_part = False
+
+            for item in items:
+                if isinstance(item, StrExpr):
+                    exprs.append((False, item, ""))
+
+                elif tmp := get_fstring_parts(item):
+                    had_at_least_one_fstring_part = True
+                    exprs.extend(tmp)
+
+                else:
+                    return []
+
+            if not had_at_least_one_fstring_part:
+                return []
+
+            return exprs
+
+    return []
+
+
 def stringify(node: Node) -> str:
     try:
         return _stringify(node)
@@ -352,6 +395,24 @@ def _stringify(node: Node) -> str:
             return f"({inner})"
 
         case CallExpr(arg_names=arg_names, arg_kinds=arg_kinds, args=args):
+            if fstring_parts := get_fstring_parts(node):
+                output = 'f"'
+
+                for is_format_arg, arg, fmt in fstring_parts:
+                    if not is_format_arg:
+                        assert isinstance(arg, StrExpr)
+
+                        output += arg.value
+
+                    elif fmt:
+                        output += f"{{{_stringify(arg)}:{fmt}}}"
+
+                    else:
+                        output += f"{{{_stringify(arg)}}}"
+
+                output += '"'
+                return output
+
             call_args: list[str] = []
 
             for arg_name, kind, arg in zip(arg_names, arg_kinds, args):
