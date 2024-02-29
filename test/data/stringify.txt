@@ -18,5 +18,6 @@ test/data/stringify.py:24:5 [FURB123]: Replace `str(f"{123:x}")` with `f"{123:x}
 test/data/stringify.py:25:5 [FURB123]: Replace `str(f"x{123}y")` with `f"x{123}y"`
 test/data/stringify.py:26:5 [FURB123]: Replace `str(f"x{123}y{456}z")` with `f"x{123}y{456}z"`
 test/data/stringify.py:27:5 [FURB123]: Replace `str(f"{"abc"}")` with `f"{"abc"}"`
-test/data/stringify.py:30:5 [FURB123]: Replace `str("".join([""]))` with `"".join([""])`
-test/data/stringify.py:31:5 [FURB123]: Replace `str("".join(["", 1]))` with `"".join(["", 1])`
+test/data/stringify.py:28:5 [FURB123]: Replace `str(f"{123}\n")` with `f"{123}\n"`
+test/data/stringify.py:31:5 [FURB123]: Replace `str("".join([""]))` with `"".join([""])`
+test/data/stringify.py:32:5 [FURB123]: Replace `str("".join(["", 1]))` with `"".join(["", 1])`

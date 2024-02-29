@@ -369,7 +369,7 @@ def _stringify(node: Node) -> str:
             return str(value)
 
         case StrExpr(value=value):
-            value = value.replace('"', r"\"")
+            value = repr(value)[1:-1].replace('"', r"\"")
 
             return f'"{value}"'
 
@@ -402,7 +402,7 @@ def _stringify(node: Node) -> str:
                     if not is_format_arg:
                         assert isinstance(arg, StrExpr)
 
-                        output += arg.value
+                        output += _stringify(arg)[1:-1]
 
                     elif fmt:
                         output += f"{{{_stringify(arg)}:{fmt}}}"
