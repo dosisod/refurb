@@ -39,13 +39,6 @@ class ErrorInfo(Error):
     with open("file") as f:
         f.writelines(lines)
     ```
-
-    Note: If you have a more complex expression then just `lines`, you may
-    need to use a list comprehension instead. For example:
-
-    ```
-    f.writelines(f"{line}\n" for line in lines)
-    ```
     """
 
     name = "use-writelines"
@@ -65,7 +58,7 @@ def check(node: WithStmt, errors: list[Error]) -> None:
             body=Block(
                 body=[
                     ForStmt(
-                        index=NameExpr(),
+                        index=NameExpr() as for_target,
                         expr=source,
                         body=Block(
                             body=[
@@ -74,7 +67,8 @@ def check(node: WithStmt, errors: list[Error]) -> None:
                                         callee=MemberExpr(
                                             expr=NameExpr() as write_base,
                                             name="write",
-                                        )
+                                        ),
+                                        args=[write_arg],
                                     )
                                 )
                             ]
@@ -86,8 +80,12 @@ def check(node: WithStmt, errors: list[Error]) -> None:
             ),
         ) if is_file_object(f) and is_equivalent(f, write_base):
             old = stringify(for_stmt)
-            new = f"{stringify(f)}.writelines({stringify(source)})"
 
-            msg = f"Replace `{old}` with `{new}`"
+            if is_equivalent(for_target, write_arg):
+                new = stringify(source)
+            else:
+                new = f"{stringify(write_arg)} for {stringify(for_target)} in {stringify(source)}"
+
+            msg = f"Replace `{old}` with `{stringify(f)}.writelines({new})`"
 
             errors.append(ErrorInfo.from_node(for_stmt, msg))

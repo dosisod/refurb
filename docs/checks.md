@@ -583,13 +583,6 @@ with open("file") as f:
     f.writelines(lines)
 ```
 
-Note: If you have a more complex expression then just `lines`, you may
-need to use a list comprehension instead. For example:
-
-```python
-f.writelines(f"{line}\n" for line in lines)
-```
-
 ## FURB123: `no-redundant-cast`
 
 Categories: `readability`
