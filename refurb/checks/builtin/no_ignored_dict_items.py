@@ -14,9 +14,8 @@ from mypy.nodes import (
 
 from refurb.checks.common import (
     check_for_loop_like,
-    get_mypy_type,
+    is_mapping,
     is_name_unused_in_contexts,
-    is_same_type,
     stringify,
 )
 from refurb.error import Error
@@ -75,7 +74,7 @@ def check_dict_items_call(
                 callee=MemberExpr(expr=dict_expr, name="items"),
                 args=[],
             ),
-        ) if is_same_type(get_mypy_type(dict_expr), dict):
+        ) if is_mapping(dict_expr):
             check_unused_key_or_value(key, value, contexts, errors, dict_expr)
 
 

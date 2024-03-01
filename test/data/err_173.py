@@ -47,6 +47,15 @@ class Wrapper:
 
 _ = {**Wrapper().d, **x}
 
+from collections.abc import Mapping, MutableMapping
+
+
+def mapping_test(m: Mapping[str, str]):
+    _ = dict(**m)
+
+def mutable_mapping_test(m: MutableMapping[str, str]):
+    _ = dict(**m)
+
 
 # these should not
 

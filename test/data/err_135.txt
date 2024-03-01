@@ -12,3 +12,5 @@ test/data/err_135.py:39:15 [FURB135]: Value is unused, use `for k in c.d` instea
 test/data/err_135.py:40:12 [FURB135]: Key is unused, use `for v in c.d.values()` instead
 test/data/err_135.py:49:9 [FURB135]: Key is unused, use `for v in d.values()` instead
 test/data/err_135.py:49:12 [FURB135]: Value is unused, use `for k in d` instead
+test/data/err_135.py:58:9 [FURB135]: Key is unused, use `for v in m.values()` instead
+test/data/err_135.py:58:12 [FURB135]: Value is unused, use `for k in m` instead

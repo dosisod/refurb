@@ -1,9 +1,9 @@
 from dataclasses import dataclass
 from itertools import groupby
 
-from mypy.nodes import ArgKind, CallExpr, DictExpr, Expression, RefExpr
+from mypy.nodes import ArgKind, CallExpr, DictExpr, RefExpr
 
-from refurb.checks.common import get_mypy_type, is_same_type, stringify
+from refurb.checks.common import is_mapping, stringify
 from refurb.error import Error
 from refurb.settings import Settings
 
@@ -38,20 +38,6 @@ class ErrorInfo(Error):
     categories = ("dict", "readability")
 
 
-MAPPING_TYPES = (
-    dict,
-    "collections.ChainMap",
-    "collections.Counter",
-    "collections.OrderedDict",
-    "collections.defaultdict",
-    "collections.UserDict",
-)
-
-
-def is_builtin_mapping(expr: Expression) -> bool:
-    return is_same_type(get_mypy_type(expr), *MAPPING_TYPES)
-
-
 def check(node: DictExpr | CallExpr, errors: list[Error], settings: Settings) -> None:
     if settings.get_python_version() < (3, 9):
         return  # pragma: no cover
@@ -83,7 +69,7 @@ def check(node: DictExpr | CallExpr, errors: list[Error], settings: Settings) ->
                     if is_star:
                         _, star_expr = pair
 
-                        if not is_builtin_mapping(star_expr):
+                        if not is_mapping(star_expr):
                             return
 
                         old.append(f"**{stringify(star_expr)}")
@@ -121,7 +107,7 @@ def check(node: DictExpr | CallExpr, errors: list[Error], settings: Settings) ->
                     return
 
                 if kind == ArgKind.ARG_STAR2:
-                    if not is_builtin_mapping(arg):
+                    if not is_mapping(arg):
                         return
 
                     stringified_arg = stringify(arg)

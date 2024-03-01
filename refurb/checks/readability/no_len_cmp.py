@@ -7,7 +7,6 @@ from mypy.nodes import (
     ConditionalExpr,
     DictExpr,
     DictionaryComprehension,
-    Expression,
     GeneratorExpr,
     IfStmt,
     IntExpr,
@@ -20,7 +19,7 @@ from mypy.nodes import (
     WhileStmt,
 )
 
-from refurb.checks.common import get_mypy_type, is_same_type, stringify
+from refurb.checks.common import is_sized, stringify
 from refurb.error import Error
 from refurb.visitor import METHOD_NODE_MAPPINGS, TraverserVisitor
 
@@ -61,16 +60,9 @@ class ErrorInfo(Error):
     categories = ("iterable", "truthy")
 
 
-def is_builtin_container_like(node: Expression) -> bool:
-    return is_same_type(get_mypy_type(node), list, tuple, dict, set, frozenset, str)
-
-
 def is_len_call(node: CallExpr) -> bool:
     match node:
-        case CallExpr(
-            callee=NameExpr(fullname="builtins.len"),
-            args=[arg],
-        ) if is_builtin_container_like(arg):
+        case CallExpr(callee=NameExpr(fullname="builtins.len"), args=[arg]) if is_sized(arg):
             return True
 
     return False
@@ -130,7 +122,7 @@ class LenComparisonVisitor(TraverserVisitor):
             case ComparisonExpr(
                 operators=["==" | "!=" as oper],
                 operands=[lhs, (ListExpr(items=[]) | DictExpr(items=[]))],
-            ) if is_builtin_container_like(lhs):
+            ) if is_sized(lhs):
                 old = stringify(node)
                 new = stringify(lhs)
 

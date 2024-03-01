@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from mypy.nodes import CallExpr, ComparisonExpr, MemberExpr
 
-from refurb.checks.common import get_mypy_type, is_same_type, stringify
+from refurb.checks.common import is_mapping, stringify
 from refurb.error import Error
 
 
@@ -47,7 +47,7 @@ def check(node: ComparisonExpr, errors: list[Error]) -> None:
                     args=[],
                 ) as expr,
             ],
-        ) if is_same_type(get_mypy_type(dict_expr), dict):
+        ) if is_mapping(dict_expr):
             dict_expr = stringify(dict_expr)  # type: ignore
 
             msg = f"Replace `{oper} {stringify(expr)}` with `{oper} {dict_expr}`"

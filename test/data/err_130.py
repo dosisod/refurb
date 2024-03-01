@@ -19,6 +19,13 @@ if x in C().d.keys():
     pass
 
 
+from collections.abc import Mapping
+
+def mapping_check(m: Mapping[str, str]):
+    if x in m.keys():
+        pass
+
+
 # these should not
 
 if "key" in d:

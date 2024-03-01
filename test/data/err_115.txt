@@ -38,3 +38,4 @@ test/data/err_115.py:73:8 [FURB115]: Replace `len(nums)` with `nums`
 test/data/err_115.py:74:8 [FURB115]: Replace `len(nums)` with `nums`
 test/data/err_115.py:80:8 [FURB115]: Replace `C().l == []` with `not C().l`
 test/data/err_115.py:83:8 [FURB115]: Replace `c.l == []` with `not c.l`
+test/data/err_115.py:89:8 [FURB115]: Replace `len(m) == 0` with `not m`

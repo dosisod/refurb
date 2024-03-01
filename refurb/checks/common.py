@@ -721,3 +721,35 @@ def mypy_type_to_python_type(ty: Type | SymbolNode | None) -> type | None:
             return SIMPLE_TYPES.get(fullname)  # type: ignore
 
     return None  # pragma: no cover
+
+
+MAPPING_TYPES = (
+    dict,
+    "collections.ChainMap",
+    "collections.Counter",
+    "collections.OrderedDict",
+    "collections.UserDict",
+    "collections.abc.Mapping",
+    "collections.abc.MutableMapping",
+    "collections.defaultdict",
+    "typing.Mapping",
+    "typing.MutableMapping",
+)
+
+
+# TODO: support any Mapping subclass
+def is_mapping(expr: Expression) -> bool:
+    return is_mapping_type(get_mypy_type(expr))
+
+
+def is_mapping_type(ty: Type | SymbolNode | None) -> bool:
+    return is_same_type(ty, *MAPPING_TYPES)
+
+
+def is_sized(node: Expression) -> bool:
+    return is_sized_type(get_mypy_type(node))
+
+
+# TODO: support any Sized subclass
+def is_sized_type(ty: Type | SymbolNode | None) -> bool:
+    return is_mapping_type(ty) or is_same_type(ty, list, tuple, set, frozenset, str)

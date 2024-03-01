@@ -83,6 +83,13 @@ c = C()
 assert c.l == []
 
 
+from collections.abc import Mapping
+
+def mapping_check(m: Mapping[str, str]):
+    if len(m) == 0:
+        pass
+
+
 # these should not
 
 if len(nums) == 1: ...

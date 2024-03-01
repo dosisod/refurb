@@ -52,6 +52,13 @@ def f6():
     print(k, v)
 
 
+from collections.abc import Mapping
+
+def mapping_check(m: Mapping[str, str]):
+    for k, v in m.items():
+        pass
+
+
 # these should not
 
 def f7():
