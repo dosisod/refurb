@@ -10,3 +10,4 @@ test/data/type_deduce.py:29:5 [FURB123]: Replace `int(+1)` with `+1`
 test/data/type_deduce.py:30:5 [FURB123]: Replace `int(~1)` with `~1`
 test/data/type_deduce.py:32:5 [FURB123]: Replace `bool(walrus := True)` with `walrus := True`
 test/data/type_deduce.py:36:5 [FURB123]: Replace `bool(cast(bool, 123))` with `cast(bool, 123)`
+test/data/type_deduce.py:44:9 [FURB123]: Replace `dict(d)` with `d.copy()`

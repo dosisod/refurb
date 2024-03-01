@@ -46,7 +46,7 @@ from mypy.nodes import (
     UnaryExpr,
     Var,
 )
-from mypy.types import AnyType, CallableType, Instance, TupleType, Type
+from mypy.types import AnyType, CallableType, Instance, TupleType, Type, TypeAliasType
 
 from refurb import types
 from refurb.error import Error
@@ -571,6 +571,12 @@ SIMPLE_TYPES: dict[str, type | object | None] = {
 def _is_same_type(ty: Type | SymbolNode | None, expected: TypeLike) -> bool:
     if ty is expected is None:
         return True
+
+    if isinstance(ty, TypeAliasType):
+        if not ty.alias:
+            return False  # pragma: no cover
+
+        return _is_same_type(ty.alias.target, expected)
 
     if isinstance(ty, TupleType) and expected is tuple:
         return True

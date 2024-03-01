@@ -36,5 +36,13 @@ from typing import cast
 _ = bool(cast(bool, 123))
 
 
+DictAlias = dict[str, str]
+
+# Must use function here so that `d` uses the `DictAlias` type alias. If an intermediate
+# object is used the alias will "resolve" and won't trigger the type alias check.
+def dict_alias_wrapper(d: DictAlias) -> None:
+    _ = dict(d)
+
+
 # These types are not able to be deduced (yet)
 _ = int(1 or 2)
