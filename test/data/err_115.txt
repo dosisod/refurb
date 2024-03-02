@@ -39,3 +39,9 @@ test/data/err_115.py:74:8 [FURB115]: Replace `len(nums)` with `nums`
 test/data/err_115.py:80:8 [FURB115]: Replace `C().l == []` with `not C().l`
 test/data/err_115.py:83:8 [FURB115]: Replace `c.l == []` with `not c.l`
 test/data/err_115.py:89:8 [FURB115]: Replace `len(m) == 0` with `not m`
+test/data/err_115.py:93:8 [FURB115]: Replace `len(list(authors.keys())) == 0` with `not authors`
+test/data/err_115.py:94:8 [FURB115]: Replace `len(list(authors.values())) == 0` with `not authors`
+test/data/err_115.py:95:8 [FURB115]: Replace `len(list(authors)) == 0` with `not authors`
+test/data/err_115.py:96:8 [FURB115]: Replace `len(authors.keys()) == 0` with `not authors`
+test/data/err_115.py:97:8 [FURB115]: Replace `len(authors.values()) == 0` with `not authors`
+test/data/err_115.py:98:8 [FURB115]: Replace `len(authors) == 0` with `not authors`
