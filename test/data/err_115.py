@@ -90,6 +90,14 @@ def mapping_check(m: Mapping[str, str]):
         pass
 
 
+assert len(list(authors.keys())) == 0
+assert len(list(authors.values())) == 0
+assert len(list(authors)) == 0
+assert len(authors.keys()) == 0
+assert len(authors.values()) == 0
+assert len(authors) == 0
+
+
 # these should not
 
 if len(nums) == 1: ...

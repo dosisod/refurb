@@ -752,4 +752,13 @@ def is_sized(node: Expression) -> bool:
 
 # TODO: support any Sized subclass
 def is_sized_type(ty: Type | SymbolNode | None) -> bool:
-    return is_mapping_type(ty) or is_same_type(ty, list, tuple, set, frozenset, str)
+    return is_mapping_type(ty) or is_same_type(
+        ty,
+        frozenset,
+        list,
+        set,
+        str,
+        tuple,
+        "_collections_abc.dict_keys",
+        "_collections_abc.dict_values",
+    )

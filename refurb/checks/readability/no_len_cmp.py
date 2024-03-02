@@ -7,11 +7,13 @@ from mypy.nodes import (
     ConditionalExpr,
     DictExpr,
     DictionaryComprehension,
+    Expression,
     GeneratorExpr,
     IfStmt,
     IntExpr,
     ListExpr,
     MatchStmt,
+    MemberExpr,
     NameExpr,
     Node,
     OpExpr,
@@ -19,7 +21,7 @@ from mypy.nodes import (
     WhileStmt,
 )
 
-from refurb.checks.common import is_sized, stringify
+from refurb.checks.common import is_mapping, is_sized, stringify
 from refurb.error import Error
 from refurb.visitor import METHOD_NODE_MAPPINGS, TraverserVisitor
 
@@ -77,6 +79,20 @@ IS_INT_COMPARISON_TRUTHY: dict[tuple[str, int], bool] = {
 }
 
 
+def simplify_len_call(expr: Expression) -> Expression:
+    match expr:
+        case CallExpr(callee=NameExpr(fullname="builtins.list"), args=[arg]):
+            return simplify_len_call(arg)
+
+        case CallExpr(
+            callee=MemberExpr(expr=arg, name="keys" | "values"),
+            args=[],
+        ) if is_mapping(arg):
+            return simplify_len_call(arg)
+
+    return expr
+
+
 class LenComparisonVisitor(TraverserVisitor):
     errors: list[Error]
 
@@ -108,6 +124,8 @@ class LenComparisonVisitor(TraverserVisitor):
 
                 if is_truthy is None:
                     return
+
+                arg = simplify_len_call(arg)
 
                 old = stringify(node)
                 new = stringify(arg)
