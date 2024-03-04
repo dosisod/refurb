@@ -2415,3 +2415,24 @@ def normalize_phone_number(phone_number: str) -> int:
 
     return int("".join(digits))
 ```
+
+## FURB191: `use-isinstance-bool`
+
+Categories: `readability`
+
+Don't check if a value is `True` or `False` using `in`, use an
+`isinstance()` call.
+
+Bad:
+
+```python
+if value in {True, False}:
+    pass
+```
+
+Good:
+
+```python
+if isinstance(value, bool):
+    pass
+```

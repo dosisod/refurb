@@ -1,0 +1,15 @@
+test/data/err_191.py:5:4 [FURB191]: Replace `b in {True, False}` with `isinstance(b, bool)`
+test/data/err_191.py:6:4 [FURB191]: Replace `b in {False, True}` with `isinstance(b, bool)`
+test/data/err_191.py:7:4 [FURB191]: Replace `b in [True, False]` with `isinstance(b, bool)`
+test/data/err_191.py:8:4 [FURB191]: Replace `b in [False, True]` with `isinstance(b, bool)`
+test/data/err_191.py:9:4 [FURB191]: Replace `b in (True, False)` with `isinstance(b, bool)`
+test/data/err_191.py:10:4 [FURB191]: Replace `b in (False, True)` with `isinstance(b, bool)`
+test/data/err_191.py:12:23 [FURB191]: Replace `b in (True, False)` with `isinstance(b, bool)`
+test/data/err_191.py:13:23 [FURB191]: Replace `b in (True, False)` with `isinstance(b, bool)`
+test/data/err_191.py:14:23 [FURB191]: Replace `b in (True, False)` with `isinstance(b, bool)`
+test/data/err_191.py:15:37 [FURB191]: Replace `b in (True, False)` with `isinstance(b, bool)`
+test/data/err_191.py:17:10 [FURB191]: Replace `b in (True, False)` with `isinstance(b, bool)`
+test/data/err_191.py:20:15 [FURB191]: Replace `b in (True, False)` with `isinstance(b, bool)`
+test/data/err_191.py:23:7 [FURB191]: Replace `b in {True, False}` with `isinstance(b, bool)`
+test/data/err_191.py:26:8 [FURB191]: Replace `b in {True, False}` with `isinstance(b, bool)`
+test/data/err_191.py:28:4 [FURB191]: Replace `b not in {True, False}` with `not isinstance(b, bool)`
