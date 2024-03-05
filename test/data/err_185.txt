@@ -5,3 +5,4 @@ test/data/err_185.py:9:13 [FURB185]: Replace `y.copy()` with `y`
 test/data/err_185.py:11:5 [FURB185]: Replace `x.copy()` with `x`
 test/data/err_185.py:11:21 [FURB185]: Replace `x.copy()` with `x`
 test/data/err_185.py:18:5 [FURB185]: Replace `C().d.copy()` with `C().d`
+test/data/err_185.py:22:5 [FURB185]: Replace `os.environ.copy()` with `os.environ`

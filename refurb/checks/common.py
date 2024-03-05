@@ -732,6 +732,7 @@ MAPPING_TYPES = (
     "collections.abc.Mapping",
     "collections.abc.MutableMapping",
     "collections.defaultdict",
+    "os._Environ",
     "typing.Mapping",
     "typing.MutableMapping",
 )

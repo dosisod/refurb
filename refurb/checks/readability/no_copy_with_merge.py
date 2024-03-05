@@ -45,7 +45,7 @@ def check_expr(expr: Expression, errors: list[Error]) -> None:
         case CallExpr(
             callee=MemberExpr(expr=lhs, name="copy"),
             args=[],
-        ) if is_same_type(get_mypy_type(lhs), dict, set):
+        ) if is_same_type(get_mypy_type(lhs), dict, set, "os._Environ"):
             msg = f"Replace `{stringify(lhs)}.copy()` with `{stringify(lhs)}`"
 
             errors.append(ErrorInfo.from_node(expr, msg))

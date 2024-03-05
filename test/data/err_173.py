@@ -57,6 +57,11 @@ def mutable_mapping_test(m: MutableMapping[str, str]):
     _ = dict(**m)
 
 
+import os
+
+_ = dict(**os.environ)
+
+
 # these should not
 
 _ = {}

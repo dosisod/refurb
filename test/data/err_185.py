@@ -17,6 +17,10 @@ class C:
 
 _ = C().d.copy() | {}
 
+import os
+
+_ = os.environ.copy() | {}
+
 
 # these should not
 

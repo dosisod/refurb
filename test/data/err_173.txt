@@ -24,3 +24,4 @@ test/data/err_173.py:43:5 [FURB173]: Replace `dict(**x, **{})` with `x | {}`
 test/data/err_173.py:48:5 [FURB173]: Replace `{**Wrapper().d, **x}` with `Wrapper().d | x`
 test/data/err_173.py:54:9 [FURB173]: Replace `dict(**m)` with `{**m}`
 test/data/err_173.py:57:9 [FURB173]: Replace `dict(**m)` with `{**m}`
+test/data/err_173.py:62:5 [FURB173]: Replace `dict(**os.environ)` with `{**os.environ}`
