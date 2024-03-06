@@ -7,7 +7,7 @@ install:
 	pip install -r dev-requirements.txt
 
 ruff:
-	ruff refurb test
+	ruff check refurb test
 
 mypy:
 	mypy refurb
@@ -40,7 +40,7 @@ docs:
 	python3 -m docs.gen_checks
 
 fmt:
-	ruff refurb test --fix
+	ruff check refurb test --fix
 	isort .
 	black refurb test
 
