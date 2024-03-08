@@ -45,3 +45,6 @@ test/data/err_115.py:95:8 [FURB115]: Replace `len(list(authors)) == 0` with `not
 test/data/err_115.py:96:8 [FURB115]: Replace `len(authors.keys()) == 0` with `not authors`
 test/data/err_115.py:97:8 [FURB115]: Replace `len(authors.values()) == 0` with `not authors`
 test/data/err_115.py:98:8 [FURB115]: Replace `len(authors) == 0` with `not authors`
+test/data/err_115.py:101:8 [FURB115]: Replace `fruits == frozenset()` with `not fruits`
+test/data/err_115.py:102:8 [FURB115]: Replace `primes == set()` with `not primes`
+test/data/err_115.py:103:8 [FURB115]: Replace `data == ()` with `not data`

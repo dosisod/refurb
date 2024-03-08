@@ -17,11 +17,19 @@ from mypy.nodes import (
     NameExpr,
     Node,
     OpExpr,
+    TupleExpr,
     UnaryExpr,
     WhileStmt,
 )
 
-from refurb.checks.common import is_mapping, is_sized, stringify
+from refurb.checks.common import (
+    get_mypy_type,
+    is_mapping,
+    is_same_type,
+    is_sized,
+    mypy_type_to_python_type,
+    stringify,
+)
 from refurb.error import Error
 from refurb.visitor import METHOD_NODE_MAPPINGS, TraverserVisitor
 
@@ -139,8 +147,19 @@ class LenComparisonVisitor(TraverserVisitor):
 
             case ComparisonExpr(
                 operators=["==" | "!=" as oper],
-                operands=[lhs, (ListExpr(items=[]) | DictExpr(items=[]))],
-            ) if is_sized(lhs):
+                operands=[
+                    lhs,
+                    (
+                        ListExpr(items=[])
+                        | DictExpr(items=[])
+                        | TupleExpr(items=[])
+                        | CallExpr(
+                            callee=NameExpr(fullname="builtins.set" | "builtins.frozenset"),
+                            args=[],
+                        )
+                    ) as rhs,
+                ],
+            ) if is_same_type(get_mypy_type(lhs), mypy_type_to_python_type(get_mypy_type(rhs))):
                 old = stringify(node)
                 new = stringify(lhs)
 

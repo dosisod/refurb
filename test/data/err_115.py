@@ -98,6 +98,11 @@ assert len(authors.values()) == 0
 assert len(authors) == 0
 
 
+assert fruits == frozenset()
+assert primes == set()
+assert data == ()
+
+
 # these should not
 
 if len(nums) == 1: ...
@@ -127,3 +132,7 @@ assert authors == {"author": "book"}
 assert nums <= []
 
 assert len(nums) % 2
+
+assert data == []
+assert data == {}
+assert data == set()
