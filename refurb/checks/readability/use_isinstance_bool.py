@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 
-from mypy.nodes import ComparisonExpr, Expression, ListExpr, NameExpr, SetExpr, TupleExpr
+from mypy.nodes import ComparisonExpr, Expression, ListExpr, NameExpr, OpExpr, SetExpr, TupleExpr
 
-from refurb.checks.common import stringify
+from refurb.checks.common import extract_binary_oper, is_equivalent, stringify
 from refurb.error import Error
 
 
@@ -49,7 +49,7 @@ def is_false(expr: Expression) -> bool:
     return False
 
 
-def check(node: ComparisonExpr, errors: list[Error]) -> None:
+def check(node: ComparisonExpr | OpExpr, errors: list[Error]) -> None:
     match node:
         case ComparisonExpr(
             operators=["in" | "not in" as op],
@@ -67,3 +67,19 @@ def check(node: ComparisonExpr, errors: list[Error]) -> None:
             msg = f"Replace `{old}` with `{new}`"
 
             errors.append(ErrorInfo.from_node(node, msg))
+
+        case OpExpr():
+            match extract_binary_oper("or", node):
+                case (
+                    ComparisonExpr(operands=[lhs, t], operators=["is"]),
+                    ComparisonExpr(operands=[rhs, f], operators=["is"]),
+                ) if (
+                    is_equivalent(lhs, rhs)
+                    and ((is_true(t) and is_false(f)) or (is_false(t) and is_true(f)))
+                ):
+                    old = stringify(node)
+                    new = f"isinstance({stringify(lhs)}, bool)"
+
+                    msg = f"Replace `{old}` with `{new}`"
+
+                    errors.append(ErrorInfo.from_node(node, msg))

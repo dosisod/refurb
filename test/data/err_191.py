@@ -27,6 +27,9 @@ assert b in {True, False}
 
 if b not in {True, False}: pass
 
+_ = b is True or b is False  # noqa: FURB149
+_ = b is False or b is True  # noqa: FURB149
+
 
 # these should not
 if b in {True}: pass  # noqa: FURB171
@@ -52,3 +55,18 @@ if b in (False, True, 123): pass
 if b == {True, False}: pass
 if b == {False, True}: pass
 if b == [True, False]: pass
+
+b2 = False
+
+_ = b is True or b is True  # noqa: FURB149
+_ = b is False or b is False  # noqa: FURB149
+_ = b is True or b is True  # noqa: FURB149
+_ = b is True or b is b2  # noqa: FURB149
+_ = b is b2 or b is True  # noqa: FURB149
+_ = b is True or b2 is False  # noqa: FURB149
+_ = b is not True or b is False  # noqa: FURB149
+_ = b is False or b is not True  # noqa: FURB149
+
+# TODO: support this later
+_ = x is not True and x is not False  # noqa: FURB149
+_ = x is not False and x is not True  # noqa: FURB149
