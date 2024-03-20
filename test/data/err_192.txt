@@ -1,0 +1,8 @@
+test/data/err_192.py:5:5 [FURB192]: Replace `sorted(l)[0]` with `min(l)`
+test/data/err_192.py:6:5 [FURB192]: Replace `sorted(l)[-1]` with `max(l)`
+test/data/err_192.py:7:5 [FURB192]: Replace `sorted(l, reverse=True)[0]` with `max(l)`
+test/data/err_192.py:8:5 [FURB192]: Replace `sorted(l, reverse=True)[-1]` with `min(l)`
+test/data/err_192.py:10:5 [FURB192]: Replace `sorted(l, key=lambda x: x)[0]` with `min(l, key=lambda x: x)`
+test/data/err_192.py:11:5 [FURB192]: Replace `sorted(l, key=lambda x: x)[-1]` with `max(l, key=lambda x: x)`
+test/data/err_192.py:12:5 [FURB192]: Replace `sorted(l, key=lambda x: x, reverse=True)[0]` with `max(l, key=lambda x: x)`
+test/data/err_192.py:13:5 [FURB192]: Replace `sorted(l, key=lambda x: x, reverse=True)[-1]` with `min(l, key=lambda x: x)`
