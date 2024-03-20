@@ -2436,3 +2436,28 @@ Good:
 if isinstance(value, bool):
     pass
 ```
+
+## FURB192: `no-sorted-min-max`
+
+Categories: `builtin` `performance` `readability`
+
+Don't use `sorted()` to get the min/max value out of an iterable element,
+use `min()` or `max()`.
+
+Bad:
+
+```python
+nums = [3, 1, 4, 1, 5]
+
+lowest = sorted(nums)[0]
+highest = sorted(nums)[-1]
+```
+
+Good:
+
+```python
+nums = [3, 1, 4, 1, 5]
+
+lowest = min(nums)
+highest = max(nums)
+```
