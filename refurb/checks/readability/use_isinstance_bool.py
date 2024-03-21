@@ -71,10 +71,11 @@ def check(node: ComparisonExpr | OpExpr, errors: list[Error]) -> None:
         case OpExpr():
             match extract_binary_oper("or", node):
                 case (
-                    ComparisonExpr(operands=[lhs, t], operators=["is"]),
-                    ComparisonExpr(operands=[rhs, f], operators=["is"]),
+                    ComparisonExpr(operands=[lhs, t], operators=["is" | "==" as lhs_op]),
+                    ComparisonExpr(operands=[rhs, f], operators=["is" | "==" as rhs_op]),
                 ) if (
-                    is_equivalent(lhs, rhs)
+                    lhs_op == rhs_op
+                    and is_equivalent(lhs, rhs)
                     and ((is_true(t) and is_false(f)) or (is_false(t) and is_true(f)))
                 ):
                     old = stringify(node)

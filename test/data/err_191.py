@@ -30,6 +30,9 @@ if b not in {True, False}: pass
 _ = b is True or b is False  # noqa: FURB149
 _ = b is False or b is True  # noqa: FURB149
 
+_ = b == True or b == False  # noqa: FURB149, FURB108
+_ = b == False or b == True  # noqa: FURB149, FURB108
+
 
 # these should not
 if b in {True}: pass  # noqa: FURB171
@@ -68,5 +71,5 @@ _ = b is not True or b is False  # noqa: FURB149
 _ = b is False or b is not True  # noqa: FURB149
 
 # TODO: support this later
-_ = x is not True and x is not False  # noqa: FURB149
-_ = x is not False and x is not True  # noqa: FURB149
+_ = b is not True and b is not False  # noqa: FURB149
+_ = b is not False and b is not True  # noqa: FURB149

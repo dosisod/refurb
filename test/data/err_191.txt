@@ -15,3 +15,5 @@ test/data/err_191.py:26:8 [FURB191]: Replace `b in {True, False}` with `isinstan
 test/data/err_191.py:28:4 [FURB191]: Replace `b not in {True, False}` with `not isinstance(b, bool)`
 test/data/err_191.py:30:5 [FURB191]: Replace `b is True or b is False` with `isinstance(b, bool)`
 test/data/err_191.py:31:5 [FURB191]: Replace `b is False or b is True` with `isinstance(b, bool)`
+test/data/err_191.py:33:5 [FURB191]: Replace `b == True or b == False` with `isinstance(b, bool)`
+test/data/err_191.py:34:5 [FURB191]: Replace `b == False or b == True` with `isinstance(b, bool)`
