@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from mypy.nodes import CallExpr, IndexExpr, IntExpr, MemberExpr, NameExpr, RefExpr, SliceExpr
 
-from refurb.checks.common import stringify
+from refurb.checks.common import is_none_literal, stringify
 from refurb.error import Error
 
 
@@ -49,7 +49,7 @@ def check(node: CallExpr | IndexExpr, errors: list[Error]) -> None:
                 case [IntExpr(value=value)]:
                     arg = str(value)
 
-                case [NameExpr(fullname="builtins.None")]:
+                case [arg] if is_none_literal(arg):
                     arg = "None"
 
                 case []:

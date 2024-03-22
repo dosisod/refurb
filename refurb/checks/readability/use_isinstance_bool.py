@@ -1,8 +1,14 @@
 from dataclasses import dataclass
 
-from mypy.nodes import ComparisonExpr, Expression, ListExpr, NameExpr, OpExpr, SetExpr, TupleExpr
+from mypy.nodes import ComparisonExpr, ListExpr, OpExpr, SetExpr, TupleExpr
 
-from refurb.checks.common import extract_binary_oper, is_equivalent, stringify
+from refurb.checks.common import (
+    extract_binary_oper,
+    is_equivalent,
+    is_false_literal,
+    is_true_literal,
+    stringify,
+)
 from refurb.error import Error
 
 
@@ -32,23 +38,6 @@ class ErrorInfo(Error):
     categories = ("readability",)
 
 
-# TODO: move to common
-def is_true(expr: Expression) -> bool:
-    match expr:
-        case NameExpr(fullname="builtins.True"):
-            return True
-
-    return False
-
-
-def is_false(expr: Expression) -> bool:
-    match expr:
-        case NameExpr(fullname="builtins.False"):
-            return True
-
-    return False
-
-
 def check(node: ComparisonExpr | OpExpr, errors: list[Error]) -> None:
     match node:
         case ComparisonExpr(
@@ -57,7 +46,9 @@ def check(node: ComparisonExpr | OpExpr, errors: list[Error]) -> None:
                 lhs,
                 SetExpr(items=[t, f]) | TupleExpr(items=[t, f]) | ListExpr(items=[t, f]),
             ],
-        ) if (is_true(t) and is_false(f)) or (is_false(t) and is_true(f)):
+        ) if (is_true_literal(t) and is_false_literal(f)) or (
+            is_false_literal(t) and is_true_literal(f)
+        ):
             old = stringify(node)
             new = f"isinstance({stringify(lhs)}, bool)"
 
@@ -76,7 +67,10 @@ def check(node: ComparisonExpr | OpExpr, errors: list[Error]) -> None:
                 ) if (
                     lhs_op == rhs_op
                     and is_equivalent(lhs, rhs)
-                    and ((is_true(t) and is_false(f)) or (is_false(t) and is_true(f)))
+                    and (
+                        (is_true_literal(t) and is_false_literal(f))
+                        or (is_false_literal(t) and is_true_literal(f))
+                    )
                 ):
                     old = stringify(node)
                     new = f"isinstance({stringify(lhs)}, bool)"

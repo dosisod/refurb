@@ -1,6 +1,6 @@
 from collections.abc import Callable
 from itertools import chain, combinations, starmap
-from typing import Any
+from typing import Any, TypeGuard
 
 from mypy.nodes import (
     ArgKind,
@@ -285,11 +285,15 @@ def is_type_none_call(node: Expression) -> bool:
     match node:
         case CallExpr(
             callee=NameExpr(fullname="builtins.type"),
-            args=[NameExpr(fullname="builtins.None")],
-        ):
+            args=[arg],
+        ) if is_none_literal(arg):
             return True
 
     return False
+
+
+def is_none_literal(node: Node) -> TypeGuard[NameExpr]:
+    return isinstance(node, NameExpr) and node.fullname == "builtins.None"
 
 
 def get_fstring_parts(expr: Expression) -> list[tuple[bool, Expression, str]]:
@@ -623,8 +627,12 @@ def get_mypy_type(node: Node) -> Type | SymbolNode | None:
         case ComplexExpr():
             return _get_builtin_mypy_type("complex")
 
-        case NameExpr(fullname="builtins.True" | "builtins.False"):
-            return _get_builtin_mypy_type("bool")
+        case NameExpr():
+            if is_bool_literal(node):
+                return _get_builtin_mypy_type("bool")
+
+            if node.node:
+                return get_mypy_type(node.node)
 
         case DictExpr():
             return _get_builtin_mypy_type("dict")
@@ -643,9 +651,6 @@ def get_mypy_type(node: Node) -> Type | SymbolNode | None:
 
         case TypeInfo() | TypeAlias() | MypyFile():
             return node
-
-        case NameExpr(node=sym) if sym:
-            return get_mypy_type(sym)
 
         case MemberExpr(expr=lhs, name=name):
             ty = get_mypy_type(lhs)
@@ -763,3 +768,15 @@ def is_sized_type(ty: Type | SymbolNode | None) -> bool:
         "_collections_abc.dict_keys",
         "_collections_abc.dict_values",
     )
+
+
+def is_bool_literal(node: Node) -> TypeGuard[NameExpr]:
+    return is_true_literal(node) or is_false_literal(node)
+
+
+def is_true_literal(node: Node) -> TypeGuard[NameExpr]:
+    return isinstance(node, NameExpr) and node.fullname == "builtins.True"
+
+
+def is_false_literal(node: Node) -> TypeGuard[NameExpr]:
+    return isinstance(node, NameExpr) and node.fullname == "builtins.False"

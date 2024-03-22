@@ -1,9 +1,8 @@
 from dataclasses import dataclass
-from typing import TypeGuard
 
-from mypy.nodes import ComparisonExpr, Expression, NameExpr
+from mypy.nodes import ComparisonExpr, Expression
 
-from refurb.checks.common import get_mypy_type, is_same_type, stringify
+from refurb.checks.common import get_mypy_type, is_bool_literal, is_same_type, stringify
 from refurb.error import Error
 
 
@@ -35,14 +34,6 @@ class ErrorInfo(Error):
     name = "no-bool-literal-compare"
     code = 149
     categories = ("logical", "readability", "truthy")
-
-
-def is_bool_literal(expr: Expression) -> TypeGuard[NameExpr]:
-    match expr:
-        case NameExpr(fullname="builtins.True" | "builtins.False"):
-            return True
-
-    return False
 
 
 def is_bool_variable(expr: Expression) -> bool:

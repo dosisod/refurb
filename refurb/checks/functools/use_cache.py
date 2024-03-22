@@ -1,7 +1,8 @@
 from dataclasses import dataclass
 
-from mypy.nodes import ArgKind, CallExpr, Decorator, MemberExpr, NameExpr, RefExpr
+from mypy.nodes import ArgKind, CallExpr, Decorator, MemberExpr, RefExpr
 
+from refurb.checks.common import is_none_literal
 from refurb.error import Error
 from refurb.settings import Settings
 
@@ -50,10 +51,10 @@ def check(node: Decorator, errors: list[Error], settings: Settings) -> None:
                     callee=RefExpr(fullname="functools.lru_cache") as ref,
                     arg_names=["maxsize"],
                     arg_kinds=[ArgKind.ARG_NAMED],
-                    args=[NameExpr(fullname="builtins.None")],
+                    args=[arg],
                 )
             ]
-        ):
+        ) if is_none_literal(arg):
             prefix = "functools." if isinstance(ref, MemberExpr) else ""
             old = f"@{prefix}lru_cache(maxsize=None)"
             new = f"@{prefix}cache"

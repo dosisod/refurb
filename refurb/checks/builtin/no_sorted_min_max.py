@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from mypy.nodes import CallExpr, IndexExpr, IntExpr, NameExpr, UnaryExpr
 
-from refurb.checks.common import stringify
+from refurb.checks.common import is_true_literal, stringify
 from refurb.error import Error
 
 
@@ -52,12 +52,10 @@ def check(node: IndexExpr, errors: list[Error]) -> None:
 
             for arg_name, arg in zip(arg_names, args):
                 if arg_name == "reverse":
-                    match arg:
-                        case NameExpr(fullname="builtins.True"):
-                            is_reversed = True
+                    if not is_true_literal(arg):
+                        return
 
-                        case _:
-                            return
+                    is_reversed = True
 
                 elif arg_name == "key":
                     key = f", key={stringify(arg)}"
