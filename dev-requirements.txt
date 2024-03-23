@@ -1,7 +1,7 @@
-black==24.2.0
+black==24.3.0
 click==8.1.7
 colorama==0.4.6
-coverage==7.4.3
+coverage==7.4.4
 fastapi==0.100.0
 iniconfig==2.0.0
 isort==5.13.2
@@ -13,5 +13,5 @@ platformdirs==4.2.0
 pluggy==1.4.0
 pytest-cov==4.1.0
 pytest==8.1.1
-ruff==0.3.2
+ruff==0.3.4
 typos==1.19.0
