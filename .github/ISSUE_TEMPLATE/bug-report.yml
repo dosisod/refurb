@@ -19,6 +19,7 @@ body:
       options:
         - label: Have you checked to see if your issue still exists on the `master` branch? See [the docs](https://github.com/dosisod/refurb#developing) for instructions on how to setup a local build of Refurb.
         - label: Have you looked at the open/closed issues to see if anyone has already reported your issue?
+        - label: If reporting a false positive/incorrect suggestion, have you double checked that the suggested fix changes the code semantics?
 
   - type: textarea
     id: describe
