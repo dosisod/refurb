@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "refurb"
 version = "2.0.0"
-description = "A tool for refurbish and modernize Python codebases"
+description = "A tool for refurbishing and modernizing Python codebases"
 authors = ["dosisod"]
 license = "GPL-3.0-only"
 readme = "README.md"
