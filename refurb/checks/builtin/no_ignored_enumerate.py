@@ -15,7 +15,7 @@ from refurb.checks.common import (
     check_for_loop_like,
     get_mypy_type,
     is_name_unused_in_contexts,
-    is_same_type,
+    is_subclass,
     stringify,
 )
 from refurb.error import Error
@@ -74,8 +74,7 @@ def check_enumerate_call(
                 callee=NameExpr(fullname="builtins.enumerate"),
                 args=[enumerate_arg],
             ),
-        ) if is_same_type(get_mypy_type(enumerate_arg), list, tuple):
-            # TODO: support more sequence types
+        ) if is_subclass(get_mypy_type(enumerate_arg), "typing.Sequence"):
             check_unused_index_or_value(index, value, contexts, errors, enumerate_arg)
 
 

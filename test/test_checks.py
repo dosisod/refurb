@@ -38,7 +38,7 @@ def test_ignore_check_is_respected() -> None:
 
     errors = run_refurb(Settings(files=[test_file], ignore={ErrorCode(100), ErrorCode(123)}))
 
-    assert len(errors) == 0
+    assert not errors
 
 
 def test_ignore_custom_check_is_respected() -> None:

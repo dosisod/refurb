@@ -728,46 +728,12 @@ def mypy_type_to_python_type(ty: Type | SymbolNode | None) -> type | None:
     return None  # pragma: no cover
 
 
-MAPPING_TYPES = (
-    dict,
-    "collections.ChainMap",
-    "collections.Counter",
-    "collections.OrderedDict",
-    "collections.UserDict",
-    "collections.abc.Mapping",
-    "collections.abc.MutableMapping",
-    "collections.defaultdict",
-    "os._Environ",
-    "typing.Mapping",
-    "typing.MutableMapping",
-)
-
-
-# TODO: support any Mapping subclass
 def is_mapping(expr: Expression) -> bool:
     return is_mapping_type(get_mypy_type(expr))
 
 
 def is_mapping_type(ty: Type | SymbolNode | None) -> bool:
-    return is_same_type(ty, *MAPPING_TYPES)
-
-
-def is_sized(node: Expression) -> bool:
-    return is_sized_type(get_mypy_type(node))
-
-
-# TODO: support any Sized subclass
-def is_sized_type(ty: Type | SymbolNode | None) -> bool:
-    return is_mapping_type(ty) or is_same_type(
-        ty,
-        frozenset,
-        list,
-        set,
-        str,
-        tuple,
-        "_collections_abc.dict_keys",
-        "_collections_abc.dict_values",
-    )
+    return is_subclass(ty, "typing.Mapping")
 
 
 def is_bool_literal(node: Node) -> TypeGuard[NameExpr]:
@@ -780,3 +746,38 @@ def is_true_literal(node: Node) -> TypeGuard[NameExpr]:
 
 def is_false_literal(node: Node) -> TypeGuard[NameExpr]:
     return isinstance(node, NameExpr) and node.fullname == "builtins.False"
+
+
+def is_sized(node: Expression) -> bool:
+    return is_sized_type(get_mypy_type(node))
+
+
+def is_sized_type(ty: Type | SymbolNode | None) -> bool:
+    # Certain object MROs (like dict) doesn't reference Sized directly, only Collection. We might
+    # need to add more derived Sized types if Mypy doesn't fully resolve the MRO.
+
+    return is_subclass(ty, "typing.Sized", "typing.Collection")
+
+
+def is_subclass(ty: Any, *expected: TypeLike) -> bool:  # type: ignore[misc]
+    if type_info := extract_typeinfo(ty):
+        return any(is_same_type(x, *expected) for x in type_info.mro)
+
+    return False  # pragma: no cover
+
+
+def extract_typeinfo(ty: Type | SymbolNode | None) -> TypeInfo | None:
+    match ty:
+        case TypeInfo():
+            return ty  # pragma: no cover
+
+        case Instance():
+            return ty.type
+
+        case TupleType():
+            tmp = _get_builtin_mypy_type("tuple")
+            assert tmp
+
+            return tmp.type
+
+    return None  # pragma: no cover

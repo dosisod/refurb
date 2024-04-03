@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from mypy.nodes import CallExpr, Expression, ForStmt, GeneratorExpr, MemberExpr
 
-from refurb.checks.common import get_mypy_type, is_same_type, stringify
+from refurb.checks.common import get_mypy_type, is_subclass, stringify
 from refurb.error import Error
 
 
@@ -40,7 +40,7 @@ def check_readline_expr(expr: Expression, errors: list[Error]) -> None:
         case CallExpr(
             callee=MemberExpr(expr=f, name="readlines"),
             args=[],
-        ) if is_same_type(get_mypy_type(f), "io.TextIOWrapper", "io.BufferedReader"):
+        ) if is_subclass(get_mypy_type(f), "io.IOBase"):
             tmp = stringify(f)
 
             msg = f"Replace `{tmp}.readlines()` with `{tmp}`"

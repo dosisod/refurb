@@ -11,7 +11,7 @@ from mypy.nodes import (
     WithStmt,
 )
 
-from refurb.checks.common import get_mypy_type, is_equivalent, is_same_type, stringify
+from refurb.checks.common import get_mypy_type, is_equivalent, is_subclass, stringify
 from refurb.error import Error
 
 
@@ -47,8 +47,7 @@ class ErrorInfo(Error):
 
 
 def is_file_object(f: Expression) -> bool:
-    # TODO: support more file-like types
-    return is_same_type(get_mypy_type(f), "io.TextIOWrapper", "io.BufferedWriter")
+    return is_subclass(get_mypy_type(f), "io.IOBase")
 
 
 def check(node: WithStmt, errors: list[Error]) -> None:
