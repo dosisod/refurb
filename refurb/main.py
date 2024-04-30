@@ -101,20 +101,24 @@ def is_ignored_via_amend(error: Error, settings: Settings) -> bool:
     assert error.filename
 
     path = Path(error.filename).resolve()
-    error_code = ErrorCode.from_error(type(error))
+    error_code = str(ErrorCode.from_error(type(error)))
     config_root = Path(settings.config_file).parent if settings.config_file else Path()
 
+    errors_to_ignore = []
+    categories_to_ignore = []
     for ignore in settings.ignore:
         if ignore.path:
             ignore_path = (config_root / ignore.path).resolve()
 
             if path.is_relative_to(ignore_path):
                 if isinstance(ignore, ErrorCode):
-                    return str(ignore) == str(error_code)
+                    errors_to_ignore.append(str(ignore))
+                else:
+                    categories_to_ignore.append(ignore.value)
 
-                return ignore.value in error.categories
-
-    return False
+    return error_code in errors_to_ignore or any(
+        category in categories_to_ignore for category in error.categories
+    )
 
 
 def should_ignore_error(error: Error | str, settings: Settings) -> bool:
