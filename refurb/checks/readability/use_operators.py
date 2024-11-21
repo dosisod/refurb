@@ -187,7 +187,7 @@ def check(node: FuncItem, errors: list[Error]) -> None:
 
                     errors.append(ErrorInfo.from_node(node, msg))
 
-                case TupleExpr(items=items) if items:
+                case TupleExpr(items=items) if len(items) > 1:
                     tuple_args: list[str] = []
 
                     for item in items:
