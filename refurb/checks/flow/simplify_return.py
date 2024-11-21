@@ -60,7 +60,7 @@ def get_trailing_return(node: Statement) -> Statement | None:
 
         case MatchStmt(
             bodies=[*bodies, Block(body=[stmt])],
-            patterns=[*_, AsPattern(pattern=None)],
+            patterns=[*_, AsPattern(pattern=None, name=None)],
         ) if all(isinstance(block.body[-1], ReturnStmt) for block in bodies):
             return get_trailing_return(stmt)
 

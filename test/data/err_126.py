@@ -104,3 +104,9 @@ def func8(x):
 
     else:
         return 1
+
+
+def func9(x):
+    match x:
+        case y:
+            return y
