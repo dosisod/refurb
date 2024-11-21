@@ -10,8 +10,8 @@ from unittest.mock import patch
 
 import pytest
 
-from refurb.error import Error
-from refurb.main import main, run_refurb, sort_errors
+from refurb.error import Error, ErrorCategory, ErrorClassifier, ErrorCode
+from refurb.main import is_ignored_via_amend, main, run_refurb, sort_errors
 from refurb.settings import Settings, load_settings, parse_command_line_args
 
 
@@ -323,3 +323,26 @@ def test_error_github_actions_formatting():
 
         p.assert_called_once()
         assert "::error" in p.call_args[0][0]
+
+
+@pytest.mark.parametrize(
+    ("ignore_set", "expected"),
+    [
+        (set(), False),
+        ({ErrorCode(123, path=Path())}, True),
+        ({ErrorCode(321, path=Path())}, False),
+        ({ErrorCode(123, path=Path("test/inner"))}, False),
+        ({ErrorCategory("pythonic", path=Path())}, True),
+        ({ErrorCategory("pythonic", path=Path("test/inner"))}, False),
+        ({ErrorCategory("other", path=Path())}, False),
+    ],
+)
+def test_is_ignored_via_amend(ignore_set: set[ErrorClassifier], expected: bool) -> None:
+    class Error123(Error):
+        code = 123
+        categories = ("pythonic", "builtin")
+        name = "test-error"
+
+    settings = Settings(ignore=ignore_set)
+    error = Error123(line=1, column=1, msg="Error msg.", filename="test/error.py")
+    assert is_ignored_via_amend(error, settings) is expected
