@@ -48,3 +48,7 @@ lambda: b"abc"
 lambda: 1j
 lambda: set()  # noqa: FURB111
 lambda: {"x"}
+
+import datetime
+
+_ = lambda: datetime.datetime.now().today()

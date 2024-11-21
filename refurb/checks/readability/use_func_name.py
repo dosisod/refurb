@@ -22,6 +22,7 @@ from mypy.nodes import (
 
 from refurb.checks.common import stringify
 from refurb.error import Error
+from refurb.visitor.traverser import TraverserVisitor
 
 
 @dataclass
@@ -76,6 +77,21 @@ def get_func_arg_names(args: list[Expression]) -> list[str | None]:
     return [arg.name if isinstance(arg, NameExpr) else None for arg in args]
 
 
+class ContainsCallExpr(TraverserVisitor):
+    def __init__(self) -> None:
+        self.has_call_expr = False
+
+    def visit_call_expr(self, o: CallExpr) -> None:  # noqa: ARG002
+        self.has_call_expr = True
+
+
+def does_expr_contain_call_expr(expr: Expression) -> bool:
+    visitor = ContainsCallExpr()
+    visitor.accept(expr)
+
+    return visitor.has_call_expr
+
+
 def check(node: LambdaExpr, errors: list[Error]) -> None:
     match node:
         case LambdaExpr(
@@ -83,8 +99,10 @@ def check(node: LambdaExpr, errors: list[Error]) -> None:
             body=Block(
                 body=[ReturnStmt(expr=CallExpr(callee=RefExpr() as ref) as func)],
             ),
-        ) if get_lambda_arg_names(lambda_args) == get_func_arg_names(func.args) and all(
-            kind == ArgKind.ARG_POS for kind in func.arg_kinds
+        ) if (
+            get_lambda_arg_names(lambda_args) == get_func_arg_names(func.args)
+            and all(kind == ArgKind.ARG_POS for kind in func.arg_kinds)
+            and not does_expr_contain_call_expr(ref)
         ):
             func_name = stringify(ref)
 
