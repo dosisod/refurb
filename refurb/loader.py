@@ -124,7 +124,7 @@ def extract_function_types(  # type: ignore
     optional_params = params[2:]
 
     if not (
-        type(error_param) == GenericAlias
+        isinstance(error_param, GenericAlias)
         and error_param.__origin__ is list
         and error_param.__args__[0] is Error
     ):

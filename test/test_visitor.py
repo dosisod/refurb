@@ -13,7 +13,7 @@ from refurb.visitor.mapping import VisitorNodeTypeMap
 from .mypy_visitor import get_mypy_visitor_mapping
 
 
-@pytest.fixture()
+@pytest.fixture
 def dummy_visitor() -> RefurbVisitor:
     """
     This fixture provides a RefurbVisitor instance with a visit method for each

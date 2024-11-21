@@ -54,7 +54,7 @@ def fzf(data: list[str] | None, args: list[str]) -> str:
         "FZF_DEFAULT_COMMAND": "find refurb -name '*.py' -not -path '*__*' 2> /dev/null || true",  # noqa: E501
     }
 
-    process = run(  # noqa: PLW1510
+    process = run(  # noqa: PLW1510, S603
         ["fzf", "--height=20", *args],  # noqa: S603, S607
         env=env,
         stdout=PIPE,

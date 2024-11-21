@@ -71,8 +71,6 @@ def get_trailing_return(node: Statement) -> Generator[Statement, None, None]:
         case IfStmt(else_body=Block(body=[*_, stmt])) | WithStmt(body=Block(body=[*_, stmt])):
             yield from get_trailing_return(stmt)
 
-    return None
-
 
 def check(node: FuncItem, errors: list[Error]) -> None:
     match node:

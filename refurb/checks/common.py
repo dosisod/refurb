@@ -534,7 +534,7 @@ def slice_expr_to_slice_call(expr: SliceExpr) -> str:
     return f"slice({', '.join(args)})"
 
 
-TypeLike = type | str | None | object
+TypeLike = type | str | object | None
 
 
 def is_same_type(ty: Type | SymbolNode | None, *expected: TypeLike) -> bool:
