@@ -82,7 +82,7 @@ lint.select = ["ALL"]
 
 # TODO: fix RUF100 not playing well with refurb
 lint.extend-ignore = [
-  "A001", "A002", "A003",
+  "A001", "A002", "A003", "A005",
   "ANN101", "ANN102", "ANN401", "ARG001",
   "B905",
   "C901",

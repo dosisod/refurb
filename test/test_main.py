@@ -121,7 +121,7 @@ def test_generate_subcommand():
 def test_help_flag_calls_print():
     for args in (["--help"], ["-h"], []):
         with patch("builtins.print") as p:
-            main(args)  # type: ignore
+            main(args)
 
             p.assert_called_once()
             assert "usage" in p.call_args[0][0]

@@ -71,7 +71,7 @@ def prefer_pure_python_imports() -> Iterator[None]:
 
             return finder
 
-    sys.path_hooks = [PreferPureLoaderHook(h) for h in sys.path_hooks]
+    sys.path_hooks = [PreferPureLoaderHook(h) for h in sys.path_hooks]  # type: ignore
     sys.path_importer_cache.clear()
 
     yield
@@ -81,7 +81,7 @@ def prefer_pure_python_imports() -> Iterator[None]:
     for hook in sys.path_hooks:
         assert isinstance(hook, PreferPureLoaderHook)
         original_hooks.append(hook.orig_hook)
-    sys.path_hooks = original_hooks
+    sys.path_hooks = original_hooks  # type: ignore
     sys.path_importer_cache.clear()
 
 

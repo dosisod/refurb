@@ -86,5 +86,4 @@ def test_mypy_consistence() -> None:
     # it for now until we choose to add support for it.
     mypy_visitor_mapping.pop("visit_type_alias_stmt")
 
-
     assert mypy_visitor_mapping == METHOD_NODE_MAPPINGS
