@@ -2,6 +2,7 @@ from dataclasses import dataclass
 
 from mypy.nodes import MemberExpr, NameExpr, RefExpr
 
+from refurb.checks.common import stringify
 from refurb.error import Error
 
 
@@ -47,8 +48,17 @@ SHORT_TO_LONG_FLAG = {
 
 def check(node: NameExpr | MemberExpr, errors: list[Error]) -> None:
     match node:
-        case RefExpr(fullname=fullname):
-            if long_name := SHORT_TO_LONG_FLAG.get(fullname):
-                errors.append(
-                    ErrorInfo.from_node(node, f"Replace `{fullname}` with `{long_name}`")
-                )
+        # We have to special case `re.T` for some reason because it isn't being detected by MyPy
+        # anymore...
+        case MemberExpr(expr=NameExpr(fullname="re"), name="T"):
+            errors.append(
+                ErrorInfo.from_node(node, f"Replace `{stringify(node)}` with `re.TEMPLATE`")
+            )
+
+        case RefExpr(fullname=fullname) if long_name := SHORT_TO_LONG_FLAG.get(fullname):
+            if isinstance(node, NameExpr):
+                long_name = long_name.split(".")[-1]
+
+            errors.append(
+                ErrorInfo.from_node(node, f"Replace `{stringify(node)}` with `{long_name}`")
+            )
