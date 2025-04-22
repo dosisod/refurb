@@ -65,10 +65,10 @@ def handle_join_arg(root: Node, arg: Expression) -> list[Error]:
                 new = f"{join}(y)"
 
             else:
-                _if = " if ..." if condlist else ""
+                if_expr = " if ..." if condlist else ""
 
-                old = f'" ".join({quote}(...) for x in y{_if})'
-                new = f"{join}(... for x in y{_if})"
+                old = f'" ".join({quote}(...) for x in y{if_expr})'
+                new = f"{join}(... for x in y{if_expr})"
 
             msg = f"Replace `{old}` with `{new}`"
 

@@ -20,7 +20,7 @@ temporarily forces a preference for pure python modules when importing.
 So roughly, we do this:
 
 1. Import the mypy things we need
-2. Capture the globals (so that we can resolve the strigified type annotations
+2. Capture the globals (so that we can resolve the stringified type annotations
    to the correct types)
 3. Clear the mypy imported modules
 4. Import them again with their pure python versions
@@ -116,7 +116,7 @@ def pure_python_mypy() -> Iterator[None]:
         # - Native: methods are MethodDescriptorType
         from mypy.traverser import TraverserVisitor  # noqa: PLC0415
 
-        assert isinstance(typing.cast(FunctionType, TraverserVisitor.visit_var), FunctionType)
+        assert isinstance(typing.cast("FunctionType", TraverserVisitor.visit_var), FunctionType)
 
         # Give back control
         yield

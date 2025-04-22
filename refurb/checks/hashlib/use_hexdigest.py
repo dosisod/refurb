@@ -67,9 +67,6 @@ HASHLIB_ALGOS = {
     "_hashlib.openssl_sha512",
     "_hashlib.openssl_shake_128",
     "_hashlib.openssl_shake_256",
-    "_hashlib.openssl_sha256",
-    "_hashlib.openssl_sha256",
-    "_hashlib.openssl_sha256",
 }
 
 

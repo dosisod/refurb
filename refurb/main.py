@@ -176,7 +176,7 @@ def run_refurb(settings: Settings) -> Sequence[Error | str]:
         mypy_build_time = time.time() - start
 
     except CompileError as e:
-        return [re.sub("^mypy: ", "refurb: ", msg) for msg in e.messages]
+        return [re.sub(r"^mypy: ", "refurb: ", msg) for msg in e.messages]
 
     errors: list[Error | str] = []
     checks = load_checks(settings)

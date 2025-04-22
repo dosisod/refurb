@@ -97,7 +97,7 @@ class Settings:
         return self.python_version or get_python_version()
 
 
-ERROR_ID_REGEX = re.compile("^([A-Z]{3,4})?(\\d{3})$")
+ERROR_ID_REGEX = re.compile(r"^([A-Z]{3,4})?(\d{3})$")
 
 
 def parse_error_classifier(err: str) -> ErrorCategory | ErrorCode:
@@ -160,8 +160,8 @@ def parse_amendment(amendment: dict[str, Any]) -> set[ErrorClassifier]:  # type:
 T = TypeVar("T")
 
 
-def pop_type(ty: type[T], type_name: str = "") -> Callable[..., T]:  # type: ignore[misc]
-    def inner(config: dict[str, Any], name: str, *, default: T | None = None) -> T:  # type: ignore[misc]
+def pop_type(ty: type[T], type_name: str = "") -> Callable[..., T]:  # type: ignore[explicit-any]
+    def inner(config: dict[str, Any], name: str, *, default: T | None = None) -> T:  # type: ignore[explicit-any]
         x = config.pop(name, default or ty())
 
         if isinstance(x, ty):

@@ -1,5 +1,5 @@
 from collections.abc import Callable
-from itertools import chain, combinations, starmap
+from itertools import chain, combinations
 from typing import Any, TypeGuard
 
 from mypy.nodes import (
@@ -145,7 +145,7 @@ def is_equivalent(lhs: Node | None, rhs: Node | None) -> bool:
         case CallExpr() as lhs, CallExpr() as rhs:
             return (
                 is_equivalent(lhs.callee, rhs.callee)
-                and all(starmap(is_equivalent, zip(lhs.args, rhs.args)))
+                and all(map(is_equivalent, lhs.args, rhs.args))
                 and lhs.arg_kinds == rhs.arg_kinds
                 and lhs.arg_names == rhs.arg_names
             )
@@ -156,7 +156,7 @@ def is_equivalent(lhs: Node | None, rhs: Node | None) -> bool:
             | (SetExpr() as lhs, SetExpr() as rhs)
         ):
             return len(lhs.items) == len(rhs.items) and all(  # type: ignore
-                starmap(is_equivalent, zip(lhs.items, rhs.items))  # type: ignore
+                map(is_equivalent, lhs.items, rhs.items)  # type: ignore
             )
 
         case DictExpr() as lhs, DictExpr() as rhs:
@@ -180,7 +180,7 @@ def is_equivalent(lhs: Node | None, rhs: Node | None) -> bool:
 
         case ComparisonExpr() as lhs, ComparisonExpr() as rhs:
             return lhs.operators == rhs.operators and all(
-                starmap(is_equivalent, zip(lhs.operands, rhs.operands))
+                map(is_equivalent, lhs.operands, rhs.operands)
             )
 
         case SliceExpr() as lhs, SliceExpr() as rhs:
@@ -276,7 +276,7 @@ def normalize_os_path(module: str | None) -> str:
     segments = module.split(".")
 
     if segments[0].startswith(("genericpath", "ntpath", "posixpath")):
-        return ".".join(["os", "path"] + segments[1:])
+        return ".".join(["os", "path"] + segments[1:])  # noqa: RUF005
 
     return module
 
@@ -699,7 +699,10 @@ def get_mypy_type(node: Node) -> Type | SymbolNode | None:
                 case Instance(type=TypeInfo(fullname="typing.Coroutine"), args=[_, _, rtype]):
                     return rtype
 
-                case Instance(type=TypeInfo(fullname="asyncio.tasks.Task" | "_asyncio.Task"), args=[rtype]):
+                case Instance(
+                    type=TypeInfo(fullname="asyncio.tasks.Task" | "_asyncio.Task"),
+                    args=[rtype],
+                ):
                     return rtype
 
         case LambdaExpr(body=Block(body=[ReturnStmt(expr=expr)])) if expr:
@@ -759,7 +762,7 @@ def is_sized_type(ty: Type | SymbolNode | None) -> bool:
     return is_subclass(ty, "typing.Sized", "typing.Collection")
 
 
-def is_subclass(ty: Any, *expected: TypeLike) -> bool:  # type: ignore[misc]
+def is_subclass(ty: Any, *expected: TypeLike) -> bool:  # type: ignore[explicit-any]
     if type_info := extract_typeinfo(ty):
         return any(is_same_type(x, *expected) for x in type_info.mro)
 

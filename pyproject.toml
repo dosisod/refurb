@@ -83,7 +83,7 @@ lint.select = ["ALL"]
 # TODO: fix RUF100 not playing well with refurb
 lint.extend-ignore = [
   "A001", "A002", "A003", "A005",
-  "ANN101", "ANN102", "ANN401", "ARG001",
+  "ANN401", "ARG001",
   "B905",
   "C901",
   "COM812",
@@ -101,7 +101,7 @@ lint.extend-ignore = [
   "PGH003",
   "PLR0911", "PLR0912", "PLR0914", "PLR0915", "PLR2004",
   "PT012",
-  "RUF100",
+  "RUF045", "RUF100", "RUF102",
   "S101", "S404",
   "SIM102", "SIM108",
   "SLF001",
@@ -126,6 +126,7 @@ target-version = "py310"
 "refurb/main.py" = ["E501"]
 "refurb/visitor/traverser.py" = ["ALL"]
 "test/e2e/gbk.py" = ["FURB105"]
+"test/e2e/stub_pkg/file.py" = ["ALL"]
 
 [tool.typos.default.extend-words]
 nd = "nd"

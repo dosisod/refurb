@@ -45,7 +45,9 @@ def check(node: CallExpr, errors: list[Error]) -> None:
     match node:
         case CallExpr(
             callee=MemberExpr(
-                expr=RefExpr(fullname="decimal.Decimal" | "_decimal.Decimal" | "fractions.Fraction") as ref,
+                expr=RefExpr(
+                    fullname="decimal.Decimal" | "_decimal.Decimal" | "fractions.Fraction"
+                ) as ref,
                 name="from_float" | "from_decimal" as ctor,
             ),
             args=[arg],

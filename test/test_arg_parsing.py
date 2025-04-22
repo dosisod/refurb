@@ -1,4 +1,5 @@
 import os
+import re
 from pathlib import Path
 from unittest.mock import patch
 
@@ -361,7 +362,7 @@ def test_parse_invalid_python_version_flag_will_fail() -> None:
     versions = ["3.10.8", "x.y", "-3.-8"]
 
     for version in versions:
-        with pytest.raises(ValueError, match="version must be in form `x.y`"):
+        with pytest.raises(ValueError, match=re.escape("version must be in form `x.y`")):
             parse_args(["--python-version", version])
 
 

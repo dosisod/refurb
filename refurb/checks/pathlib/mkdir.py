@@ -42,7 +42,7 @@ def create_error(node: CallExpr) -> list[Error]:
     old_args = ["x"]
     new_args = []
 
-    fullname = cast(RefExpr, node.callee).fullname
+    fullname = cast("RefExpr", node.callee).fullname
     is_makedirs = fullname == "os.makedirs"
 
     allowed_names = [None, "mode"]

@@ -73,7 +73,7 @@ def check_stmts(stmts: list[Statement], errors: list[Error]) -> None:
                     args=[arg],
                 )
             ) if assignment and var and var.fullname == fullname:
-                func_name = stringify(cast(CallExpr, assignment.rvalue).callee)
+                func_name = stringify(cast("CallExpr", assignment.rvalue).callee)
 
                 data = stringify(arg)
 
