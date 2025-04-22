@@ -674,7 +674,7 @@ def get_mypy_type(node: Node) -> Type | SymbolNode | None:
                     return ty
 
                 case TypeAlias(target=ty):
-                    return ty
+                    return ty  # pragma: no cover
 
                 case TypeInfo() as sym:
                     return Instance(sym, [])
@@ -699,7 +699,7 @@ def get_mypy_type(node: Node) -> Type | SymbolNode | None:
                 case Instance(type=TypeInfo(fullname="typing.Coroutine"), args=[_, _, rtype]):
                     return rtype
 
-                case Instance(type=TypeInfo(fullname="asyncio.tasks.Task"), args=[rtype]):
+                case Instance(type=TypeInfo(fullname="asyncio.tasks.Task" | "_asyncio.Task"), args=[rtype]):
                     return rtype
 
         case LambdaExpr(body=Block(body=[ReturnStmt(expr=expr)])) if expr:

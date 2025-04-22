@@ -35,6 +35,7 @@ class ErrorInfo(Error):
 
 KNOWN_FUNCS = {
     "_decimal.Decimal.from_float",
+    "decimal.Decimal.from_float",
     "fractions.Fraction.from_float",
     "fractions.Fraction.from_decimal",
 }
@@ -44,7 +45,7 @@ def check(node: CallExpr, errors: list[Error]) -> None:
     match node:
         case CallExpr(
             callee=MemberExpr(
-                expr=RefExpr(fullname="_decimal.Decimal" | "fractions.Fraction") as ref,
+                expr=RefExpr(fullname="decimal.Decimal" | "_decimal.Decimal" | "fractions.Fraction") as ref,
                 name="from_float" | "from_decimal" as ctor,
             ),
             args=[arg],

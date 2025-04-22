@@ -51,6 +51,25 @@ HASHLIB_ALGOS = {
     "hashlib._Hash",
     "hashlib._BlakeHash",
     "hashlib._VarLenHash",
+    "_hashlib.HASH",  # generic hashlib wrapper
+    "_hashlib.HASHXOF",  # SHAKE hashes
+    "_blake2.blake2b",
+    "_blake2.blake2s",
+    "_hashlib.openssl_md5",
+    "_hashlib.openssl_sha1",
+    "_hashlib.openssl_sha224",
+    "_hashlib.openssl_sha256",
+    "_hashlib.openssl_sha384",
+    "_hashlib.openssl_sha3_224",
+    "_hashlib.openssl_sha3_256",
+    "_hashlib.openssl_sha3_384",
+    "_hashlib.openssl_sha3_512",
+    "_hashlib.openssl_sha512",
+    "_hashlib.openssl_shake_128",
+    "_hashlib.openssl_shake_256",
+    "_hashlib.openssl_sha256",
+    "_hashlib.openssl_sha256",
+    "_hashlib.openssl_sha256",
 }
 
 

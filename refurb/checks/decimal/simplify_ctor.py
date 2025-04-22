@@ -43,7 +43,7 @@ FLOAT_LITERALS = ["inf", "-inf", "infinity", "-infinity", "nan"]
 def check(node: CallExpr, errors: list[Error]) -> None:
     match node:
         case CallExpr(
-            callee=RefExpr(fullname="_decimal.Decimal") as ref,
+            callee=RefExpr(fullname="decimal.Decimal" | "_decimal.Decimal") as ref,
             args=[arg],
         ):
             match arg:

@@ -5,8 +5,8 @@ coverage==7.6.7
 fastapi==0.115.5
 iniconfig==2.0.0
 isort==5.13.2
-mypy-extensions==1.0.0
-mypy==1.13.0
+mypy-extensions==1.1.0
+mypy==1.15.0
 pathspec==0.12.1
 platformdirs==4.3.6
 pluggy==1.5.0
