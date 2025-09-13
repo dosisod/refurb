@@ -75,6 +75,7 @@ METHOD_NODE_MAPPINGS: VisitorNodeTypeMap = {
     "visit_try_stmt": mypy.nodes.TryStmt,
     "visit_tuple_expr": mypy.nodes.TupleExpr,
     "visit_type_alias_expr": mypy.nodes.TypeAliasExpr,
+    "visit_type_alias_stmt": mypy.nodes.TypeAliasStmt,
     "visit_type_alias": mypy.nodes.TypeAlias,
     "visit_type_application": mypy.nodes.TypeApplication,
     "visit_typeddict_expr": mypy.nodes.TypedDictExpr,
