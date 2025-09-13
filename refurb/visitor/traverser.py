@@ -101,6 +101,7 @@ from mypy.nodes import TryStmt as TryStmt
 from mypy.nodes import TupleExpr as TupleExpr
 from mypy.nodes import TypeAlias as TypeAlias
 from mypy.nodes import TypeAliasExpr as TypeAliasExpr
+from mypy.nodes import TypeAliasStmt as TypeAliasStmt
 from mypy.nodes import TypeApplication as TypeApplication
 from mypy.nodes import TypedDictExpr as TypedDictExpr
 from mypy.nodes import TypeVarExpr as TypeVarExpr
@@ -311,6 +312,10 @@ class TraverserVisitor:
 
     def visit_type_alias_expr(self, o: TypeAliasExpr) -> None:
         pass
+
+    def visit_type_alias_stmt(self, o: TypeAliasStmt) -> None:
+        accept(o.name, self)
+        accept(o.value, self)
 
     def visit_namedtuple_expr(self, o: NamedTupleExpr) -> None:
         pass

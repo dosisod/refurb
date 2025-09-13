@@ -78,12 +78,4 @@ def test_mypy_consistence() -> None:
     If this fails, review the mappings in refurb.visitor.METHOD_NODE_MAPPINGS.
     """
 
-    mypy_visitor_mapping = get_mypy_visitor_mapping()
-
-    # Remove the TypeAliasStmt node if it exists. This is a new node added to Mypy,
-    # which means we need to be able to support it in both old and new versions of Mypy.
-    # Since Refurb doesn't have any checks that use this node type we can safely ignore
-    # it for now until we choose to add support for it.
-    mypy_visitor_mapping.pop("visit_type_alias_stmt")
-
-    assert mypy_visitor_mapping == METHOD_NODE_MAPPINGS
+    assert get_mypy_visitor_mapping() == METHOD_NODE_MAPPINGS
