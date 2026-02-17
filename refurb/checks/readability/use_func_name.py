@@ -102,6 +102,7 @@ def check(node: LambdaExpr, errors: list[Error]) -> None:
         ) if (
             get_lambda_arg_names(lambda_args) == get_func_arg_names(func.args)
             and all(kind == ArgKind.ARG_POS for kind in func.arg_kinds)
+            and not any(arg.initializer for arg in lambda_args)
             and not does_expr_contain_call_expr(ref)
         ):
             func_name = stringify(ref)
