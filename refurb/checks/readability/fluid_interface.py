@@ -138,7 +138,7 @@ def check_stmts(stmts: list[Statement], errors: list[Error]) -> None:
                         name_expr.fullname = last
                         visitors.append(NameReferenceVisitor(name_expr, stmt))
 
-                last = name if name != "_" else ""
+                last = name if name != "_" and isinstance(rvalue, CallExpr) else ""
             case ReturnStmt(expr=rvalue):
                 if last and rvalue is not None and check_call(rvalue, name=last):
                     errors.append(

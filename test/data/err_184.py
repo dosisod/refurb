@@ -161,3 +161,16 @@ def assign_multiple_try(df):
         return final_df
     except ValueError:
         return None
+
+
+# Non-call assignment should not start a chain (#320)
+class Foo:
+    _path = "/"
+
+    def get_path(self):
+        return self._path
+
+    def test(self):
+        foo = self
+        path = foo.get_path()
+        return path
