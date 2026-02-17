@@ -1,0 +1,4 @@
+test/data/err_194.py:6:1 [FURB194]: Replace `x = next(..., None)` with `try`/`except StopIteration`
+test/data/err_194.py:11:1 [FURB194]: Replace `y = next(..., None)` with `try`/`except StopIteration`
+test/data/err_194.py:17:1 [FURB194]: Replace `z = next(..., sentinel)` with `try`/`except StopIteration`
+test/data/err_194.py:22:1 [FURB194]: Replace `w = next(..., None)` with `try`/`except StopIteration`
