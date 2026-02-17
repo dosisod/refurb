@@ -1,11 +1,30 @@
 from dataclasses import dataclass
 from itertools import groupby
 
-from mypy.nodes import ArgKind, CallExpr, DictExpr, RefExpr
+from mypy.nodes import ArgKind, CallExpr, DictExpr, Expression, RefExpr
 
-from refurb.checks.common import is_mapping, stringify
+from refurb.checks.common import (
+    extract_typeinfo,
+    get_mypy_type,
+    is_mapping,
+    stringify,
+)
 from refurb.error import Error
 from refurb.settings import Settings
+
+
+def _supports_or(expr: Expression) -> bool:
+    """Check if the expression's type supports the | operator (PEP 584).
+
+    Abstract Mapping/MutableMapping types don't define __or__,
+    so {**a, **b} -> a | b would be a type error for those types.
+    """
+    type_info = extract_typeinfo(get_mypy_type(expr))
+
+    if type_info is None:
+        return False
+
+    return "__or__" in type_info.names
 
 
 @dataclass
@@ -69,7 +88,7 @@ def check(node: DictExpr | CallExpr, errors: list[Error], settings: Settings) ->
                     if is_star:
                         _, star_expr = pair
 
-                        if not is_mapping(star_expr):
+                        if not _supports_or(star_expr):
                             return
 
                         old.append(f"**{stringify(star_expr)}")
@@ -107,7 +126,11 @@ def check(node: DictExpr | CallExpr, errors: list[Error], settings: Settings) ->
                     return
 
                 if kind == ArgKind.ARG_STAR2:
-                    if not is_mapping(arg):
+                    uses_or = len(node.args) > 1
+                    if uses_or:
+                        if not _supports_or(arg):
+                            return
+                    elif not is_mapping(arg):
                         return
 
                     stringified_arg = stringify(arg)

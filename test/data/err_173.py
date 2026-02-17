@@ -92,3 +92,18 @@ _ = dict()  # noqa: FURB112
 _ = dict(a=1, b=2)
 
 _ = dict(**x, **[])  # type: ignore
+
+
+# Mapping/MutableMapping don't support | (issue #355)
+def mapping_merge(a: Mapping[str, int], b: Mapping[str, int]) -> dict[str, int]:
+    return {**a, **b}
+
+
+def mutable_mapping_merge(
+    a: MutableMapping[str, int], b: MutableMapping[str, int]
+) -> dict[str, int]:
+    return {**a, **b}
+
+
+def mapping_dict_call(a: Mapping[str, int], b: Mapping[str, int]):
+    _ = dict(**a, **b)
