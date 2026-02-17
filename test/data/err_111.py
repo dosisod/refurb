@@ -52,3 +52,6 @@ lambda: {"x"}
 import datetime
 
 _ = lambda: datetime.datetime.now().today()
+
+# lambda with default value for early binding (issue #352)
+_ = lambda bound_i=0: bool(bound_i)
