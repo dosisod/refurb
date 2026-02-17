@@ -43,6 +43,12 @@ def g():
     for x in (set(),):
         x.add(x)
 
+sets: dict[int, set[str]] = {1: set(), 2: set()}
+to_update = [1, 2]
+
+for a in to_update:
+    sets[a].add("abc")
+
 # TODO: support unpacked tuples here
 for x, y in ((1, 2), (3, 4)):
     s.add((x, y))
