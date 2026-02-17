@@ -1,3 +1,4 @@
+import sys
 from pathlib import Path
 
 from refurb.error import Error, ErrorCategory, ErrorCode
@@ -256,7 +257,8 @@ def test_checks_with_python_version_dependant_error_msgs() -> None:
 
     run_checks_in_folder(Path("test/data_3.11"), version=(3, 11))
 
-    run_checks_in_folder(Path("test/data_3.12"), version=(3, 12))
+    if sys.version_info >= (3, 12):
+        run_checks_in_folder(Path("test/data_3.12"), version=(3, 12))
 
 
 def run_checks_in_folder(folder: Path, *, version: tuple[int, int] | None = None) -> None:
