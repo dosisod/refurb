@@ -1,0 +1,2 @@
+test/data/err_193.py:6:1 [FURB193]: Replace `d[key] = d.get(key, default)` with `d.setdefault(key, default)`
+test/data/err_193.py:7:1 [FURB193]: Replace `d[key] = d.get(key, default)` with `d.setdefault(key, default)`
