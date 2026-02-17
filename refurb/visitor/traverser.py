@@ -852,6 +852,11 @@ def _(node: TypeAliasExpr, visitor: TraverserVisitor) -> None:
 
 
 @accept.register
+def _(node: TypeAliasStmt, visitor: TraverserVisitor) -> None:
+    return visitor.visit_type_alias_stmt(node)
+
+
+@accept.register
 def _(node: NamedTupleExpr, visitor: TraverserVisitor) -> None:
     return visitor.visit_namedtuple_expr(node)
 

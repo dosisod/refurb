@@ -256,6 +256,8 @@ def test_checks_with_python_version_dependant_error_msgs() -> None:
 
     run_checks_in_folder(Path("test/data_3.11"), version=(3, 11))
 
+    run_checks_in_folder(Path("test/data_3.12"), version=(3, 12))
+
 
 def run_checks_in_folder(folder: Path, *, version: tuple[int, int] | None = None) -> None:
     settings = Settings(files=[str(folder)], enable_all=True)

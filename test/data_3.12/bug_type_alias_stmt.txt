@@ -1,0 +1,1 @@
+test/data_3.12/bug_type_alias_stmt.py:9:5 [FURB145]: Replace `x[:]` with `x.copy()`
