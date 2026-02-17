@@ -1,9 +1,36 @@
 from dataclasses import dataclass
 
-from mypy.nodes import Block, CallExpr, ExpressionStmt, ForStmt, MemberExpr, NameExpr
+from mypy.nodes import (
+    Block,
+    CallExpr,
+    Expression,
+    ExpressionStmt,
+    ForStmt,
+    IndexExpr,
+    MemberExpr,
+    NameExpr,
+)
 
 from refurb.checks.common import get_mypy_type, is_equivalent, is_same_type, stringify
 from refurb.error import Error
+
+
+def _expr_contains_name(expr: Expression, name: NameExpr) -> bool:
+    """Check if a NameExpr appears anywhere within an expression tree."""
+    if is_equivalent(expr, name):
+        return True
+
+    match expr:
+        case IndexExpr(base=base, index=index):
+            return _expr_contains_name(base, name) or _expr_contains_name(index, name)
+        case MemberExpr(expr=inner):
+            return _expr_contains_name(inner, name)
+        case CallExpr(callee=callee, args=args):
+            return _expr_contains_name(callee, name) or any(
+                _expr_contains_name(a, name) for a in args
+            )
+
+    return False
 
 
 @dataclass
@@ -56,7 +83,7 @@ def check(node: ForStmt, errors: list[Error]) -> None:
             ),
             else_body=None,
             is_async=False,
-        ) if is_same_type(get_mypy_type(set_expr), set) and not is_equivalent(set_expr, index):
+        ) if is_same_type(get_mypy_type(set_expr), set) and not _expr_contains_name(set_expr, index):
             new_func = "update" if name == "add" else "difference_update"
 
             source = stringify(source)  # type: ignore
