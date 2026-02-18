@@ -26,3 +26,11 @@ _ = "abc" == x or x == "def"
 
 _ = x == "abc" or y == "def"
 _ = x == "abc" or x == "def" and y == "ghi"
+
+# short-circuit dependent expressions should not match (see #350)
+events = [1, 2, 3]
+cutoff = 0
+_ = cutoff == 0 or events[cutoff - 1] == 0
+d = {"a": 1}
+_ = x == "abc" or x == d["a"]
+_ = x == len(x) or x == "abc"
