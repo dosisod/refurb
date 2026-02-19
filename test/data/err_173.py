@@ -107,3 +107,20 @@ def mutable_mapping_merge(
 
 def mapping_dict_call(a: Mapping[str, int], b: Mapping[str, int]):
     _ = dict(**a, **b)
+
+
+class OrWrapper:
+    def __or__(self, value):
+        return self
+
+
+def mapping_type_unknown(a, b) -> dict:
+    return {**a, **b}
+
+
+def not_a_mapping_dict(a: OrWrapper, b: OrWrapper) -> dict:
+    return {**a, **b}
+
+
+def not_a_mapping_call(a: OrWrapper, b: OrWrapper) -> dict:
+    return dict(**a, **b)
