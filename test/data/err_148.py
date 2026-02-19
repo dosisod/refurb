@@ -50,3 +50,13 @@ for index, _ in enumerate(nums):
 
 _ = ((index, _) for index, _ in enumerate(nums))
 _ = ((_, num) for _, num in enumerate(nums))
+
+# index used after loop (GH-339)
+for index, value in enumerate(nums):
+    print(value)
+print(f"Last index {index}")
+
+# value used after loop
+for index, value in enumerate(nums):
+    print(index)
+_ = value
