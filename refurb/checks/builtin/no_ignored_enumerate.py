@@ -175,7 +175,7 @@ def check_unused_index_or_value(
         errors.append(ErrorInfo.from_node(value, msg))
 
 
-def check_unused_index_or_value_in_block(
+def check_unused_index_or_value_in_block(  # noqa: PLR0913, PLR0917
     index: NameExpr,
     value: NameExpr,
     body: Node,
