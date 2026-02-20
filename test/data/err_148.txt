@@ -13,3 +13,4 @@ test/data/err_148.py:28:5 [FURB148]: Index is unused, use `for num in nums` inst
 test/data/err_148.py:28:12 [FURB148]: Value is unused, use `for index in range(len(nums))` instead
 test/data/err_148.py:34:5 [FURB148]: Index is unused, use `for num in C().l` instead
 test/data/err_148.py:34:12 [FURB148]: Value is unused, use `for index in range(len(C().l))` instead
+test/data/err_148.py:70:5 [FURB148]: Index is unused, use `for value in nums` instead

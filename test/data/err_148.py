@@ -50,3 +50,29 @@ for index, _ in enumerate(nums):
 
 _ = ((index, _) for index, _ in enumerate(nums))
 _ = ((_, num) for _, num in enumerate(nums))
+
+# index used after loop (GH-339)
+for index, value in enumerate(nums):
+    print(value)
+print(f"Last index {index}")
+
+# value used after loop
+for index, value in enumerate(nums):
+    print(index)
+_ = value
+
+# index reassigned after loop using its own value (should not warn)
+for index, value in enumerate(nums):
+    print(value)
+index = index + 1
+
+# value reassigned after loop (not reading it, should warn on index)
+for index, value in enumerate(nums):
+    print(value)
+value = "overwritten"
+
+# index reassigned by a for-loop that also reads it in the iterable (should not warn)
+for index, value in enumerate(nums):
+    print(value)
+for index in range(index):
+    pass
