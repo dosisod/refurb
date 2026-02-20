@@ -62,6 +62,10 @@ def get_set(x: int) -> set[int]:
 for x in (1, 2, 3):
     get_set(x).add(x)
 
+# set target is a function call NOT referencing the loop variable (should warn)
+for x in (1, 2, 3):
+    get_set(0).add(x)
+
 # set target uses a constant index — same set every iteration (should warn)
 for a in to_update:
     sets[1].add("abc")
