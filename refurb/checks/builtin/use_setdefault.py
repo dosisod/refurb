@@ -20,12 +20,14 @@ class ErrorInfo(Error):
 
     ```
     d[key] = d.get(key, default)
+    d[key] = d.get(key)
     ```
 
     Good:
 
     ```
     d.setdefault(key, default)
+    d.setdefault(key)
     ```
     """
 
@@ -45,7 +47,7 @@ def check(node: AssignmentStmt, errors: list[Error]) -> None:
             lvalues=[IndexExpr(base=dict_expr, index=key_expr)],
             rvalue=CallExpr(
                 callee=MemberExpr(expr=get_dict_expr, name="get"),
-                args=[get_key_expr, _],
+                args=[get_key_expr, *_],
             ),
         ) if (
             _is_mutable_mapping(dict_expr)

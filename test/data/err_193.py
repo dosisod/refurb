@@ -5,6 +5,7 @@ key = "hello"
 
 d[key] = d.get(key, 0)
 d["x"] = d.get("x", 10)
+d["x"] = d.get("x")
 
 # these should not
 
@@ -14,9 +15,6 @@ d["x"] = d.get("y", 0)
 # different dicts
 d2: dict[str, int] = {}
 d["x"] = d2.get("x", 0)
-
-# no default argument to .get()
-d["x"] = d.get("x")
 
 # not a .get() call
 d["x"] = d.pop("x", 0)
