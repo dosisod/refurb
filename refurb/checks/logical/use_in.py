@@ -93,9 +93,7 @@ def _get_non_common_operands(node: OpExpr) -> list[Expression] | None:
         case (
             ComparisonExpr(operators=[lhs_oper], operands=[a, b]),
             ComparisonExpr(operators=[rhs_oper], operands=[c, d]),
-        ) if lhs_oper == rhs_oper == "==" and (
-            indices := get_common_expr_positions(a, b, c, d)
-        ):
+        ) if lhs_oper == rhs_oper == "==" and (indices := get_common_expr_positions(a, b, c, d)):
             operands = [a, b, c, d]
             return [op for i, op in enumerate(operands) if i not in indices]
 
