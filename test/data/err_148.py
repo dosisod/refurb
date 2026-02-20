@@ -70,3 +70,9 @@ index = index + 1
 for index, value in enumerate(nums):
     print(value)
 value = "overwritten"
+
+# index reassigned by a for-loop that also reads it in the iterable (should not warn)
+for index, value in enumerate(nums):
+    print(value)
+for index in range(index):
+    pass
