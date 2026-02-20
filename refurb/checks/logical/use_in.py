@@ -55,7 +55,8 @@ class ErrorInfo(Error):
 
 
 def _is_simple_expr(node: Expression) -> bool:
-    """Check if an expression is simple enough to be safely eagerly evaluated.
+    """
+    Check if an expression is simple enough to be safely eagerly evaluated.
 
     Simple expressions are those that cannot raise exceptions or have side
     effects when evaluated, making them safe for use in `in` tuple checks
@@ -81,7 +82,8 @@ def _is_simple_expr(node: Expression) -> bool:
 
 
 def _get_non_common_operands(node: OpExpr) -> list[Expression] | None:
-    """Extract non-common operands from a comparison chain.
+    """
+    Extract non-common operands from a comparison chain.
 
     Given `a == b or c == d` where some operands are common,
     returns the non-common operands (those that would be eagerly
