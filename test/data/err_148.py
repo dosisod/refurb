@@ -60,3 +60,13 @@ print(f"Last index {index}")
 for index, value in enumerate(nums):
     print(index)
 _ = value
+
+# index reassigned after loop using its own value (should not warn)
+for index, value in enumerate(nums):
+    print(value)
+index = index + 1
+
+# value reassigned after loop (not reading it, should warn on index)
+for index, value in enumerate(nums):
+    print(value)
+value = "overwritten"
