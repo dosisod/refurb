@@ -2,3 +2,4 @@ test/data/err_142.py:5:1 [FURB142]: Replace `for x in (1, 2, 3): s.add(x)` with 
 test/data/err_142.py:8:1 [FURB142]: Replace `for x in (1, 2, 3): s.discard(x)` with `s.difference_update((1, 2, 3))`
 test/data/err_142.py:11:1 [FURB142]: Replace `for x in (1, 2, 3): s.add(...)` with `s.update(... for x in (1, 2, 3))`
 test/data/err_142.py:19:1 [FURB142]: Replace `for x in (1, 2, 3): c.s.add(x)` with `c.s.update((1, 2, 3))`
+test/data/err_142.py:66:1 [FURB142]: Replace `for a in to_update: sets[1].add(...)` with `sets[1].update(... for a in to_update)`
