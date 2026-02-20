@@ -80,9 +80,7 @@ def _node_contains_name(node: Node, name: NameExpr) -> bool:
     return bool(visitor.was_read)
 
 
-def _is_name_read_after_loop(
-    name: NameExpr, remaining_stmts: list[Statement]
-) -> bool:
+def _is_name_read_after_loop(name: NameExpr, remaining_stmts: list[Statement]) -> bool:
     """Check if name is read in statements after the loop, stopping at reassignment."""
     for stmt in remaining_stmts:
         if _assigns_name(stmt, name):
@@ -122,9 +120,7 @@ def check(
             check_block_like(check_stmts_for_enumerate, node, errors)
 
 
-def check_stmts_for_enumerate(
-    stmts: list[Statement], errors: list[Error]
-) -> None:
+def check_stmts_for_enumerate(stmts: list[Statement], errors: list[Error]) -> None:
     for i, stmt in enumerate(stmts):
         if not isinstance(stmt, ForStmt):
             continue
