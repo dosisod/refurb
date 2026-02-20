@@ -86,17 +86,18 @@ def _is_name_read_after_loop(name: NameExpr, remaining_stmts: list[Statement]) -
         if _assigns_name(stmt, name):
             # Name is reassigned — reads after this point don't count
             # as uses of the loop variable. But check the RHS first.
-            match stmt:
-                case AssignmentStmt(rvalue=rvalue):
-                    visitor = ReadCountVisitor(name)
-                    visitor.accept(rvalue)
-                    if visitor.was_read:
-                        return True
-                case ForStmt(expr=expr):
-                    visitor = ReadCountVisitor(name)
-                    visitor.accept(expr)
-                    if visitor.was_read:
-                        return True
+            rhs: Expression | None = None
+            if isinstance(stmt, AssignmentStmt):
+                rhs = stmt.rvalue
+            elif isinstance(stmt, ForStmt):
+                rhs = stmt.expr
+
+            if rhs is not None:
+                visitor = ReadCountVisitor(name)
+                visitor.accept(rhs)
+                if visitor.was_read:
+                    return True
+
             return False
 
         # Check if name is read in this statement
