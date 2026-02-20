@@ -11,12 +11,7 @@ from mypy.nodes import (
     NameExpr,
 )
 
-from refurb.checks.common import (
-    get_mypy_type,
-    is_equivalent,
-    is_same_type,
-    stringify,
-)
+from refurb.checks.common import get_mypy_type, is_equivalent, is_same_type, stringify
 from refurb.error import Error
 
 
