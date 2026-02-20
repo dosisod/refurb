@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from mypy.nodes import AssignmentStmt, CallExpr, IndexExpr, MemberExpr
+from mypy.nodes import AssignmentStmt, CallExpr, Expression, IndexExpr, MemberExpr
 
 from refurb.checks.common import (
     get_mypy_type,
@@ -37,7 +37,7 @@ class ErrorInfo(Error):
     msg: str = "Replace `d[key] = d.get(key, default)` with `d.setdefault(key, default)`"
 
 
-def _is_mutable_mapping(expr: object) -> bool:
+def _is_mutable_mapping(expr: Expression) -> bool:
     return is_subclass(get_mypy_type(expr), "typing.MutableMapping")
 
 
