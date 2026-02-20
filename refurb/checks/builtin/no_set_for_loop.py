@@ -1,9 +1,33 @@
 from dataclasses import dataclass
 
-from mypy.nodes import Block, CallExpr, ExpressionStmt, ForStmt, MemberExpr, NameExpr
+from mypy.nodes import (
+    Block,
+    CallExpr,
+    Expression,
+    ExpressionStmt,
+    ForStmt,
+    IndexExpr,
+    MemberExpr,
+    NameExpr,
+)
 
 from refurb.checks.common import get_mypy_type, is_equivalent, is_same_type, stringify
 from refurb.error import Error
+
+
+def _references_name(node: Expression, name: NameExpr) -> bool:
+    """Check if an expression tree contains a reference to the given name."""
+    if isinstance(node, NameExpr):
+        return is_equivalent(node, name)
+    if isinstance(node, MemberExpr):
+        return _references_name(node.expr, name)
+    if isinstance(node, IndexExpr):
+        return _references_name(node.base, name) or _references_name(node.index, name)
+    if isinstance(node, CallExpr):
+        return _references_name(node.callee, name) or any(
+            _references_name(a, name) for a in node.args
+        )
+    return False
 
 
 @dataclass
@@ -56,7 +80,7 @@ def check(node: ForStmt, errors: list[Error]) -> None:
             ),
             else_body=None,
             is_async=False,
-        ) if is_same_type(get_mypy_type(set_expr), set) and not is_equivalent(set_expr, index):
+        ) if is_same_type(get_mypy_type(set_expr), set) and not _references_name(set_expr, index):
             new_func = "update" if name == "add" else "difference_update"
 
             source = stringify(source)  # type: ignore

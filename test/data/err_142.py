@@ -43,6 +43,29 @@ def g():
     for x in (set(),):
         x.add(x)
 
+sets: dict[int, set[str]] = {1: set(), 2: set()}
+to_update = [1, 2]
+
+for a in to_update:
+    sets[a].add("abc")
+
 # TODO: support unpacked tuples here
 for x, y in ((1, 2), (3, 4)):
     s.add((x, y))
+
+
+def get_set(x: int) -> set[int]:
+    return set()
+
+
+# set target is a function call referencing the loop variable (should not warn)
+for x in (1, 2, 3):
+    get_set(x).add(x)
+
+# set target is a function call NOT referencing the loop variable (should warn)
+for x in (1, 2, 3):
+    get_set(0).add(x)
+
+# set target uses a constant index — same set every iteration (should warn)
+for a in to_update:
+    sets[1].add("abc")
