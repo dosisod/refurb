@@ -78,7 +78,7 @@ def _is_simple_expr(node: Expression) -> bool:
         case IndexExpr() | CallExpr():
             return False
 
-    return False
+    return False  # pragma: no cover
 
 
 def _get_non_common_operands(node: OpExpr) -> list[Expression] | None:
@@ -97,7 +97,7 @@ def _get_non_common_operands(node: OpExpr) -> list[Expression] | None:
             operands = [a, b, c, d]
             return [op for i, op in enumerate(operands) if i not in indices]
 
-    return None
+    return None  # pragma: no cover
 
 
 def create_message(indices: tuple[int, int]) -> str:

@@ -22,6 +22,13 @@ _ = x == "abc" or "def" == x
 _ = "abc" == x or "def" == x
 _ = "abc" == x or x == "def"
 
+# simple compound expressions should still match
+_ = x == c.y or x == "def"
+_ = x == -1 or x == 1
+a = 1
+b = 2
+_ = x == a + b or x == "def"
+
 # these should not
 
 _ = x == "abc" or y == "def"
