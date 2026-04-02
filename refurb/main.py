@@ -145,6 +145,7 @@ def run_refurb(settings: Settings) -> Sequence[Error | str]:
             ".*\\.pyi",
             "--explicit-package-bases",
             "--namespace-packages",
+            "--allow-redefinition",
         ]
 
         files, opt = process_options(args, stdout=stdout, stderr=stderr)
@@ -161,7 +162,6 @@ def run_refurb(settings: Settings) -> Sequence[Error | str]:
     opt.incremental = True
     opt.fine_grained_incremental = True
     opt.cache_fine_grained = True
-    opt.allow_redefinition = True
     opt.local_partial_types = True
     opt.python_version = settings.get_python_version()
 
