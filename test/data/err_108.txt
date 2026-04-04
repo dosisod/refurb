@@ -7,3 +7,6 @@ test/data/err_108.py:17:5 [FURB108]: Replace `x == y or x == z` with `x in (y, z
 test/data/err_108.py:21:5 [FURB108]: Replace `x == y or z == x` with `x in (y, z)`
 test/data/err_108.py:22:5 [FURB108]: Replace `x == y or z == y` with `y in (x, z)`
 test/data/err_108.py:23:5 [FURB108]: Replace `x == y or y == z` with `y in (x, z)`
+test/data/err_108.py:26:5 [FURB108]: Replace `x == y or x == z` with `x in (y, z)`
+test/data/err_108.py:27:5 [FURB108]: Replace `x == y or x == z` with `x in (y, z)`
+test/data/err_108.py:30:5 [FURB108]: Replace `x == y or x == z` with `x in (y, z)`
