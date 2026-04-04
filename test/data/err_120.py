@@ -51,6 +51,20 @@ class C2:
         pass
 
 
+# Pydantic BaseModel tests
+from pydantic import BaseModel, Field
+
+
+class PydanticModel(BaseModel):
+    simple_field: int = 1
+    field_with_default: str = Field(default="default_value")
+
+
+# these should match (Pydantic)
+PydanticModel(simple_field=1)
+PydanticModel(field_with_default="default_value")
+
+
 # these should match
 
 f(1)
@@ -119,3 +133,8 @@ args(None, None, 1)
 args(x=2)
 args(None, x=2)
 args(None, None, x=2)
+
+# Pydantic: these should not match
+PydanticModel(simple_field=2)
+PydanticModel(field_with_default="other_value")
+PydanticModel()
