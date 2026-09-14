@@ -254,6 +254,28 @@ def sort_errors(error: Error | str, settings: Settings) -> tuple[str | int, ...]
     )
 
 
+def format_as_json(errors: Sequence[Error | str]) -> str:
+    to_return: list[dict[str, str | int]] = []
+    for error in errors:
+        if isinstance(error, str):
+            to_return.append({"title": error, "line": 0, "col": 0, "file": ""})
+            continue
+
+        assert error.filename
+
+        file = Path(error.filename).resolve().relative_to(Path.cwd())
+
+        to_return.append({
+            "title": error.msg,
+            "line": error.line - 1,
+            "col": error.column,
+            "code": f"{error.prefix}{error.code}",
+            "file": str(file),
+        })
+
+    return json.dumps(to_return, indent=4, sort_keys=True)
+
+
 def format_as_github_annotation(error: Error | str) -> str:
     if isinstance(error, str):
         return f"::error title=Refurb Error::{error}"
@@ -311,6 +333,11 @@ def format_with_color(error: Error | str) -> str:
 
 
 def format_errors(errors: Sequence[Error | str], settings: Settings) -> str:
+    if settings.format == "json":
+        # we want to return a unique JSON result, so bypass the line by line mechanism
+        # also "format = json" implies "--quiet" since it's for tools
+        return format_as_json(errors)
+
     if settings.format == "github":
         formatter: Callable[[Error | str], str] = format_as_github_annotation
     elif settings.color:

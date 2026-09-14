@@ -40,7 +40,7 @@ class Settings:
     config_file: str | None = None
     python_version: tuple[int, int] | None = None
     mypy_args: list[str] = field(default_factory=list)
-    format: Literal["text", "github"] | None = None
+    format: Literal["text", "github", "json"] | None = None
     sort_by: Literal["filename", "error"] | None = None
     verbose: bool = False
     timing_stats: Path | None = None
@@ -127,7 +127,7 @@ def parse_python_version(version: str) -> tuple[int, int]:
 
 
 def validate_format(format: str) -> Literal["github", "text"]:
-    if format in {"github", "text"}:
+    if format in {"github", "text", "json"}:
         return format  # type: ignore
 
     raise ValueError(f'refurb: "{format}" is not a valid format')
