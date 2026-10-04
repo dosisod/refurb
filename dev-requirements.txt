@@ -12,5 +12,5 @@ platformdirs==4.3.7
 pluggy==1.5.0
 pytest-cov==6.1.1
 pytest==8.3.5
-ruff==0.11.6
+ruff==0.16.9
 typos==1.31.1
