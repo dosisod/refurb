@@ -9,7 +9,7 @@ mypy-extensions==1.1.0
 mypy==1.15.0
 pathspec==0.12.1
 platformdirs==4.3.7
-pluggy==1.5.0
+pluggy==1.6.0
 pytest-cov==6.1.1
 pytest==8.3.5
 ruff==0.11.6
