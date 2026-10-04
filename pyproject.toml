@@ -22,7 +22,7 @@ tomli = {version = "^2.0.1", python = "<3.11"}
 
 [tool.poetry.dev-dependencies]
 black = "^22.6.0"
-isort = "^5.10.1"
+isort = "^9.0.1"
 pytest = "^7.1.2"
 
 [tool.poetry.scripts]
