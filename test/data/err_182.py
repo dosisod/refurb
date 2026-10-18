@@ -64,6 +64,11 @@ h15.update(b"data")
 h16 = hash_algo()
 h16.update(b"data")
 
+# only the first update can be moved into the constructor
+h21 = sha256()
+h21.update(b"first")
+h21.update(b"second")
+
 
 # these will not
 

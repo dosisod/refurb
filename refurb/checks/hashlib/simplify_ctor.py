@@ -84,5 +84,8 @@ def check_stmts(stmts: list[Statement], errors: list[Error]) -> None:
 
                 errors.append(ErrorInfo.from_node(assignment, msg))
 
+                # Only the first `.update()` call can be moved into the constructor
+                assignment = None
+
             case _:
                 assignment = None
