@@ -5,3 +5,8 @@ test/data/err_117.py:16:6 [FURB117]: Replace `open(path)` with `path.open()`
 test/data/err_117.py:19:6 [FURB117]: Replace `open(str(path), "rb")` with `path.open("rb")`
 test/data/err_117.py:22:6 [FURB117]: Replace `open(path, "rb")` with `path.open("rb")`
 test/data/err_117.py:25:5 [FURB117]: Replace `open(str(path))` with `path.open()`
+test/data/err_117.py:27:6 [FURB117]: Replace `open(path, encoding="utf-8")` with `path.open(encoding="utf-8")`
+test/data/err_117.py:30:6 [FURB117]: Replace `open(path, "w", encoding="utf-8")` with `path.open("w", encoding="utf-8")`
+test/data/err_117.py:33:6 [FURB117]: Replace `open(path, mode="rb")` with `path.open(mode="rb")`
+test/data/err_117.py:36:6 [FURB117]: Replace `open(path, "w", -1, "utf-8", "strict", "\n")` with `path.open("w", -1, "utf-8", "strict", "\n")`
+test/data/err_117.py:41:6 [FURB117]: Replace `open(path, mode)` with `path.open(mode)`
