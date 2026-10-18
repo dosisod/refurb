@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from mypy.nodes import CallExpr, NameExpr, StrExpr
+from mypy.nodes import ArgKind, CallExpr, NameExpr
 
 from refurb.checks.common import stringify
 from refurb.checks.pathlib.util import is_pathlike
@@ -37,6 +37,11 @@ class ErrorInfo(Error):
     categories = ("pathlib",)
 
 
+# The parameters of `open()` that come after `file` and that `Path.open()` also
+# accepts, in positional order. `closefd` and `opener` have no equivalent.
+PATH_OPEN_PARAMS = ("mode", "buffering", "encoding", "errors", "newline")
+
+
 def check(node: CallExpr, errors: list[Error]) -> None:
     match node:
         case CallExpr(
@@ -50,16 +55,26 @@ def check(node: CallExpr, errors: list[Error]) -> None:
                 *rest,
             ],
         ) if is_pathlike(arg):
-            mode = args = ""
+            open_args: list[str] = []
 
-            match rest:
-                case [StrExpr(value=value), *_]:
-                    mode = f'"{value}"'
-                    args = f", {mode}"
+            for i, (name, kind, value) in enumerate(
+                zip(node.arg_names[1:], node.arg_kinds[1:], rest, strict=True)
+            ):
+                if kind == ArgKind.ARG_POS and i < len(PATH_OPEN_PARAMS):
+                    open_args.append(stringify(value))
+
+                elif kind == ArgKind.ARG_NAMED and name in PATH_OPEN_PARAMS:
+                    open_args.append(f"{name}={stringify(value)}")
+
+                else:
+                    # `closefd`, `opener`, or `*args`/`**kwargs` that might hold them
+                    return
+
+            args = "".join(f", {x}" for x in open_args)
 
             inner = stringify(arg)
             expr = inner if arg == node.args[0] else f"str({inner})"
 
-            msg = f"Replace `open({expr}{args})` with `{inner}.open({mode})`"
+            msg = f"Replace `open({expr}{args})` with `{inner}.open({', '.join(open_args)})`"
 
             errors.append(ErrorInfo.from_node(open_node, msg))
