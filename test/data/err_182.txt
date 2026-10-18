@@ -14,3 +14,4 @@ test/data/err_182.py:55:1 [FURB182]: Replace `h13 = shake_128(); h13.update(b"da
 test/data/err_182.py:58:1 [FURB182]: Replace `h14 = shake_256(); h14.update(b"data")` with `h14 = shake_256(b"data")`
 test/data/err_182.py:61:1 [FURB182]: Replace `h15 = hashlib.sha256(); h15.update(b"data")` with `h15 = hashlib.sha256(b"data")`
 test/data/err_182.py:64:1 [FURB182]: Replace `h16 = hash_algo(); h16.update(b"data")` with `h16 = hash_algo(b"data")`
+test/data/err_182.py:68:1 [FURB182]: Replace `h21 = sha256(); h21.update(b"first")` with `h21 = sha256(b"first")`
