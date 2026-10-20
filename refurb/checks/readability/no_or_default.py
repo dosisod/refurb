@@ -3,10 +3,8 @@ from dataclasses import dataclass
 from mypy.nodes import (
     BytesExpr,
     CallExpr,
-    DictExpr,
     FloatExpr,
     IntExpr,
-    ListExpr,
     NameExpr,
     OpExpr,
     StrExpr,
@@ -58,9 +56,7 @@ def check(node: OpExpr, errors: list[Error]) -> None:
         case (
             lhs,
             (
-                CallExpr(callee=NameExpr(fullname="builtins.set" | "builtins.frozenset"), args=[])
-                | ListExpr(items=[])
-                | DictExpr(items=[])
+                CallExpr(callee=NameExpr(fullname="builtins.frozenset"), args=[])
                 | TupleExpr(items=[])
                 | StrExpr(value="")
                 | BytesExpr(value="")

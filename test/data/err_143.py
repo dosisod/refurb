@@ -9,7 +9,7 @@ b = b""
 n = False
 i = 0
 
-# these should match
+# immutable fallbacks should match; mutable fallbacks must preserve identity
 
 _ = s or set()
 _ = f or frozenset()
