@@ -54,7 +54,7 @@ def check(node: CallExpr, errors: list[Error]) -> None:
             if is_pathlike(arg):
                 new = f"x.{new_name}"
 
-            elif is_same_type(get_mypy_type(arg), str, bytes):
+            elif is_same_type(get_mypy_type(arg), str):
                 new = f"Path(x).{new_name}"
 
             else:

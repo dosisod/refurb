@@ -2,7 +2,7 @@ import os
 from os.path import getatime, getctime, getmtime, getsize
 from pathlib import Path
 
-# these should match
+# str/Path inputs should match; bytes inputs must be omitted because Path rejects them
 
 os.path.getatime("filename")
 os.path.getatime(b"filename")
